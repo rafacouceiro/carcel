@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEngine.AI;
-using AgenticPrison.Interfaces;
 using AgenticPrison.Core.Math;
+using AgenticPrison.Core;
 
-namespace AgenticPrison.UnityBridge {
+namespace AgenticPrison.Physical {
     /// <summary>
     /// Wrapper for Unity's NavMeshAgent to expose basic movement functionality
     /// through the pure C# IMovable interface.

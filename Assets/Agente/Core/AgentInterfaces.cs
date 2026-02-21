@@ -1,10 +1,9 @@
 using AgenticPrison.Core;
 using AgenticPrison.Core.Math;
 
-namespace AgenticPrison.Interfaces {
+namespace AgenticPrison.Core {
     
     // OUTPUT: Actuators
-
     public interface IMovable {
         void SetDestination(Position3D target);
         void StopMoving();
@@ -12,22 +11,19 @@ namespace AgenticPrison.Interfaces {
         void SetSpeed(float speed);
     }
 
-    public interface IAnimatorControl {
-        void TriggerCatch();
-        void TriggerInspect();
-    }
-
-    public interface IAgentActuators : IActuators {
-        IMovable Movable { get; }
-        IAnimatorControl Animator { get; }
-    }
-
     // INPUT: Sensors
-
     public interface IVisualSensor {
         bool CheckFugitiveVisibility();
         Position3D? GetFugitivePosition();
-        bool CheckPrisonerInCell();
+    }
+
+    // Map info
+    public interface IMapProvider {
+        List<ZoneData> GetAllZones();
+        ZoneData GetZone(string zoneId);
+        
+        // NUEVO: El cerebro pide la distancia real de navegación
+        float GetPathDistance(string fromZoneId, string toZoneId);
     }
 
     public interface IHearingSensor {

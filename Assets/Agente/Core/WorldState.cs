@@ -17,6 +17,7 @@ namespace AgenticPrison.Core {
     /// Pure C# data structure representing the agent's current "mental map" and internal conditions.
     /// </summary>
     public class WorldState {
+
         // Visual
         public bool FugitiveInVision;
         public Position3D? LKP; // Last Known Position

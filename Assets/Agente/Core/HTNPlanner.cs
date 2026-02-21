@@ -46,7 +46,7 @@ namespace AgenticPrison.Core {
         private bool TryDecomposeCompound(WorldState state, ICompoundTask compoundTask, Stack<ITask> tasksToProcess, Queue<IPrimitiveTask> finalPlan) {
             foreach (var method in compoundTask.Methods) {
                 if (method.CheckPreconditions(state)) {
-                    var subTasks = method.Decompose(state);
+                    var subTasks = method.Decompose(state); // Method objects need a method to decompose its tasks
                     
                     var clonedState = state.Clone();
                     
@@ -77,10 +77,29 @@ namespace AgenticPrison.Core {
 
         private bool TryProcessPrimitive(WorldState state, IPrimitiveTask primitiveTask, Stack<ITask> tasksToProcess, Queue<IPrimitiveTask> finalPlan) {
             if (primitiveTask.CheckPreconditions(state)) {
-                primitiveTask.ApplyEffects(state);
-                finalPlan.Enqueue(primitiveTask);
-                return FindPlan(state, tasksToProcess, finalPlan);
+                // 1. Preparamos el terreno (Clonamos todo para poder fallar sin ensuciar)
+                var clonedState = state.Clone(); 
+                var branchPlan = new Queue<IPrimitiveTask>(finalPlan);
+                
+                // 2. Clonamos la pila de tareas pendientes para el backtracking
+                var tempStackArray = tasksToProcess.ToArray();
+                System.Array.Reverse(tempStackArray);
+                var temporaryStack = new Stack<ITask>(tempStackArray);
+
+                // 3. "Imaginamos" el efecto de la acción
+                primitiveTask.ApplyEffects(clonedState);
+                branchPlan.Enqueue(primitiveTask);
+
+                // 4. Intentamos completar el resto del plan con este nuevo estado
+                if (FindPlan(clonedState, temporaryStack, branchPlan)) {
+                    // ÉXITO: El plan es viable hasta el final. Confirmamos cambios.
+                    finalPlan.Clear();
+                    foreach (var t in branchPlan) finalPlan.Enqueue(t);
+                    CopyState(clonedState, state);
+                    return true;
+                }
             }
+            // Si llegamos aquí, el plan falló y el 'state' original sigue intacto
             return false;
         }
 
