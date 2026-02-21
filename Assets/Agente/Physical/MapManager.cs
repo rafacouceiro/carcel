@@ -6,30 +6,53 @@ using AgenticPrison.Core.Math;
 
 namespace AgenticPrison.Physical {
 
-    public class MapManager : MonoBehaviour, IMapProvider {
+    // Ya NO hereda de MonoBehaviour. Es una clase pura de C#.
+    public class MapManager : IMapProvider {
         
+        // --- PATRÓN SINGLETON (El servicio global) ---
+        private static MapManager _instance;
+        public static MapManager Instance {
+            get {
+                if (_instance == null) {
+                    _instance = new MapManager();
+                    _instance.InitializeMap(); // Se calcula automáticamente la primera vez
+                }
+                return _instance;
+            }
+        }
+
         private Dictionary<string, ZoneData> _zonesGraph = new Dictionary<string, ZoneData>();
-        
-        // Tabla para guardar las distancias reales: Key = (ZonaA, ZonaB), Value = Distancia
         private Dictionary<(string, string), float> _distanceTable = new Dictionary<(string, string), float>();
 
-        private void Awake() {
+        // Constructor privado para obligar a usar "Instance"
+        private MapManager() { }
+
+        private void InitializeMap() {
             BuildMapKnowledge();
-            CalculateAllNavMeshDistances(); // Calculamos el laberinto
+            CalculateAllNavMeshDistances();
         }
 
         private void BuildMapKnowledge() {
-            LocationNode[] unityNodes = FindObjectsOfType<LocationNode>();
+            LocationNode[] unityNodes = Object.FindObjectsOfType<LocationNode>();
+            
             foreach (var node in unityNodes) {
+                
+                string uniqueId = node.gameObject.name; 
+
                 var zoneData = new ZoneData {
-                    Id = node.zoneName,
+                    Id = uniqueId, 
+                    IsExit = node.isExit,
                     Center = new Position3D(node.transform.position.x, node.transform.position.y, node.transform.position.z)
                 };
+
+                foreach (Vector3 p in node.GetGeneratedPoints()) {
+                    zoneData.PatrolPoints.Add(new Position3D(p.x, p.y, p.z));
+                }
+
                 _zonesGraph.Add(zoneData.Id, zoneData);
             }
         }
 
-        // --- LA MAGIA DEL NAVMESH ---
         private void CalculateAllNavMeshDistances() {
             List<ZoneData> allZones = new List<ZoneData>(_zonesGraph.Values);
 
@@ -40,7 +63,6 @@ namespace AgenticPrison.Physical {
                         continue;
                     }
 
-                    // Pedimos a Unity que calcule la ruta en el NavMesh
                     NavMeshPath path = new NavMeshPath();
                     Vector3 startPos = new Vector3(allZones[i].Center.X, allZones[i].Center.Y, allZones[i].Center.Z);
                     Vector3 endPos = new Vector3(allZones[j].Center.X, allZones[j].Center.Y, allZones[j].Center.Z);
@@ -49,31 +71,24 @@ namespace AgenticPrison.Physical {
                         float distance = GetPathLength(path);
                         _distanceTable[(allZones[i].Id, allZones[j].Id)] = distance;
                     } else {
-                        // Si no hay camino posible (ej. puerta bloqueada), ponemos infinito
                         _distanceTable[(allZones[i].Id, allZones[j].Id)] = float.MaxValue; 
                     }
                 }
             }
-            Debug.Log("MapManager: Distancias de NavMesh pre-calculadas.");
+            Debug.Log($"MapManager: Distancias calculadas para {_zonesGraph.Count} zonas sin necesidad de objetos en escena.");
         }
 
-        // Función auxiliar para sumar los segmentos de la ruta del NavMesh
         private float GetPathLength(NavMeshPath path) {
             float length = 0.0f;
             if (path.corners.Length < 2) return length;
-
             for (int i = 0; i < path.corners.Length - 1; i++) {
                 length += Vector3.Distance(path.corners[i], path.corners[i + 1]);
             }
             return length;
         }
 
-        // --- Implementación de IMapProvider ---
-        
         public List<ZoneData> GetAllZones() => new List<ZoneData>(_zonesGraph.Values);
         public ZoneData GetZone(string zoneId) => _zonesGraph.TryGetValue(zoneId, out ZoneData data) ? data : null;
-
-        // El HTN llama a esto. ¡Es instantáneo porque ya está calculado!
         public float GetPathDistance(string fromZoneId, string toZoneId) {
             if (_distanceTable.TryGetValue((fromZoneId, toZoneId), out float distance)) {
                 return distance;

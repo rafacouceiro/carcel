@@ -1457,7 +1457,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocationNode
-  zoneName: Nueva Zona
   isExit: 1
   pointsToGenerate: 4
   patrolPoints: []
@@ -2077,7 +2076,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocationNode
-  zoneName: Nueva Zona
   isExit: 1
   pointsToGenerate: 4
   patrolPoints: []
@@ -4313,7 +4311,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocationNode
-  zoneName: Nueva Zona
   isExit: 1
   pointsToGenerate: 4
   patrolPoints: []
@@ -10656,7 +10653,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocationNode
-  zoneName: Nueva Zona
   isExit: 1
   pointsToGenerate: 4
   patrolPoints: []
@@ -12214,7 +12210,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocationNode
-  zoneName: Nueva Zona
   isExit: 1
   pointsToGenerate: 4
   patrolPoints: []
@@ -19720,7 +19715,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocationNode
-  zoneName: Nueva Zona
   isExit: 1
   pointsToGenerate: 4
   patrolPoints: []
@@ -20908,7 +20902,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocationNode
-  zoneName: Nueva Zona
   isExit: 1
   pointsToGenerate: 4
   patrolPoints: []
@@ -21458,7 +21451,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocationNode
-  zoneName: Nueva Zona
   isExit: 1
   pointsToGenerate: 4
   patrolPoints: []
@@ -37602,7 +37594,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocationNode
-  zoneName: Nueva Zona
   isExit: 1
   pointsToGenerate: 4
   patrolPoints: []
@@ -37882,7 +37873,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocationNode
-  zoneName: Nueva Zona
   isExit: 1
   pointsToGenerate: 4
   patrolPoints: []
@@ -38147,7 +38137,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocationNode
-  zoneName: Nueva Zona
   isExit: 1
   pointsToGenerate: 4
   patrolPoints: []
@@ -40217,7 +40206,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocationNode
-  zoneName: Nueva Zona
   isExit: 1
   pointsToGenerate: 4
   patrolPoints: []
@@ -42277,7 +42265,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocationNode
-  zoneName: Nueva Zona
   isExit: 1
   pointsToGenerate: 4
   patrolPoints: []
@@ -43583,7 +43570,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocationNode
-  zoneName: Nueva Zona
   isExit: 1
   pointsToGenerate: 4
   patrolPoints: []
@@ -49226,7 +49212,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocationNode
-  zoneName: Nueva Zona
   isExit: 1
   pointsToGenerate: 4
   patrolPoints: []
@@ -53807,7 +53792,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocationNode
-  zoneName: Nueva Zona
   isExit: 1
   pointsToGenerate: 4
   patrolPoints: []
@@ -54544,7 +54528,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocationNode
-  zoneName: Nueva Zona
   isExit: 1
   pointsToGenerate: 4
   patrolPoints: []
@@ -56387,7 +56370,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocationNode
-  zoneName: Nueva Zona
   isExit: 1
   pointsToGenerate: 4
   patrolPoints: []
@@ -58016,7 +57998,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocationNode
-  zoneName: Nueva Zona
   isExit: 1
   pointsToGenerate: 4
   patrolPoints: []
@@ -58583,7 +58564,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocationNode
-  zoneName: Nueva Zona
   isExit: 1
   pointsToGenerate: 4
   patrolPoints: []
@@ -59016,7 +58996,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocationNode
-  zoneName: Nueva Zona
   isExit: 1
   pointsToGenerate: 4
   patrolPoints: []
@@ -60392,7 +60371,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocationNode
-  zoneName: Nueva Zona
   isExit: 1
   pointsToGenerate: 4
   patrolPoints: []
@@ -65486,7 +65464,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocationNode
-  zoneName: Nueva Zona
   isExit: 1
   pointsToGenerate: 4
   patrolPoints: []
@@ -67408,7 +67385,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocationNode
-  zoneName: Nueva Zona
   isExit: 1
   pointsToGenerate: 4
   patrolPoints: []
@@ -68336,7 +68312,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocationNode
-  zoneName: Nueva Zona
   isExit: 1
   pointsToGenerate: 4
   patrolPoints: []
@@ -68826,7 +68801,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocationNode
-  zoneName: Nueva Zona
   isExit: 1
   pointsToGenerate: 4
   patrolPoints: []
@@ -69211,7 +69185,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocationNode
-  zoneName: Nueva Zona
   isExit: 1
   pointsToGenerate: 4
   patrolPoints: []
@@ -81545,7 +81518,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocationNode
-  zoneName: Nueva Zona
   isExit: 1
   pointsToGenerate: 4
   patrolPoints: []
@@ -82410,7 +82382,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocationNode
-  zoneName: Nueva Zona
   isExit: 1
   pointsToGenerate: 4
   patrolPoints: []
@@ -82745,7 +82716,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocationNode
-  zoneName: Nueva Zona
   isExit: 1
   pointsToGenerate: 4
   patrolPoints: []
@@ -83113,7 +83083,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocationNode
-  zoneName: Nueva Zona
   isExit: 1
   pointsToGenerate: 4
   patrolPoints: []
@@ -84922,7 +84891,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocationNode
-  zoneName: Nueva Zona
   isExit: 1
   pointsToGenerate: 4
   patrolPoints: []
@@ -86424,7 +86392,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocationNode
-  zoneName: Nueva Zona
   isExit: 1
   pointsToGenerate: 4
   patrolPoints: []
@@ -92124,7 +92091,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocationNode
-  zoneName: Nueva Zona
   isExit: 1
   pointsToGenerate: 4
   patrolPoints: []
@@ -97089,7 +97055,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocationNode
-  zoneName: Nueva Zona
   isExit: 1
   pointsToGenerate: 4
   patrolPoints: []
@@ -98016,7 +97981,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocationNode
-  zoneName: Nueva Zona
   isExit: 1
   pointsToGenerate: 4
   patrolPoints: []
@@ -111857,6 +111821,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1777676843}
+    - targetCorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1777676847}
+    - targetCorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1777676846}
   m_SourcePrefab: {fileID: 100100000, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
 --- !u!4 &1777676841 stripped
 Transform:
@@ -111872,9 +111842,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1557340913}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 518a988936263f6498d07c7cedadb358, type: 3}
+  m_Script: {fileID: 11500000, guid: bb4d206c7f47e40d7a58618e2bc67b3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  PlayerTarget: {fileID: 1796544529}
 --- !u!195 &1777676844
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -111897,6 +111868,35 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &1777676846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1557340913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00cab182237c3405cb9239b88b25ab3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.VisionSensor
+  VisionRange: 15
+  ViewAngle: 90
+  ObstacleMask:
+    serializedVersion: 2
+    m_Bits: 0
+--- !u!114 &1777676847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1557340913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd1da37e0ec844acf97dee0bd497723a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.NavMeshDriver
 --- !u!1 &1777836571
 GameObject:
   m_ObjectHideFlags: 0
@@ -117415,7 +117415,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocationNode
-  zoneName: Nueva Zona
   isExit: 1
   pointsToGenerate: 4
   patrolPoints: []
@@ -133225,7 +133224,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocationNode
-  zoneName: Nueva Zona
   isExit: 1
   pointsToGenerate: 4
   patrolPoints: []
