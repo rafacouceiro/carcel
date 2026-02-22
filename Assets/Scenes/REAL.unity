@@ -737,6 +737,32 @@ Transform:
   - {fileID: 907466630}
   - {fileID: 1522131673}
   - {fileID: 2068714513}
+  - {fileID: 1897075061}
+  - {fileID: 842848880}
+  - {fileID: 1757011734}
+  - {fileID: 842322887}
+  - {fileID: 224590761}
+  - {fileID: 1945134107}
+  - {fileID: 999708030}
+  - {fileID: 372870617}
+  - {fileID: 1366147219}
+  - {fileID: 1439003954}
+  - {fileID: 1461081923}
+  - {fileID: 1366477876}
+  - {fileID: 103826329}
+  - {fileID: 1402612089}
+  - {fileID: 2122253245}
+  - {fileID: 1700368241}
+  - {fileID: 22278302}
+  - {fileID: 1652990584}
+  - {fileID: 1241771933}
+  - {fileID: 1172578647}
+  - {fileID: 584796911}
+  - {fileID: 396840439}
+  - {fileID: 115556548}
+  - {fileID: 333932883}
+  - {fileID: 1114890568}
+  - {fileID: 399560882}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &12239741
@@ -1630,6 +1656,75 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 74d8ce1b968c674498d4edd34de9334c, type: 3}
   m_PrefabInstance: {fileID: 1124460286}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &22278301
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 22278302}
+  - component: {fileID: 22278304}
+  - component: {fileID: 22278303}
+  m_Layer: 0
+  m_Name: camino_6
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &22278302
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 22278301}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 46.4, y: 5, z: 72.2}
+  m_LocalScale: {x: 0.189, y: 1, z: 1.12064}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 11875104}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &22278303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 22278301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocationNode
+  isExit: 1
+  pointsToGenerate: 4
+  patrolPoints: []
+--- !u!65 &22278304
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 22278301}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 32.372765, y: 1, z: 23.867046}
+  m_Center: {x: -29.204994, y: 0, z: -19.631998}
 --- !u!1001 &24800510
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6662,6 +6757,75 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 2583865410133444253, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
+--- !u!1 &103826328
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 103826329}
+  - component: {fileID: 103826331}
+  - component: {fileID: 103826330}
+  m_Layer: 0
+  m_Name: camino_2 (6)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &103826329
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 103826328}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -82.6, y: 5, z: 88.673}
+  m_LocalScale: {x: 0.2751, y: 1, z: 0.21027108}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 11875104}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &103826330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 103826328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocationNode
+  isExit: 1
+  pointsToGenerate: 4
+  patrolPoints: []
+--- !u!65 &103826331
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 103826328}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 32.372765, y: 1, z: 23.867046}
+  m_Center: {x: -29.204994, y: 0, z: -19.631998}
 --- !u!1 &104158372 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3698344006298356524, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -7803,6 +7967,75 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 74d8ce1b968c674498d4edd34de9334c, type: 3}
   m_PrefabInstance: {fileID: 503369894}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &115556547
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 115556548}
+  - component: {fileID: 115556550}
+  - component: {fileID: 115556549}
+  m_Layer: 0
+  m_Name: camino_7 (5)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &115556548
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 115556547}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 20.41, y: 5, z: 81.302}
+  m_LocalScale: {x: 1.0676774, y: 1, z: 0.16257061}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 11875104}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &115556549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 115556547}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocationNode
+  isExit: 1
+  pointsToGenerate: 4
+  patrolPoints: []
+--- !u!65 &115556550
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 115556547}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 32.372765, y: 1, z: 23.867046}
+  m_Center: {x: -29.204994, y: 0, z: -19.631998}
 --- !u!1 &117095533 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 453d762048f90974c8a7164f9efc863e, type: 3}
@@ -14987,6 +15220,75 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 453d762048f90974c8a7164f9efc863e, type: 3}
   m_PrefabInstance: {fileID: 2107717056}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &224590760
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 224590761}
+  - component: {fileID: 224590763}
+  - component: {fileID: 224590762}
+  m_Layer: 0
+  m_Name: camino_2 (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &224590761
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 224590760}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -63, y: 5, z: 80.2}
+  m_LocalScale: {x: 0.21, y: 1, z: 0.7616}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 11875104}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &224590762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 224590760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocationNode
+  isExit: 1
+  pointsToGenerate: 4
+  patrolPoints: []
+--- !u!65 &224590763
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 224590760}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 32.372765, y: 1, z: 23.867046}
+  m_Center: {x: -29.204994, y: 0, z: -19.631998}
 --- !u!1001 &225659341
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21083,6 +21385,75 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 6615224649404071530, guid: 45980b402f3573542bc6c1435299df62, type: 3}
+--- !u!1 &333932882
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 333932883}
+  - component: {fileID: 333932885}
+  - component: {fileID: 333932884}
+  m_Layer: 0
+  m_Name: camino_7 (6)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &333932883
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 333932882}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 32.628, y: 5, z: 65.383}
+  m_LocalScale: {x: 0.82211155, y: 1, z: 0.10567089}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 11875104}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &333932884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 333932882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocationNode
+  isExit: 1
+  pointsToGenerate: 4
+  patrolPoints: []
+--- !u!65 &333932885
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 333932882}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 32.372765, y: 1, z: 23.867046}
+  m_Center: {x: -29.204994, y: 0, z: -19.631998}
 --- !u!1 &334191557 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 453d762048f90974c8a7164f9efc863e, type: 3}
@@ -22467,6 +22838,75 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -8116138440861595531, guid: 74d8ce1b968c674498d4edd34de9334c, type: 3}
+--- !u!1 &372870616
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 372870617}
+  - component: {fileID: 372870619}
+  - component: {fileID: 372870618}
+  m_Layer: 0
+  m_Name: camino_2 (10)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &372870617
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 372870616}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -98.9, y: 5, z: 100.6}
+  m_LocalScale: {x: 0.0735, y: 1, z: 0.426496}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 11875104}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &372870618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 372870616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocationNode
+  isExit: 1
+  pointsToGenerate: 4
+  patrolPoints: []
+--- !u!65 &372870619
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 372870616}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 32.372765, y: 1, z: 23.867046}
+  m_Center: {x: -29.204994, y: 0, z: -19.631998}
 --- !u!1001 &372917177
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23451,6 +23891,75 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 6615224649404071530, guid: 45980b402f3573542bc6c1435299df62, type: 3}
+--- !u!1 &396840438
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 396840439}
+  - component: {fileID: 396840441}
+  - component: {fileID: 396840440}
+  m_Layer: 0
+  m_Name: camino_7 (4)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &396840439
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 396840438}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -19.3, y: 5, z: 52.724}
+  m_LocalScale: {x: 1.135827, y: 1, z: 0.20321326}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 11875104}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &396840440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 396840438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocationNode
+  isExit: 1
+  pointsToGenerate: 4
+  patrolPoints: []
+--- !u!65 &396840441
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 396840438}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 32.372765, y: 1, z: 23.867046}
+  m_Center: {x: -29.204994, y: 0, z: -19.631998}
 --- !u!1001 &397414754
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23754,6 +24263,75 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 6669858210342699486, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
+--- !u!1 &399560881
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 399560882}
+  - component: {fileID: 399560884}
+  - component: {fileID: 399560883}
+  m_Layer: 0
+  m_Name: camino_7 (3)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &399560882
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 399560881}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.22879, y: 5, z: 87.4}
+  m_LocalScale: {x: 0.334847, y: 1, z: 0.1745407}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 11875104}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &399560883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 399560881}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocationNode
+  isExit: 1
+  pointsToGenerate: 4
+  patrolPoints: []
+--- !u!65 &399560884
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 399560881}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 32.372765, y: 1, z: 23.867046}
+  m_Center: {x: -29.204994, y: 0, z: -19.631998}
 --- !u!1 &399599578 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3698344006298356524, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -35802,6 +36380,75 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 453d762048f90974c8a7164f9efc863e, type: 3}
   m_PrefabInstance: {fileID: 2008006296}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &584796910
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 584796911}
+  - component: {fileID: 584796913}
+  - component: {fileID: 584796912}
+  m_Layer: 0
+  m_Name: camino_7
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &584796911
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 584796910}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 43, y: 5, z: 54.2}
+  m_LocalScale: {x: 1.135827, y: 1, z: 0.2783743}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 11875104}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &584796912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 584796910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocationNode
+  isExit: 1
+  pointsToGenerate: 4
+  patrolPoints: []
+--- !u!65 &584796913
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 584796910}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 32.372765, y: 1, z: 23.867046}
+  m_Center: {x: -29.204994, y: 0, z: -19.631998}
 --- !u!1 &586290274 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6635305459715344173, guid: 14cce29ad9058904d96cc3067402803d, type: 3}
@@ -51952,6 +52599,75 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 7883413365324733927, guid: 6c3132072d6cf494abce5e38b23541c8, type: 3}
+--- !u!1 &842322886
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 842322887}
+  - component: {fileID: 842322889}
+  - component: {fileID: 842322888}
+  m_Layer: 0
+  m_Name: camino_2 (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &842322887
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 842322886}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -27.215, y: 5, z: 104.17}
+  m_LocalScale: {x: 0.2814, y: 1, z: 0.714}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 11875104}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &842322888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 842322886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocationNode
+  isExit: 1
+  pointsToGenerate: 4
+  patrolPoints: []
+--- !u!65 &842322889
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 842322886}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 32.372765, y: 1, z: 23.867046}
+  m_Center: {x: -29.204994, y: 0, z: -19.631998}
 --- !u!1001 &842328924
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -52043,6 +52759,75 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -4517372159314078503, guid: 453d762048f90974c8a7164f9efc863e, type: 3}
+--- !u!1 &842848879
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 842848880}
+  - component: {fileID: 842848882}
+  - component: {fileID: 842848881}
+  m_Layer: 0
+  m_Name: camino_2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &842848880
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 842848879}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -23.072, y: 5, z: 55.8}
+  m_LocalScale: {x: 0.21, y: 1, z: 0.68}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 11875104}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &842848881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 842848879}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocationNode
+  isExit: 1
+  pointsToGenerate: 4
+  patrolPoints: []
+--- !u!65 &842848882
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 842848879}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 32.372765, y: 1, z: 23.867046}
+  m_Center: {x: -29.204994, y: 0, z: -19.631998}
 --- !u!1001 &843721053
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -62564,6 +63349,75 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 5784697710500822330, guid: 54a9737b512d212499a7a805a7b522e7, type: 3}
+--- !u!1 &999708029
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 999708030}
+  - component: {fileID: 999708032}
+  - component: {fileID: 999708031}
+  m_Layer: 0
+  m_Name: camino_2 (13)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &999708030
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 999708029}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -77.3, y: 5, z: 48}
+  m_LocalScale: {x: 0.244755, y: 1, z: 0.19192746}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 11875104}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &999708031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 999708029}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocationNode
+  isExit: 1
+  pointsToGenerate: 4
+  patrolPoints: []
+--- !u!65 &999708032
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 999708029}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 32.372765, y: 1, z: 23.867046}
+  m_Center: {x: -29.204994, y: 0, z: -19.631998}
 --- !u!1 &1001369366
 GameObject:
   m_ObjectHideFlags: 0
@@ -69708,6 +70562,75 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 7883413365324733927, guid: 6c3132072d6cf494abce5e38b23541c8, type: 3}
+--- !u!1 &1114890567
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1114890568}
+  - component: {fileID: 1114890570}
+  - component: {fileID: 1114890569}
+  m_Layer: 0
+  m_Name: camino_7 (7)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1114890568
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1114890567}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 4.3, y: 5, z: 65.383}
+  m_LocalScale: {x: 1.2002829, y: 1, z: 0.10567089}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 11875104}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1114890569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1114890567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocationNode
+  isExit: 1
+  pointsToGenerate: 4
+  patrolPoints: []
+--- !u!65 &1114890570
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1114890567}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 32.372765, y: 1, z: 23.867046}
+  m_Center: {x: -29.204994, y: 0, z: -19.631998}
 --- !u!1001 &1115564927
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -75216,6 +76139,75 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 1981582654695266357, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
+--- !u!1 &1172578646
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1172578647}
+  - component: {fileID: 1172578649}
+  - component: {fileID: 1172578648}
+  m_Layer: 0
+  m_Name: camino_8
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1172578647
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1172578646}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 43.3, y: 5, z: 42.3}
+  m_LocalScale: {x: 1.4576445, y: 1, z: 0.06907032}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 11875104}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1172578648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1172578646}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocationNode
+  isExit: 1
+  pointsToGenerate: 4
+  patrolPoints: []
+--- !u!65 &1172578649
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1172578646}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 32.372765, y: 1, z: 23.867046}
+  m_Center: {x: -29.204994, y: 0, z: -19.631998}
 --- !u!1001 &1173275900
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -80538,6 +81530,75 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -8116138440861595531, guid: 74d8ce1b968c674498d4edd34de9334c, type: 3}
+--- !u!1 &1241771932
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1241771933}
+  - component: {fileID: 1241771935}
+  - component: {fileID: 1241771934}
+  m_Layer: 0
+  m_Name: camino_9
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1241771933
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1241771932}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 46.4, y: 5, z: 106.3}
+  m_LocalScale: {x: 0.189, y: 1, z: 1.12064}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 11875104}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1241771934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1241771932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocationNode
+  isExit: 1
+  pointsToGenerate: 4
+  patrolPoints: []
+--- !u!65 &1241771935
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1241771932}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 32.372765, y: 1, z: 23.867046}
+  m_Center: {x: -29.204994, y: 0, z: -19.631998}
 --- !u!1 &1241828905 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: baf57603f98cbdd4e8007a7276476d51, type: 3}
@@ -87735,6 +88796,75 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 7661650045133879457, guid: baf57603f98cbdd4e8007a7276476d51, type: 3}
+--- !u!1 &1366147218
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1366147219}
+  - component: {fileID: 1366147221}
+  - component: {fileID: 1366147220}
+  m_Layer: 0
+  m_Name: camino_2 (11)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1366147219
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1366147218}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -64.1, y: 5, z: 94.9}
+  m_LocalScale: {x: 0.0735, y: 1, z: 0.426496}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 11875104}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1366147220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1366147218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocationNode
+  isExit: 1
+  pointsToGenerate: 4
+  patrolPoints: []
+--- !u!65 &1366147221
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1366147218}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 32.372765, y: 1, z: 23.867046}
+  m_Center: {x: -29.204994, y: 0, z: -19.631998}
 --- !u!1 &1366305468 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6999322035538773533, guid: baf57603f98cbdd4e8007a7276476d51, type: 3}
@@ -87762,6 +88892,75 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 2651074547141585059, guid: baf57603f98cbdd4e8007a7276476d51, type: 3}
+--- !u!1 &1366477875
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1366477876}
+  - component: {fileID: 1366477878}
+  - component: {fileID: 1366477877}
+  m_Layer: 0
+  m_Name: camino_2 (4)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1366477876
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1366477875}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -50.6, y: 5, z: 79.919}
+  m_LocalScale: {x: 0.2751, y: 1, z: 0.31859252}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 11875104}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1366477877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1366477875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocationNode
+  isExit: 1
+  pointsToGenerate: 4
+  patrolPoints: []
+--- !u!65 &1366477878
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1366477875}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 32.372765, y: 1, z: 23.867046}
+  m_Center: {x: -29.204994, y: 0, z: -19.631998}
 --- !u!1001 &1366553469
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -89447,6 +90646,75 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -5679708811313322201, guid: a428b55e6190909499f600d13e26498b, type: 3}
+--- !u!1 &1402612088
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1402612089}
+  - component: {fileID: 1402612091}
+  - component: {fileID: 1402612090}
+  m_Layer: 0
+  m_Name: camino_2 (12)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1402612089
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1402612088}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -41.8, y: 5, z: 99.142}
+  m_LocalScale: {x: 0.2751, y: 1, z: 0.1156491}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 11875104}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1402612090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1402612088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocationNode
+  isExit: 1
+  pointsToGenerate: 4
+  patrolPoints: []
+--- !u!65 &1402612091
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1402612088}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 32.372765, y: 1, z: 23.867046}
+  m_Center: {x: -29.204994, y: 0, z: -19.631998}
 --- !u!1001 &1403479407
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -91184,6 +92452,75 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -4517372159314078503, guid: 453d762048f90974c8a7164f9efc863e, type: 3}
+--- !u!1 &1439003953
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1439003954}
+  - component: {fileID: 1439003956}
+  - component: {fileID: 1439003955}
+  m_Layer: 0
+  m_Name: camino_2 (9)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1439003954
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1439003953}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -85.4, y: 5, z: 68.704}
+  m_LocalScale: {x: 0.12054, y: 1, z: 0.29428223}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 11875104}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1439003955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1439003953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocationNode
+  isExit: 1
+  pointsToGenerate: 4
+  patrolPoints: []
+--- !u!65 &1439003956
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1439003953}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 32.372765, y: 1, z: 23.867046}
+  m_Center: {x: -29.204994, y: 0, z: -19.631998}
 --- !u!1 &1439585764 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 614141466607972236, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -92895,6 +94232,75 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 6669858210342699486, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
+--- !u!1 &1461081922
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1461081923}
+  - component: {fileID: 1461081925}
+  - component: {fileID: 1461081924}
+  m_Layer: 0
+  m_Name: camino_2 (3)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1461081923
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1461081922}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -37.399, y: 5, z: 80.468}
+  m_LocalScale: {x: 0.2751, y: 1, z: 0.479808}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 11875104}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1461081924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1461081922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocationNode
+  isExit: 1
+  pointsToGenerate: 4
+  patrolPoints: []
+--- !u!65 &1461081925
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1461081922}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 32.372765, y: 1, z: 23.867046}
+  m_Center: {x: -29.204994, y: 0, z: -19.631998}
 --- !u!1001 &1462467007
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -104511,6 +105917,75 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 7661650045133879457, guid: baf57603f98cbdd4e8007a7276476d51, type: 3}
+--- !u!1 &1652990583
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1652990584}
+  - component: {fileID: 1652990586}
+  - component: {fileID: 1652990585}
+  m_Layer: 0
+  m_Name: camino_6 (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1652990584
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1652990583}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 61.97, y: 5, z: -26.7}
+  m_LocalScale: {x: 0.35503653, y: 1, z: 0.54911363}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 11875104}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1652990585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1652990583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocationNode
+  isExit: 1
+  pointsToGenerate: 4
+  patrolPoints: []
+--- !u!65 &1652990586
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1652990583}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 32.372765, y: 1, z: 23.867046}
+  m_Center: {x: -29.204994, y: 0, z: -19.631998}
 --- !u!1 &1653225064 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8267196642337891365, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -107179,6 +108654,75 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -1475037851793314734, guid: d0429c2ebdf57e6499fc6a336b2fb320, type: 3}
+--- !u!1 &1700368240
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1700368241}
+  - component: {fileID: 1700368243}
+  - component: {fileID: 1700368242}
+  m_Layer: 0
+  m_Name: camino_10
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1700368241
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1700368240}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 32.7, y: 5, z: 89.3}
+  m_LocalScale: {x: 0.16379999, y: 1, z: 1.1696}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 11875104}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1700368242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1700368240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocationNode
+  isExit: 1
+  pointsToGenerate: 4
+  patrolPoints: []
+--- !u!65 &1700368243
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1700368240}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 32.372765, y: 1, z: 23.867046}
+  m_Center: {x: -29.204994, y: 0, z: -19.631998}
 --- !u!1 &1704810910 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 453d762048f90974c8a7164f9efc863e, type: 3}
@@ -110691,6 +112235,75 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -4517372159314078503, guid: 453d762048f90974c8a7164f9efc863e, type: 3}
+--- !u!1 &1757011733
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1757011734}
+  - component: {fileID: 1757011736}
+  - component: {fileID: 1757011735}
+  m_Layer: 0
+  m_Name: camino_2 (8)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1757011734
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1757011733}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -15.1, y: 5, z: 57}
+  m_LocalScale: {x: 0.1386, y: 1, z: 0.31280002}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 11875104}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1757011735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1757011733}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocationNode
+  isExit: 1
+  pointsToGenerate: 4
+  patrolPoints: []
+--- !u!65 &1757011736
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1757011733}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 32.372765, y: 1, z: 23.867046}
+  m_Center: {x: -29.204994, y: 0, z: -19.631998}
 --- !u!1 &1757764921 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -5341747177340628442, guid: 14cce29ad9058904d96cc3067402803d, type: 3}
@@ -120265,6 +121878,75 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!1 &1897075060
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1897075061}
+  - component: {fileID: 1897075063}
+  - component: {fileID: 1897075062}
+  m_Layer: 0
+  m_Name: camino_1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1897075061
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1897075060}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -23.072, y: 5, z: 55.8}
+  m_LocalScale: {x: 0.21, y: 1, z: 0.68}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 11875104}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1897075062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1897075060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocationNode
+  isExit: 1
+  pointsToGenerate: 4
+  patrolPoints: []
+--- !u!65 &1897075063
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1897075060}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 32.372765, y: 1, z: 23.867046}
+  m_Center: {x: -29.204994, y: 0, z: -19.631998}
 --- !u!1 &1898266831 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -9191997259481101100, guid: 14cce29ad9058904d96cc3067402803d, type: 3}
@@ -124473,6 +126155,75 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 2651074547141585059, guid: baf57603f98cbdd4e8007a7276476d51, type: 3}
+--- !u!1 &1945134106
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1945134107}
+  - component: {fileID: 1945134109}
+  - component: {fileID: 1945134108}
+  m_Layer: 0
+  m_Name: camino_2 (5)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1945134107
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1945134106}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -98.9, y: 5, z: 49.9}
+  m_LocalScale: {x: 0.0735, y: 1, z: 0.426496}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 11875104}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1945134108
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1945134106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocationNode
+  isExit: 1
+  pointsToGenerate: 4
+  patrolPoints: []
+--- !u!65 &1945134109
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1945134106}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 32.372765, y: 1, z: 23.867046}
+  m_Center: {x: -29.204994, y: 0, z: -19.631998}
 --- !u!1001 &1946546661
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -136676,6 +138427,75 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -8958003660627484555, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
+--- !u!1 &2122253244
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2122253245}
+  - component: {fileID: 2122253247}
+  - component: {fileID: 2122253246}
+  m_Layer: 0
+  m_Name: camino_2 (7)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2122253245
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2122253244}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -71.822, y: 5, z: 90.838}
+  m_LocalScale: {x: 0.12713747, y: 1, z: 0.14088163}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 11875104}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2122253246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2122253244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96d2a5adf2e5e42b5ac717cbb7f6f596, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocationNode
+  isExit: 1
+  pointsToGenerate: 4
+  patrolPoints: []
+--- !u!65 &2122253247
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2122253244}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 32.372765, y: 1, z: 23.867046}
+  m_Center: {x: -29.204994, y: 0, z: -19.631998}
 --- !u!1 &2123252683 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6999322035538773533, guid: baf57603f98cbdd4e8007a7276476d51, type: 3}
