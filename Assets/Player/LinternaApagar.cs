@@ -1,12 +1,19 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-public class FlashlightToggle : MonoBehaviour
+public class LinternaApagar : MonoBehaviour
 {
-    public Light flashlight;
+    [SerializeField] private Light flashlight;
+
+    void Awake()
+    {
+        // Si no lo arrastras en el inspector, lo busca en hijos
+        if (flashlight == null) flashlight = GetComponentInChildren<Light>(true);
+    }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Keyboard.current != null && Keyboard.current.fKey.wasPressedThisFrame)
         {
             flashlight.enabled = !flashlight.enabled;
         }
