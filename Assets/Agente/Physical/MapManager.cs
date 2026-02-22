@@ -32,17 +32,26 @@ namespace AgenticPrison.Physical {
             CalculateAllNavMeshDistances();
         }
 
-        private void BuildMapKnowledge() {
+        private void BuildMapKnowledge() 
+        {
             LocationNode[] unityNodes = Object.FindObjectsOfType<LocationNode>();
-            
             foreach (var node in unityNodes) {
                 
                 string uniqueId = node.gameObject.name; 
 
+                if (_zonesGraph.ContainsKey(uniqueId)) {
+                    uniqueId = uniqueId + "_" + UnityEngine.Random.Range(1000, 9999).ToString(); 
+                }
+
+                // --- EL ARREGLO DE LA DISTANCIA ---
+                // Cogemos el centro EXACTO del collider en el mundo 3D, sin importar dónde esté el Transform
+                BoxCollider collider = node.GetComponent<BoxCollider>();
+                Vector3 centroReal = collider != null ? collider.bounds.center : node.transform.position;
+
                 var zoneData = new ZoneData {
                     Id = uniqueId, 
                     IsExit = node.isExit,
-                    Center = new Position3D(node.transform.position.x, node.transform.position.y, node.transform.position.z)
+                    Center = new Position3D(centroReal.x, centroReal.y, centroReal.z) // ¡Ahora sí es exacto!
                 };
 
                 foreach (Vector3 p in node.GetGeneratedPoints()) {
