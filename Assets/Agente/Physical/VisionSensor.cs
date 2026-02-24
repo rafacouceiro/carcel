@@ -6,7 +6,7 @@ namespace AgenticPrison.Physical {
     public class VisionSensor : MonoBehaviour, IVisualSensor {
         [Header("Settings")]
         public float VisionRange = 15f;
-        public float ViewAngle = 90f;
+        public float ViewAngle = 120f;
         public LayerMask ObstacleMask;
 
         public Transform Target { get; set; }

@@ -2,16 +2,16 @@ using System.Collections.Generic;
 using AgenticPrison.Core;
 using AgenticPrison.Behavior.Methods;
 
-namespace AgenticPrison.Behavior.CompoundTasks {
+namespace AgenticPrison.Behavior.RootTask {
 
-    public class EmergencyTask : ICompoundTask {
+    public class BeGuard : ICompoundTask {
         
         public List<IMethod> Methods { get; }
 
-        public EmergencyTask() {
+        public BeGuard() {
             Methods = new List<IMethod> {
-                new CatchMethod(),
-                new ChaseMethod()
+                new EmergencySelector(),
+                new RoutineSelector()
             };
         }
     }

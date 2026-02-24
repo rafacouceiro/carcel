@@ -5,19 +5,19 @@ namespace AgenticPrison.Behavior.PrimitiveTasks {
 
     public class MoveTask : IPrimitiveTask {
         
-        private Transform _target;
+        private Vector3 _target;
         private float _speed;
         private bool _isActionStarted = false;
 
         // --- LA MAGIA ESTÁ AQUÍ ---
         // El Método que crea esta tarea le pasa el destino y la velocidad
-        public MoveTask(Transform target, float speed) {
+        public MoveTask(Vector3 target, float speed) {
             _target = target;
             _speed = speed;
         }
 
         public bool CheckPreconditions(WorldState state) {
-            return _target != null;
+            return _target != Vector3.zero;
         }
 
         public void ApplyEffects(WorldState state) {

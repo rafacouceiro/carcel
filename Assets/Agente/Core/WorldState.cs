@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using AgenticPrison.Physical;
+using UnityEngine;
 
 namespace AgenticPrison.Core {
 
@@ -34,6 +35,7 @@ namespace AgenticPrison.Core {
                 Alertness = this.Alertness,
                 Fatigue = this.Fatigue,
                 CurrentLocationId = this.CurrentLocationId,
+                CurrentPosition = this.CurrentPosition,
                 CurrentRoomNode = this.CurrentRoomNode,
                 LastKnownPosition = this.LastKnownPosition,
                 

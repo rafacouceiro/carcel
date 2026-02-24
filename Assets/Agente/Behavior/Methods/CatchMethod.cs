@@ -1,13 +1,14 @@
 using System.Collections.Generic;
 using AgenticPrison.Core;
 using AgenticPrison.Behavior.PrimitiveTasks;
+using UnityEngine;
 
 namespace AgenticPrison.Behavior.Methods {
 
-    public class TrapMethod : IMethod {
+    public class CatchMethod : IMethod {
         
         public bool CheckPreconditions(WorldState state) {
-            distance = GetDistanceToTarget(state.CurrentPosition, state.LastKnownPosition);
+            float distance = GetDistanceToTarget(state.CurrentPosition, state.LastKnownPosition);
             return state.FugitiveInVision && distance < 1.5f;
         }
 

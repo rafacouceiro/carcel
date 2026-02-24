@@ -5,6 +5,7 @@ using UnityEngine;
 namespace AgenticPrison.Core {
     
     public interface IMovable {
+        void SetDestination(Vector3 position);
         void SetDestination(Transform target);
         void StopMoving();
         bool IsMoving();
@@ -14,7 +15,7 @@ namespace AgenticPrison.Core {
     // INPUT: Sensors
     public interface IVisualSensor {
         bool CheckFugitiveVisibility();
-        Transform? GetFugitivePosition();
+        Vector3 GetFugitivePosition();
     }
 
     public interface IHearingSensor {

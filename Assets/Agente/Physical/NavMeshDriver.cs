@@ -17,22 +17,20 @@ namespace AgenticPrison.Physical {
 
         // --- EL CAMBIO ESTÁ AQUÍ ---
         // Ahora recibe un Transform directamente (tu Waypoint)
-        public void SetDestination(Transform target) {
-            if (target != null) {
-                _agent.isStopped = false;
-                // Le pasamos al NavMesh la coordenada exacta (Vector3) de ese Transform
-                _agent.SetDestination(target.position);
-            } else {
-                Debug.LogWarning("[NavMeshDriver] Cuidado: Has intentado mandar al agente a un Transform nulo.");
-            }
+        public void SetDestination(Vector3 position) {
+            _agent.isStopped = false;
+            _agent.SetDestination(position);
         }
 
-        // (Opcional pero muy recomendado): Dejo esta versión con Vector3 por si 
-        // algún día necesitas mandar al agente a un "ruido" que no tiene un Transform físico.
-        public void SetDestination(Vector3 targetPosition) {
-            _agent.isStopped = false;
-            _agent.SetDestination(targetPosition);
-        }
+        // Sobrecarga 2: Recibe un Transform (Ideal para seguir a un fugitivo en movimiento)
+        public void SetDestination(Transform target) {
+            if (target != null) {
+                // Reutilizamos la lógica del Vector3 pasando target.position
+                SetDestination(target.position);
+            } else {
+                Debug.LogWarning("[NavMeshDriver] Cuidado: Intento de ir a un Transform nulo.");
+            }
+        }   
 
         public void StopMoving() {
             if (_agent.isOnNavMesh) {

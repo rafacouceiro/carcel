@@ -1,20 +1,18 @@
 using System.Collections.Generic;
 using AgenticPrison.Core;
-using AgenticPrison.Behavior.PrimitiveTasks;
-using UnityEngine;
+using AgenticPrison.Behavior.CompoundTasks;
 
 namespace AgenticPrison.Behavior.Methods {
 
-    public class ChaseMethod : IMethod {
-        
+    public class EmergencySelector : IMethod {
         public bool CheckPreconditions(WorldState state) {
             return state.FugitiveInVision;
         }
 
         public Queue<ITask> Decompose(WorldState state) {
-            var subTasks = new Queue<ITask>();
-            subTasks.Enqueue(new ChaseTask(5f));
-            return subTasks;
+            var tasks = new Queue<ITask>();
+            tasks.Enqueue(new EmergencyTask()); // El Planner recibirá esto y volverá a descomponer
+            return tasks;
         }
     }
 }

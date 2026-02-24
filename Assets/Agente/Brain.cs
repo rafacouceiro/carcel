@@ -54,7 +54,7 @@ namespace AgenticPrison {
                 unityVision.Target = PlayerTarget;
             }
 
-            _rootTask = new AgenticPrison.Behavior.CompoundTasks.RoutineTask();
+            _rootTask = new AgenticPrison.Behavior.RootTask.BeGuard();
         }
 
         private void Update() {
@@ -66,7 +66,8 @@ namespace AgenticPrison {
 
         private void UpdateSensors() {
             UpdateVisionFugitive();
-            UpdateHearing();
+            UpdateLocation();
+            // UpdateHearing();
         }
 
         /// <summary>
@@ -81,6 +82,7 @@ namespace AgenticPrison {
                 CurrentState.FugitiveInVision = _vision.CheckFugitiveVisibility();
 
                 if (CurrentState.FugitiveInVision) {
+                    Debug.LogWarning("Veo al fugitivo");
                     CurrentState.LastKnownPosition = _vision.GetFugitivePosition();
                 }
                 
@@ -92,13 +94,15 @@ namespace AgenticPrison {
         }
 
         private void UpdateLocation(){
-            pass
+            CurrentState.CurrentPosition = transform.position;
         }
 
 
         private void ForzarReplanificacion() {
+
             _currentPlan.Clear();
-            _activeTask = null;
+            _activeTask = null;    
+            _movable.StopMoving();
         }
 
         private void ProcessHTNExecution() {
@@ -106,13 +110,11 @@ namespace AgenticPrison {
             
             if (_currentPlan.Count == 0 && _activeTask == null) {
 
-                Debug.LogWarning("No tengo plan, genero uno nuevo");
                 _currentPlan = _planner.GeneratePlan(CurrentState, _rootTask);
                 if (_currentPlan.Count > 0) _activeTask = _currentPlan.Dequeue();
             }
 
             if (_activeTask != null) {
-                Debug.Log("Ejecutando tarea: " + _activeTask.GetType().Name);
                 var status = _activeTask.Execute(_movable, CurrentState);
 
                 if (status == TaskExecutionStatus.Success) {

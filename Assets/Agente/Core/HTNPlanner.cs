@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using AgenticPrison.Physical;
 
 namespace AgenticPrison.Core {
 
@@ -89,10 +90,9 @@ namespace AgenticPrison.Core {
             destination.PrisonerInCell = source.PrisonerInCell;
             destination.Alertness = source.Alertness;
             destination.Fatigue = source.Fatigue;
-            destination.CurrentLocationId = source.CurrentLocationId;
             destination.CurrentRoomNode = source.CurrentRoomNode;
-            destination.WasFugitiveInVision = source.WasFugitiveInVision;
             destination.LastKnownPosition = source.LastKnownPosition;
+            destination.CurrentPosition = source.CurrentPosition;
             destination.AssignedQuadrant = new List<RoomNode>(source.AssignedQuadrant);
         }
     }

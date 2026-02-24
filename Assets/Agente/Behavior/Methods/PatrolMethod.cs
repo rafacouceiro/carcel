@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using AgenticPrison.Core;
 using AgenticPrison.Physical;
 using AgenticPrison.Behavior.PrimitiveTasks; // Para poder usar MoveTask
+using UnityEngine;
 
 namespace AgenticPrison.Behavior.Methods {
 
@@ -23,7 +24,7 @@ namespace AgenticPrison.Behavior.Methods {
             foreach (Transform waypoint in route) {
                 
                 // AQUÍ LE DECIMOS LA VELOCIDAD DE PATRULLA (ej: 2.5f)
-                subTasks.Enqueue(new MoveTask(waypoint, 2.5f));
+                subTasks.Enqueue(new MoveTask(waypoint.position, 2.5f));
             }
 
             return subTasks; // Devolvemos una cola llena de MoveTasks
@@ -46,7 +47,7 @@ namespace AgenticPrison.Behavior.Methods {
                 if (state.AssignedQuadrant.Contains(currentRoom)) {
                     if (currentRoom.waypoints != null) {
                         foreach (Transform wp in currentRoom.waypoints) {
-                            if (wp != null) finalRoute.Enqueue(wp);
+                            if (wp != null) finalRoute.Add(wp);
                         }
                     }
                 }
