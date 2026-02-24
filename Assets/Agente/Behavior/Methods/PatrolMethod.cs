@@ -1,20 +1,66 @@
+using UnityEngine;
 using System.Collections.Generic;
 using AgenticPrison.Core;
-using AgenticPrison.Behavior.PrimitiveTasks;
+using AgenticPrison.Physical;
+using AgenticPrison.Behavior.PrimitiveTasks; // Para poder usar MoveTask
 
 namespace AgenticPrison.Behavior.Methods {
 
     public class PatrolMethod : IMethod {
         
         public bool CheckPreconditions(WorldState state) {
-            // Fatiga menor a 0.9 y prisionero en la celda
-            return state.Fatigue < 0.9f && state.PrisonerInCell;
+            // Solo patrullamos si sabemos dónde estamos y no estamos reventados
+            return state.Fatigue < 0.9f && state.PrisonerInCell && state.CurrentRoomNode != null;
         }
 
         public Queue<ITask> Decompose(WorldState state) {
             var subTasks = new Queue<ITask>();
-            subTasks.Enqueue(new PatrolPrimitiveTask());
-            return subTasks;
+            
+            // 1. El Cerebro ejecuta el DFS
+            List<Transform> route = GenerateDFSRoute(state);
+
+            // 2. El Cerebro descompone la ruta en tareas individuales
+            foreach (Transform waypoint in route) {
+                
+                // AQUÍ LE DECIMOS LA VELOCIDAD DE PATRULLA (ej: 2.5f)
+                subTasks.Enqueue(new MoveTask(waypoint, 2.5f));
+            }
+
+            return subTasks; // Devolvemos una cola llena de MoveTasks
+        }
+
+        // --- LA LÓGICA DFS AHORA VIVE EN EL MÉTODO ---
+        private List<Transform> GenerateDFSRoute(WorldState state) {
+            List<Transform> finalRoute = new List<Transform>();
+            HashSet<RoomNode> visitedRooms = new HashSet<RoomNode>();
+            Stack<RoomNode> stack = new Stack<RoomNode>();
+
+            stack.Push(state.CurrentRoomNode);
+
+            while (stack.Count > 0) {
+                RoomNode currentRoom = stack.Pop();
+
+                if (visitedRooms.Contains(currentRoom)) continue;
+                visitedRooms.Add(currentRoom);
+
+                if (state.AssignedQuadrant.Contains(currentRoom)) {
+                    if (currentRoom.waypoints != null) {
+                        foreach (Transform wp in currentRoom.waypoints) {
+                            if (wp != null) finalRoute.Enqueue(wp);
+                        }
+                    }
+                }
+
+                if (currentRoom.connectedRooms != null) {
+                    foreach (RoomNode neighbor in currentRoom.connectedRooms) {
+                        if (neighbor != null && !visitedRooms.Contains(neighbor)) {
+                            stack.Push(neighbor);
+                        }
+                    }
+                }
+            }
+
+            return finalRoute;
         }
     }
 }

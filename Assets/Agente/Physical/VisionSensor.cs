@@ -9,7 +9,6 @@ namespace AgenticPrison.Physical {
         public float ViewAngle = 90f;
         public LayerMask ObstacleMask;
 
-        // Esta propiedad la llenará el GuardAI
         public Transform Target { get; set; }
 
         public bool CheckFugitiveVisibility() {
@@ -28,9 +27,12 @@ namespace AgenticPrison.Physical {
             return true;
         }
 
-        public Transform? GetFugitivePosition() {
-            if (Target == null) return null;
-            return Target;
+        public Vector3 GetFugitivePosition() {
+
+            if (Target != null) {
+                return Target.position; 
+            }
+            return Vector3.zero;
         }
     }
 }

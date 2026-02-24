@@ -62,21 +62,39 @@ namespace AgenticPrison {
             ProcessHTNExecution();
         }
 
+        // FUNCIONES SENSORIALES: ACTUALIZACIÓN DE ESTADO
+
         private void UpdateSensors() {
+            UpdateVisionFugitive();
+            UpdateHearing();
+        }
+
+        /// <summary>
+        /// Actualiza el estado de visión con respecto al fugitivo
+        /// forzando la replanificaicon si es necesario
+        /// </summary>
+        private void UpdateVisionFugitive() {
 
             if (_vision != null) {
-                _wasFugitiveInVision = CurrentState.FugitiveInVision;
-                CurrentState.FugitiveInVision = _vision.CheckFugitiveVisibility();
-                
-                if (CurrentState.FugitiveInVision) {
-                    // TODO: Actualizar estado del fugitivo
-                }
 
-                if (_wasFugitiveInVision != CurrentState.FugitiveInVision) {
-                    // ForzarReplanificacion();
+                bool wasFugitiveInVision = CurrentState.FugitiveInVision;
+                CurrentState.FugitiveInVision = _vision.CheckFugitiveVisibility();
+
+                if (CurrentState.FugitiveInVision) {
+                    CurrentState.LastKnownPosition = _vision.GetFugitivePosition();
+                }
+                
+                // Si vemos / perdemos de vista al fugitivo replanificamos 
+                if (wasFugitiveInVision != CurrentState.FugitiveInVision) {
+                    ForzarReplanificacion();
                 }
             }
         }
+
+        private void UpdateLocation(){
+            pass
+        }
+
 
         private void ForzarReplanificacion() {
             _currentPlan.Clear();

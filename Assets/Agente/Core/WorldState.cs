@@ -7,6 +7,8 @@ namespace AgenticPrison.Core {
 
         // Visual
         public bool FugitiveInVision;
+        public Vector3 LastKnownPosition;
+        public Vector3 CurrentPosition;
 
         // Logical conditions
         public bool PrisonerInCell = true;
@@ -33,6 +35,7 @@ namespace AgenticPrison.Core {
                 Fatigue = this.Fatigue,
                 CurrentLocationId = this.CurrentLocationId,
                 CurrentRoomNode = this.CurrentRoomNode,
+                LastKnownPosition = this.LastKnownPosition,
                 
                 // Hacemos una copia superficial (shallow copy) de la lista. 
                 // Clonamos la lista, pero NO clonamos los objetos RoomNode de Unity.
