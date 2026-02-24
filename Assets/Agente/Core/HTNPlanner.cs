@@ -86,28 +86,10 @@ namespace AgenticPrison.Core {
 
         private void CopyState(WorldState source, WorldState destination) {
             destination.FugitiveInVision = source.FugitiveInVision;
-            destination.LKP = source.LKP;
             destination.PrisonerInCell = source.PrisonerInCell;
             destination.Alertness = source.Alertness;
             destination.Fatigue = source.Fatigue;
             destination.CurrentLocationId = source.CurrentLocationId;
-            destination.TimeDeltaContext = source.TimeDeltaContext;
-            destination.CurrentTime = source.CurrentTime;
-            destination.TargetPatrolZoneId = source.TargetPatrolZoneId;
-            destination.MapKnowledge = source.MapKnowledge;
-            
-            destination.DetectedNoises.Clear();
-            destination.DetectedNoises.AddRange(source.DetectedNoises);
-            
-            destination.OtherAgentsMap.Clear();
-            foreach (var kvp in source.OtherAgentsMap) {
-                destination.OtherAgentsMap[kvp.Key] = kvp.Value;
-            }
-            
-            destination.ZoneVisitHistory.Clear();
-            foreach (var kvp in source.ZoneVisitHistory) {
-                destination.ZoneVisitHistory[kvp.Key] = kvp.Value;
-            }
         }
     }
 }

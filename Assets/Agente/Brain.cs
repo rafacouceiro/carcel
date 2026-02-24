@@ -1,15 +1,16 @@
 using UnityEngine;
-using AgenticPrison.Physical;
 using System.Collections.Generic;
 using AgenticPrison.Core;
-using AgenticPrison.Core.Math;
-using AgenticPrison.Behavior.CompoundTasks;
+using AgenticPrison.Physical;
+using AgenticPrison.Behavior;
 
 namespace AgenticPrison {
 
-    public class GuardAI : MonoBehaviour {
+    public class Brain : MonoBehaviour {
         [Header("Tangible References")]
         public Transform PlayerTarget;
+        [Tooltip("Arrastra aquí el objeto padre del cuadrante (ej: section1)")]
+        public Transform QuadrantRoot;
 
         [Header("Logic State")]
         public WorldState CurrentState;
@@ -28,7 +29,19 @@ namespace AgenticPrison {
         private void Start() {
 
             CurrentState = new WorldState();
-            CurrentState.MapKnowledge = MapManager.Instance;
+
+            // --- INICIO INTEGRACIÓN DEL CUADRANTE ---
+            if (QuadrantRoot != null) {
+                // Buscamos todas las salas hijas del objeto section1
+                RoomNode[] roomsInQuadrant = QuadrantRoot.GetComponentsInChildren<RoomNode>();
+                CurrentState.AssignedQuadrant = new List<RoomNode>(roomsInQuadrant);
+            } else {
+                Debug.LogWarning($"[Brain] El agente {gameObject.name} no tiene un QuadrantRoot asignado.");
+            }
+
+            // Calculamos en qué sala nace el agente para inicializar su memoria espacial
+            CurrentState.CurrentRoomNode = GetSpawnRoom(CurrentState.AssignedQuadrant);
+            // --- FIN INTEGRACIÓN DEL CUADRANTE ---
 
             _planner = new HTNPlanner();
             _currentPlan = new Queue<IPrimitiveTask>();
@@ -50,15 +63,13 @@ namespace AgenticPrison {
         }
 
         private void UpdateSensors() {
-            CurrentState.TimeDeltaContext = Time.deltaTime;
-            CurrentState.CurrentTime = Time.time; // Inyección de tiempo real
 
             if (_vision != null) {
                 _wasFugitiveInVision = CurrentState.FugitiveInVision;
                 CurrentState.FugitiveInVision = _vision.CheckFugitiveVisibility();
                 
                 if (CurrentState.FugitiveInVision) {
-                    CurrentState.LKP = _vision.GetFugitivePosition();
+                    // TODO: Actualizar estado del fugitivo
                 }
 
                 if (_wasFugitiveInVision != CurrentState.FugitiveInVision) {
@@ -93,6 +104,27 @@ namespace AgenticPrison {
                     _activeTask = null;
                 }
             }
+        }
+
+        // --- FUNCIONES AUXILIARES DE NAVEGACIÓN ---
+
+        private RoomNode GetSpawnRoom(List<RoomNode> rooms) {
+            if (rooms == null || rooms.Count == 0) return null;
+
+            RoomNode closest = null;
+            float minDistance = Mathf.Infinity;
+
+            foreach (var room in rooms) {
+                BoxCollider col = room.GetComponent<BoxCollider>();
+                if (col != null) {
+                    float dist = Vector3.Distance(transform.position, col.bounds.center);
+                    if (dist < minDistance) {
+                        minDistance = dist;
+                        closest = room;
+                    }
+                }
+            }
+            return closest;
         }
     }
 }

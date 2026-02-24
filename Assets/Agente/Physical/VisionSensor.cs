@@ -1,5 +1,4 @@
 using UnityEngine;
-using AgenticPrison.Core.Math;
 using AgenticPrison.Core;
 
 namespace AgenticPrison.Physical {
@@ -29,9 +28,9 @@ namespace AgenticPrison.Physical {
             return true;
         }
 
-        public Position3D? GetFugitivePosition() {
+        public Transform? GetFugitivePosition() {
             if (Target == null) return null;
-            return new Position3D(Target.position.x, Target.position.y, Target.position.z);
+            return Target;
         }
     }
 }

@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.AI;
-using AgenticPrison.Core.Math;
 using AgenticPrison.Core;
 
 namespace AgenticPrison.Physical {
@@ -16,9 +15,23 @@ namespace AgenticPrison.Physical {
             _agent = GetComponent<NavMeshAgent>();
         }
 
-        public void SetDestination(Position3D target) {
+        // --- EL CAMBIO ESTÁ AQUÍ ---
+        // Ahora recibe un Transform directamente (tu Waypoint)
+        public void SetDestination(Transform target) {
+            if (target != null) {
+                _agent.isStopped = false;
+                // Le pasamos al NavMesh la coordenada exacta (Vector3) de ese Transform
+                _agent.SetDestination(target.position);
+            } else {
+                Debug.LogWarning("[NavMeshDriver] Cuidado: Has intentado mandar al agente a un Transform nulo.");
+            }
+        }
+
+        // (Opcional pero muy recomendado): Dejo esta versión con Vector3 por si 
+        // algún día necesitas mandar al agente a un "ruido" que no tiene un Transform físico.
+        public void SetDestination(Vector3 targetPosition) {
             _agent.isStopped = false;
-            _agent.SetDestination(new Vector3(target.X, target.Y, target.Z));
+            _agent.SetDestination(targetPosition);
         }
 
         public void StopMoving() {
