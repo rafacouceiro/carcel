@@ -3,8 +3,14 @@ using UnityEngine;
 public class ProximityButton : MonoBehaviour
 {
     [Header("Referencias")]
-    [SerializeField] private Transform player;
-    [SerializeField] private CellDoorSlide doorToOpen;
+    [SerializeField] private Transform player; 
+
+    [Header("Puertas a abrir")]
+    [SerializeField] private CellDoorSlide[] doorsToOpen;
+
+    [Header("Objeto a rescatar")]
+    [SerializeField] private AttachRescueObject rescueObject;
+    [SerializeField] private Transform rescueAnchor; // Empty dentro del Player
 
     [Header("Distancia para activar")]
     [SerializeField] private float activateDistance = 1.2f;
@@ -44,7 +50,7 @@ public class ProximityButton : MonoBehaviour
         if (player == null || activated)
             return;
 
-        // 🔴 Parpadeo completo (0 a máximo)
+        // 🔴 Parpadeo fuerte (0 -> max -> 0)
         float t = Mathf.PingPong(Time.time * pulseSpeed, 1f);
 
         if (indicatorLight != null)
@@ -61,24 +67,19 @@ public class ProximityButton : MonoBehaviour
 
         // 📏 Distancia real al collider del jugador
         Collider playerCol = player.GetComponent<Collider>();
-        float distance;
-
-        if (playerCol != null)
-            distance = Vector3.Distance(transform.position, playerCol.ClosestPoint(transform.position));
-        else
-            distance = Vector3.Distance(transform.position, player.position);
+        float distance = (playerCol != null)
+            ? Vector3.Distance(transform.position, playerCol.ClosestPoint(transform.position))
+            : Vector3.Distance(transform.position, player.position);
 
         if (distance <= activateDistance)
-        {
             Activate();
-        }
     }
 
     private void Activate()
     {
         activated = true;
 
-        // 🟢 Se pone verde fijo
+        // 🟢 Verde fijo
         if (indicatorLight != null)
         {
             indicatorLight.color = activatedColor;
@@ -91,9 +92,32 @@ public class ProximityButton : MonoBehaviour
             matInstance.SetColor("_EmissionColor", activatedColor * 4f);
         }
 
-        if (doorToOpen != null)
-            doorToOpen.Open();
-        else
-            Debug.LogWarning("No has asignado la puerta en doorToOpen.");
+        // 🚪 Abrir todas las puertas asignadas
+        if (doorsToOpen != null && doorsToOpen.Length > 0)
+        {
+            foreach (var door in doorsToOpen)
+            {
+                if (door != null)
+                    door.Open();
+            }
+        }
+
+        // 👤 Rescatar objeto y pegarlo al jugador
+        if (rescueObject != null)
+        {
+            if (rescueAnchor == null && player != null)
+            {
+                rescueAnchor = player.Find("RescueAnchor");
+            }
+
+            if (rescueAnchor != null)
+            {
+                rescueObject.AttachTo(rescueAnchor);
+            }
+            else
+            {
+                Debug.LogWarning("No se ha asignado RescueAnchor.");
+            }
+        }
     }
 }
