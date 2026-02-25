@@ -106,22 +106,25 @@ namespace AgenticPrison {
         }
 
         private void ProcessHTNExecution() {
+
             if (_rootTask == null) return;
             
+            // Si no tenemos plan: generar uno
             if (_currentPlan.Count == 0 && _activeTask == null) {
 
                 _currentPlan = _planner.GeneratePlan(CurrentState, _rootTask);
-                if (_currentPlan.Count > 0) _activeTask = _currentPlan.Dequeue();
+                if (_currentPlan.Count > 0) _activeTask = _currentPlan.Dequeue(); // Comenzar plan
             }
 
+            // Si hay una tarea en eejcución
             if (_activeTask != null) {
-                var status = _activeTask.Execute(_movable, CurrentState);
+                var status = _activeTask.Execute(_movable, CurrentState); // Ejecutarla (proporcionar actuadores)
 
-                if (status == TaskExecutionStatus.Success) {
-                    _activeTask = (_currentPlan.Count > 0) ? _currentPlan.Dequeue() : null;
-                } else if (status == TaskExecutionStatus.Failure) {
-                    _currentPlan.Clear();
-                    _activeTask = null;
+                if (status == TaskExecutionStatus.Success) { // Si se completa con éxito
+                    _activeTask = (_currentPlan.Count > 0) ? _currentPlan.Dequeue() : null; // Siguiente tarea
+                } else if (status == TaskExecutionStatus.Failure) { // Si falla
+                    _currentPlan.Clear(); // Limpiar plan
+                    _activeTask = null; // Resetear, va a replanificar en el siguiente frame
                 }
             }
         }
