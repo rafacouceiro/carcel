@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using AgenticPrison.Core;
 using AgenticPrison.Physical;
 using AgenticPrison.Behavior;
+#if UNITY_EDITOR
+using UnityEditor; // Necesario para Handles
+#endif
 
 namespace AgenticPrison {
 
-    public class Brain : MonoBehaviour {
+    public class Brain : MonoBehaviour, INoiseReceiver {
         [Header("Tangible References")]
         public Transform PlayerTarget;
 
@@ -72,27 +75,38 @@ namespace AgenticPrison {
             ProcessHTNExecution();
         }
 
+        public Vector3 GetPosition() {
+            return transform.position;
+        }
+
+        private void OnEnable() {
+            NoiseManager.RegisterReceiver(this);
+        }
+
+        private void OnDisable() {
+            NoiseManager.UnregisterReceiver(this);
+        }
+
         public void OnNoiseHeard(NoiseEvent noise) 
         {
             float dist = Vector3.Distance(transform.position, noise.Position);
 
-            // Filtro de rango
-            if (dist > AuditoryRange) return;
-
             // Cálculo de intensidad
             float intensity = 1f - (dist / noise.Volume);
-            intensity = Mathf.Clamp01(intensity); // Aseguramos que esté entre 0 y 1
 
-            // Impacto en nivel de alerta
-            CurrentState.Alertness = Mathf.Clamp01(CurrentState.Alertness + intensity);
-
-            if (alertnessImpact > 0.1f) 
+            Debug.LogWarning($"<color=cyan>Escucho ruido con intensidad: {intensity}</color>");
+            
+            if (intensity > 0.1f)
             {
+                CurrentState.Alertness = true;
+
                 float errorMagnitude = Mathf.Lerp(0.5f, 5f, dist / noise.Volume);
                 Vector2 randomCircle = Random.insideUnitCircle * errorMagnitude;
                 Vector3 diffusePosition = noise.Position + new Vector3(randomCircle.x, 0, randomCircle.y);
 
                 CurrentState.LastKnownNoisePosition = diffusePosition;
+
+                ForzarReplanificacion();
             }
         }
 
@@ -101,7 +115,6 @@ namespace AgenticPrison {
         private void UpdateSensors() {
             UpdateVisionFugitive();
             UpdateLocation();
-            // UpdateHearing();
         }
 
         /// <summary>
@@ -118,7 +131,7 @@ namespace AgenticPrison {
                 if (CurrentState.FugitiveInVision) {
                     Debug.LogWarning("Veo al fugitivo");
                     CurrentState.LastKnownPosition = _vision.GetFugitivePosition();
-                    CurrentState.Alertness = true; // Entra en estado de alerta al ver al fugitivo
+                    CurrentState.Alertness = true;    
                 }
                 
                 // Si vemos / perdemos de vista al fugitivo replanificamos 
@@ -127,14 +140,6 @@ namespace AgenticPrison {
                 }
             }
         }
-
-        private void UpdateAlertness() {
-
-            if (CurrentState.Alertness > 0.8f) {
-                ForzarReplanificacion();
-            }
-        }
-
 
         private void UpdateLocation(){
             CurrentState.CurrentPosition = transform.position;
@@ -171,5 +176,6 @@ namespace AgenticPrison {
                 }
             }
         }
+
     }
 }

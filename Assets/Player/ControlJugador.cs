@@ -1,11 +1,11 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using AgenticPrison.Physical; // Necesario para acceder al NoiseManager
 
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(Animator))]
 public class ControlJugador : MonoBehaviour
 {
-    // Usar un Enum clarifica muchísimo en qué estado está el jugador para calcular velocidades y ruidos
     public enum PlayerState { Idle, Walking, Running }
 
     [Header("Movimiento")]
@@ -17,13 +17,17 @@ public class ControlJugador : MonoBehaviour
     public float sensibilidad = 0.5f;
     public float maxPitch = 90f;
 
+    [Header("Ajustes de Sonido")]
+    public float intervaloPasosAndar = 0.5f;
+    public float intervaloPasosCorrer = 0.3f;
+
     // --- Variables de Estado Interno ---
     private CharacterController _controller;
     private Animator _animator;
     private Transform _camara;
 
     public PlayerState CurrentState { get; private set; }
-    public float CurrentNoiseLevel { get; private set; } // Propiedad pública para que los guardias la lean
+    public float CurrentNoiseLevel { get; private set; }
 
     // --- Variables de Input y Físicas ---
     private Vector2 _moveInput;
@@ -31,6 +35,7 @@ public class ControlJugador : MonoBehaviour
     private bool _isSprintPressed;
     private float _rotacionX = 0f;
     private float _velocidadVertical = 0f;
+    private float _noiseTimer; // Temporizador para los pulsos de ruido
 
     private void Start()
     {
@@ -40,28 +45,15 @@ public class ControlJugador : MonoBehaviour
 
     private void Update()
     {
-        // 1. Leer las entradas del usuario (Teclado/Ratón)
         ProcesarInput();
-
-        // 2. Controlar la vista (Rotación de cámara y personaje)
         ManejarCamara();
-
-        // 3. Mover al personaje (Físicas y Gravedad)
         ManejarMovimiento();
-
-        // 4. Actualizar el estado (Si anda, corre o está quieto)
         ActualizarEstado();
-
-        // 5. Gestionar animaciones
         ManejarAnimaciones();
-
-        // 6. Calcular el ruido (Para la IA)
+        
+        // El sistema de ruido se actualiza cada frame pero emite por pulsos
         GenerarRuido();
     }
-
-    // ==========================================
-    // MÉTODOS MODULARES
-    // ==========================================
 
     private void InicializarComponentes()
     {
@@ -71,7 +63,6 @@ public class ControlJugador : MonoBehaviour
         Camera camChild = GetComponentInChildren<Camera>();
         if (camChild != null) _camara = camChild.transform;
         else if (Camera.main != null) _camara = Camera.main.transform;
-        else Debug.LogWarning("[ControlJugador] No se encontró la cámara.");
     }
 
     private void ProcesarInput()
@@ -80,26 +71,16 @@ public class ControlJugador : MonoBehaviour
         var mouse = Mouse.current;
         if (keyboard == null || mouse == null) return;
 
-        // Leer movimiento
         float x = (keyboard.dKey.isPressed ? 1f : 0f) - (keyboard.aKey.isPressed ? 1f : 0f);
         float y = (keyboard.wKey.isPressed ? 1f : 0f) - (keyboard.sKey.isPressed ? 1f : 0f);
         _moveInput = new Vector2(x, y);
         if (_moveInput.sqrMagnitude > 1f) _moveInput.Normalize();
 
-        // Leer vista
         if (Cursor.lockState == CursorLockMode.Locked)
-        {
             _lookInput = mouse.delta.ReadValue() * sensibilidad;
-        }
-        else
-        {
-            _lookInput = Vector2.zero;
-        }
 
-        // Leer modificadores y acciones
         _isSprintPressed = keyboard.leftShiftKey.isPressed || keyboard.rightShiftKey.isPressed;
 
-        // Gestión del cursor
         if (keyboard.escapeKey.wasPressedThisFrame) BloquearCursor(false);
         if (mouse.leftButton.wasPressedThisFrame && Cursor.lockState != CursorLockMode.Locked) BloquearCursor(true);
     }
@@ -108,32 +89,25 @@ public class ControlJugador : MonoBehaviour
     {
         if (_camara == null) return;
 
-        // Rotación vertical (Cámara)
         _rotacionX -= _lookInput.y;
         _rotacionX = Mathf.Clamp(_rotacionX, -maxPitch, maxPitch);
         _camara.localRotation = Quaternion.Euler(_rotacionX, 0f, 0f);
 
-        // Rotación horizontal (Cuerpo del jugador)
         transform.Rotate(Vector3.up * _lookInput.x);
     }
 
     private void ManejarMovimiento()
     {
-        // Determinar velocidad objetivo
         float targetSpeed = _isSprintPressed ? velocidadCorrer : velocidadAndar;
         if (_moveInput.magnitude < 0.1f) targetSpeed = 0f;
 
-        // Movimiento horizontal
         Vector3 moveHorizontal = (transform.right * _moveInput.x + transform.forward * _moveInput.y) * targetSpeed;
 
-        // Aplicar gravedad
         if (_controller.isGrounded && _velocidadVertical < 0f)
-        {
-            _velocidadVertical = -2f; // Mantener al jugador pegado al suelo
-        }
+            _velocidadVertical = -2f;
+        
         _velocidadVertical += gravedad * Time.deltaTime;
 
-        // Mover
         Vector3 move = new Vector3(moveHorizontal.x, _velocidadVertical, moveHorizontal.z);
         _controller.Move(move * Time.deltaTime);
     }
@@ -141,17 +115,11 @@ public class ControlJugador : MonoBehaviour
     private void ActualizarEstado()
     {
         if (_moveInput.magnitude < 0.1f) 
-        {
             CurrentState = PlayerState.Idle;
-        }
         else if (_isSprintPressed) 
-        {
             CurrentState = PlayerState.Running;
-        }
         else 
-        {
             CurrentState = PlayerState.Walking;
-        }
     }
 
     private void ManejarAnimaciones()
@@ -161,25 +129,38 @@ public class ControlJugador : MonoBehaviour
         _animator.SetFloat("Speed", velocidadNormalizada, 0.1f, Time.deltaTime);
     }
 
-    // ==========================================
-    // SISTEMA DE RUIDO (INTERFAZ PARA LA IA)
-    // ==========================================
-
     private void GenerarRuido()
     {
-        // He eliminado los multiplicadores complejos. 
-        // Ahora asignas el ruido explícitamente según el ESTADO, lo cual es predecible y fácil de balancear.
+        // 1. Definir el alcance del ruido según el estado actual
         switch (CurrentState)
         {
             case PlayerState.Idle:
                 CurrentNoiseLevel = 0f;
                 break;
             case PlayerState.Walking:
-                CurrentNoiseLevel = 5f; // Alcance en metros del ruido al andar
+                CurrentNoiseLevel = 4f; // Alcance de 4 metros al andar
                 break;
             case PlayerState.Running:
-                CurrentNoiseLevel = 15f; // Alcance en metros del ruido al correr
+                CurrentNoiseLevel = 10f; // Alcance de 10 metros al correr
                 break;
+        }
+
+        // 2. Lógica de pulsos: solo emitimos ruido si nos movemos
+        if (CurrentNoiseLevel > 0f)
+        {
+            _noiseTimer -= Time.deltaTime;
+            if (_noiseTimer <= 0f)
+            {
+                // Emitir el evento de ruido para que los guardias lo procesen
+                NoiseManager.EmitNoise(new NoiseEvent(transform.position, CurrentNoiseLevel, "Fugitivo"));
+
+                // Resetear el timer según la cadencia del paso
+                _noiseTimer = (CurrentState == PlayerState.Running) ? intervaloPasosCorrer : intervaloPasosAndar;
+            }
+        }
+        else
+        {
+            _noiseTimer = 0f; 
         }
     }
 
@@ -187,5 +168,14 @@ public class ControlJugador : MonoBehaviour
     {
         Cursor.lockState = bloquear ? CursorLockMode.Locked : CursorLockMode.None;
         Cursor.visible = !bloquear;
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (CurrentState != PlayerState.Idle)
+        {
+            Gizmos.color = new Color(1, 1, 0, 0.3f); // Amarillo transparente
+            Gizmos.DrawWireSphere(transform.position, CurrentNoiseLevel);
+        }
     }
 }

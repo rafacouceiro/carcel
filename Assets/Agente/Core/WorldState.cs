@@ -18,7 +18,7 @@ namespace AgenticPrison.Core {
         public bool PrisonerInCell = true;
 
         // Internal State
-        public float Alertness = 0f;
+        public bool Alertness = false;
         public float Fatigue = 0f;
 
         // Navigation & Memory
