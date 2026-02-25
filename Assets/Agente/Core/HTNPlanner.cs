@@ -94,6 +94,7 @@ namespace AgenticPrison.Core {
             destination.CurrentPosition = source.CurrentPosition;
             destination.Map = source.Map;
             destination.AssignedQuadrantId = source.AssignedQuadrantId;
+            destination.LastKnownNoisePosition = source.LastKnownNoisePosition;
         }
     }
 }

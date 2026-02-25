@@ -10,12 +10,15 @@ namespace AgenticPrison.Core {
         public bool FugitiveInVision;
         public Vector3 LastKnownPosition;
         public Vector3 CurrentPosition;
+        
+        // Audio
+        public Vector3 LastKnownNoisePosition;
 
         // Logical conditions
         public bool PrisonerInCell = true;
 
         // Internal State
-        public bool Alertness = false;
+        public float Alertness = 0f;
         public float Fatigue = 0f;
 
         // Navigation & Memory
@@ -30,7 +33,7 @@ namespace AgenticPrison.Core {
                 Fatigue = this.Fatigue,
                 CurrentPosition = this.CurrentPosition,
                 LastKnownPosition = this.LastKnownPosition,
-
+                LastKnownNoisePosition = this.LastKnownNoisePosition,
                 Map = this.Map, // Todos comparten LA MISMA instancia del mapa
                 AssignedQuadrantId = this.AssignedQuadrantId
             };

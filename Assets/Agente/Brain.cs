@@ -32,6 +32,9 @@ namespace AgenticPrison {
         [Header("Logic State")]
         public WorldState CurrentState;
 
+        [Header("Audición")]
+        public float AuditoryRange = 20f;
+
         private HTNPlanner _planner;
         private Queue<IPrimitiveTask> _currentPlan;
         private IPrimitiveTask _activeTask;
@@ -69,6 +72,30 @@ namespace AgenticPrison {
             ProcessHTNExecution();
         }
 
+        public void OnNoiseHeard(NoiseEvent noise) 
+        {
+            float dist = Vector3.Distance(transform.position, noise.Position);
+
+            // Filtro de rango
+            if (dist > AuditoryRange) return;
+
+            // Cálculo de intensidad
+            float intensity = 1f - (dist / noise.Volume);
+            intensity = Mathf.Clamp01(intensity); // Aseguramos que esté entre 0 y 1
+
+            // Impacto en nivel de alerta
+            CurrentState.Alertness = Mathf.Clamp01(CurrentState.Alertness + intensity);
+
+            if (alertnessImpact > 0.1f) 
+            {
+                float errorMagnitude = Mathf.Lerp(0.5f, 5f, dist / noise.Volume);
+                Vector2 randomCircle = Random.insideUnitCircle * errorMagnitude;
+                Vector3 diffusePosition = noise.Position + new Vector3(randomCircle.x, 0, randomCircle.y);
+
+                CurrentState.LastKnownNoisePosition = diffusePosition;
+            }
+        }
+
         // FUNCIONES SENSORIALES: ACTUALIZACIÓN DE ESTADO
 
         private void UpdateSensors() {
@@ -101,9 +128,18 @@ namespace AgenticPrison {
             }
         }
 
+        private void UpdateAlertness() {
+
+            if (CurrentState.Alertness > 0.8f) {
+                ForzarReplanificacion();
+            }
+        }
+
+
         private void UpdateLocation(){
             CurrentState.CurrentPosition = transform.position;
         }
+
 
         private void ForzarReplanificacion() {
 
