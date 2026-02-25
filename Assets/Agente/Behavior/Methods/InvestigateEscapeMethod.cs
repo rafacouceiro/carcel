@@ -8,7 +8,7 @@ namespace AgenticPrison.Behavior.Methods {
 
     public class InvestigateEscapeMethod : IMethod {
         
-        // Radio máximo en metros al que el preso podría haber corrido en esos pocos segundos
+        // Radio máximo en metros al que el preso podría haber corrido en apenas segundos
         private readonly float _maxSearchRadius = 15f; 
 
         public bool CheckPreconditions(WorldState state) {
@@ -18,15 +18,15 @@ namespace AgenticPrison.Behavior.Methods {
         public Queue<ITask> Decompose(WorldState state) {
             var subTasks = new Queue<ITask>();
             
-            // 1. Obtener el nodo donde desapareció
+            // Obtener el nodo donde desapareció
             RoomNode lkpRoom = state.Map.GetCurrentNode(state.LastKnownPosition);
             
-            // 2. Recopilar candidatos (La sala actual SIEMPRE es candidata)
+            // Recopilar candidatos (La sala actual siempre es candidata)
             List<RoomNode> candidates = new List<RoomNode> { lkpRoom };
             
-            // FILTRO DE DISTANCIA: Revisamos las salas conectadas
+            // Revisamos salas conectadas a la LKP
             foreach (RoomNode neighbor in lkpRoom.connectedRooms) {
-                // Calculamos la distancia desde la LKP hasta el centro volumétrico de la sala vecina
+                // Filtramos por distancia
                 float distance = Vector3.Distance(state.LastKnownPosition, neighbor.GetComponent<BoxCollider>().bounds.center);
                 
                 if (distance <= _maxSearchRadius) {
@@ -34,25 +34,21 @@ namespace AgenticPrison.Behavior.Methods {
                 }
             }
 
-            // 3. Elegir una sala al azar de entre los candidatos viables
+            // Elegir una sala al azar de entre los candidatos viables
             RoomNode chosenRoom = candidates[Random.Range(0, candidates.Count)];
-            Debug.Log($"[InvestigateEscapeMethod] El guardia va a registrar la sala: {chosenRoom.gameObject.name}");
+            List<Transform> waypointsToSearch = chosenRoom.waypoints.ConvertAll(wp => wp.transform);
 
-            // 4. Clonar la lista de waypoints para poder ordenarla
-            List<Transform> waypointsToSearch = new List<Transform>(chosenRoom.waypoints);
-
-            // 5. ORDENAR los waypoints del más cercano a la LKP al más lejano
+            // Ordenar los waypoints del más cercano a la LKP al más lejano
             waypointsToSearch.Sort((a, b) => {
                 float distA = Vector3.Distance(state.LastKnownPosition, a.position);
                 float distB = Vector3.Distance(state.LastKnownPosition, b.position);
                 return distA.CompareTo(distB);
             });
 
-            // 6. GENERAR EL PLAN
-            // Primero, ir a toda leche al punto exacto donde lo perdió
+            // Generar el plan
             subTasks.Enqueue(new MoveTask(state.LastKnownPosition, 6.5f)); 
 
-            // Luego, ir rápido (5.5f) mirando en los waypoints ordenados de esa sala lógica
+            // Buscar en la sala elegida
             foreach (Transform wp in waypointsToSearch) {
                 subTasks.Enqueue(new MoveTask(wp.position, 5.5f));
             }

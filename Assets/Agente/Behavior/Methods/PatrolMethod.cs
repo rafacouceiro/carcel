@@ -30,7 +30,7 @@ namespace AgenticPrison.Behavior.Methods {
             return subTasks; // Devolvemos una cola llena de MoveTasks
         }
 
-        // --- LA LÓGICA DFS AHORA VIVE EN EL MÉTODO ---
+        // Planificación del patrullaje
         private List<Transform> GenerateDFSRoute(WorldState state) {
 
             List<RoomNode> quadrantRooms = state.Map.GetSection(state.AssignedQuadrantId);
@@ -49,8 +49,9 @@ namespace AgenticPrison.Behavior.Methods {
 
                 if (quadrantRooms.Contains(currentRoom)) {
                     if (currentRoom.waypoints != null) {
-                        foreach (Transform wp in currentRoom.waypoints) {
-                            if (wp != null) finalRoute.Add(wp);
+                        foreach (WayPointData wp in currentRoom.waypoints) {
+                            Transform wp_transform = wp.transform;
+                            if (wp_transform != null) finalRoute.Add(wp_transform);
                         }
                     }
                 }

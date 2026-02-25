@@ -721,8 +721,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 11875104}
+  - component: {fileID: 11875105}
   m_Layer: 0
-  m_Name: Zonas
+  m_Name: LogicMap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -748,8 +749,21 @@ Transform:
   - {fileID: 2111580408}
   - {fileID: 1916299964}
   - {fileID: 974899772}
+  - {fileID: 817410761}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &11875105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 11875103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2903ff34554c949a691cf7b9ee66bf42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Core.PrisonMap
 --- !u!1 &12239741
 GameObject:
   m_ObjectHideFlags: 0
@@ -2760,6 +2774,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 49628533}
+  - component: {fileID: 49628534}
   m_Layer: 0
   m_Name: WP_76
   m_TagString: Untagged
@@ -2782,6 +2797,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1095327313}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &49628534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 49628532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &50077604 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -8284644261160355701, guid: 14cce29ad9058904d96cc3067402803d, type: 3}
@@ -2920,7 +2950,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Brain
   PlayerTarget: {fileID: 1796544529}
-  QuadrantRoot: {fileID: 11662635}
+  QuadrantId: section2
+  ArrastrarCuadrante: {fileID: 0}
 --- !u!114 &50945112
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3073,6 +3104,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 52788792}
+  - component: {fileID: 52788793}
   m_Layer: 0
   m_Name: WP_25
   m_TagString: Untagged
@@ -3095,6 +3127,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 330272876}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &52788793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 52788791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1001 &52982064
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3169,6 +3216,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 54090357}
+  - component: {fileID: 54090358}
   m_Layer: 0
   m_Name: WP_28
   m_TagString: Untagged
@@ -3191,6 +3239,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1847778936}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &54090358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 54090356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &54417250 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 74d8ce1b968c674498d4edd34de9334c, type: 3}
@@ -3302,6 +3365,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 58667797}
+  - component: {fileID: 58667798}
   m_Layer: 0
   m_Name: WP_6
   m_TagString: Untagged
@@ -3324,6 +3388,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1537665865}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &58667798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 58667796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &59656283
 GameObject:
   m_ObjectHideFlags: 0
@@ -3581,6 +3660,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 64624819}
+  - component: {fileID: 64624820}
   m_Layer: 0
   m_Name: WP_19
   m_TagString: Untagged
@@ -3603,6 +3683,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 872253270}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &64624820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 64624818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1001 &65826002
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6008,6 +6103,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 89771136}
+  - component: {fileID: 89771137}
   m_Layer: 0
   m_Name: WP_83
   m_TagString: Untagged
@@ -6030,6 +6126,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1103525254}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &89771137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 89771135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &90441407
 GameObject:
   m_ObjectHideFlags: 0
@@ -6174,6 +6285,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 90973323}
+  - component: {fileID: 90973324}
   m_Layer: 0
   m_Name: WP_147
   m_TagString: Untagged
@@ -6196,6 +6308,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 399560882}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &90973324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 90973322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &90988574 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 453d762048f90974c8a7164f9efc863e, type: 3}
@@ -6210,6 +6337,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 92555513}
+  - component: {fileID: 92555514}
   m_Layer: 0
   m_Name: WP_23
   m_TagString: Untagged
@@ -6232,6 +6360,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 330272876}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &92555514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 92555512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &93813604
 GameObject:
   m_ObjectHideFlags: 0
@@ -7859,6 +8002,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 106228631}
+  - component: {fileID: 106228632}
   m_Layer: 0
   m_Name: WP_71
   m_TagString: Untagged
@@ -7881,6 +8025,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1455017839}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &106228632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 106228630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1001 &106441878
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7959,6 +8118,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 108295678}
+  - component: {fileID: 108295679}
   m_Layer: 0
   m_Name: WP_73
   m_TagString: Untagged
@@ -7981,6 +8141,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 608863451}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &108295679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 108295677}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &108685912
 GameObject:
   m_ObjectHideFlags: 0
@@ -10401,6 +10576,53 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 1232578783080372008, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
+--- !u!1 &143853351
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 143853352}
+  - component: {fileID: 143853353}
+  m_Layer: 0
+  m_Name: WP_1004
+  m_TagString: Untagged
+  m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &143853352
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 143853351}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -23.81, y: 0.5, z: -51.76}
+  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 817410761}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &143853353
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 143853351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 1
+  isPatrolCheckpoint: 0
+  isCell: 0
 --- !u!1 &143967330
 GameObject:
   m_ObjectHideFlags: 0
@@ -10664,6 +10886,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 147730588}
+  - component: {fileID: 147730589}
   m_Layer: 0
   m_Name: WP_143
   m_TagString: Untagged
@@ -10686,6 +10909,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 333932883}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &147730589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 147730587}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &148019994 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7291683185506409767, guid: 14cce29ad9058904d96cc3067402803d, type: 3}
@@ -10722,6 +10960,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 150047198}
+  - component: {fileID: 150047199}
   m_Layer: 0
   m_Name: WP_44
   m_TagString: Untagged
@@ -10744,6 +10983,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 942557831}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &150047199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 150047197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1001 &150554525
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13501,6 +13755,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 182341335}
+  - component: {fileID: 182341336}
   m_Layer: 0
   m_Name: WP_149
   m_TagString: Untagged
@@ -13523,6 +13778,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 686844112}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &182341336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 182341334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &182965301 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7291683185506409767, guid: 14cce29ad9058904d96cc3067402803d, type: 3}
@@ -14185,6 +14455,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 188094343}
+  - component: {fileID: 188094344}
   m_Layer: 0
   m_Name: WP_136
   m_TagString: Untagged
@@ -14207,6 +14478,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1172578647}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &188094344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 188094342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1001 &188694281
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16454,6 +16740,53 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 6615224649404071530, guid: 45980b402f3573542bc6c1435299df62, type: 3}
+--- !u!1 &229387599
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 229387600}
+  - component: {fileID: 229387601}
+  m_Layer: 0
+  m_Name: WP_1007
+  m_TagString: Untagged
+  m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &229387600
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 229387599}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -28.72, y: 0.5, z: 34.33}
+  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 817410761}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &229387601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 229387599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 1
+  isPatrolCheckpoint: 0
+  isCell: 0
 --- !u!1001 &230696552
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16702,6 +17035,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 234615990}
+  - component: {fileID: 234615991}
   m_Layer: 0
   m_Name: WP_42
   m_TagString: Untagged
@@ -16724,6 +17058,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 610730321}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &234615991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 234615989}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &234726410
 GameObject:
   m_ObjectHideFlags: 0
@@ -16733,6 +17082,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 234726411}
+  - component: {fileID: 234726412}
   m_Layer: 0
   m_Name: WP_132
   m_TagString: Untagged
@@ -16755,6 +17105,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 22278302}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &234726412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 234726410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1001 &237356373
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18728,6 +19093,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 262434301}
+  - component: {fileID: 262434302}
   m_Layer: 0
   m_Name: WP_125
   m_TagString: Untagged
@@ -18750,6 +19116,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 103826329}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &262434302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 262434300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1001 &263363241
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19503,6 +19884,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 276839550}
+  - component: {fileID: 276839551}
   m_Layer: 0
   m_Name: WP_98
   m_TagString: Untagged
@@ -19525,6 +19907,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1522131673}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &276839551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 276839549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &278421897
 GameObject:
   m_ObjectHideFlags: 0
@@ -19696,6 +20093,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 278706749}
+  - component: {fileID: 278706750}
   m_Layer: 0
   m_Name: WP_43
   m_TagString: Untagged
@@ -19718,6 +20116,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1077813523}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &278706750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 278706748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1001 &280041418
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20299,6 +20712,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 297221544}
+  - component: {fileID: 297221545}
   m_Layer: 0
   m_Name: WP_50
   m_TagString: Untagged
@@ -20321,6 +20735,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1343895191}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &297221545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 297221543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &297455190 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7655588946788480272, guid: 14cce29ad9058904d96cc3067402803d, type: 3}
@@ -20656,6 +21085,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 305369173}
+  - component: {fileID: 305369174}
   m_Layer: 0
   m_Name: WP_81
   m_TagString: Untagged
@@ -20678,6 +21108,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1103525254}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &305369174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 305369172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1001 &305534449
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21345,6 +21790,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 312262508}
+  - component: {fileID: 312262509}
   m_Layer: 0
   m_Name: WP_3
   m_TagString: Untagged
@@ -21367,6 +21813,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1089949826}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &312262509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 312262507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &312748209 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 614141466607972236, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -22928,6 +23389,7 @@ GameObject:
   m_Component:
   - component: {fileID: 334953113}
   - component: {fileID: 334953114}
+  - component: {fileID: 334953115}
   m_Layer: 0
   m_Name: JuegoBotones
   m_TagString: Untagged
@@ -22970,6 +23432,21 @@ MonoBehaviour:
   correct: 01000101
   doorsToOpen:
   - {fileID: 1993247969}
+--- !u!114 &334953115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 334953112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c968ce826b73493fb26a4274aa74fbc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CameraFollow
+  target: {fileID: 1796544529}
+  height: 20
+  smoothSpeed: 5
 --- !u!1 &336220119 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 74d8ce1b968c674498d4edd34de9334c, type: 3}
@@ -23038,6 +23515,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 339845625}
+  - component: {fileID: 339845626}
   m_Layer: 0
   m_Name: WP_130
   m_TagString: Untagged
@@ -23060,6 +23538,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1700368241}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &339845626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 339845624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1001 &339944050
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25264,6 +25757,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 392250850}
+  - component: {fileID: 392250851}
   m_Layer: 0
   m_Name: WP_113
   m_TagString: Untagged
@@ -25286,6 +25780,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 224590761}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &392250851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 392250849}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &392382141 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8550454373022275157, guid: d0429c2ebdf57e6499fc6a336b2fb320, type: 3}
@@ -26362,6 +26871,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 407597671}
+  - component: {fileID: 407597672}
   m_Layer: 0
   m_Name: WP_93
   m_TagString: Untagged
@@ -26384,6 +26894,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1322074433}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &407597672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 407597670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1001 &409782350
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -27937,6 +28462,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 437993033}
+  - component: {fileID: 437993034}
   m_Layer: 0
   m_Name: WP_89
   m_TagString: Untagged
@@ -27959,6 +28485,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1322074433}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &437993034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 437993032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1001 &439232654
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -29624,6 +30165,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 457220682}
+  - component: {fileID: 457220683}
   m_Layer: 0
   m_Name: 'WP_142 '
   m_TagString: Untagged
@@ -29646,6 +30188,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 115556548}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &457220683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 457220681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &457533196 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -6009232476891666573, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -30384,6 +30941,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 467938599}
+  - component: {fileID: 467938600}
   m_Layer: 0
   m_Name: WP_1
   m_TagString: Untagged
@@ -30406,6 +30964,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 686844112}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &467938600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 467938598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &469465797 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 74d8ce1b968c674498d4edd34de9334c, type: 3}
@@ -31340,6 +31913,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 492286730}
+  - component: {fileID: 492286731}
   m_Layer: 0
   m_Name: WP_16
   m_TagString: Untagged
@@ -31362,6 +31936,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 872253270}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &492286731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 492286729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &493278229 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3058497736089453759, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -32141,6 +32730,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 501815084}
+  - component: {fileID: 501815085}
   m_Layer: 0
   m_Name: WP_140
   m_TagString: Untagged
@@ -32163,6 +32753,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 396840439}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &501815085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 501815083}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1001 &501856610
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -34261,6 +34866,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 531237692}
+  - component: {fileID: 531237693}
   m_Layer: 0
   m_Name: WP_34
   m_TagString: Untagged
@@ -34283,6 +34889,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 18452702}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &531237693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 531237691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &532001522 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: baf57603f98cbdd4e8007a7276476d51, type: 3}
@@ -36908,6 +37529,53 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
+--- !u!1 &561894247
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 561894248}
+  - component: {fileID: 561894249}
+  m_Layer: 0
+  m_Name: WP_1001
+  m_TagString: Untagged
+  m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &561894248
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 561894247}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -29.34, y: 0.5, z: 15.93}
+  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 817410761}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &561894249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 561894247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 1
+  isPatrolCheckpoint: 0
+  isCell: 0
 --- !u!1 &562489932
 GameObject:
   m_ObjectHideFlags: 0
@@ -37925,6 +38593,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 572369464}
+  - component: {fileID: 572369465}
   m_Layer: 0
   m_Name: WP_128
   m_TagString: Untagged
@@ -37947,6 +38616,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2122253245}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &572369465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 572369463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &574758460 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -1212349745884697633, guid: 14cce29ad9058904d96cc3067402803d, type: 3}
@@ -38254,6 +38938,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 578594007}
+  - component: {fileID: 578594008}
   m_Layer: 0
   m_Name: WP_5
   m_TagString: Untagged
@@ -38276,6 +38961,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 79562823}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &578594008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 578594006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &580163747 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3899565891299101084, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -38615,6 +39315,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 587479941}
+  - component: {fileID: 587479942}
   m_Layer: 0
   m_Name: WP_58
   m_TagString: Untagged
@@ -38637,6 +39338,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1253546253}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &587479942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 587479940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1001 &587722430
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -39846,6 +40562,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 598562839}
+  - component: {fileID: 598562840}
   m_Layer: 0
   m_Name: WP_110
   m_TagString: Untagged
@@ -39868,6 +40585,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1757011734}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &598562840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 598562838}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1001 &601564281
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -40903,6 +41635,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 609081509}
+  - component: {fileID: 609081510}
   m_Layer: 0
   m_Name: WP_62
   m_TagString: Untagged
@@ -40925,6 +41658,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 311769184}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &609081510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 609081508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &609626236 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2627565222294444803, guid: d0429c2ebdf57e6499fc6a336b2fb320, type: 3}
@@ -41388,6 +42136,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 616453974}
+  - component: {fileID: 616453975}
   m_Layer: 0
   m_Name: WP_20
   m_TagString: Untagged
@@ -41410,6 +42159,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 949545667}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &616453975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 616453973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1001 &619533616
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -41636,6 +42400,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 622728743}
+  - component: {fileID: 622728744}
   m_Layer: 0
   m_Name: WP_65
   m_TagString: Untagged
@@ -41658,6 +42423,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 711297836}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &622728744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 622728742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &624032765 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1799300713203106943, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -42205,6 +42985,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 634658745}
+  - component: {fileID: 634658746}
   m_Layer: 0
   m_Name: WP_8
   m_TagString: Untagged
@@ -42227,6 +43008,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 605543411}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &634658746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 634658744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &635503264 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8267196642337891365, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -42263,6 +43059,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 636484445}
+  - component: {fileID: 636484446}
   m_Layer: 0
   m_Name: WP_54
   m_TagString: Untagged
@@ -42285,6 +43082,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 647214258}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &636484446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 636484444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &637004196 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6122035535824019343, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -43769,6 +44581,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 657800230}
+  - component: {fileID: 657800231}
   m_Layer: 0
   m_Name: WP_55
   m_TagString: Untagged
@@ -43791,6 +44604,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 29529532}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &657800231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 657800229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &657831310 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8557927624525350344, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -44498,6 +45326,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 665581151}
+  - component: {fileID: 665581152}
   m_Layer: 0
   m_Name: WP_99
   m_TagString: Untagged
@@ -44520,6 +45349,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1522131673}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &665581152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 665581150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 1
 --- !u!1 &667965182
 GameObject:
   m_ObjectHideFlags: 0
@@ -44529,6 +45373,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 667965183}
+  - component: {fileID: 667965184}
   m_Layer: 0
   m_Name: WP_4
   m_TagString: Untagged
@@ -44551,6 +45396,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 79562823}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &667965184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 667965182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &671068257
 GameObject:
   m_ObjectHideFlags: 0
@@ -46029,6 +46889,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 695761365}
+  - component: {fileID: 695761366}
   m_Layer: 0
   m_Name: WP_66
   m_TagString: Untagged
@@ -46051,6 +46912,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 711297836}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &695761366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 695761364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &696004972 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7291683185506409767, guid: 14cce29ad9058904d96cc3067402803d, type: 3}
@@ -46988,6 +47864,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 718166593}
+  - component: {fileID: 718166594}
   m_Layer: 0
   m_Name: WP_41
   m_TagString: Untagged
@@ -47010,6 +47887,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 610730321}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &718166594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 718166592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1001 &718568877
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -47176,6 +48068,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 719837090}
+  - component: {fileID: 719837091}
   m_Layer: 0
   m_Name: WP_60
   m_TagString: Untagged
@@ -47198,6 +48091,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1284341606}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &719837091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 719837089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1001 &719899191
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -48326,6 +49234,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 732156029}
+  - component: {fileID: 732156030}
   m_Layer: 0
   m_Name: WP_80
   m_TagString: Untagged
@@ -48348,6 +49257,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1103525254}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &732156030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 732156028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1001 &733617733
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -49367,6 +50291,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 751649298}
+  - component: {fileID: 751649299}
   m_Layer: 0
   m_Name: WP_108
   m_TagString: Untagged
@@ -49389,6 +50314,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1897075061}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &751649299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 751649297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 1
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1001 &751739702
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -50106,6 +51046,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 757012317}
+  - component: {fileID: 757012318}
   m_Layer: 0
   m_Name: WP_27
   m_TagString: Untagged
@@ -50128,6 +51069,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 330272876}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &757012318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 757012316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &757496084 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 74d8ce1b968c674498d4edd34de9334c, type: 3}
@@ -50805,6 +51761,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 766289659}
+  - component: {fileID: 766289660}
   m_Layer: 0
   m_Name: WP_85
   m_TagString: Untagged
@@ -50827,6 +51784,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1103525254}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &766289660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 766289658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1001 &767329247
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -51334,6 +52306,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 771907235}
+  - component: {fileID: 771907236}
   m_Layer: 0
   m_Name: WP_72
   m_TagString: Untagged
@@ -51356,6 +52329,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 955044326}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &771907236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 771907234}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1001 &772083483
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -53063,6 +54051,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 798788222}
+  - component: {fileID: 798788223}
   m_Layer: 0
   m_Name: WP_150
   m_TagString: Untagged
@@ -53085,6 +54074,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 686844112}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &798788223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 798788221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &799540694 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8550454373022275157, guid: d0429c2ebdf57e6499fc6a336b2fb320, type: 3}
@@ -53175,6 +54179,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 801473254}
+  - component: {fileID: 801473255}
   m_Layer: 0
   m_Name: WP_40
   m_TagString: Untagged
@@ -53197,6 +54202,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 794255443}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &801473255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 801473253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &801622434 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 453d762048f90974c8a7164f9efc863e, type: 3}
@@ -54247,6 +55267,45 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 7883413365324733927, guid: 6c3132072d6cf494abce5e38b23541c8, type: 3}
+--- !u!1 &817410760
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 817410761}
+  m_Layer: 0
+  m_Name: otherWayPoints
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &817410761
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 817410760}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1203375034}
+  - {fileID: 143853352}
+  - {fileID: 1439840777}
+  - {fileID: 1297564755}
+  - {fileID: 561894248}
+  - {fileID: 1405213631}
+  - {fileID: 1363749515}
+  - {fileID: 229387600}
+  m_Father: {fileID: 11875104}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &817532250 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 453d762048f90974c8a7164f9efc863e, type: 3}
@@ -55683,6 +56742,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 840994764}
+  - component: {fileID: 840994765}
   m_Layer: 0
   m_Name: WP_87
   m_TagString: Untagged
@@ -55705,6 +56765,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1322074433}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &840994765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 840994763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &842322886
 GameObject:
   m_ObjectHideFlags: 0
@@ -56184,6 +57259,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 850322468}
+  - component: {fileID: 850322469}
   m_Layer: 0
   m_Name: WP_96
   m_TagString: Untagged
@@ -56206,6 +57282,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 907466630}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &850322469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 850322467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &850407125
 GameObject:
   m_ObjectHideFlags: 0
@@ -57163,6 +58254,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 858866438}
+  - component: {fileID: 858866439}
   m_Layer: 0
   m_Name: WP_84
   m_TagString: Untagged
@@ -57185,6 +58277,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1103525254}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &858866439
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 858866437}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1001 &859242946
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -57378,6 +58485,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 860178298}
+  - component: {fileID: 860178299}
   m_Layer: 0
   m_Name: WP_14
   m_TagString: Untagged
@@ -57400,6 +58508,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1263810108}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &860178299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 860178297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1001 &863264669
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -57474,6 +58597,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 866977237}
+  - component: {fileID: 866977238}
   m_Layer: 0
   m_Name: WP_31
   m_TagString: Untagged
@@ -57496,6 +58620,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1269399555}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &866977238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 866977236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1001 &867773301
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -57623,6 +58762,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 868216510}
+  - component: {fileID: 868216511}
   m_Layer: 0
   m_Name: WP_74
   m_TagString: Untagged
@@ -57645,6 +58785,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1095327313}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &868216511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 868216509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &868695264
 GameObject:
   m_ObjectHideFlags: 0
@@ -57654,6 +58809,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 868695265}
+  - component: {fileID: 868695266}
   m_Layer: 0
   m_Name: WP_106
   m_TagString: Untagged
@@ -57676,6 +58832,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2068714513}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &868695266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 868695264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &869739858
 GameObject:
   m_ObjectHideFlags: 0
@@ -59534,6 +60705,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 894713943}
+  - component: {fileID: 894713944}
   m_Layer: 0
   m_Name: WP_120
   m_TagString: Untagged
@@ -59556,6 +60728,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1366147219}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &894713944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 894713942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1001 &895575559
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -61268,6 +62455,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 919342963}
+  - component: {fileID: 919342964}
   m_Layer: 0
   m_Name: WP_133
   m_TagString: Untagged
@@ -61290,6 +62478,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1652990584}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &919342964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919342962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 1
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &919357980 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 453d762048f90974c8a7164f9efc863e, type: 3}
@@ -61647,6 +62850,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 929055701}
+  - component: {fileID: 929055702}
   m_Layer: 0
   m_Name: WP_77
   m_TagString: Untagged
@@ -61669,6 +62873,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1095327313}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &929055702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 929055700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &929771499 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 453d762048f90974c8a7164f9efc863e, type: 3}
@@ -62433,6 +63652,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 945269552}
+  - component: {fileID: 945269553}
   m_Layer: 0
   m_Name: WP_45
   m_TagString: Untagged
@@ -62455,6 +63675,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1042622832}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &945269553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 945269551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &945840174 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6999322035538773533, guid: baf57603f98cbdd4e8007a7276476d51, type: 3}
@@ -63607,6 +64842,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 962577820}
+  - component: {fileID: 962577821}
   m_Layer: 0
   m_Name: WP_78
   m_TagString: Untagged
@@ -63629,6 +64865,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1103525254}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &962577821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 962577819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 1
 --- !u!1001 &963554425
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -63740,7 +64991,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Brain
   PlayerTarget: {fileID: 1796544529}
-  QuadrantRoot: {fileID: 1438875280}
+  QuadrantId: section4
+  ArrastrarCuadrante: {fileID: 0}
 --- !u!114 &963554429
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63828,6 +65080,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 965739867}
+  - component: {fileID: 965739868}
   m_Layer: 0
   m_Name: WP_104
   m_TagString: Untagged
@@ -63850,6 +65103,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2068714513}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &965739868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 965739866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1001 &967781015
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -65666,6 +66934,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 984686992}
+  - component: {fileID: 984686993}
   m_Layer: 0
   m_Name: WP_115
   m_TagString: Untagged
@@ -65688,6 +66957,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1945134107}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &984686993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 984686991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &985606381 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 614141466607972236, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -66413,6 +67697,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 988439964}
+  - component: {fileID: 988439965}
   m_Layer: 0
   m_Name: WP_135
   m_TagString: Untagged
@@ -66435,6 +67720,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1241771933}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &988439965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 988439963}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1001 &988449715
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -67358,6 +68658,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1003425617}
+  - component: {fileID: 1003425618}
   m_Layer: 0
   m_Name: WP_97
   m_TagString: Untagged
@@ -67380,6 +68681,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 907466630}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1003425618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1003425616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &1003431869 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 74d8ce1b968c674498d4edd34de9334c, type: 3}
@@ -70833,6 +72149,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1048465360}
+  - component: {fileID: 1048465361}
   m_Layer: 0
   m_Name: WP_109
   m_TagString: Untagged
@@ -70855,6 +72172,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1757011734}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1048465361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1048465359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &1048549924 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8267196642337891365, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -71093,6 +72425,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1057555094}
+  - component: {fileID: 1057555095}
   m_Layer: 0
   m_Name: WP_49
   m_TagString: Untagged
@@ -71115,6 +72448,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1343895191}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1057555095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1057555093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1001 &1057591438
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -72319,6 +73667,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1076310574}
+  - component: {fileID: 1076310575}
   m_Layer: 0
   m_Name: WP_124
   m_TagString: Untagged
@@ -72341,6 +73690,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1366477876}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1076310575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1076310573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &1076311694
 GameObject:
   m_ObjectHideFlags: 0
@@ -74382,6 +75746,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1102964138}
+  - component: {fileID: 1102964139}
   m_Layer: 0
   m_Name: WP_53
   m_TagString: Untagged
@@ -74404,6 +75769,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1343895191}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1102964139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1102964137}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &1103525253
 GameObject:
   m_ObjectHideFlags: 0
@@ -74732,6 +76112,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1109549158}
+  - component: {fileID: 1109549159}
   m_Layer: 0
   m_Name: WP_118
   m_TagString: Untagged
@@ -74754,6 +76135,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 372870617}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1109549159
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1109549157}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &1110353087 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6122035535824019343, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -75019,6 +76415,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1114800452}
+  - component: {fileID: 1114800453}
   m_Layer: 0
   m_Name: WP_111
   m_TagString: Untagged
@@ -75041,6 +76438,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 842322887}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1114800453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1114800451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 1
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &1114890567
 GameObject:
   m_ObjectHideFlags: 0
@@ -75504,6 +76916,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1117817758}
+  - component: {fileID: 1117817759}
   m_Layer: 0
   m_Name: WP_129
   m_TagString: Untagged
@@ -75526,6 +76939,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1700368241}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1117817759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1117817757}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1001 &1118097517
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -77314,6 +78742,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1134484716}
+  - component: {fileID: 1134484717}
   m_Layer: 0
   m_Name: WP_7
   m_TagString: Untagged
@@ -77336,6 +78765,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1537665865}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1134484717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1134484715}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &1136059413 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 453d762048f90974c8a7164f9efc863e, type: 3}
@@ -78791,6 +80235,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1153718241}
+  - component: {fileID: 1153718242}
   m_Layer: 0
   m_Name: WP_116
   m_TagString: Untagged
@@ -78813,6 +80258,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 999708030}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1153718242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1153718240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1001 &1155426961
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -79000,6 +80460,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1160209795}
+  - component: {fileID: 1160209796}
   m_Layer: 0
   m_Name: WP_119
   m_TagString: Untagged
@@ -79022,6 +80483,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1366147219}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1160209796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1160209794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1001 &1160414917
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -79537,6 +81013,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1166197275}
+  - component: {fileID: 1166197276}
   m_Layer: 0
   m_Name: WP_52
   m_TagString: Untagged
@@ -79559,6 +81036,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1343895191}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1166197276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1166197274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &1166282151 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -6009232476891666573, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -83195,6 +84687,53 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 6615224649404071530, guid: 45980b402f3573542bc6c1435299df62, type: 3}
+--- !u!1 &1203375033
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1203375034}
+  - component: {fileID: 1203375035}
+  m_Layer: 0
+  m_Name: WP_1003
+  m_TagString: Untagged
+  m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1203375034
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1203375033}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -33.79, y: 0.5, z: -51.14}
+  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 817410761}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1203375035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1203375033}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 1
+  isPatrolCheckpoint: 0
+  isCell: 0
 --- !u!1 &1203474557 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3899565891299101084, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -83613,8 +85152,8 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 0
-  orthographic size: 5
+  orthographic: 1
+  orthographic size: 30
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -83638,13 +85177,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1207443109}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.33854753, y: -0, z: -0, w: 0.9409493}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 6.24, z: -4.39}
   m_LocalScale: {x: 0.49999988, y: 0.5, z: 0.49999988}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1796544529}
-  m_LocalEulerAnglesHint: {x: 39.577, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!114 &1207443113
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83980,6 +85519,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1215459134}
+  - component: {fileID: 1215459135}
   m_Layer: 0
   m_Name: WP_64
   m_TagString: Untagged
@@ -84002,6 +85542,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 181359832}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1215459135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1215459133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &1216502210 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -4926852822074955793, guid: 14cce29ad9058904d96cc3067402803d, type: 3}
@@ -84965,6 +86520,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1226767138}
+  - component: {fileID: 1226767139}
   m_Layer: 0
   m_Name: WP_126
   m_TagString: Untagged
@@ -84987,6 +86543,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1402612089}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1226767139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1226767137}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1001 &1228152087
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -86560,6 +88131,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1241933818}
+  - component: {fileID: 1241933819}
   m_Layer: 0
   m_Name: WP_26
   m_TagString: Untagged
@@ -86582,6 +88154,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 330272876}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1241933819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1241933817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &1241990657 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -5341747177340628442, guid: 14cce29ad9058904d96cc3067402803d, type: 3}
@@ -86720,7 +88307,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Brain
   PlayerTarget: {fileID: 1796544529}
-  QuadrantRoot: {fileID: 2111580408}
+  QuadrantId: section5
+  ArrastrarCuadrante: {fileID: 0}
 --- !u!114 &1242211433
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -87274,6 +88862,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1246262287}
+  - component: {fileID: 1246262288}
   m_Layer: 0
   m_Name: WP_100
   m_TagString: Untagged
@@ -87296,6 +88885,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1522131673}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1246262288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1246262286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &1246752046
 GameObject:
   m_ObjectHideFlags: 0
@@ -87305,6 +88909,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1246752047}
+  - component: {fileID: 1246752048}
   m_Layer: 0
   m_Name: WP_95
   m_TagString: Untagged
@@ -87327,6 +88932,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 907466630}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1246752048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1246752046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &1246902247
 GameObject:
   m_ObjectHideFlags: 0
@@ -87336,6 +88956,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1246902248}
+  - component: {fileID: 1246902249}
   m_Layer: 0
   m_Name: WP_70
   m_TagString: Untagged
@@ -87358,6 +88979,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1455017839}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1246902249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1246902247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &1247578219 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 453d762048f90974c8a7164f9efc863e, type: 3}
@@ -88684,6 +90320,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1267028436}
+  - component: {fileID: 1267028437}
   m_Layer: 0
   m_Name: WP_17
   m_TagString: Untagged
@@ -88706,6 +90343,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 872253270}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1267028437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1267028435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1001 &1267193617
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -89078,6 +90730,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1272453788}
+  - component: {fileID: 1272453789}
   m_Layer: 0
   m_Name: WP_51
   m_TagString: Untagged
@@ -89100,6 +90753,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1343895191}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1272453789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1272453787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &1276880290
 GameObject:
   m_ObjectHideFlags: 0
@@ -89109,6 +90777,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1276880291}
+  - component: {fileID: 1276880292}
   m_Layer: 0
   m_Name: WP_121
   m_TagString: Untagged
@@ -89131,6 +90800,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1439003954}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1276880292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1276880290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &1277036785 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 74d8ce1b968c674498d4edd34de9334c, type: 3}
@@ -90327,6 +92011,53 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -4937278773500160974, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
+--- !u!1 &1297564754
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1297564755}
+  - component: {fileID: 1297564756}
+  m_Layer: 0
+  m_Name: WP_1000
+  m_TagString: Untagged
+  m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1297564755
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1297564754}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 21.51, y: 0.5, z: -42.9}
+  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 817410761}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1297564756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1297564754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 1
+  isPatrolCheckpoint: 0
+  isCell: 0
 --- !u!1 &1298980711 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3058497736089453759, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -90743,6 +92474,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1310402458}
+  - component: {fileID: 1310402459}
   m_Layer: 0
   m_Name: WP_15
   m_TagString: Untagged
@@ -90765,6 +92497,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1263810108}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1310402459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1310402457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &1311487701
 GameObject:
   m_ObjectHideFlags: 0
@@ -90774,6 +92521,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1311487702}
+  - component: {fileID: 1311487703}
   m_Layer: 0
   m_Name: WP_146
   m_TagString: Untagged
@@ -90796,6 +92544,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1114890568}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1311487703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1311487701}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1001 &1315729513
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -91081,6 +92844,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1318170236}
+  - component: {fileID: 1318170237}
   m_Layer: 0
   m_Name: WP_63
   m_TagString: Untagged
@@ -91103,6 +92867,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 181359832}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1318170237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1318170235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &1319272589 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3899565891299101084, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -91778,6 +93557,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1329399288}
+  - component: {fileID: 1329399289}
   m_Layer: 0
   m_Name: WP_46
   m_TagString: Untagged
@@ -91800,6 +93580,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1042622832}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1329399289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1329399287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1001 &1330134176
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -92542,6 +94337,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1339697962}
+  - component: {fileID: 1339697963}
   m_Layer: 0
   m_Name: WP_88
   m_TagString: Untagged
@@ -92564,6 +94360,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1322074433}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1339697963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1339697961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &1340966922 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 453d762048f90974c8a7164f9efc863e, type: 3}
@@ -93139,6 +94950,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1347018418}
+  - component: {fileID: 1347018419}
   m_Layer: 0
   m_Name: WP_127
   m_TagString: Untagged
@@ -93161,6 +94973,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1402612089}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1347018419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1347018417}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &1348478129 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1799300713203106943, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -93224,6 +95051,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1349779550}
+  - component: {fileID: 1349779551}
   m_Layer: 0
   m_Name: WP_24
   m_TagString: Untagged
@@ -93246,6 +95074,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 330272876}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1349779551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1349779549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1001 &1349914142
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -93634,6 +95477,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1354092250}
+  - component: {fileID: 1354092251}
   m_Layer: 0
   m_Name: WP_38
   m_TagString: Untagged
@@ -93656,6 +95500,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 942557831}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1354092251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1354092249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &1355453589 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3899565891299101084, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -94193,6 +96052,53 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4980996862984574478, guid: d0429c2ebdf57e6499fc6a336b2fb320, type: 3}
+--- !u!1 &1363749514
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1363749515}
+  - component: {fileID: 1363749516}
+  m_Layer: 0
+  m_Name: WP_1006
+  m_TagString: Untagged
+  m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1363749515
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1363749514}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -21.27, y: 0.5, z: 1.52}
+  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 817410761}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1363749516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1363749514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 1
+  isPatrolCheckpoint: 0
+  isCell: 0
 --- !u!1001 &1364372939
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -95667,6 +97573,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1385063817}
+  - component: {fileID: 1385063818}
   m_Layer: 0
   m_Name: WP_9
   m_TagString: Untagged
@@ -95689,6 +97596,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 605543411}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1385063818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1385063816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &1387238155
 GameObject:
   m_ObjectHideFlags: 0
@@ -95698,6 +97620,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1387238156}
+  - component: {fileID: 1387238157}
   m_Layer: 0
   m_Name: WP_13
   m_TagString: Untagged
@@ -95720,6 +97643,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1263810108}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1387238157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1387238155}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &1387995020 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 74d8ce1b968c674498d4edd34de9334c, type: 3}
@@ -96021,6 +97959,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1399110785}
+  - component: {fileID: 1399110786}
   m_Layer: 0
   m_Name: WP_37
   m_TagString: Untagged
@@ -96043,6 +97982,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 153737761}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1399110786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1399110784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &1399311572
 GameObject:
   m_ObjectHideFlags: 0
@@ -96052,6 +98006,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1399311573}
+  - component: {fileID: 1399311574}
   m_Layer: 0
   m_Name: WP_68
   m_TagString: Untagged
@@ -96074,6 +98029,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 882727788}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1399311574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1399311572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &1399523830 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1683296501599025939, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -96178,6 +98148,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1401289527}
+  - component: {fileID: 1401289528}
   m_Layer: 0
   m_Name: WP_117
   m_TagString: Untagged
@@ -96200,6 +98171,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 372870617}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1401289528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1401289526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1001 &1402042141
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -96453,6 +98439,53 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -4517372159314078503, guid: 453d762048f90974c8a7164f9efc863e, type: 3}
+--- !u!1 &1405213630
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1405213631}
+  - component: {fileID: 1405213632}
+  m_Layer: 0
+  m_Name: WP_1005
+  m_TagString: Untagged
+  m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1405213631
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1405213630}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -37.33, y: 0.5, z: 2.01}
+  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 817410761}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1405213632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1405213630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 1
+  isPatrolCheckpoint: 0
+  isCell: 0
 --- !u!1001 &1406767401
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -96733,6 +98766,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1410097685}
+  - component: {fileID: 1410097686}
   m_Layer: 0
   m_Name: WP_102
   m_TagString: Untagged
@@ -96755,6 +98789,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1522131673}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1410097686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1410097684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &1413500182 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3058497736089453759, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -97389,6 +99438,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1421394808}
+  - component: {fileID: 1421394809}
   m_Layer: 0
   m_Name: WP_21
   m_TagString: Untagged
@@ -97411,6 +99461,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 949545667}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1421394809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1421394807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &1423114219 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 453d762048f90974c8a7164f9efc863e, type: 3}
@@ -98298,6 +100363,53 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 2583865410133444253, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
+--- !u!1 &1439840776
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1439840777}
+  - component: {fileID: 1439840778}
+  m_Layer: 0
+  m_Name: WP_1002
+  m_TagString: Untagged
+  m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1439840777
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1439840776}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -69.25, y: 5.23, z: 65.22}
+  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 817410761}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1439840778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1439840776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 1
+  isPatrolCheckpoint: 0
+  isCell: 0
 --- !u!1001 &1439927989
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -102425,6 +104537,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1491172451}
+  - component: {fileID: 1491172452}
   m_Layer: 0
   m_Name: WP_27
   m_TagString: Untagged
@@ -102447,6 +104560,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1847778936}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1491172452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1491172450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &1491505954 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 453d762048f90974c8a7164f9efc863e, type: 3}
@@ -102583,6 +104711,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1493217101}
+  - component: {fileID: 1493217102}
   m_Layer: 0
   m_Name: WP_90
   m_TagString: Untagged
@@ -102605,6 +104734,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1322074433}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1493217102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1493217100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &1493529419 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6952557005137053212, guid: 14cce29ad9058904d96cc3067402803d, type: 3}
@@ -103086,6 +105230,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1505002218}
+  - component: {fileID: 1505002219}
   m_Layer: 0
   m_Name: WP_18
   m_TagString: Untagged
@@ -103108,6 +105253,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 872253270}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1505002219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1505002217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &1507483823 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8242361918107146482, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -104154,6 +106314,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1518178428}
+  - component: {fileID: 1518178429}
   m_Layer: 0
   m_Name: WP_39
   m_TagString: Untagged
@@ -104176,6 +106337,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 794255443}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1518178429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1518178427}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1001 &1518759125
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -104503,6 +106679,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1524659845}
+  - component: {fileID: 1524659846}
   m_Layer: 0
   m_Name: WP_82
   m_TagString: Untagged
@@ -104525,6 +106702,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1103525254}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1524659846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1524659844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &1525370848 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6999322035538773533, guid: baf57603f98cbdd4e8007a7276476d51, type: 3}
@@ -105484,6 +107676,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1539134415}
+  - component: {fileID: 1539134416}
   m_Layer: 0
   m_Name: WP_94
   m_TagString: Untagged
@@ -105506,6 +107699,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 907466630}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1539134416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1539134414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &1539932025 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8557927624525350344, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -106985,6 +109193,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1560351409}
+  - component: {fileID: 1560351410}
   m_Layer: 0
   m_Name: WP_92
   m_TagString: Untagged
@@ -107007,6 +109216,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1322074433}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1560351410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1560351408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &1560440401 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 614141466607972236, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -108194,6 +110418,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1579578637}
+  - component: {fileID: 1579578638}
   m_Layer: 0
   m_Name: WP_103
   m_TagString: Untagged
@@ -108216,6 +110441,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2068714513}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1579578638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1579578636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &1579711422 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3698344006298356524, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -108317,6 +110557,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1580401445}
+  - component: {fileID: 1580401446}
   m_Layer: 0
   m_Name: WP_137
   m_TagString: Untagged
@@ -108339,6 +110580,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 584796911}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1580401446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1580401444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &1581252056
 GameObject:
   m_ObjectHideFlags: 0
@@ -108537,6 +110793,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1583334516}
+  - component: {fileID: 1583334517}
   m_Layer: 0
   m_Name: WP_200
   m_TagString: Untagged
@@ -108559,6 +110816,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1700368241}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1583334517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1583334515}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &1585823950
 GameObject:
   m_ObjectHideFlags: 0
@@ -108568,6 +110840,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1585823951}
+  - component: {fileID: 1585823952}
   m_Layer: 0
   m_Name: WP_123
   m_TagString: Untagged
@@ -108590,6 +110863,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1461081923}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1585823952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1585823950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1001 &1586944117
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -110223,6 +112511,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1616038724}
+  - component: {fileID: 1616038725}
   m_Layer: 0
   m_Name: WP_79
   m_TagString: Untagged
@@ -110245,6 +112534,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1103525254}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1616038725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1616038723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &1618021548 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 74d8ce1b968c674498d4edd34de9334c, type: 3}
@@ -110837,6 +113141,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1627189197}
+  - component: {fileID: 1627189198}
   m_Layer: 0
   m_Name: WP_122
   m_TagString: Untagged
@@ -110859,6 +113164,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1461081923}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1627189198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1627189196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1001 &1628060447
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -111106,6 +113426,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1635303205}
+  - component: {fileID: 1635303206}
   m_Layer: 0
   m_Name: WP_141
   m_TagString: Untagged
@@ -111128,6 +113449,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 115556548}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1635303206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1635303204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1001 &1635391879
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -111553,6 +113889,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1637339863}
+  - component: {fileID: 1637339864}
   m_Layer: 0
   m_Name: WP_35
   m_TagString: Untagged
@@ -111575,6 +113912,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 358098901}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1637339864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1637339862}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &1639101014 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -5125811737971877458, guid: 14cce29ad9058904d96cc3067402803d, type: 3}
@@ -114212,6 +116564,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1683148436}
+  - component: {fileID: 1683148437}
   m_Layer: 0
   m_Name: WP_131
   m_TagString: Untagged
@@ -114234,6 +116587,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 22278302}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1683148437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1683148435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &1683407826 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4608623780696759378, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -114270,6 +116638,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1683666662}
+  - component: {fileID: 1683666663}
   m_Layer: 0
   m_Name: WP_139
   m_TagString: Untagged
@@ -114292,6 +116661,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 396840439}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1683666663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1683666661}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1001 &1683776820
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -115344,6 +117728,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1701870467}
+  - component: {fileID: 1701870468}
   m_Layer: 0
   m_Name: WP_11
   m_TagString: Untagged
@@ -115366,6 +117751,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 605543411}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1701870468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1701870466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &1704810910 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 453d762048f90974c8a7164f9efc863e, type: 3}
@@ -115533,6 +117933,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1705771232}
+  - component: {fileID: 1705771233}
   m_Layer: 0
   m_Name: WP_36
   m_TagString: Untagged
@@ -115555,6 +117956,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 358098901}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1705771233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1705771231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &1706949247
 GameObject:
   m_ObjectHideFlags: 0
@@ -117458,6 +119874,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1741641389}
+  - component: {fileID: 1741641390}
   m_Layer: 0
   m_Name: WP_47
   m_TagString: Untagged
@@ -117480,6 +119897,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1042622832}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1741641390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1741641388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1001 &1742662769
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -117695,6 +120127,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1744951744}
+  - component: {fileID: 1744951745}
   m_Layer: 0
   m_Name: WP_2
   m_TagString: Untagged
@@ -117717,6 +120150,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1089949826}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1744951745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1744951743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1001 &1745145622
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -118012,6 +120460,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1746051748}
+  - component: {fileID: 1746051749}
   m_Layer: 0
   m_Name: WP_91
   m_TagString: Untagged
@@ -118034,6 +120483,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1322074433}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1746051749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1746051747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &1747499919 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -1656216863758753830, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -119190,6 +121654,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1758563557}
+  - component: {fileID: 1758563558}
   m_Layer: 0
   m_Name: WP_57
   m_TagString: Untagged
@@ -119212,6 +121677,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 976098658}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1758563558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1758563556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &1759170403 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -7046673171606169745, guid: d0429c2ebdf57e6499fc6a336b2fb320, type: 3}
@@ -119721,6 +122201,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1766217457}
+  - component: {fileID: 1766217458}
   m_Layer: 0
   m_Name: WP_59
   m_TagString: Untagged
@@ -119743,6 +122224,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1253546253}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1766217458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1766217456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &1767650546
 GameObject:
   m_ObjectHideFlags: 0
@@ -119752,6 +122248,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1767650547}
+  - component: {fileID: 1767650548}
   m_Layer: 0
   m_Name: WP_33
   m_TagString: Untagged
@@ -119774,6 +122271,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 18452702}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1767650548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1767650546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &1768120866 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -5125811737971877458, guid: 14cce29ad9058904d96cc3067402803d, type: 3}
@@ -120456,7 +122968,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Brain
   PlayerTarget: {fileID: 1796544529}
-  QuadrantRoot: {fileID: 481754716}
+  QuadrantId: section1
+  ArrastrarCuadrante: {fileID: 0}
 --- !u!1 &1777836571
 GameObject:
   m_ObjectHideFlags: 0
@@ -122379,8 +124892,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02c89058196cd439ea8a28017d3b80a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MovimientoBienal
-  radioRuidoMaximo: 10
-  multiplicadorRuido: 1.2
   velocidadAndar: 3.5
   velocidadCorrer: 6.5
   gravedad: -9.81
@@ -122707,7 +125218,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Brain
   PlayerTarget: {fileID: 1796544529}
-  QuadrantRoot: {fileID: 974899772}
+  QuadrantId: section7
+  ArrastrarCuadrante: {fileID: 0}
 --- !u!114 &1799366118
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -122768,6 +125280,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1799442421}
+  - component: {fileID: 1799442422}
   m_Layer: 0
   m_Name: WP_114
   m_TagString: Untagged
@@ -122790,6 +125303,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 224590761}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1799442422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1799442420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1001 &1800973887
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -123664,6 +126192,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1816692093}
+  - component: {fileID: 1816692094}
   m_Layer: 0
   m_Name: WP_48
   m_TagString: Untagged
@@ -123686,6 +126215,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1042622832}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1816692094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1816692092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1001 &1817337532
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -124840,6 +127384,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1826755066}
+  - component: {fileID: 1826755067}
   m_Layer: 0
   m_Name: WP_144
   m_TagString: Untagged
@@ -124862,6 +127407,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 333932883}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1826755067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1826755065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &1826843484 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3899565891299101084, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -124994,6 +127554,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1827892223}
+  - component: {fileID: 1827892224}
   m_Layer: 0
   m_Name: WP_32
   m_TagString: Untagged
@@ -125016,6 +127577,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1269399555}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1827892224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1827892222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1001 &1828477041
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -126090,7 +128666,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Brain
   PlayerTarget: {fileID: 1796544529}
-  QuadrantRoot: {fileID: 1916299964}
+  QuadrantId: section6
+  ArrastrarCuadrante: {fileID: 0}
 --- !u!114 &1838112915
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126438,6 +129015,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1845902349}
+  - component: {fileID: 1845902350}
   m_Layer: 0
   m_Name: WP_86
   m_TagString: Untagged
@@ -126460,6 +129038,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1322074433}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1845902350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1845902348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &1846704219 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 453d762048f90974c8a7164f9efc863e, type: 3}
@@ -128393,6 +130986,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1873574094}
+  - component: {fileID: 1873574095}
   m_Layer: 0
   m_Name: WP_69
   m_TagString: Untagged
@@ -128415,6 +131009,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 882727788}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1873574095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1873574093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &1876376233 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5674046508059327650, guid: d0429c2ebdf57e6499fc6a336b2fb320, type: 3}
@@ -128569,6 +131178,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1881151602}
+  - component: {fileID: 1881151603}
   m_Layer: 0
   m_Name: WP_134
   m_TagString: Untagged
@@ -128591,6 +131201,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1241771933}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1881151603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1881151601}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1001 &1882087832
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -130317,6 +132942,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1903983547}
+  - component: {fileID: 1903983548}
   m_Layer: 0
   m_Name: WP_112
   m_TagString: Untagged
@@ -130339,6 +132965,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 842322887}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1903983548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1903983546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &1905733287 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 453d762048f90974c8a7164f9efc863e, type: 3}
@@ -130521,6 +133162,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1907836206}
+  - component: {fileID: 1907836207}
   m_Layer: 0
   m_Name: WP_61
   m_TagString: Untagged
@@ -130543,6 +133185,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1284341606}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1907836207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1907836205}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &1907997325 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -5341747177340628442, guid: 14cce29ad9058904d96cc3067402803d, type: 3}
@@ -131523,6 +134180,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1917752694}
+  - component: {fileID: 1917752695}
   m_Layer: 0
   m_Name: WP_67
   m_TagString: Untagged
@@ -131545,6 +134203,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 711297836}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1917752695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1917752693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1001 &1917987844
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -132305,6 +134978,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1925229997}
+  - component: {fileID: 1925229998}
   m_Layer: 0
   m_Name: 'WP_12 '
   m_TagString: Untagged
@@ -132327,6 +135001,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1263810108}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1925229998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1925229996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1001 &1927191048
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -134267,6 +136956,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1942685177}
+  - component: {fileID: 1942685178}
   m_Layer: 0
   m_Name: WP_101
   m_TagString: Untagged
@@ -134289,6 +136979,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1522131673}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1942685178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1942685176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &1942901512 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6999322035538773533, guid: baf57603f98cbdd4e8007a7276476d51, type: 3}
@@ -134541,6 +137246,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1946918587}
+  - component: {fileID: 1946918588}
   m_Layer: 0
   m_Name: WP_75
   m_TagString: Untagged
@@ -134563,6 +137269,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1095327313}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1946918588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1946918586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &1949334296 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -8284644261160355701, guid: 14cce29ad9058904d96cc3067402803d, type: 3}
@@ -134805,6 +137526,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1952609182}
+  - component: {fileID: 1952609183}
   m_Layer: 0
   m_Name: WP_29
   m_TagString: Untagged
@@ -134827,6 +137549,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1847778936}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1952609183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1952609181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &1952621394 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8557927624525350344, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -142100,7 +144837,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Brain
   PlayerTarget: {fileID: 1796544529}
-  QuadrantRoot: {fileID: 837626911}
+  QuadrantId: section3
+  ArrastrarCuadrante: {fileID: 0}
 --- !u!114 &2044574261
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -142805,6 +145543,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2053112906}
+  - component: {fileID: 2053112907}
   m_Layer: 0
   m_Name: WP_145
   m_TagString: Untagged
@@ -142827,6 +145566,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1114890568}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2053112907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2053112905}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &2053350994
 GameObject:
   m_ObjectHideFlags: 0
@@ -142836,6 +145590,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2053350995}
+  - component: {fileID: 2053350996}
   m_Layer: 0
   m_Name: WP_107
   m_TagString: Untagged
@@ -142858,6 +145613,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1897075061}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2053350996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2053350994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &2054066591 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3310331766504776907, guid: d0429c2ebdf57e6499fc6a336b2fb320, type: 3}
@@ -143073,6 +145843,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2056655566}
+  - component: {fileID: 2056655567}
   m_Layer: 0
   m_Name: WP_138
   m_TagString: Untagged
@@ -143095,6 +145866,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 584796911}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2056655567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2056655565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &2057626765 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8167296784718277556, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -144320,6 +147106,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2081497930}
+  - component: {fileID: 2081497931}
   m_Layer: 0
   m_Name: WP_30
   m_TagString: Untagged
@@ -144342,6 +147129,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1847778936}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2081497931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2081497929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &2082180321 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6122035535824019343, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -144378,6 +147180,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2082407553}
+  - component: {fileID: 2082407554}
   m_Layer: 0
   m_Name: WP_56
   m_TagString: Untagged
@@ -144400,6 +147203,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 976098658}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2082407554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2082407552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1001 &2085218175
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -145072,6 +147890,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2090305243}
+  - component: {fileID: 2090305244}
   m_Layer: 0
   m_Name: WP_10
   m_TagString: Untagged
@@ -145094,6 +147913,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 605543411}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2090305244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2090305242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &2090340798 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8267196642337891365, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -145130,6 +147964,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2093272607}
+  - component: {fileID: 2093272608}
   m_Layer: 0
   m_Name: WP_22
   m_TagString: Untagged
@@ -145152,6 +147987,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 949545667}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2093272608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2093272606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &2093731678 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1799300713203106943, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -146808,6 +149658,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2110705410}
+  - component: {fileID: 2110705411}
   m_Layer: 0
   m_Name: WP_148
   m_TagString: Untagged
@@ -146830,6 +149681,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 686844112}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2110705411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2110705409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1001 &2111217991
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -147065,12 +149931,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a60ab529005d98943bb86446e7690c14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CarEscapeTrigger
-  player: {fileID: 0}
-  rescuedObject: {fileID: 0}
-  escapeDistance: 0.4
-  scriptsToDisable:
-  - {fileID: 0}
-  winPanel: {fileID: 0}
 --- !u!1 &2112159515 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -1757305489672530096, guid: d0429c2ebdf57e6499fc6a336b2fb320, type: 3}
@@ -147920,6 +150780,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2131430753}
+  - component: {fileID: 2131430754}
   m_Layer: 0
   m_Name: WP_105
   m_TagString: Untagged
@@ -147942,6 +150803,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2068714513}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2131430754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2131430752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 1
+  isCell: 0
 --- !u!1 &2131515708 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6999322035538773533, guid: baf57603f98cbdd4e8007a7276476d51, type: 3}

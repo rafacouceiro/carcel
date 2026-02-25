@@ -7,11 +7,11 @@ namespace AgenticPrison.Physical {
     [RequireComponent(typeof(BoxCollider))]
     public class RoomNode : MonoBehaviour
     {
-        [Header("Puntos a vigilar (Waypoints)")]
-        public List<Transform> waypoints = new List<Transform>();
+        [Header("Puntos Enriquecidos")]
+        // Cambiamos Transform por WaypointData
+        public List<WayPointData> waypoints = new List<WayPointData>();
 
-        [Header("Conexiones (Puertas)")]
-        [Tooltip("Arrastra aquí las salas vecinas.")]
+        [Header("Conexiones")]
         public List<RoomNode> connectedRooms = new List<RoomNode>();
 
         private BoxCollider _collider;
@@ -20,24 +20,22 @@ namespace AgenticPrison.Physical {
         {
             _collider = GetComponent<BoxCollider>();
 
-            // 1. Autocompletar waypoints si la lista está vacía (coge a los hijos)
+            // Autocompletar buscando el componente específico en los hijos
             if (waypoints.Count == 0) {
                 foreach (Transform child in transform) {
-                    waypoints.Add(child);
+                    WayPointData data = child.GetComponent<WayPointData>();
+                    if (data != null) waypoints.Add(data);
                 }
             }
 
-            // 2. Automatizar la conexión mutua
-            foreach (RoomNode neighbor in connectedRooms) 
-            {
-                if (neighbor != null && !neighbor.connectedRooms.Contains(this)) 
-                {
+            // Automatizar conexión mutua (se mantiene igual)
+            foreach (RoomNode neighbor in connectedRooms) {
+                if (neighbor != null && !neighbor.connectedRooms.Contains(this)) {
                     neighbor.connectedRooms.Add(this);
                 }
             }
         }
 
-        // Dibujamos el grafo en la escena
         private void OnDrawGizmos() 
         {
             if (_collider == null) _collider = GetComponent<BoxCollider>();
@@ -45,46 +43,25 @@ namespace AgenticPrison.Physical {
 
             Vector3 myCenter = _collider.bounds.center;
 
-            // Dibujar el centro de la sala
-            Gizmos.color = Color.cyan;
-            Gizmos.DrawWireSphere(myCenter, 0.5f);
+            // Dibujar Waypoints con colores según su tipo
+            foreach (WayPointData wp in waypoints) {
+                if (wp == null) continue;
 
-            // Dibujar los Waypoints (líneas amarillas)
-            if (waypoints != null) {
-                Gizmos.color = Color.yellow;
-                foreach (Transform wp in waypoints) {
-                    if (wp != null) {
-                        Gizmos.DrawLine(myCenter, wp.position);
-                        Gizmos.DrawCube(wp.position, new Vector3(0.2f, 0.2f, 0.2f));
-                    }
-                }
+                // Color según semántica
+                if (wp.isCell) Gizmos.color = Color.blue;
+                else if (wp.isKeyPoint) Gizmos.color = Color.red;
+                else Gizmos.color = Color.yellow;
+
+                Gizmos.DrawLine(myCenter, wp.transform.position);
+                Gizmos.DrawCube(wp.transform.position, Vector3.one * 0.3f);
             }
 
-            // Dibujar conexiones
-            if (connectedRooms == null) return;
-
+            // Grafo de conexiones (verde)
             Gizmos.color = Color.green;
-            foreach (RoomNode neighbor in connectedRooms) 
-            {
-                if (neighbor != null) 
-                {
-                    BoxCollider neighborCollider = neighbor.GetComponent<BoxCollider>();
-                    if (neighborCollider != null)
-                    {
-                        Vector3 neighborCenter = neighborCollider.bounds.center;
-                        NavMeshPath path = new NavMeshPath();
-                        
-                        if (NavMesh.CalculatePath(myCenter, neighborCenter, NavMesh.AllAreas, path)) {
-                            for (int i = 0; i < path.corners.Length - 1; i++) {
-                                Gizmos.DrawLine(path.corners[i], path.corners[i + 1]);
-                            }
-                        } else {
-                            Gizmos.color = Color.red;
-                            Gizmos.DrawLine(myCenter, neighborCenter);
-                            Gizmos.color = Color.green;
-                        }
-                    }
-                }
+            foreach (RoomNode neighbor in connectedRooms) {
+                if (neighbor == null) continue;
+                BoxCollider nCol = neighbor.GetComponent<BoxCollider>();
+                if (nCol != null) Gizmos.DrawLine(myCenter, nCol.bounds.center);
             }
         }
     }
