@@ -13,7 +13,7 @@ namespace AgenticPrison.Behavior.Methods {
 
         public Queue<ITask> Decompose(WorldState state) {
             var subTasks = new Queue<ITask>();
-            subTasks.Enqueue(new ChaseTask(5f));
+            subTasks.Enqueue(new ChaseTask(6.5f));
             return subTasks;
         }
     }

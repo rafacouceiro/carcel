@@ -9,8 +9,25 @@ namespace AgenticPrison {
     public class Brain : MonoBehaviour {
         [Header("Tangible References")]
         public Transform PlayerTarget;
-        [Tooltip("Arrastra aquí el objeto padre del cuadrante (ej: section1)")]
-        public Transform QuadrantRoot;
+
+        [Header("Configuración del Guardia")]
+        [Tooltip("El ID simbólico del cuadrante. Puedes escribirlo o arrastrar el objeto abajo.")]
+        public string QuadrantId = "section1"; // <--- Tu agente SOLO usará este string
+
+// --- MAGIA DEL EDITOR DE UNITY ---
+#if UNITY_EDITOR
+        [Header("Herramientas de Editor (No se compila en el juego final)")]
+        [Tooltip("Arrastra aquí un objeto. El agente copiará su nombre y soltará el objeto al instante.")]
+        public Transform ArrastrarCuadrante;
+
+        // OnValidate se ejecuta automáticamente cada vez que tocas algo en el Inspector
+        private void OnValidate() {
+            if (ArrastrarCuadrante != null) {
+                QuadrantId = ArrastrarCuadrante.name; // 1. Copia el nombre al string
+                ArrastrarCuadrante = null;            // 2. Borra la referencia física
+            }
+        }
+#endif
 
         [Header("Logic State")]
         public WorldState CurrentState;
@@ -30,18 +47,8 @@ namespace AgenticPrison {
 
             CurrentState = new WorldState();
 
-            // --- INICIO INTEGRACIÓN DEL CUADRANTE ---
-            if (QuadrantRoot != null) {
-                // Buscamos todas las salas hijas del objeto section1
-                RoomNode[] roomsInQuadrant = QuadrantRoot.GetComponentsInChildren<RoomNode>();
-                CurrentState.AssignedQuadrant = new List<RoomNode>(roomsInQuadrant);
-            } else {
-                Debug.LogWarning($"[Brain] El agente {gameObject.name} no tiene un QuadrantRoot asignado.");
-            }
-
-            // Calculamos en qué sala nace el agente para inicializar su memoria espacial
-            CurrentState.CurrentRoomNode = GetSpawnRoom(CurrentState.AssignedQuadrant);
-            // --- FIN INTEGRACIÓN DEL CUADRANTE ---
+            CurrentState.Map = PrisonMap.Instance;
+            CurrentState.AssignedQuadrantId = QuadrantId;
 
             _planner = new HTNPlanner();
             _currentPlan = new Queue<IPrimitiveTask>();
@@ -84,6 +91,7 @@ namespace AgenticPrison {
                 if (CurrentState.FugitiveInVision) {
                     Debug.LogWarning("Veo al fugitivo");
                     CurrentState.LastKnownPosition = _vision.GetFugitivePosition();
+                    CurrentState.Alertness = true; // Entra en estado de alerta al ver al fugitivo
                 }
                 
                 // Si vemos / perdemos de vista al fugitivo replanificamos 
@@ -96,7 +104,6 @@ namespace AgenticPrison {
         private void UpdateLocation(){
             CurrentState.CurrentPosition = transform.position;
         }
-
 
         private void ForzarReplanificacion() {
 
@@ -127,27 +134,6 @@ namespace AgenticPrison {
                     _activeTask = null; // Resetear, va a replanificar en el siguiente frame
                 }
             }
-        }
-
-        // --- FUNCIONES AUXILIARES DE NAVEGACIÓN ---
-
-        private RoomNode GetSpawnRoom(List<RoomNode> rooms) {
-            if (rooms == null || rooms.Count == 0) return null;
-
-            RoomNode closest = null;
-            float minDistance = Mathf.Infinity;
-
-            foreach (var room in rooms) {
-                BoxCollider col = room.GetComponent<BoxCollider>();
-                if (col != null) {
-                    float dist = Vector3.Distance(transform.position, col.bounds.center);
-                    if (dist < minDistance) {
-                        minDistance = dist;
-                        closest = room;
-                    }
-                }
-            }
-            return closest;
         }
     }
 }

@@ -11,6 +11,7 @@ namespace AgenticPrison.Behavior.RootTask {
         public BeGuard() {
             Methods = new List<IMethod> {
                 new EmergencySelector(),
+                new InvestigationSelector(),
                 new RoutineSelector()
             };
         }

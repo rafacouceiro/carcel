@@ -15,18 +15,12 @@ namespace AgenticPrison.Core {
         public bool PrisonerInCell = true;
 
         // Internal State
-        public float Alertness = 0f;
+        public bool Alertness = false;
         public float Fatigue = 0f;
 
         // Navigation & Memory
-        public string CurrentLocationId = string.Empty;
-
-        // --- NUEVO: Spatial Knowledge ---
-        // Lista de las habitaciones que tiene que patrullar
-        public List<RoomNode> AssignedQuadrant = new List<RoomNode>();
-        
-        // Donde estoy ahora (vital para que el DFS sepa por dónde empezar)
-        public RoomNode CurrentRoomNode; 
+        public PrisonMap Map;
+        public string AssignedQuadrantId = string.Empty;
 
         public WorldState Clone() {
             var clone = new WorldState {
@@ -34,14 +28,11 @@ namespace AgenticPrison.Core {
                 PrisonerInCell = this.PrisonerInCell,
                 Alertness = this.Alertness,
                 Fatigue = this.Fatigue,
-                CurrentLocationId = this.CurrentLocationId,
                 CurrentPosition = this.CurrentPosition,
-                CurrentRoomNode = this.CurrentRoomNode,
                 LastKnownPosition = this.LastKnownPosition,
-                
-                // Hacemos una copia superficial (shallow copy) de la lista. 
-                // Clonamos la lista, pero NO clonamos los objetos RoomNode de Unity.
-                AssignedQuadrant = new List<RoomNode>(this.AssignedQuadrant)
+
+                Map = this.Map, // Todos comparten LA MISMA instancia del mapa
+                AssignedQuadrantId = this.AssignedQuadrantId
             };
 
             return clone;

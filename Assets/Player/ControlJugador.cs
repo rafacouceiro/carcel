@@ -5,10 +5,8 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Animator))]
 public class ControlJugador : MonoBehaviour
 {
-    [Header("Ruido")]
-    public float radioRuidoMaximo = 10f;   // alcance máximo del ruido
-    public float multiplicadorRuido = 1.2f; // escala intensidad
-    private float nivelRuido; // valor actual de ruido
+    // Usar un Enum clarifica muchísimo en qué estado está el jugador para calcular velocidades y ruidos
+    public enum PlayerState { Idle, Walking, Running }
 
     [Header("Movimiento")]
     public float velocidadAndar = 3.5f;
@@ -19,111 +17,175 @@ public class ControlJugador : MonoBehaviour
     public float sensibilidad = 0.5f;
     public float maxPitch = 90f;
 
-    private CharacterController controller;
-    private Animator animator;
-    private Transform camara;
+    // --- Variables de Estado Interno ---
+    private CharacterController _controller;
+    private Animator _animator;
+    private Transform _camara;
 
-    private float rotacionX = 0f;
-    private float velocidadVertical = 0f;
+    public PlayerState CurrentState { get; private set; }
+    public float CurrentNoiseLevel { get; private set; } // Propiedad pública para que los guardias la lean
 
-    void Start()
+    // --- Variables de Input y Físicas ---
+    private Vector2 _moveInput;
+    private Vector2 _lookInput;
+    private bool _isSprintPressed;
+    private float _rotacionX = 0f;
+    private float _velocidadVertical = 0f;
+
+    private void Start()
     {
-        controller = GetComponent<CharacterController>();
-        animator = GetComponent<Animator>();
-
-        // Cámara: busca una cámara hija, si no usa la MainCamera
-        Camera camChild = GetComponentInChildren<Camera>();
-        if (camChild != null) camara = camChild.transform;
-        else if (Camera.main != null) camara = Camera.main.transform;
-        else Debug.LogWarning("No se encontró Camera. Mete una cámara dentro del jugador o marca una como MainCamera.");
-
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        InicializarComponentes();
+        BloquearCursor(true);
     }
 
-    void Update()
+    private void Update()
+    {
+        // 1. Leer las entradas del usuario (Teclado/Ratón)
+        ProcesarInput();
+
+        // 2. Controlar la vista (Rotación de cámara y personaje)
+        ManejarCamara();
+
+        // 3. Mover al personaje (Físicas y Gravedad)
+        ManejarMovimiento();
+
+        // 4. Actualizar el estado (Si anda, corre o está quieto)
+        ActualizarEstado();
+
+        // 5. Gestionar animaciones
+        ManejarAnimaciones();
+
+        // 6. Calcular el ruido (Para la IA)
+        GenerarRuido();
+    }
+
+    // ==========================================
+    // MÉTODOS MODULARES
+    // ==========================================
+
+    private void InicializarComponentes()
+    {
+        _controller = GetComponent<CharacterController>();
+        _animator = GetComponent<Animator>();
+
+        Camera camChild = GetComponentInChildren<Camera>();
+        if (camChild != null) _camara = camChild.transform;
+        else if (Camera.main != null) _camara = Camera.main.transform;
+        else Debug.LogWarning("[ControlJugador] No se encontró la cámara.");
+    }
+
+    private void ProcesarInput()
     {
         var keyboard = Keyboard.current;
         var mouse = Mouse.current;
         if (keyboard == null || mouse == null) return;
 
-        // --- 1) Mirar (ratón/trackpad) ---
-        if (camara != null && Cursor.lockState == CursorLockMode.Locked)
-        {
-            Vector2 look = mouse.delta.ReadValue();
-            float mouseX = look.x * sensibilidad;
-            float mouseY = look.y * sensibilidad;
-
-            rotacionX -= mouseY;
-            rotacionX = Mathf.Clamp(rotacionX, -maxPitch, maxPitch);
-
-            camara.localRotation = Quaternion.Euler(rotacionX, 0f, 0f);
-            transform.Rotate(Vector3.up * mouseX);
-        }
-
-        // --- 2) Input movimiento (WASD) ---
+        // Leer movimiento
         float x = (keyboard.dKey.isPressed ? 1f : 0f) - (keyboard.aKey.isPressed ? 1f : 0f);
         float y = (keyboard.wKey.isPressed ? 1f : 0f) - (keyboard.sKey.isPressed ? 1f : 0f);
+        _moveInput = new Vector2(x, y);
+        if (_moveInput.sqrMagnitude > 1f) _moveInput.Normalize();
 
-        Vector2 input = new Vector2(x, y);
-        if (input.sqrMagnitude > 1f) input.Normalize(); // diagonales
-
-        // Umbral para evitar que se quede "andando" por ruido
-        bool moving = input.magnitude > 0.1f;
-
-        bool shift = keyboard.leftShiftKey.isPressed || keyboard.rightShiftKey.isPressed;
-        bool running = shift && moving;
-
-        float speed = running ? velocidadCorrer : velocidadAndar;
-
-        Vector3 moveHorizontal = (transform.right * input.x + transform.forward * input.y) * speed;
-
-        // --- 3) Gravedad ---
-        if (controller.isGrounded && velocidadVertical < 0f)
-            velocidadVertical = -2f; // pegado al suelo
-
-        velocidadVertical += gravedad * Time.deltaTime;
-
-        Vector3 move = new Vector3(moveHorizontal.x, velocidadVertical, moveHorizontal.z);
-        controller.Move(move * Time.deltaTime);
-
-        // --- 4) Animaciones (basadas en velocidad real) ---
-
-        Vector3 horizontalVelocity = new Vector3(controller.velocity.x, 0f, controller.velocity.z);
-        float velocidadActual = horizontalVelocity.magnitude;
-
-        // --- Ruido ---
-        if (velocidadActual < 0.1f)
+        // Leer vista
+        if (Cursor.lockState == CursorLockMode.Locked)
         {
-            nivelRuido = 0f;
+            _lookInput = mouse.delta.ReadValue() * sensibilidad;
         }
         else
         {
-            nivelRuido = Mathf.Clamp(velocidadActual * multiplicadorRuido, 0f, radioRuidoMaximo);
+            _lookInput = Vector2.zero;
         }
 
-        float velocidadNormalizada = velocidadActual / velocidadCorrer;
+        // Leer modificadores y acciones
+        _isSprintPressed = keyboard.leftShiftKey.isPressed || keyboard.rightShiftKey.isPressed;
 
-        animator.SetFloat("Speed", velocidadNormalizada, 0.1f, Time.deltaTime);
-
-        // --- 5) Escape libera ratón ---
-        if (keyboard.escapeKey.wasPressedThisFrame)
-        {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-        }
-
-        // Click para volver a bloquear
-        if (mouse.leftButton.wasPressedThisFrame && Cursor.lockState != CursorLockMode.Locked)
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-        }
+        // Gestión del cursor
+        if (keyboard.escapeKey.wasPressedThisFrame) BloquearCursor(false);
+        if (mouse.leftButton.wasPressedThisFrame && Cursor.lockState != CursorLockMode.Locked) BloquearCursor(true);
     }
 
-    public float ObtenerNivelRuido()
+    private void ManejarCamara()
     {
-        return nivelRuido;
+        if (_camara == null) return;
+
+        // Rotación vertical (Cámara)
+        _rotacionX -= _lookInput.y;
+        _rotacionX = Mathf.Clamp(_rotacionX, -maxPitch, maxPitch);
+        _camara.localRotation = Quaternion.Euler(_rotacionX, 0f, 0f);
+
+        // Rotación horizontal (Cuerpo del jugador)
+        transform.Rotate(Vector3.up * _lookInput.x);
     }
 
+    private void ManejarMovimiento()
+    {
+        // Determinar velocidad objetivo
+        float targetSpeed = _isSprintPressed ? velocidadCorrer : velocidadAndar;
+        if (_moveInput.magnitude < 0.1f) targetSpeed = 0f;
+
+        // Movimiento horizontal
+        Vector3 moveHorizontal = (transform.right * _moveInput.x + transform.forward * _moveInput.y) * targetSpeed;
+
+        // Aplicar gravedad
+        if (_controller.isGrounded && _velocidadVertical < 0f)
+        {
+            _velocidadVertical = -2f; // Mantener al jugador pegado al suelo
+        }
+        _velocidadVertical += gravedad * Time.deltaTime;
+
+        // Mover
+        Vector3 move = new Vector3(moveHorizontal.x, _velocidadVertical, moveHorizontal.z);
+        _controller.Move(move * Time.deltaTime);
+    }
+
+    private void ActualizarEstado()
+    {
+        if (_moveInput.magnitude < 0.1f) 
+        {
+            CurrentState = PlayerState.Idle;
+        }
+        else if (_isSprintPressed) 
+        {
+            CurrentState = PlayerState.Running;
+        }
+        else 
+        {
+            CurrentState = PlayerState.Walking;
+        }
+    }
+
+    private void ManejarAnimaciones()
+    {
+        Vector3 horizontalVelocity = new Vector3(_controller.velocity.x, 0f, _controller.velocity.z);
+        float velocidadNormalizada = horizontalVelocity.magnitude / velocidadCorrer;
+        _animator.SetFloat("Speed", velocidadNormalizada, 0.1f, Time.deltaTime);
+    }
+
+    // ==========================================
+    // SISTEMA DE RUIDO (INTERFAZ PARA LA IA)
+    // ==========================================
+
+    private void GenerarRuido()
+    {
+        // He eliminado los multiplicadores complejos. 
+        // Ahora asignas el ruido explícitamente según el ESTADO, lo cual es predecible y fácil de balancear.
+        switch (CurrentState)
+        {
+            case PlayerState.Idle:
+                CurrentNoiseLevel = 0f;
+                break;
+            case PlayerState.Walking:
+                CurrentNoiseLevel = 5f; // Alcance en metros del ruido al andar
+                break;
+            case PlayerState.Running:
+                CurrentNoiseLevel = 15f; // Alcance en metros del ruido al correr
+                break;
+        }
+    }
+
+    private void BloquearCursor(bool bloquear)
+    {
+        Cursor.lockState = bloquear ? CursorLockMode.Locked : CursorLockMode.None;
+        Cursor.visible = !bloquear;
+    }
 }

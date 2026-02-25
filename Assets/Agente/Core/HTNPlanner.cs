@@ -90,10 +90,10 @@ namespace AgenticPrison.Core {
             destination.PrisonerInCell = source.PrisonerInCell;
             destination.Alertness = source.Alertness;
             destination.Fatigue = source.Fatigue;
-            destination.CurrentRoomNode = source.CurrentRoomNode;
             destination.LastKnownPosition = source.LastKnownPosition;
             destination.CurrentPosition = source.CurrentPosition;
-            destination.AssignedQuadrant = new List<RoomNode>(source.AssignedQuadrant);
+            destination.Map = source.Map;
+            destination.AssignedQuadrantId = source.AssignedQuadrantId;
         }
     }
 }

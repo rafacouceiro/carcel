@@ -11,7 +11,7 @@ namespace AgenticPrison.Behavior.Methods {
         
         public bool CheckPreconditions(WorldState state) {
             // Solo patrullamos si sabemos dónde estamos y no estamos reventados
-            return state.Fatigue < 0.9f && state.PrisonerInCell && state.CurrentRoomNode != null;
+            return state.Fatigue < 0.9f && state.PrisonerInCell;
         }
 
         public Queue<ITask> Decompose(WorldState state) {
@@ -32,11 +32,14 @@ namespace AgenticPrison.Behavior.Methods {
 
         // --- LA LÓGICA DFS AHORA VIVE EN EL MÉTODO ---
         private List<Transform> GenerateDFSRoute(WorldState state) {
+
+            List<RoomNode> quadrantRooms = state.Map.GetSection(state.AssignedQuadrantId);
             List<Transform> finalRoute = new List<Transform>();
             HashSet<RoomNode> visitedRooms = new HashSet<RoomNode>();
             Stack<RoomNode> stack = new Stack<RoomNode>();
 
-            stack.Push(state.CurrentRoomNode);
+            RoomNode spawnRoom = state.Map.GetCurrentNode(state.CurrentPosition);
+            stack.Push(spawnRoom);
 
             while (stack.Count > 0) {
                 RoomNode currentRoom = stack.Pop();
@@ -44,7 +47,7 @@ namespace AgenticPrison.Behavior.Methods {
                 if (visitedRooms.Contains(currentRoom)) continue;
                 visitedRooms.Add(currentRoom);
 
-                if (state.AssignedQuadrant.Contains(currentRoom)) {
+                if (quadrantRooms.Contains(currentRoom)) {
                     if (currentRoom.waypoints != null) {
                         foreach (Transform wp in currentRoom.waypoints) {
                             if (wp != null) finalRoute.Add(wp);
