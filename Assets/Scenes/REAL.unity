@@ -45406,9 +45406,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
-  isKeyPoint: 0
+  isKeyPoint: 1
   isPatrolCheckpoint: 1
-  isCell: 1
+  isCell: 0
 --- !u!1 &667965182
 GameObject:
   m_ObjectHideFlags: 0
@@ -55389,6 +55389,7 @@ Transform:
   - {fileID: 1405213631}
   - {fileID: 1363749515}
   - {fileID: 229387600}
+  - {fileID: 1324986250}
   m_Father: {fileID: 11875104}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &817532250 stripped
@@ -64964,7 +64965,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
   isKeyPoint: 0
   isPatrolCheckpoint: 1
-  isCell: 1
+  isCell: 0
 --- !u!1001 &963554425
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -93527,6 +93528,53 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -4517372159314078503, guid: 453d762048f90974c8a7164f9efc863e, type: 3}
+--- !u!1 &1324986249
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1324986250}
+  - component: {fileID: 1324986251}
+  m_Layer: 0
+  m_Name: WP_1008
+  m_TagString: Untagged
+  m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1324986250
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1324986249}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 39.18, y: 1, z: 32.74}
+  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 817410761}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1324986251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1324986249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 0
+  isPatrolCheckpoint: 0
+  isCell: 1
 --- !u!1 &1325307726 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -1656216863758753830, guid: 2059a5b259221964bbab0a60e9695440, type: 3}

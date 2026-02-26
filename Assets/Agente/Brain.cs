@@ -102,6 +102,26 @@ namespace AgenticPrison {
 
         // EVENTOS DE VISION
         public void OnFugitiveSpotted(Vector3 position) {
+
+            // Para la primera vez que lo vemos: queremos saber si esá en la celda o fuera
+            if(CurrentState.PrisonerInCell)
+            {
+                List<WayPointData> cellPoints = PrisonMap.Instance.GetAllCellPoints();
+
+                foreach(WayPointData cellPoint in cellPoints)
+                {
+                    if(Vector3.Distance(position, cellPoint.transform.position) > 2f)
+                    {
+                        CurrentState.PrisonerInCell = false;
+                    }
+                    else
+                    {
+                        Debug.LogWarning("<color=cyan>El prisionero está en la celda");
+                        return;
+                    }
+                }
+            }
+            
             CurrentState.FugitiveInVision = true;
             CurrentState.LastKnownPosition = position;
             ForzarReplanificacion(); 
