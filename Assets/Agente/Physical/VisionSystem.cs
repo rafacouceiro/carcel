@@ -18,6 +18,7 @@ namespace AgenticPrison.Physical {
     public interface IVisionEvents {
         void OnFugitiveSpotted(Vector3 position);
         void OnFugitiveLost();
+        void OnFugitivePositionUpdated(Vector3 position);
     }
 
     // 3. El mánager que conecta al jugador con los sensores
@@ -55,10 +56,15 @@ namespace AgenticPrison.Physical {
         public void OnPlayerPresenceEmitted(Transform player) {
             bool canSeeNow = CheckPhysicalVisibility(player);
 
-            // Solo notificamos si hay un cambio de estado real
-            if (canSeeNow && !_isCurrentlySeeing) {
-                _isCurrentlySeeing = true;
-                _brain?.OnFugitiveSpotted(player.position);
+            if (canSeeNow) {
+                if (!_isCurrentlySeeing) {
+                    // Primer frame: El guardia se sorprende y replanifica
+                    _isCurrentlySeeing = true;
+                    _brain?.OnFugitiveSpotted(player.position);
+                } else {
+                    // Siguientes frames: El guardia solo actualiza la coordenada de su objetivo
+                    _brain?.OnFugitivePositionUpdated(player.position);
+                }
             } 
             else if (!canSeeNow && _isCurrentlySeeing) {
                 _isCurrentlySeeing = false;

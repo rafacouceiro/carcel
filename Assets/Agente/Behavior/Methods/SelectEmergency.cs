@@ -6,7 +6,7 @@ namespace AgenticPrison.Behavior.Methods {
 
     public class SelectEmergency : IMethod {
         public bool CheckPreconditions(WorldState state) {
-            return state.FugitiveInVision && state.Fatigue < 0.8f;
+            return state.FugitiveInVision;
         }
 
         public Queue<ITask> Decompose(WorldState state) {

@@ -10,8 +10,8 @@ namespace AgenticPrison.Behavior.CompoundTasks {
 
         public RoutineTask() {
             Methods = new List<IMethod> {
-                new PatrolMethod(),
-                new TakeBreakMethod()
+                new PatrolMethod()
+                // new TakeBreakMethod()
             };
         }
     }

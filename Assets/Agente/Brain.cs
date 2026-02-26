@@ -101,11 +101,14 @@ namespace AgenticPrison {
         }
 
         // EVENTOS DE VISION
-
         public void OnFugitiveSpotted(Vector3 position) {
             CurrentState.FugitiveInVision = true;
             CurrentState.LastKnownPosition = position;
             ForzarReplanificacion(); 
+        }
+
+        public void OnFugitivePositionUpdated(Vector3 position) {
+            CurrentState.LastKnownPosition = position;
         }
 
         public void OnFugitiveLost() {
