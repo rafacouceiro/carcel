@@ -119,5 +119,8 @@ public class ProximityButton : MonoBehaviour
                 Debug.LogWarning("No se ha asignado RescueAnchor.");
             }
         }
+
+        EscapeState.CanEscape = true; // Activar la posibilidad de escapar
+    
     }
 }

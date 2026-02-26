@@ -2952,6 +2952,7 @@ MonoBehaviour:
   PlayerTarget: {fileID: 1796544529}
   QuadrantId: section2
   ArrastrarCuadrante: {fileID: 0}
+  AuditoryRange: 20
 --- !u!114 &50945112
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55152,6 +55153,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 814490999}
+  - component: {fileID: 814491001}
+  - component: {fileID: 814491000}
   m_Layer: 0
   m_Name: Deportivo
   m_TagString: Untagged
@@ -55175,6 +55178,44 @@ Transform:
   - {fileID: 2111762863}
   m_Father: {fileID: 1088714255}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &814491000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 814490998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e310eae4976af3b49b305ea2da410e1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CarEscapeToStart
+  escapeDistance: 2
+  startSceneName: REAL
+  playerRoot: {fileID: 0}
+  rescuedObject: {fileID: 2014441395}
+--- !u!64 &814491001
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 814490998}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 0}
 --- !u!1001 &816502628
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -64993,6 +65034,7 @@ MonoBehaviour:
   PlayerTarget: {fileID: 1796544529}
   QuadrantId: section4
   ArrastrarCuadrante: {fileID: 0}
+  AuditoryRange: 20
 --- !u!114 &963554429
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -88309,6 +88351,7 @@ MonoBehaviour:
   PlayerTarget: {fileID: 1796544529}
   QuadrantId: section5
   ArrastrarCuadrante: {fileID: 0}
+  AuditoryRange: 20
 --- !u!114 &1242211433
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -122970,6 +123013,7 @@ MonoBehaviour:
   PlayerTarget: {fileID: 1796544529}
   QuadrantId: section1
   ArrastrarCuadrante: {fileID: 0}
+  AuditoryRange: 20
 --- !u!1 &1777836571
 GameObject:
   m_ObjectHideFlags: 0
@@ -124897,6 +124941,8 @@ MonoBehaviour:
   gravedad: -9.81
   sensibilidad: 0.5
   maxPitch: 90
+  intervaloPasosAndar: 0.5
+  intervaloPasosCorrer: 0.3
 --- !u!143 &1796544533
 CharacterController:
   m_ObjectHideFlags: 0
@@ -125220,6 +125266,7 @@ MonoBehaviour:
   PlayerTarget: {fileID: 1796544529}
   QuadrantId: section7
   ArrastrarCuadrante: {fileID: 0}
+  AuditoryRange: 20
 --- !u!114 &1799366118
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128668,6 +128715,7 @@ MonoBehaviour:
   PlayerTarget: {fileID: 1796544529}
   QuadrantId: section6
   ArrastrarCuadrante: {fileID: 0}
+  AuditoryRange: 20
 --- !u!114 &1838112915
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -144839,6 +144887,7 @@ MonoBehaviour:
   PlayerTarget: {fileID: 1796544529}
   QuadrantId: section3
   ArrastrarCuadrante: {fileID: 0}
+  AuditoryRange: 20
 --- !u!114 &2044574261
 MonoBehaviour:
   m_ObjectHideFlags: 0
