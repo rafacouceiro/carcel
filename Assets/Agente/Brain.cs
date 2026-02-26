@@ -131,6 +131,7 @@ namespace AgenticPrison {
             }
             
             Debug.LogWarning("<color=red>He visto al prisionero fuera de la celda");
+            CurrentState.PrisonerInCell = false;
             CurrentState.FugitiveInVision = true;
             CurrentState.LastKnownPosition = position;
             ForzarReplanificacion(); 
@@ -143,7 +144,6 @@ namespace AgenticPrison {
         public void OnFugitiveLost() {
             Debug.LogWarning("<color=red>He perdido de vista al prisionero");
             CurrentState.FugitiveInVision = false;
-            ForzarReplanificacion();
         }
 
         public void OnCellFoundOpen() 

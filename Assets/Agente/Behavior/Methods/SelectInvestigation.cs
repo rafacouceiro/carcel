@@ -7,7 +7,7 @@ namespace AgenticPrison.Behavior.Methods {
 
     public class SelectInvestigation : IMethod {
         public bool CheckPreconditions(WorldState state) {
-            return state.LastKnownPosition != Vector3.zero;
+            return true;
         }
 
         public Queue<ITask> Decompose(WorldState state) {

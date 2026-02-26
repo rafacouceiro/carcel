@@ -60,17 +60,15 @@ namespace AgenticPrison.Core {
         public List<WayPointData> GetAllKeyPoints() {
             List<WayPointData> keyPoints = new List<WayPointData>();
 
-            // Recorremos todas las habitaciones del mapa
-            foreach (RoomNode room in _allNodes) {
-                if (room == null) continue;
+            // Buscamos TODOS los waypoints que sean hijos de LogicMap (estén en salas o sueltos)
+            WayPointData[] allWaypointsInMap = GetComponentsInChildren<WayPointData>();
 
-                // Filtramos los waypoints de cada habitación
-                foreach (WayPointData wp in room.waypoints) {
-                    if (wp != null && wp.isKeyPoint) {
-                        keyPoints.Add(wp);
-                    }
+            foreach (WayPointData wp in allWaypointsInMap) {
+                if (wp != null && wp.isKeyPoint) {
+                    keyPoints.Add(wp);
                 }
             }
+            
             return keyPoints;
         }
 
