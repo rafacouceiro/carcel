@@ -10,8 +10,7 @@ namespace AgenticPrison.Behavior.Methods {
     public class PatrolMethod : IMethod {
         
         public bool CheckPreconditions(WorldState state) {
-            // Solo patrullamos si sabemos dónde estamos y no estamos reventados
-            return state.Fatigue < 0.9f && state.PrisonerInCell;
+            return state.Fatigue < 0.95f && state.PrisonerInCell;
         }
 
         public Queue<ITask> Decompose(WorldState state) {

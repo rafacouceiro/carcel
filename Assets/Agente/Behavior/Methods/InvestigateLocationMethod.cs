@@ -7,11 +7,11 @@ using AgenticPrison.Behavior.PrimitiveTasks;
 
 namespace AgenticPrison.Behavior.Methods {
 
-    public class InvestigateKeyPointsMethod : IMethod {
+    public class InvestigateLocationMethod : IMethod {
 
         public bool CheckPreconditions(WorldState state) {
-            // No depende del fugitivo. Solo de que existan puntos que investigar.
-            return true; 
+            // Ejecutable si sabemos que el preso no está en la celda
+            return !state.PrisonerInCell; 
         }
 
         public Queue<ITask> Decompose(WorldState state) {

@@ -12,7 +12,7 @@ namespace AgenticPrison.Behavior.Methods {
         private readonly float _maxSearchRadius = 15f; 
 
         public bool CheckPreconditions(WorldState state) {
-            return !state.FugitiveInVision && state.LastKnownPosition != Vector3.zero;
+            return state.LastKnownPosition != Vector3.zero;
         }
 
         public Queue<ITask> Decompose(WorldState state) {

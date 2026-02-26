@@ -6,7 +6,7 @@ namespace AgenticPrison.Behavior.Methods {
 
     public class SelectInvestigation : IMethod {
         public bool CheckPreconditions(WorldState state) {
-            return true;
+            return state.Fatigue < 0.9f;
         }
 
         public Queue<ITask> Decompose(WorldState state) {

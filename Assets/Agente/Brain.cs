@@ -9,7 +9,8 @@ using UnityEditor; // Necesario para Handles
 
 namespace AgenticPrison {
 
-    public class Brain : MonoBehaviour, INoiseReceiver {
+    public class Brain : MonoBehaviour, INoiseReceiver, IVisionEvents {
+
         [Header("Tangible References")]
         public Transform PlayerTarget;
 
@@ -17,20 +18,20 @@ namespace AgenticPrison {
         [Tooltip("El ID simbólico del cuadrante. Puedes escribirlo o arrastrar el objeto abajo.")]
         public string QuadrantId = "section1"; // <--- Tu agente SOLO usará este string
 
-// --- MAGIA DEL EDITOR DE UNITY ---
-#if UNITY_EDITOR
-        [Header("Herramientas de Editor (No se compila en el juego final)")]
-        [Tooltip("Arrastra aquí un objeto. El agente copiará su nombre y soltará el objeto al instante.")]
-        public Transform ArrastrarCuadrante;
+        // --- MAGIA DEL EDITOR DE UNITY ---
+        #if UNITY_EDITOR
+                [Header("Herramientas de Editor (No se compila en el juego final)")]
+                [Tooltip("Arrastra aquí un objeto. El agente copiará su nombre y soltará el objeto al instante.")]
+                public Transform ArrastrarCuadrante;
 
-        // OnValidate se ejecuta automáticamente cada vez que tocas algo en el Inspector
-        private void OnValidate() {
-            if (ArrastrarCuadrante != null) {
-                QuadrantId = ArrastrarCuadrante.name; // 1. Copia el nombre al string
-                ArrastrarCuadrante = null;            // 2. Borra la referencia física
-            }
-        }
-#endif
+                // OnValidate se ejecuta automáticamente cada vez que tocas algo en el Inspector
+                private void OnValidate() {
+                    if (ArrastrarCuadrante != null) {
+                        QuadrantId = ArrastrarCuadrante.name; // 1. Copia el nombre al string
+                        ArrastrarCuadrante = null;            // 2. Borra la referencia física
+                    }
+                }
+        #endif
 
         [Header("Logic State")]
         public WorldState CurrentState;
@@ -43,10 +44,7 @@ namespace AgenticPrison {
         private IPrimitiveTask _activeTask;
 
         private IMovable _movable; 
-        private IVisualSensor _vision; 
-        
         private ICompoundTask _rootTask;
-        private bool _wasFugitiveInVision;
 
         private void Start() {
 
@@ -59,18 +57,12 @@ namespace AgenticPrison {
             _currentPlan = new Queue<IPrimitiveTask>();
 
             _movable = GetComponent<NavMeshDriver>();
-            _vision = GetComponent<IVisualSensor>();
-            // _hearing = GetComponent<IHearingSensor>();
-
-            if (_vision is VisionSensor unityVision) {
-                unityVision.Target = PlayerTarget;
-            }
 
             _rootTask = new AgenticPrison.Behavior.RootTask.BeGuard();
         }
 
         private void Update() {
-            UpdateSensors();
+            UpdateLocation();
             ProcessHTNExecution();
         }
 
@@ -86,6 +78,7 @@ namespace AgenticPrison {
             NoiseManager.UnregisterReceiver(this);
         }
 
+        // EVENTOS DE AUDICIÓN
         public void OnNoiseHeard(NoiseEvent noise) 
         {
             float dist = Vector3.Distance(transform.position, noise.Position);
@@ -107,35 +100,19 @@ namespace AgenticPrison {
             }
         }
 
-        // FUNCIONES SENSORIALES: ACTUALIZACIÓN DE ESTADO
+        // EVENTOS DE VISION
 
-        private void UpdateSensors() {
-            UpdateVisionFugitive();
-            UpdateLocation();
+        public void OnFugitiveSpotted(Vector3 position) {
+            CurrentState.FugitiveInVision = true;
+            CurrentState.LastKnownPosition = position;
+            ForzarReplanificacion(); 
         }
 
-        /// <summary>
-        /// Actualiza el estado de visión con respecto al fugitivo
-        /// forzando la replanificaicon si es necesario
-        /// </summary>
-        private void UpdateVisionFugitive() {
-
-            if (_vision != null) {
-
-                bool wasFugitiveInVision = CurrentState.FugitiveInVision;
-                CurrentState.FugitiveInVision = _vision.CheckFugitiveVisibility();
-
-                if (CurrentState.FugitiveInVision) {
-                    Debug.LogWarning("Veo al fugitivo");
-                    CurrentState.LastKnownPosition = _vision.GetFugitivePosition();
-                }
-                
-                // Si vemos / perdemos de vista al fugitivo replanificamos 
-                if (wasFugitiveInVision != CurrentState.FugitiveInVision) {
-                    ForzarReplanificacion();
-                }
-            }
+        public void OnFugitiveLost() {
+            CurrentState.FugitiveInVision = false;
+            ForzarReplanificacion();
         }
+
 
         private void UpdateLocation(){
             CurrentState.CurrentPosition = transform.position;

@@ -10,7 +10,7 @@ namespace AgenticPrison.Behavior.Methods {
         
         public bool CheckPreconditions(WorldState state) {
             // El agente decide descansar si su fatiga es alta
-            return state.Fatigue > 0.7f; 
+            return true; 
         }
 
         public Queue<ITask> Decompose(WorldState state) {

@@ -12,7 +12,7 @@ namespace AgenticPrison.Behavior.CompoundTasks {
             Methods = new List<IMethod> {
                 new InvestigateEscapeMethod(),
                 new InvestigateNoiseMethod(),
-                new InvestigateKeyPointsMethod()
+                new InvestigateLocationMethod()
             };
         }
     }

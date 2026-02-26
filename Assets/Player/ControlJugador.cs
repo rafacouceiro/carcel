@@ -53,6 +53,8 @@ public class ControlJugador : MonoBehaviour
         
         // El sistema de ruido se actualiza cada frame pero emite por pulsos
         GenerarRuido();
+        BecomeVisible();
+
     }
 
     private void InicializarComponentes()
@@ -168,6 +170,11 @@ public class ControlJugador : MonoBehaviour
     {
         Cursor.lockState = bloquear ? CursorLockMode.Locked : CursorLockMode.None;
         Cursor.visible = !bloquear;
+    }
+
+    private void BecomeVisible()
+    {
+        VisionManager.EmitPresence(this.transform);;
     }
 
     private void OnDrawGizmos()
