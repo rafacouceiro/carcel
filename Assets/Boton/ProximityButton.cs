@@ -1,4 +1,5 @@
 using UnityEngine;
+using AgenticPrison.Physical;
 
 public class ProximityButton : MonoBehaviour
 {
@@ -50,7 +51,7 @@ public class ProximityButton : MonoBehaviour
         if (player == null || activated)
             return;
 
-        // 🔴 Parpadeo fuerte (0 -> max -> 0)
+        // Parpadeo fuerte (0 -> max -> 0)
         float t = Mathf.PingPong(Time.time * pulseSpeed, 1f);
 
         if (indicatorLight != null)
@@ -65,7 +66,7 @@ public class ProximityButton : MonoBehaviour
             matInstance.SetColor("_EmissionColor", idleColor * Mathf.Lerp(0f, 3f, t));
         }
 
-        // 📏 Distancia real al collider del jugador
+        // Distancia real al collider del jugador
         Collider playerCol = player.GetComponent<Collider>();
         float distance = (playerCol != null)
             ? Vector3.Distance(transform.position, playerCol.ClosestPoint(transform.position))
@@ -75,11 +76,25 @@ public class ProximityButton : MonoBehaviour
             Activate();
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        // 1. Si la celda sigue cerrada, no le decimos nada a nadie
+        if (!activated) return;
+
+        // 2. Comprobamos si el que acaba de pasar por aquí es un guardia (tiene cerebro)
+        var brain = other.GetComponent<ICellEventReceiver>();
+        if (brain != null)
+        {
+            // 3. Le mandamos la señal UNA VEZ al guardia que ha pasado
+            brain.OnCellFoundOpen();
+        }
+    }
+
     private void Activate()
     {
         activated = true;
 
-        // 🟢 Verde fijo
+        // Verde fijo
         if (indicatorLight != null)
         {
             indicatorLight.color = activatedColor;
@@ -92,7 +107,7 @@ public class ProximityButton : MonoBehaviour
             matInstance.SetColor("_EmissionColor", activatedColor * 4f);
         }
 
-        // 🚪 Abrir todas las puertas asignadas
+        // Abrir todas las puertas asignadas
         if (doorsToOpen != null && doorsToOpen.Length > 0)
         {
             foreach (var door in doorsToOpen)
@@ -102,7 +117,7 @@ public class ProximityButton : MonoBehaviour
             }
         }
 
-        // 👤 Rescatar objeto y pegarlo al jugador
+        // Rescatar objeto y pegarlo al jugador
         if (rescueObject != null)
         {
             if (rescueAnchor == null && player != null)
@@ -121,6 +136,11 @@ public class ProximityButton : MonoBehaviour
         }
 
         EscapeState.CanEscape = true; // Activar la posibilidad de escapar
+
+        Collider[] guards = Physics.OverlapSphere(transform.position, 4f);
+        foreach (var g in guards) {
+            g.GetComponent<ICellEventReceiver>()?.OnCellFoundOpen();
+        }
     
     }
 }

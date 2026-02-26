@@ -2922,10 +2922,10 @@ PrefabInstance:
       addedObject: {fileID: 50945113}
     - targetCorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 50945112}
+      addedObject: {fileID: 50945111}
     - targetCorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 50945111}
+      addedObject: {fileID: 50945115}
   m_SourcePrefab: {fileID: 100100000, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
 --- !u!4 &50945109 stripped
 Transform:
@@ -2953,23 +2953,6 @@ MonoBehaviour:
   QuadrantId: section2
   ArrastrarCuadrante: {fileID: 0}
   AuditoryRange: 20
---- !u!114 &50945112
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 50945110}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00cab182237c3405cb9239b88b25ab3d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.VisionSensor
-  VisionRange: 15
-  ViewAngle: 90
-  ObstacleMask:
-    serializedVersion: 2
-    m_Bits: 0
 --- !u!114 &50945113
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3004,6 +2987,23 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &50945115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 50945110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24fe0968e3fd24ffeaa306f3524906f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.VisionSystem
+  VisionRange: 15
+  ViewAngle: 120
+  ObstacleMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1001 &52761029
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21256,6 +21256,7 @@ GameObject:
   - component: {fileID: 308971860}
   - component: {fileID: 308971859}
   - component: {fileID: 308971858}
+  - component: {fileID: 308971863}
   m_Layer: 7
   m_Name: BotonJugador
   m_TagString: Untagged
@@ -21381,6 +21382,27 @@ Transform:
   - {fileID: 160992675}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &308971863
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 308971857}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 25
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &309347355
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -41243,6 +41265,7 @@ GameObject:
   - component: {fileID: 607792407}
   - component: {fileID: 607792406}
   - component: {fileID: 607792410}
+  - component: {fileID: 607792411}
   m_Layer: 7
   m_Name: BotonSalvacion
   m_TagString: Untagged
@@ -41368,6 +41391,27 @@ MonoBehaviour:
   activatedColor: {r: 0, g: 1, b: 0, a: 1}
   pulseSpeed: 2
   maxIntensity: 200
+--- !u!135 &607792411
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 607792405}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 25
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &608631548 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4608623780696759378, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -65004,10 +65048,10 @@ PrefabInstance:
       addedObject: {fileID: 963554430}
     - targetCorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 963554429}
+      addedObject: {fileID: 963554428}
     - targetCorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 963554428}
+      addedObject: {fileID: 963554432}
   m_SourcePrefab: {fileID: 100100000, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
 --- !u!4 &963554426 stripped
 Transform:
@@ -65035,23 +65079,6 @@ MonoBehaviour:
   QuadrantId: section4
   ArrastrarCuadrante: {fileID: 0}
   AuditoryRange: 20
---- !u!114 &963554429
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 963554427}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00cab182237c3405cb9239b88b25ab3d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.VisionSensor
-  VisionRange: 15
-  ViewAngle: 90
-  ObstacleMask:
-    serializedVersion: 2
-    m_Bits: 0
 --- !u!114 &963554430
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65086,6 +65113,23 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &963554432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963554427}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24fe0968e3fd24ffeaa306f3524906f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.VisionSystem
+  VisionRange: 15
+  ViewAngle: 120
+  ObstacleMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &965070405 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6999322035538773533, guid: baf57603f98cbdd4e8007a7276476d51, type: 3}
@@ -88321,10 +88365,10 @@ PrefabInstance:
       addedObject: {fileID: 1242211434}
     - targetCorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1242211433}
+      addedObject: {fileID: 1242211432}
     - targetCorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1242211432}
+      addedObject: {fileID: 1242211436}
   m_SourcePrefab: {fileID: 100100000, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
 --- !u!4 &1242211430 stripped
 Transform:
@@ -88352,23 +88396,6 @@ MonoBehaviour:
   QuadrantId: section5
   ArrastrarCuadrante: {fileID: 0}
   AuditoryRange: 20
---- !u!114 &1242211433
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1242211431}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00cab182237c3405cb9239b88b25ab3d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.VisionSensor
-  VisionRange: 15
-  ViewAngle: 90
-  ObstacleMask:
-    serializedVersion: 2
-    m_Bits: 0
 --- !u!114 &1242211434
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -88403,6 +88430,23 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &1242211436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1242211431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24fe0968e3fd24ffeaa306f3524906f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.VisionSystem
+  VisionRange: 15
+  ViewAngle: 120
+  ObstacleMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1001 &1242221384
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -122937,10 +122981,10 @@ PrefabInstance:
       addedObject: {fileID: 1777676847}
     - targetCorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1777676846}
+      addedObject: {fileID: 1777676849}
     - targetCorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1777676849}
+      addedObject: {fileID: 1777676850}
   m_SourcePrefab: {fileID: 100100000, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
 --- !u!4 &1777676841 stripped
 Transform:
@@ -122969,23 +123013,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &1777676846
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1557340913}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00cab182237c3405cb9239b88b25ab3d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.VisionSensor
-  VisionRange: 15
-  ViewAngle: 90
-  ObstacleMask:
-    serializedVersion: 2
-    m_Bits: 0
 --- !u!114 &1777676847
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123014,6 +123041,23 @@ MonoBehaviour:
   QuadrantId: section1
   ArrastrarCuadrante: {fileID: 0}
   AuditoryRange: 20
+--- !u!114 &1777676850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1557340913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24fe0968e3fd24ffeaa306f3524906f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.VisionSystem
+  VisionRange: 15
+  ViewAngle: 120
+  ObstacleMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &1777836571
 GameObject:
   m_ObjectHideFlags: 0
@@ -125236,10 +125280,10 @@ PrefabInstance:
       addedObject: {fileID: 1799366119}
     - targetCorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1799366118}
+      addedObject: {fileID: 1799366117}
     - targetCorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1799366117}
+      addedObject: {fileID: 1799366121}
   m_SourcePrefab: {fileID: 100100000, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
 --- !u!4 &1799366115 stripped
 Transform:
@@ -125267,23 +125311,6 @@ MonoBehaviour:
   QuadrantId: section7
   ArrastrarCuadrante: {fileID: 0}
   AuditoryRange: 20
---- !u!114 &1799366118
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1799366116}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00cab182237c3405cb9239b88b25ab3d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.VisionSensor
-  VisionRange: 15
-  ViewAngle: 90
-  ObstacleMask:
-    serializedVersion: 2
-    m_Bits: 0
 --- !u!114 &1799366119
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125318,6 +125345,23 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &1799366121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1799366116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24fe0968e3fd24ffeaa306f3524906f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.VisionSystem
+  VisionRange: 15
+  ViewAngle: 120
+  ObstacleMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &1799442420
 GameObject:
   m_ObjectHideFlags: 0
@@ -128685,10 +128729,10 @@ PrefabInstance:
       addedObject: {fileID: 1838112916}
     - targetCorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1838112915}
+      addedObject: {fileID: 1838112914}
     - targetCorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1838112914}
+      addedObject: {fileID: 1838112918}
   m_SourcePrefab: {fileID: 100100000, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
 --- !u!4 &1838112912 stripped
 Transform:
@@ -128716,23 +128760,6 @@ MonoBehaviour:
   QuadrantId: section6
   ArrastrarCuadrante: {fileID: 0}
   AuditoryRange: 20
---- !u!114 &1838112915
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1838112913}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00cab182237c3405cb9239b88b25ab3d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.VisionSensor
-  VisionRange: 15
-  ViewAngle: 90
-  ObstacleMask:
-    serializedVersion: 2
-    m_Bits: 0
 --- !u!114 &1838112916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128767,6 +128794,23 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &1838112918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1838112913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24fe0968e3fd24ffeaa306f3524906f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.VisionSystem
+  VisionRange: 15
+  ViewAngle: 120
+  ObstacleMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1001 &1839704027
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -144857,10 +144901,10 @@ PrefabInstance:
       addedObject: {fileID: 2044574262}
     - targetCorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2044574261}
+      addedObject: {fileID: 2044574260}
     - targetCorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2044574260}
+      addedObject: {fileID: 2044574264}
   m_SourcePrefab: {fileID: 100100000, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
 --- !u!4 &2044574258 stripped
 Transform:
@@ -144888,23 +144932,6 @@ MonoBehaviour:
   QuadrantId: section3
   ArrastrarCuadrante: {fileID: 0}
   AuditoryRange: 20
---- !u!114 &2044574261
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2044574259}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00cab182237c3405cb9239b88b25ab3d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.VisionSensor
-  VisionRange: 15
-  ViewAngle: 90
-  ObstacleMask:
-    serializedVersion: 2
-    m_Bits: 0
 --- !u!114 &2044574262
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -144939,6 +144966,23 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &2044574264
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2044574259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24fe0968e3fd24ffeaa306f3524906f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.VisionSystem
+  VisionRange: 15
+  ViewAngle: 120
+  ObstacleMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &2044697736 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 453d762048f90974c8a7164f9efc863e, type: 3}

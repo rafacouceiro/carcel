@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace AgenticPrison.Physical {
 
-    // 1. Datos del evento
+    // Datos del evento
     public struct VisionEvent {
         public Transform Source;
         public Vector3 Position;
@@ -14,14 +14,19 @@ namespace AgenticPrison.Physical {
         }
     }
 
-    // 2. Interfaz para que el Brain reciba señales
+    // Interfaz para que el Brain reciba señales
     public interface IVisionEvents {
         void OnFugitiveSpotted(Vector3 position);
         void OnFugitiveLost();
         void OnFugitivePositionUpdated(Vector3 position);
     }
 
-    // 3. El mánager que conecta al jugador con los sensores
+    // Evento especial para que el guardia pueda 'ver' la celda abierta
+    public interface ICellEventReceiver {
+        void OnCellFoundOpen();
+    }
+
+    // El mánager que conecta al jugador con los sensores
     public static class VisionManager {
         private static List<VisionSystem> _sensors = new List<VisionSystem>();
 
@@ -35,7 +40,7 @@ namespace AgenticPrison.Physical {
         }
     }
 
-    // 4. El sensor físico que va en cada guardia
+    // El sensor físico que va en cada guardia
     public class VisionSystem : MonoBehaviour {
         [Header("Configuración")]
         public float VisionRange = 15f;

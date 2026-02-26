@@ -116,7 +116,15 @@ namespace AgenticPrison {
             ForzarReplanificacion();
         }
 
+        public void OnCellFoundOpen() 
+        {
+            if (CurrentState.PrisonerInCell) {
+                CurrentState.PrisonerInCell = false;                
+                ForzarReplanificacion();
+            }
+        }
 
+        // Actualizar posición del agente
         private void UpdateLocation(){
             CurrentState.CurrentPosition = transform.position;
         }
@@ -129,6 +137,7 @@ namespace AgenticPrison {
             _movable.StopMoving();
         }
 
+        // Flujo de HTN
         private void ProcessHTNExecution() {
 
             if (_rootTask == null) return;
