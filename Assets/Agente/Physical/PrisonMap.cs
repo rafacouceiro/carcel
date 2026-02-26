@@ -56,5 +56,22 @@ namespace AgenticPrison.Core {
         }
 
         public List<RoomNode> GetAllNodes() => _allNodes;
+
+        public List<WaypointData> GetAllKeyPoints() {
+            List<WaypointData> keyPoints = new List<WaypointData>();
+
+            // Recorremos todas las habitaciones del mapa
+            foreach (RoomNode room in allNodes) {
+                if (room == null) continue;
+
+                // Filtramos los waypoints de cada habitación
+                foreach (WaypointData wp in room.waypoints) {
+                    if (wp != null && wp.isKeyPoint) {
+                        keyPoints.Add(wp);
+                    }
+                }
+            }
+            return keyPoints;
+        }
     }
 }
