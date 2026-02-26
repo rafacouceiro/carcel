@@ -11,6 +11,9 @@ namespace AgenticPrison.Physical {
     public class NavMeshDriver : MonoBehaviour, IMovable {
         private NavMeshAgent _agent;
 
+        [Header("Visuales")]
+        public Light linterna;
+
         private void Awake() {
             _agent = GetComponent<NavMeshAgent>();
         }
@@ -61,6 +64,12 @@ namespace AgenticPrison.Physical {
             // mientras está quieto, rotamos el transform directamente.
             // Usamos el ángulo como un offset sobre el eje Y.
             transform.rotation = Quaternion.Euler(0, degrees, 0);
+        }
+
+        public void SetLightColor(Color color) {
+            if (linterna != null) {
+                linterna.color = color;
+            }
         }
     }
 }

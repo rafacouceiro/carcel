@@ -17,6 +17,7 @@ namespace AgenticPrison.Behavior.Methods {
 
         public Queue<ITask> Decompose(WorldState state) {
             var subTasks = new Queue<ITask>();
+            subTasks.Enqueue(new ChangeFlashLight(Color.blue));
             
             // Obtener el nodo donde desapareció
             RoomNode lkpRoom = state.Map.GetCurrentNode(state.LastKnownPosition);

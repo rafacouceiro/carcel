@@ -116,12 +116,13 @@ namespace AgenticPrison {
                     }
                     else
                     {
-                        Debug.LogWarning("<color=cyan>El prisionero está en la celda");
+                        Debug.LogWarning("<color=magenta>El prisionero está en la celda");
                         return;
                     }
                 }
             }
             
+            Debug.LogWarning("<color=red>He visto al prisionero fuera de la celda");
             CurrentState.FugitiveInVision = true;
             CurrentState.LastKnownPosition = position;
             ForzarReplanificacion(); 
@@ -139,8 +140,9 @@ namespace AgenticPrison {
         public void OnCellFoundOpen() 
         {
             if (CurrentState.PrisonerInCell) {
-                CurrentState.PrisonerInCell = false;                
-                ForzarReplanificacion();
+                CurrentState.PrisonerInCell = false;  
+                Debug.LogWarning("<color=yellow>El prisionero SE HA FUGADO");              
+                // ForzarReplanificacion();
             }
         }
 

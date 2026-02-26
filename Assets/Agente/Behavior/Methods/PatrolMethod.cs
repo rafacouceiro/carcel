@@ -15,6 +15,7 @@ namespace AgenticPrison.Behavior.Methods {
 
         public Queue<ITask> Decompose(WorldState state) {
             var subTasks = new Queue<ITask>();
+            subTasks.Enqueue(new ChangeFlashLight(Color.green));
             
             // 1. El Cerebro ejecuta el DFS
             List<Transform> route = GenerateDFSRoute(state);

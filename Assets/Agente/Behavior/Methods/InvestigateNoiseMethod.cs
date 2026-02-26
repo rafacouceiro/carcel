@@ -17,7 +17,10 @@ namespace AgenticPrison.Behavior.Methods {
         }
 
         public Queue<ITask> Decompose(WorldState state) {
+            
             var subTasks = new Queue<ITask>();
+            subTasks.Enqueue(new ChangeFlashLight(Color.yellow))
+
             List<WayPointData> candidates = new List<WayPointData>();
 
             // 1. Buscamos en TODOS los nodos del mapa que estén cerca del ruido

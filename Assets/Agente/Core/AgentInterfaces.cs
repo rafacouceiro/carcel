@@ -12,6 +12,7 @@ namespace AgenticPrison.Core {
         void SetSpeed(float speed);
         float GetRotation();
         void RotateTo(float degrees);
+        void SetLightColor(Color color);
     }
 
     // INPUT: Sensors
