@@ -88,13 +88,12 @@ namespace AgenticPrison.Core {
         private void CopyState(WorldState source, WorldState destination) {
             destination.FugitiveInVision = source.FugitiveInVision;
             destination.PrisonerInCell = source.PrisonerInCell;
-            destination.Alertness = source.Alertness;
             destination.Fatigue = source.Fatigue;
             destination.LastKnownPosition = source.LastKnownPosition;
             destination.CurrentPosition = source.CurrentPosition;
             destination.Map = source.Map;
             destination.AssignedQuadrantId = source.AssignedQuadrantId;
-            destination.LastKnownNoisePosition = source.LastKnownNoisePosition;
+            destination.LastNoisePosition = source.LastNoisePosition;
         }
     }
 }

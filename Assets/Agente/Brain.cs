@@ -44,7 +44,6 @@ namespace AgenticPrison {
 
         private IMovable _movable; 
         private IVisualSensor _vision; 
-        private IHearingSensor _hearing; 
         
         private ICompoundTask _rootTask;
         private bool _wasFugitiveInVision;
@@ -98,13 +97,11 @@ namespace AgenticPrison {
             
             if (intensity > 0.1f)
             {
-                CurrentState.Alertness = true;
-
                 float errorMagnitude = Mathf.Lerp(0.5f, 5f, dist / noise.Volume);
                 Vector2 randomCircle = Random.insideUnitCircle * errorMagnitude;
                 Vector3 diffusePosition = noise.Position + new Vector3(randomCircle.x, 0, randomCircle.y);
 
-                CurrentState.LastKnownNoisePosition = diffusePosition;
+                CurrentState.LastNoisePosition = diffusePosition;
 
                 ForzarReplanificacion();
             }
@@ -131,7 +128,6 @@ namespace AgenticPrison {
                 if (CurrentState.FugitiveInVision) {
                     Debug.LogWarning("Veo al fugitivo");
                     CurrentState.LastKnownPosition = _vision.GetFugitivePosition();
-                    CurrentState.Alertness = true;    
                 }
                 
                 // Si vemos / perdemos de vista al fugitivo replanificamos 

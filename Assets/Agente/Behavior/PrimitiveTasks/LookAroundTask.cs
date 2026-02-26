@@ -5,25 +5,27 @@ namespace AgenticPrison.Behavior.PrimitiveTasks {
     public class LookAroundTask : IPrimitiveTask {
         private float _waitTime = 2f;
         private float _timer;
+        private float _centerRotation; // Rotación base donde se detuvo
+        private bool _isInitialized = false;
 
-        public bool CheckPreconditions(WorldState state) => true;
+        public bool CheckPreconditions(WorldState state) {
+            return true;
+        }
 
-        /// <summary>
-        /// Maneja la parte "física" en tiempo real dentro de Unity.
-        /// </summary>
         public TaskExecutionStatus Execute(IMovable actuators, WorldState state) {
-            _timer += Time.deltaTime;
-
-            // Comportamiento visual: El guardia gira la cabeza/cuerpo suavemente
-            float angle = Mathf.Sin(Time.time * 2f) * 45f;
-            actuators.RotateTo(angle); 
-
-            if (_timer >= _waitTime) {
-                // Al terminar, el sistema llamará a ApplyEffects automáticamente
-                return TaskExecutionStatus.Success;
+            if (!_isInitialized) {
+                // Guardamos la rotación que tenía al llegar
+                _centerRotation = actuators.GetRotation(); 
+                _isInitialized = true;
             }
 
-            return TaskExecutionStatus.Running;
+            _timer += Time.deltaTime;
+
+            // Oscilación de 45 grados respecto al centro
+            float angleOffset = Mathf.Sin(Time.time * 2f) * 45f;
+            actuators.RotateTo(_centerRotation + angleOffset); 
+
+            return (_timer >= _waitTime) ? TaskExecutionStatus.Success : TaskExecutionStatus.Running;
         }
 
         /// <summary>

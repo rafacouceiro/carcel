@@ -12,13 +12,12 @@ namespace AgenticPrison.Core {
         public Vector3 CurrentPosition;
         
         // Audio
-        public Vector3 LastKnownNoisePosition;
+        public Vector3 LastNoisePosition;
 
         // Logical conditions
         public bool PrisonerInCell = true;
 
-        // Internal State
-        public bool Alertness = false;
+        // Internal state
         public float Fatigue = 0f;
 
         // Navigation & Memory
@@ -29,12 +28,11 @@ namespace AgenticPrison.Core {
             var clone = new WorldState {
                 FugitiveInVision = this.FugitiveInVision,
                 PrisonerInCell = this.PrisonerInCell,
-                Alertness = this.Alertness,
                 Fatigue = this.Fatigue,
                 CurrentPosition = this.CurrentPosition,
                 LastKnownPosition = this.LastKnownPosition,
-                LastKnownNoisePosition = this.LastKnownNoisePosition,
-                Map = this.Map, // Todos comparten LA MISMA instancia del mapa
+                LastNoisePosition = this.LastNoisePosition,
+                Map = this.Map,
                 AssignedQuadrantId = this.AssignedQuadrantId
             };
 

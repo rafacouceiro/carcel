@@ -5,7 +5,7 @@ namespace AgenticPrison.Behavior.PrimitiveTasks {
         public bool CheckPreconditions(WorldState state) => true;
 
         public void ApplyEffects(WorldState state) {
-            state.LastKnownNoisePosition = UnityEngine.Vector3.zero; 
+            state.LastNoisePosition = UnityEngine.Vector3.zero; 
         }
         public TaskExecutionStatus Execute(IMovable actuators, WorldState state) {
             return TaskExecutionStatus.Success;

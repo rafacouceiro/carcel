@@ -53,5 +53,14 @@ namespace AgenticPrison.Physical {
         public void SetSpeed(float speed) {
             _agent.speed = speed;
         }
+
+        public float GetRotation() => transform.eulerAngles.y;
+
+        public void RotateTo(float degrees) {
+            // NavMeshAgent suele controlar la rotación, pero para mirar a los lados 
+            // mientras está quieto, rotamos el transform directamente.
+            // Usamos el ángulo como un offset sobre el eje Y.
+            transform.rotation = Quaternion.Euler(0, degrees, 0);
+        }
     }
 }

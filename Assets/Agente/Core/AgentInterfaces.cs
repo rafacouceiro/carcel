@@ -10,6 +10,8 @@ namespace AgenticPrison.Core {
         void StopMoving();
         bool IsMoving();
         void SetSpeed(float speed);
+        float GetRotation();
+        void RotateTo(float degrees);
     }
 
     // INPUT: Sensors
@@ -18,12 +20,8 @@ namespace AgenticPrison.Core {
         Vector3 GetFugitivePosition();
     }
 
-    public interface IHearingSensor {
-    }
-
     public interface IGuardSensors {
         IVisualSensor Vision { get; }
-        IHearingSensor Hearing { get; }
     }
 
 }

@@ -13,7 +13,7 @@ namespace AgenticPrison.Behavior.Methods {
 
         public bool CheckPreconditions(WorldState state) {
             // Se activa si hay una posición de ruido guardada
-            return state.LastKnownNoisePosition != Vector3.zero;
+            return state.LastNoisePosition != Vector3.zero;
         }
 
         public Queue<ITask> Decompose(WorldState state) {
@@ -22,7 +22,7 @@ namespace AgenticPrison.Behavior.Methods {
 
             // 1. Buscamos en TODOS los nodos del mapa que estén cerca del ruido
             foreach (RoomNode room in PrisonMap.Instance.GetAllNodes()) {
-                float distToRoom = Vector3.Distance(state.LastKnownNoisePosition, room.GetComponent<BoxCollider>().bounds.center);
+                float distToRoom = Vector3.Distance(state.LastNoisePosition, room.GetComponent<BoxCollider>().bounds.center);
                 
                 if (distToRoom <= _searchRadius) {
                     // Añadimos los puntos clave o de patrulla de estas salas
@@ -36,7 +36,7 @@ namespace AgenticPrison.Behavior.Methods {
 
             // 2. Si no hay puntos cerca, vamos al menos al punto exacto del ruido
             if (candidates.Count == 0) {
-                subTasks.Enqueue(new MoveTask(state.LastKnownNoisePosition, 4f));
+                subTasks.Enqueue(new MoveTask(state.LastNoisePosition, 4f));
             } 
             else {
                 // 3. Selección Aleatoria: Barajamos los puntos encontrados

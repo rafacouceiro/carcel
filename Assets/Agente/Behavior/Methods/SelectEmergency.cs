@@ -4,7 +4,7 @@ using AgenticPrison.Behavior.CompoundTasks;
 
 namespace AgenticPrison.Behavior.Methods {
 
-    public class EmergencySelector : IMethod {
+    public class SelectEmergency : IMethod {
         public bool CheckPreconditions(WorldState state) {
             return state.FugitiveInVision;
         }

@@ -4,14 +4,15 @@ using AgenticPrison.Behavior.CompoundTasks;
 
 namespace AgenticPrison.Behavior.Methods {
 
-    public class InvestigationSelector : IMethod {
+    // Selector para tareas rutinarias
+    public class SelectRoutine : IMethod {
         public bool CheckPreconditions(WorldState state) {
-            return state.Alertness && !state.FugitiveInVision; // Estar en alerta pero no ver al fugitivo
+            return true; 
         }
 
         public Queue<ITask> Decompose(WorldState state) {
             var tasks = new Queue<ITask>();
-            tasks.Enqueue(new InvestigationTask()); 
+            tasks.Enqueue(new RoutineTask());
             return tasks;
         }
     }
