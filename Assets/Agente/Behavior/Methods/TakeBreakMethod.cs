@@ -17,7 +17,7 @@ namespace AgenticPrison.Behavior.Methods {
             Queue<ITask> subTasks = new Queue<ITask>();
             
             // 1. Encontrar el KeyPoint más cercano mediante NavMesh
-            WaypointData closestRestPoint = FindClosestKeyPoint(state.CurrentPosition);
+            WayPointData closestRestPoint = FindClosestKeyPoint(state.CurrentPosition);
             
             if (closestRestPoint != null) {
                 // 2. Añadir tarea de movimiento
@@ -35,9 +35,9 @@ namespace AgenticPrison.Behavior.Methods {
             return subTasks;
         }
 
-        private WaypointData FindClosestKeyPoint(Vector3 currentPos) {
-            List<WaypointData> keyPoints = PrisonMap.Instance.GetAllKeyPoints();
-            WaypointData bestPoint = null;
+        private WayPointData FindClosestKeyPoint(Vector3 currentPos) {
+            List<WayPointData> keyPoints = PrisonMap.Instance.GetAllKeyPoints();
+            WayPointData bestPoint = null;
             float minDistance = Mathf.Infinity;
             NavMeshPath path = new NavMeshPath();
 

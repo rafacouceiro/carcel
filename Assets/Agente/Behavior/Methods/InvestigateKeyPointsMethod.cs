@@ -18,7 +18,7 @@ namespace AgenticPrison.Behavior.Methods {
             Queue<ITask> subTasks = new Queue<ITask>();
             
             // 1. Obtenemos los puntos de interés del mapa simbólico
-            List<WaypointData> unvisitedPoints = PrisonMap.Instance.GetAllKeyPoints();
+            List<WayPointData> unvisitedPoints = PrisonMap.Instance.GetAllKeyPoints();
 
             if (unvisitedPoints == null || unvisitedPoints.Count == 0) return subTasks;
 
@@ -30,7 +30,7 @@ namespace AgenticPrison.Behavior.Methods {
 
             // 2. Algoritmo Greedy (Vecino más cercano) basado en NavMesh
             while (unvisitedPoints.Count > 0) {
-                WaypointData closestWp = null;
+                WayPointData closestWp = null;
                 float minNavDistance = Mathf.Infinity;
                 int closestIndex = -1;
 
