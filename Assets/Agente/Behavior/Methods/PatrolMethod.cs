@@ -50,8 +50,15 @@ namespace AgenticPrison.Behavior.Methods {
                 if (quadrantRooms.Contains(currentRoom)) {
                     if (currentRoom.waypoints != null) {
                         foreach (WayPointData wp in currentRoom.waypoints) {
-                            Transform wp_transform = wp.transform;
-                            if (wp_transform != null) finalRoute.Add(wp_transform);
+                            
+                            // --- EL FILTRO ESTÁ AQUÍ ---
+                            // Solo lo añadimos si el script WayPointData tiene marcado 'Is Patrol Checkpoint'
+                            if (wp != null && wp.isPatrolCheckpoint) {
+                                Transform wp_transform = wp.transform;
+                                if (wp_transform != null) {
+                                    finalRoute.Add(wp_transform);
+                                }
+                            }
                         }
                     }
                 }
