@@ -16,7 +16,7 @@ namespace AgenticPrison.Behavior.Methods {
 
         public Queue<ITask> Decompose(WorldState state) {
             Queue<ITask> subTasks = new Queue<ITask>();
-            subTasks.Enqueue(new ChangeFlashLight(Color.yellow))
+            subTasks.Enqueue(new ChangeFlashLight(Color.yellow));
             
             // 1. Obtenemos los puntos de interés del mapa simbólico
             List<WayPointData> unvisitedPoints = PrisonMap.Instance.GetAllKeyPoints();

@@ -9,7 +9,7 @@ using UnityEditor; // Necesario para Handles
 
 namespace AgenticPrison {
 
-    public class Brain : MonoBehaviour, INoiseReceiver, IVisionEvents {
+    public class Brain : MonoBehaviour, INoiseReceiver, IVisionEvents, ICellEventReceiver {
 
         [Header("Tangible References")]
         public Transform PlayerTarget;
@@ -103,22 +103,30 @@ namespace AgenticPrison {
         // EVENTOS DE VISION
         public void OnFugitiveSpotted(Vector3 position) {
 
+             Debug.LogWarning($"<color=magenta>{CurrentState.PrisonerInCell} prisioner in cell</color>");
+
             // Para la primera vez que lo vemos: queremos saber si esá en la celda o fuera
             if(CurrentState.PrisonerInCell)
             {
-                List<WayPointData> cellPoints = PrisonMap.Instance.GetAllCellPoints();
+                List<WayPointData> cellPoints = CurrentState.Map.GetAllCellPoints();
+                bool isInsideAnyCell = false;
 
                 foreach(WayPointData cellPoint in cellPoints)
                 {
-                    if(Vector3.Distance(position, cellPoint.transform.position) > 2f)
+                    BoxCollider cellBox = cellPoint.GetComponent<BoxCollider>();
+                    if(cellBox != null)
                     {
-                        CurrentState.PrisonerInCell = false;
+                        if(cellBox.bounds.Contains(position))
+                        {
+                            isInsideAnyCell = true;
+                            break; // Ya sabemos que está en una celda, dejamos de buscar
+                        }
                     }
-                    else
-                    {
-                        Debug.LogWarning("<color=magenta>El prisionero está en la celda");
-                        return;
-                    }
+                }
+                if(isInsideAnyCell)
+                {
+                    Debug.LogWarning("<color=magenta>El prisionero está dentro de la celda.</color>");
+                    return; 
                 }
             }
             
@@ -133,6 +141,7 @@ namespace AgenticPrison {
         }
 
         public void OnFugitiveLost() {
+            Debug.LogWarning("<color=red>He perdido de vista al prisionero");
             CurrentState.FugitiveInVision = false;
             ForzarReplanificacion();
         }
@@ -142,7 +151,7 @@ namespace AgenticPrison {
             if (CurrentState.PrisonerInCell) {
                 CurrentState.PrisonerInCell = false;  
                 Debug.LogWarning("<color=yellow>El prisionero SE HA FUGADO");              
-                // ForzarReplanificacion();
+                ForzarReplanificacion();
             }
         }
 

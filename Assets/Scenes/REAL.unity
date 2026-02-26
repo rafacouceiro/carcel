@@ -2965,6 +2965,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd1da37e0ec844acf97dee0bd497723a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.NavMeshDriver
+  linterna: {fileID: 48536891}
 --- !u!195 &50945114
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -65092,6 +65093,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd1da37e0ec844acf97dee0bd497723a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.NavMeshDriver
+  linterna: {fileID: 1639233611}
 --- !u!195 &963554431
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -88409,6 +88411,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd1da37e0ec844acf97dee0bd497723a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.NavMeshDriver
+  linterna: {fileID: 1939868495}
 --- !u!195 &1242211435
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -93538,6 +93541,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1324986250}
   - component: {fileID: 1324986251}
+  - component: {fileID: 1324986252}
   m_Layer: 0
   m_Name: WP_1008
   m_TagString: Untagged
@@ -93554,7 +93558,7 @@ Transform:
   m_GameObject: {fileID: 1324986249}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 39.18, y: 1, z: 32.74}
+  m_LocalPosition: {x: 39.18, y: 0.5, z: 32.74}
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -93575,6 +93579,27 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 0
   isCell: 1
+--- !u!65 &1324986252
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1324986249}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.48409, y: 0.6377039, z: 1.3219124}
+  m_Center: {x: 0.20086002, y: -0.18114845, z: -0.015318299}
 --- !u!1 &1325307726 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -1656216863758753830, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -122976,7 +123001,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8619338778009177163, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8.74
+      value: 36.1
       objectReference: {fileID: 0}
     - target: {fileID: 8619338778009177163, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       propertyPath: m_LocalPosition.y
@@ -122984,7 +123009,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8619338778009177163, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -70
+      value: -68
       objectReference: {fileID: 0}
     - target: {fileID: 8619338778009177163, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       propertyPath: m_LocalRotation.w
@@ -123073,6 +123098,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd1da37e0ec844acf97dee0bd497723a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.NavMeshDriver
+  linterna: {fileID: 2038932078}
 --- !u!114 &1777676849
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125371,6 +125397,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd1da37e0ec844acf97dee0bd497723a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.NavMeshDriver
+  linterna: {fileID: 1036260510}
 --- !u!195 &1799366120
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -128820,6 +128847,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd1da37e0ec844acf97dee0bd497723a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.NavMeshDriver
+  linterna: {fileID: 662681994}
 --- !u!195 &1838112917
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -144992,6 +145020,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd1da37e0ec844acf97dee0bd497723a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.NavMeshDriver
+  linterna: {fileID: 288692327}
 --- !u!195 &2044574263
 NavMeshAgent:
   m_ObjectHideFlags: 0

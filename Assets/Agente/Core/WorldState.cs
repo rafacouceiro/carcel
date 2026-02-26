@@ -7,12 +7,12 @@ namespace AgenticPrison.Core {
     public class WorldState {
 
         // Visual
-        public bool FugitiveInVision;
-        public Vector3 LastKnownPosition;
-        public Vector3 CurrentPosition;
+        public bool FugitiveInVision = false;
+        public Vector3 LastKnownPosition = Vector3.zero;
+        public Vector3 CurrentPosition = Vector3.zero;
         
         // Audio
-        public Vector3 LastNoisePosition;
+        public Vector3 LastNoisePosition = Vector3.zero;
 
         // Logical conditions
         public bool PrisonerInCell = true;

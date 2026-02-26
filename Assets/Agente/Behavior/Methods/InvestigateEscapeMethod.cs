@@ -12,7 +12,7 @@ namespace AgenticPrison.Behavior.Methods {
         private readonly float _maxSearchRadius = 15f; 
 
         public bool CheckPreconditions(WorldState state) {
-            return state.LastKnownPosition != Vector3.zero;
+            return state.LastKnownPosition != Vector3.zero && !state.PrisonerInCell;
         }
 
         public Queue<ITask> Decompose(WorldState state) {
@@ -51,7 +51,7 @@ namespace AgenticPrison.Behavior.Methods {
 
             // Buscar en la sala elegida
             foreach (Transform wp in waypointsToSearch) {
-                subTasks.Enqueue(new MoveTask(wp.position, 5.5f));
+                subTasks.Enqueue(new MoveTask(wp.position, 6.5f));
             }
 
             return subTasks;

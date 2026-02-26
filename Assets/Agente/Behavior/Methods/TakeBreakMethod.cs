@@ -15,7 +15,7 @@ namespace AgenticPrison.Behavior.Methods {
 
         public Queue<ITask> Decompose(WorldState state) {
             Queue<ITask> subTasks = new Queue<ITask>();
-            subTasks.Enqueue(new ChangeFlashLight(Color.green))
+            subTasks.Enqueue(new ChangeFlashLight(Color.green));
             
             // 1. Encontrar el KeyPoint más cercano mediante NavMesh
             WayPointData closestRestPoint = FindClosestKeyPoint(state.CurrentPosition);
