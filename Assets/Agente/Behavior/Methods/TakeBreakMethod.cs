@@ -15,8 +15,8 @@ namespace AgenticPrison.Behavior.Methods {
 
         public Queue<ITask> Decompose(WorldState state) {
             Queue<ITask> subTasks = new Queue<ITask>();
-            subTasks.Enqueue(new ChangeFlashLight(Color.magenta));
-            subTasks.Enqueue(new LookAroundTask());
+            subTasks.Enqueue(new ChangeFlashLight(Color.orange));
+            subTasks.Enqueue(new TakeBreathTask());
             return subTasks;
         }
     }
