@@ -88,7 +88,7 @@ namespace AgenticPrison.Core {
         private void CopyState(WorldState source, WorldState destination) {
             destination.FugitiveInVision = source.FugitiveInVision;
             destination.PrisonerInCell = source.PrisonerInCell;
-            destination.Fatigue = source.Fatigue;
+            destination.Energy = source.Energy;
             destination.LastKnownPosition = source.LastKnownPosition;
             destination.CurrentPosition = source.CurrentPosition;
             destination.Map = source.Map;

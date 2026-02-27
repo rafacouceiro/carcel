@@ -6,7 +6,7 @@ using AgenticPrison.Physical;
 using AgenticPrison.Behavior.PrimitiveTasks;
 
 namespace AgenticPrison.Behavior.Methods {
-    public class GuardKeySpot : IMethod {
+    public class TakeBreakMethod : IMethod {
         
         public bool CheckPreconditions(WorldState state) {
             // El agente decide descansar si su fatiga es alta
@@ -15,7 +15,7 @@ namespace AgenticPrison.Behavior.Methods {
 
         public Queue<ITask> Decompose(WorldState state) {
             Queue<ITask> subTasks = new Queue<ITask>();
-            subTasks.Enqueue(new ChangeFlashLight(Color.green));
+            subTasks.Enqueue(new ChangeFlashLight(Color.magenta));
             subTasks.Enqueue(new LookAroundTask());
             return subTasks;
         }

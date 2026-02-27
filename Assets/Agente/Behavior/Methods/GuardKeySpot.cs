@@ -6,11 +6,11 @@ using AgenticPrison.Physical;
 using AgenticPrison.Behavior.PrimitiveTasks;
 
 namespace AgenticPrison.Behavior.Methods {
-    public class GuardKeySpot : IMethod {
+    public class GuardKeySpotMethod : IMethod {
         
         public bool CheckPreconditions(WorldState state) {
             // El agente decide descansar si su fatiga es alta
-            return true; 
+            return !state.FugitiveInVision; 
         }
 
         public Queue<ITask> Decompose(WorldState state) {
@@ -20,7 +20,7 @@ namespace AgenticPrison.Behavior.Methods {
             WayPointData closestRestPoint = FindClosestKeyPoint(state.CurrentPosition);
             
             if (closestRestPoint != null) {
-                subTasks.Enqueue(new MoveTask(closestRestPoint.transform.position, 3.5f));
+                subTasks.Enqueue(new MoveTask(closestRestPoint.transform.position, 3.0f));
                 int tasksNeeded = Mathf.CeilToInt((100f - state.Energy) / 20f);
 
                 for (int i = 0; i < tasksNeeded; i++) {

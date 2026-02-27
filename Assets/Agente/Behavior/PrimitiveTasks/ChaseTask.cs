@@ -11,32 +11,39 @@ namespace AgenticPrison.Behavior.PrimitiveTasks {
         }
 
         public bool CheckPreconditions(WorldState state) {
-            return state.FugitiveInVision && state.Energy >= 5f; // Ejecutar tarea si vemos al fugitivo y tenemos energia
+            // Empieza a perseguir si tiene un mínimo de energía
+            return state.FugitiveInVision && state.Energy >= 5f; 
         }
 
         public void ApplyEffects(WorldState state) {
-            state.Energy = Mathf.Max(0, state.Energy - 5f); // Efectos de cansancio
-            state.CurrentPosition = state.LastKnownPosition; // Actualizamos la posicion del agente
+            // En la imaginación, asumimos que gastamos algo de energía inicial
+            state.Energy = Mathf.Max(0, state.Energy - 5f); 
+            state.CurrentPosition = state.LastKnownPosition; 
         }
 
-        // Este Execute se corre en cada frame mientras el status sea "Running"
         public TaskExecutionStatus Execute(IMovable actuators, WorldState state) {
             
-            // Si se pierde de vista al fugitivo la tarea fracasa
+            // 1. Si se pierde de vista al fugitivo, fracasa la persecución
             if (!state.FugitiveInVision) {
                 return TaskExecutionStatus.Failure;
             }
 
-            // Actualizar el destino con la última posición conocida 
-            // para evitar lag en la persecución
+            // 2. Si se queda sin energía de tanto correr, fracasa (jadeará y descansará)
+            if (state.Energy <= 0f) {
+                Debug.LogWarning("<color=orange>El guardia se ha quedado sin aliento persiguiendo.</color>");
+                return TaskExecutionStatus.Failure;
+            }
+
             actuators.SetSpeed(_speed);
             actuators.SetDestination(state.LastKnownPosition);
-            state.Energy = Mathf.Max(0, state.Energy - 5f); // Efectos de cansancio
+            
+            // Le restamos 3 puntos POR SEGUNDO, no por fotograma.
+            state.Energy = Mathf.Max(0, state.Energy - (3f * Time.deltaTime)); 
 
             // Comprobar si estamos lo suficientemente cerca para atraparlo
             float distance = Vector3.Distance(state.CurrentPosition, state.LastKnownPosition);
             if (distance < 1.5f) { 
-                return TaskExecutionStatus.Success; // Si estamos en rango de captura marcar la tarea como exitosa
+                return TaskExecutionStatus.Success; 
             }
 
             return TaskExecutionStatus.Running;

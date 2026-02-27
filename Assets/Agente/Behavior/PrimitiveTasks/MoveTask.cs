@@ -22,7 +22,7 @@ namespace AgenticPrison.Behavior.PrimitiveTasks {
         public void ApplyEffects(WorldState state) {
             // Actualizamos la posicion del agente
             state.CurrentPosition = _target;
-            state.Energy = Matf.Max(0, state.Energy - CalculateEnergyCost(_speed));
+            state.Energy = Mathf.Max(0, state.Energy - CalculateEnergyCost(_speed));
         }
 
         public TaskExecutionStatus Execute(IMovable actuators, WorldState state) {

@@ -4,13 +4,13 @@ using AgenticPrison.Behavior.Methods;
 
 namespace AgenticPrison.Behavior.CompoundTasks {
 
-    public class RoutineTask : ICompoundTask {
+    public class EnergyRecoveryTask : ICompoundTask {
         
         public List<IMethod> Methods { get; }
 
-        public RecoverEnergy() {
+        public EnergyRecoveryTask() {
             Methods = new List<IMethod> {
-                new GuardKeySpot(),
+                new GuardKeySpotMethod(),
                 new TakeBreakMethod()
             };
         }
