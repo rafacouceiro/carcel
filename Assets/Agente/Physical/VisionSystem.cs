@@ -43,8 +43,8 @@ namespace AgenticPrison.Physical {
     // El sensor físico que va en cada guardia
     public class VisionSystem : MonoBehaviour {
         [Header("Configuración")]
-        public float VisionRange = 15f;
-        public float ViewAngle = 120f;
+        public float VisionRange = 30f;
+        public float ViewAngle = 140f;
         public LayerMask ObstacleMask;
 
         private IVisionEvents _brain;

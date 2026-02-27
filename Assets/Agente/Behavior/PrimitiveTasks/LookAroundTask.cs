@@ -25,7 +25,16 @@ namespace AgenticPrison.Behavior.PrimitiveTasks {
             float angleOffset = Mathf.Sin(Time.time * 2f) * 45f;
             actuators.RotateTo(_centerRotation + angleOffset); 
 
-            return (_timer >= _waitTime) ? TaskExecutionStatus.Success : TaskExecutionStatus.Running;
+            // Si ya ha pasado el tiempo de descanso
+            if (_timer >= _waitTime) {
+                
+                // Sube la energía en 20, asegurándonos de no pasarnos de 100
+                state.Energy = Mathf.Min(100f, state.Energy + 20f);
+                
+                return TaskExecutionStatus.Success;
+            }
+
+            return TaskExecutionStatus.Running;
         }
 
         /// <summary>
@@ -33,8 +42,10 @@ namespace AgenticPrison.Behavior.PrimitiveTasks {
         /// Esto es lo que el HTN usa para "simular" el plan.
         /// </summary>
         public void ApplyEffects(WorldState state) {
-            state.Fatigue = Mathf.Max(0, state.Fatigue - 0.2f);
-            // Debug.Log($"<color=cyan>[HTN Effect]</color> Fatiga recuperada. Actual: {state.Fatigue}");
+            
+            // --- APLICAMOS EL EFECTO EN LA IMAGINACIÓN DEL PLANIFICADOR ---
+            state.Energy = Mathf.Min(100f, state.Energy + 20f);
+            
         }
     }
 }

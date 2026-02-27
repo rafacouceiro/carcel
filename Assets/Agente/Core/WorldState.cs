@@ -18,7 +18,7 @@ namespace AgenticPrison.Core {
         public bool PrisonerInCell = true;
 
         // Internal state
-        public float Fatigue = 0f;
+        public float Energy = 100f;
 
         // Navigation & Memory
         public PrisonMap Map;
@@ -28,7 +28,7 @@ namespace AgenticPrison.Core {
             var clone = new WorldState {
                 FugitiveInVision = this.FugitiveInVision,
                 PrisonerInCell = this.PrisonerInCell,
-                Fatigue = this.Fatigue,
+                Energy = this.Energy,
                 CurrentPosition = this.CurrentPosition,
                 LastKnownPosition = this.LastKnownPosition,
                 LastNoisePosition = this.LastNoisePosition,

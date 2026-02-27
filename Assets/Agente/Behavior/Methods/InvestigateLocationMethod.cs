@@ -19,14 +19,12 @@ namespace AgenticPrison.Behavior.Methods {
         public Queue<ITask> Decompose(WorldState state) {
             Queue<ITask> subTasks = new Queue<ITask>();
             
-            // Tarea visual: cambiar el color de la linterna
             subTasks.Enqueue(new ChangeFlashLight(Color.yellow));
             
             // Obtener puntos de interés
             List<WayPointData> keyPoints = PrisonMap.Instance.GetAllKeyPoints();
             if (keyPoints == null || keyPoints.Count == 0) return subTasks;
 
-            // Delegar el cálculo del algoritmo a un método específico
             List<Vector3> optimizedRoute = CalculateGreedyRoute(state.CurrentPosition, keyPoints);
 
             // Transformar la ruta calculada en tareas primitivas

@@ -10,21 +10,19 @@ namespace AgenticPrison.Behavior.Methods {
     public class PatrolMethod : IMethod {
         
         public bool CheckPreconditions(WorldState state) {
-            return state.Fatigue < 0.95f && state.PrisonerInCell;
+            return state.PrisonerInCell;
         }
 
         public Queue<ITask> Decompose(WorldState state) {
             var subTasks = new Queue<ITask>();
             subTasks.Enqueue(new ChangeFlashLight(Color.green));
             
-            // 1. El Cerebro ejecuta el DFS
+            // Ejecutar el DFS para obtener la ruta
             List<Transform> route = GenerateDFSRoute(state);
 
-            // 2. El Cerebro descompone la ruta en tareas individuales
+            // Descomponer el método en tareas
             foreach (Transform waypoint in route) {
-                
-                // AQUÍ LE DECIMOS LA VELOCIDAD DE PATRULLA (ej: 2.5f)
-                subTasks.Enqueue(new MoveTask(waypoint.position, 2.5f));
+                subTasks.Enqueue(new MoveTask(waypoint.position, 3.0f));
             }
 
             return subTasks; // Devolvemos una cola llena de MoveTasks
