@@ -14,6 +14,10 @@ namespace AgenticPrison.Core {
         // Audio
         public Vector3 LastNoisePosition = Vector3.zero;
 
+        // Memory
+        public float LastKnownPositionTime = 0f;
+        public float LastNoisePositionTime = 0f;
+
         // Logical conditions
         public bool PrisonerInCell = true;
 
@@ -33,7 +37,9 @@ namespace AgenticPrison.Core {
                 LastKnownPosition = this.LastKnownPosition,
                 LastNoisePosition = this.LastNoisePosition,
                 Map = this.Map,
-                AssignedQuadrantId = this.AssignedQuadrantId
+                AssignedQuadrantId = this.AssignedQuadrantId,
+                LastKnownPositionTime = this.LastKnownPositionTime,
+                LastNoisePositionTime = this.LastNoisePositionTime
             };
 
             return clone;

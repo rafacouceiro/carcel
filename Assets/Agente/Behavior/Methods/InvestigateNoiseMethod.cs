@@ -21,7 +21,7 @@ namespace AgenticPrison.Behavior.Methods {
             var subTasks = new Queue<ITask>();
             
             // 1. Tarea visual: linterna en alerta (amarillo)
-            subTasks.Enqueue(new ChangeFlashLight(Color.yellow));
+            subTasks.Enqueue(new ChangeFlashLight(Color.pink));
 
             // 2. Componer la ruta lógica usando el estado completo (para saber dónde estamos)
             List<Vector3> pointsToSearch = ComposeSearchRoute(state);

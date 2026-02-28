@@ -86,18 +86,21 @@ namespace AgenticPrison {
             // Cálculo de intensidad
             float intensity = 1f - (dist / noise.Volume);
 
-            Debug.LogWarning($"<color=cyan>Escucho ruido con intensidad: {intensity}</color>");
             
-            if (intensity > 0.1f)
+            float errorMagnitude = Mathf.Lerp(0.5f, 10f, dist / noise.Volume);
+            Vector2 randomCircle = Random.insideUnitCircle * errorMagnitude;
+            Vector3 diffusePosition = noise.Position + new Vector3(randomCircle.x, 0, randomCircle.y);
+
+            CurrentState.LastNoisePosition = diffusePosition;
+            CurrentState.LastNoisePositionTime = Time.time;
+
+            if (CurrentState.FugitiveInVision) // Ignorar ruido si tenemos al fugitivo en visión
             {
-                float errorMagnitude = Mathf.Lerp(0.5f, 10f, dist / noise.Volume);
-                Vector2 randomCircle = Random.insideUnitCircle * errorMagnitude;
-                Vector3 diffusePosition = noise.Position + new Vector3(randomCircle.x, 0, randomCircle.y);
-
-                CurrentState.LastNoisePosition = diffusePosition;
-
-                ForzarReplanificacion();
+                return;
             }
+
+            ForzarReplanificacion();
+            
         }
 
         // EVENTOS DE VISION
@@ -106,6 +109,7 @@ namespace AgenticPrison {
              Debug.LogWarning($"<color=magenta>{CurrentState.PrisonerInCell} prisioner in cell</color>");
 
             // Para la primera vez que lo vemos: queremos saber si esá en la celda o fuera
+            // Si está dentro de la celda, ignoramos que hemos visto al fugitivo
             if(CurrentState.PrisonerInCell)
             {
                 List<WayPointData> cellPoints = CurrentState.Map.GetAllCellPoints();
@@ -134,11 +138,13 @@ namespace AgenticPrison {
             CurrentState.PrisonerInCell = false;
             CurrentState.FugitiveInVision = true;
             CurrentState.LastKnownPosition = position;
+            CurrentState.LastKnownPositionTime = Time.time;
             ForzarReplanificacion(); 
         }
 
         public void OnFugitivePositionUpdated(Vector3 position) {
             CurrentState.LastKnownPosition = position;
+            CurrentState.LastKnownPositionTime = Time.time;
         }
 
         public void OnFugitiveLost() {
