@@ -8,6 +8,7 @@ namespace AgenticPrison.Behavior.PrimitiveTasks {
             state.LastNoisePosition = UnityEngine.Vector3.zero; 
         }
         public TaskExecutionStatus Execute(IMovable actuators, WorldState state) {
+            state.LastNoisePosition = UnityEngine.Vector3.zero; 
             return TaskExecutionStatus.Success;
         }
     }

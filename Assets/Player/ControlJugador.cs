@@ -140,10 +140,10 @@ public class ControlJugador : MonoBehaviour
                 CurrentNoiseLevel = 0f;
                 break;
             case PlayerState.Walking:
-                CurrentNoiseLevel = 4f; // Alcance de 4 metros al andar
+                CurrentNoiseLevel = 7f; // Alcance de 4 metros al andar
                 break;
             case PlayerState.Running:
-                CurrentNoiseLevel = 10f; // Alcance de 10 metros al correr
+                CurrentNoiseLevel = 20f; // Alcance de 40 metros al correr
                 break;
         }
 
@@ -177,11 +177,24 @@ public class ControlJugador : MonoBehaviour
         VisionManager.EmitPresence(this.transform);;
     }
 
+   
+        // --- DIBUJO DE DEBUGGING DEL RUIDO ---
     private void OnDrawGizmos()
     {
-        if (CurrentState != PlayerState.Idle)
+        // Solo dibujamos la esfera si el jugador está haciendo ruido (andando o corriendo)
+        if (CurrentNoiseLevel > 0f)
         {
-            Gizmos.color = new Color(1, 1, 0, 0.3f); // Amarillo transparente
+            // Elegimos color: Rojo para correr, Amarillo para andar
+            Color gizmoColor = (CurrentState == PlayerState.Running) ? Color.red : Color.yellow;
+
+            // 1. Dibujamos una esfera transparente para ver el área rellena
+            gizmoColor.a = 0.2f; // 20% de opacidad
+            Gizmos.color = gizmoColor;
+            Gizmos.DrawSphere(transform.position, CurrentNoiseLevel);
+
+            // 2. Dibujamos el borde (anillo) para que se vea claro el límite exacto
+            gizmoColor.a = 1f; // 100% de opacidad
+            Gizmos.color = gizmoColor;
             Gizmos.DrawWireSphere(transform.position, CurrentNoiseLevel);
         }
     }

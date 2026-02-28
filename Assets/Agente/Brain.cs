@@ -90,7 +90,7 @@ namespace AgenticPrison {
             
             if (intensity > 0.1f)
             {
-                float errorMagnitude = Mathf.Lerp(0.5f, 5f, dist / noise.Volume);
+                float errorMagnitude = Mathf.Lerp(0.5f, 10f, dist / noise.Volume);
                 Vector2 randomCircle = Random.insideUnitCircle * errorMagnitude;
                 Vector3 diffusePosition = noise.Position + new Vector3(randomCircle.x, 0, randomCircle.y);
 
