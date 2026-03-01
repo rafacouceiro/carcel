@@ -75,6 +75,7 @@ namespace AgenticPrison {
         private void Update() {
             UpdateLocation();
             ProcessHTNExecution();
+            VisionManager.EmitPresence(this.transform);
         }
 
         public Vector3 GetPosition() {
@@ -99,6 +100,21 @@ namespace AgenticPrison {
             if (CurrentState.FugitiveInVision) 
             {
                 return;
+            }
+
+            bool sawGuardRecently = CurrentState.LastGuardPosition != Vector3.zero && (Time.time - CurrentState.LastGuardPositionTime < 8f);
+            
+            if (sawGuardRecently) 
+            {
+                // ¿El ruido viene de cerca de donde estaba el guardia? (Margen de 6 metros)
+                float distToGuard = Vector3.Distance(noise.Position, CurrentState.LastGuardPosition);
+                
+                // Si está cerca Y el ruido es de pasos normales (menor a 18f de volumen)
+                if (distToGuard < 10f && noise.Volume < 18f) 
+                {
+                    Debug.Log($"<color=cyan>[{AgentName}] Ignorando ruido bajo cerca de un compañero. Falsa alarma.</color>");
+                    return; // Abortamos la audición por completo
+                }
             }
 
             float dist = Vector3.Distance(transform.position, noise.Position);
@@ -140,6 +156,13 @@ namespace AgenticPrison {
         }
 
         // EVENTOS DE VISION
+        // EVENTO: Veo a un compañero guardia
+        public void OnGuardSpotted(Vector3 guardPosition) 
+        {
+            CurrentState.LastGuardPosition = guardPosition;
+            CurrentState.LastGuardPositionTime = Time.time;
+        }
+
         public void OnFugitiveSpotted(Vector3 position) {
 
              Debug.LogWarning($"<color=magenta>{CurrentState.PrisonerInCell} prisioner in cell</color>");
@@ -197,6 +220,7 @@ namespace AgenticPrison {
                 ForzarReplanificacion();
             }
         }
+
 
         // Actualizar posición del agente
         private void UpdateLocation(){

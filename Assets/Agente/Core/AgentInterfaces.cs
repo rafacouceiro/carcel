@@ -15,14 +15,4 @@ namespace AgenticPrison.Core {
         void SetLightColor(Color color);
     }
 
-    // INPUT: Sensors
-    public interface IVisualSensor {
-        bool CheckFugitiveVisibility();
-        Vector3 GetFugitivePosition();
-    }
-
-    public interface IGuardSensors {
-        IVisualSensor Vision { get; }
-    }
-
 }

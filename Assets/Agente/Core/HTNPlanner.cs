@@ -96,6 +96,9 @@ namespace AgenticPrison.Core {
             destination.LastNoisePosition = source.LastNoisePosition;
             destination.LastKnownPositionTime = source.LastKnownPositionTime;
             destination.LastNoisePositionTime = source.LastNoisePositionTime;
+            destination.LastGuardPosition = source.LastGuardPosition;
+            destination.LastGuardPositionTime = source.LastGuardPositionTime;
+            destination.AgentName = source.AgentName;
         }
     }
 }

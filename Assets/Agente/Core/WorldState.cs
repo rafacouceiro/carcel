@@ -15,6 +15,9 @@ namespace AgenticPrison.Core {
         public bool FugitiveInVision = false;
         public Vector3 LastKnownPosition = Vector3.zero;
         public float LastKnownPositionTime = 0f;
+
+        public Vector3 LastGuardPosition = Vector3.zero;
+        public float LastGuardPositionTime = 0f;
         
         // Audio
         public Vector3 LastNoisePosition = Vector3.zero;        
@@ -39,7 +42,9 @@ namespace AgenticPrison.Core {
                 AssignedQuadrantId = this.AssignedQuadrantId,
                 LastKnownPositionTime = this.LastKnownPositionTime,
                 LastNoisePositionTime = this.LastNoisePositionTime,
-                AgentName = this.AgentName
+                AgentName = this.AgentName,
+                LastGuardPosition = this.LastGuardPosition,
+                LastGuardPositionTime = this.LastGuardPositionTime
             };
 
             return clone;
