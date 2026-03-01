@@ -1,5 +1,6 @@
 using UnityEngine;
 using AgenticPrison.Core;
+using AgenticPrison.Physical;
 
 namespace AgenticPrison.Behavior.PrimitiveTasks {
 
@@ -9,7 +10,10 @@ namespace AgenticPrison.Behavior.PrimitiveTasks {
         private float _speed;
         private bool _isActionStarted = false;
 
-        // El Método que crea esta tarea le pasa el destino y la velocidad
+        // Variables para el ruido
+        private float _noiseTimer = 0f;
+        private const float StepInterval = 0.5f; // Tiempo entre pasos
+
         public MoveTask(Vector3 target, float speed) {
             _target = target;
             _speed = speed;
@@ -20,37 +24,44 @@ namespace AgenticPrison.Behavior.PrimitiveTasks {
         }
 
         public void ApplyEffects(WorldState state) {
-            // Actualizamos la posicion del agente
             state.CurrentPosition = _target;
             state.Energy = Mathf.Max(0, state.Energy - CalculateEnergyCost(_speed));
         }
 
         public TaskExecutionStatus Execute(IMovable actuators, WorldState state) {
             
-            // Mandar la orden al NavMesh solo el primer fotograma
             if (!_isActionStarted) {
                 actuators.SetSpeed(_speed);
                 actuators.SetDestination(_target);
                 _isActionStarted = true;
             }
 
-            // Si el NavMesh dice que ya llegamos, la tarea fue un éxito
+            // --- GENERACIÓN DE RUIDO ---
+            _noiseTimer -= Time.deltaTime;
+            if (_noiseTimer <= 0f) {
+                float noiseVolume = CalculateNoiseVolume(_speed);
+                // Emitimos el ruido en la posición actual
+                NoiseManager.EmitNoise(new NoiseEvent(state.CurrentPosition, noiseVolume, state.AgentName));
+                _noiseTimer = StepInterval; // Reseteamos el temporizador
+            }
+
             if (!actuators.IsMoving()) {
-                // Aplicamos el gasto energético
                 state.Energy = Mathf.Max(0, state.Energy - CalculateEnergyCost(_speed));
                 return TaskExecutionStatus.Success;
             }
 
-            // Mientras tanto, seguimos corriendo la tarea
             return TaskExecutionStatus.Running;
         }
 
-        /// <summary>
-        /// Gasto lineal: 2.5 de velocidad gasta 1 punto. 6.5 gasta 5 puntos.
-        /// </summary>
         private float CalculateEnergyCost(float currentSpeed) {
             float t = Mathf.InverseLerp(3.0f, 6.5f, currentSpeed);
             return Mathf.Lerp(1f, 5f, t);
+        }
+
+        // --- CÁLCULO PROPORCIONAL DE RUIDO ---
+        private float CalculateNoiseVolume(float currentSpeed) {
+            float t = Mathf.InverseLerp(3.0f, 6.5f, currentSpeed);
+            return Mathf.Lerp(7f, 20f, t); // Entre 7 y 20 dependiendo de la velocidad
         }
     }
 }

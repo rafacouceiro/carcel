@@ -6,23 +6,22 @@ namespace AgenticPrison.Core {
 
     public class WorldState {
 
+        // Self-awareness
+        public string AgentName = string.Empty;
+        public Vector3 CurrentPosition = Vector3.zero;
+        public float Energy = 100f;
+
         // Visual
         public bool FugitiveInVision = false;
         public Vector3 LastKnownPosition = Vector3.zero;
-        public Vector3 CurrentPosition = Vector3.zero;
+        public float LastKnownPositionTime = 0f;
         
         // Audio
-        public Vector3 LastNoisePosition = Vector3.zero;
-
-        // Memory
-        public float LastKnownPositionTime = 0f;
+        public Vector3 LastNoisePosition = Vector3.zero;        
         public float LastNoisePositionTime = 0f;
 
         // Logical conditions
         public bool PrisonerInCell = true;
-
-        // Internal state
-        public float Energy = 100f;
 
         // Navigation & Memory
         public PrisonMap Map;
@@ -39,7 +38,8 @@ namespace AgenticPrison.Core {
                 Map = this.Map,
                 AssignedQuadrantId = this.AssignedQuadrantId,
                 LastKnownPositionTime = this.LastKnownPositionTime,
-                LastNoisePositionTime = this.LastNoisePositionTime
+                LastNoisePositionTime = this.LastNoisePositionTime,
+                AgentName = this.AgentName
             };
 
             return clone;

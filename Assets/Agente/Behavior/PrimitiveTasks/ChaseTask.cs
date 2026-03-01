@@ -46,7 +46,7 @@ namespace AgenticPrison.Behavior.PrimitiveTasks {
             // Emitir ruido al correr
             _noiseTimer -= Time.deltaTime;
             if (_noiseTimer <= 0f) {
-                NoiseManager.EmitNoise(new NoiseEvent(state.CurrentPosition, 20f));
+                NoiseManager.EmitNoise(new NoiseEvent(state.CurrentPosition, 20f, state.AgentName));
                 _noiseTimer = RunStepInterval;
             }
 

@@ -6,10 +6,12 @@ namespace AgenticPrison.Physical {
     public struct NoiseEvent {
         public Vector3 Position; // Origen real
         public float Volume;     // Radio de alcance en metros
+        public string emisor;   // Nombre del emisor
         
-        public NoiseEvent(Vector3 pos, float vol) {
+        public NoiseEvent(Vector3 pos, float vol, string emisor) {
             Position = pos;
             Volume = vol;
+            this.emisor = emisor;
         }
     }
     

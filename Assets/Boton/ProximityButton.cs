@@ -113,7 +113,6 @@ public class ProximityButton : MonoBehaviour
 
         EscapeState.CanEscape = true; 
 
-        // --- CÁLCULO DE RADIO MUNDIAL REAL ---
         SphereCollider myCollider = GetComponent<SphereCollider>();
         float alertRadius = 25f;
         if (myCollider != null) {

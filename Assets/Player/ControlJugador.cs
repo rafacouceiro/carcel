@@ -154,7 +154,7 @@ public class ControlJugador : MonoBehaviour
             if (_noiseTimer <= 0f)
             {
                 // Emitir el evento de ruido para que los guardias lo procesen
-                NoiseManager.EmitNoise(new NoiseEvent(transform.position, CurrentNoiseLevel, "Fugitivo"));
+                NoiseManager.EmitNoise(new NoiseEvent(transform.position, CurrentNoiseLevel, "Player"));
 
                 // Resetear el timer según la cadencia del paso
                 _noiseTimer = (CurrentState == PlayerState.Running) ? intervaloPasosCorrer : intervaloPasosAndar;

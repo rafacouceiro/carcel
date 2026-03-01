@@ -46,10 +46,21 @@ namespace AgenticPrison {
         private IMovable _movable; 
         private ICompoundTask _rootTask;
 
+        [Tooltip("El nombre del agente, recogido automáticamente del GameObject.")]
+        public string AgentName;
+        private static int _guardCounter = 1;
+
+        private void Awake() {
+            AgentName = "Patrulla" + _guardCounter;
+            gameObject.name = AgentName;
+            _guardCounter++; 
+        }
+
         private void Start() {
 
             CurrentState = new WorldState();
 
+            CurrentState.AgentName = AgentName;
             CurrentState.Map = PrisonMap.Instance;
             CurrentState.AssignedQuadrantId = QuadrantId;
 
@@ -81,26 +92,49 @@ namespace AgenticPrison {
         // EVENTOS DE AUDICIÓN
         public void OnNoiseHeard(NoiseEvent noise) 
         {
-            float dist = Vector3.Distance(transform.position, noise.Position);
 
-            // Cálculo de intensidad
-            float intensity = 1f - (dist / noise.Volume);
+            if (noise.emisor == AgentName) return; // Ignorar ruido propio 
 
-            
-            float errorMagnitude = Mathf.Lerp(0.5f, 10f, dist / noise.Volume);
-            Vector2 randomCircle = Random.insideUnitCircle * errorMagnitude;
-            Vector3 diffusePosition = noise.Position + new Vector3(randomCircle.x, 0, randomCircle.y);
-
-            CurrentState.LastNoisePosition = diffusePosition;
-            CurrentState.LastNoisePositionTime = Time.time;
-
-            if (CurrentState.FugitiveInVision) // Ignorar ruido si tenemos al fugitivo en visión
+            // Ignorar ruido si tenemos al fugitivo en visión
+            if (CurrentState.FugitiveInVision) 
             {
                 return;
             }
 
-            ForzarReplanificacion();
-            
+            float dist = Vector3.Distance(transform.position, noise.Position);
+            float errorMagnitude = Mathf.Lerp(0.5f, 10f, dist / noise.Volume);
+            Vector2 randomCircle = Random.insideUnitCircle * errorMagnitude;
+            Vector3 diffusePosition = noise.Position + new Vector3(randomCircle.x, 0, randomCircle.y);
+
+
+            // Si tengo una pista visual reciente, ignoro el ruido
+            if (CurrentState.LastKnownPosition != Vector3.zero)
+            {    
+                CurrentState.LastNoisePosition = diffusePosition;
+                CurrentState.LastNoisePositionTime = Time.time;        
+                return;
+            } 
+            else if (CurrentState.LastNoisePosition != Vector3.zero)
+            {
+                // Solamente replanificamos si el sonido escuchado es muy fuerte
+                if (noise.Volume > 18f && Vector3.Distance(CurrentState.LastNoisePosition, diffusePosition) > 15f)
+                {
+                    CurrentState.LastNoisePosition = diffusePosition;
+                    CurrentState.LastNoisePositionTime = Time.time;
+                    ForzarReplanificacion();
+                }
+                // Si es cualquier otro sonido seguimos investigando
+                else
+                {
+                    return;
+                }
+            }
+            // Si no tenemos pistas visuales o auditivas recientes 
+            // reaccionamos al sonido
+            else
+            {
+                ForzarReplanificacion();
+            }            
         }
 
         // EVENTOS DE VISION
@@ -163,7 +197,10 @@ namespace AgenticPrison {
 
         // Actualizar posición del agente
         private void UpdateLocation(){
-            CurrentState.CurrentPosition = transform.position;
+            if (!CurrentState.PrisonerInCell)
+            {
+                CurrentState.CurrentPosition = transform.position;
+            }
         }
 
 
