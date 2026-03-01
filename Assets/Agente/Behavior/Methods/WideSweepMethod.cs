@@ -13,7 +13,7 @@ namespace AgenticPrison.Behavior.Methods {
 
         public bool CheckPreconditions(WorldState state) {
             float age = Time.time - state.LastKnownPositionTime;
-            return state.LastKnownPosition != Vector3.zero && !state.PrisonerInCell && age < 25f;
+            return state.LastKnownPosition != Vector3.zero && !state.PrisonerInCell && age < 35f;
         }
 
         public Queue<ITask> Decompose(WorldState state) {

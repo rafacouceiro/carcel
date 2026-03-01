@@ -17,7 +17,7 @@ namespace AgenticPrison.Behavior.PrimitiveTasks {
             // Aquí en el futuro podrías poner algo como state.IsGameOver = true;
         }
 
-        public TaskExecutionStatus Execute(IMovable actuators, WorldState state) {
+        public TaskExecutionStatus Execute(IActuators actuators, WorldState state) {
             
             if (!_hasTriggered) {
                 // 1. Frenamos al guardia en seco

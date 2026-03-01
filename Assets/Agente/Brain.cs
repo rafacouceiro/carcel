@@ -43,7 +43,7 @@ namespace AgenticPrison {
         private Queue<IPrimitiveTask> _currentPlan;
         private IPrimitiveTask _activeTask;
 
-        private IMovable _movable; 
+        private IActuators _actuators;
         private ICompoundTask _rootTask;
 
         [Tooltip("El nombre del agente, recogido automáticamente del GameObject.")]
@@ -67,7 +67,7 @@ namespace AgenticPrison {
             _planner = new HTNPlanner();
             _currentPlan = new Queue<IPrimitiveTask>();
 
-            _movable = GetComponent<NavMeshDriver>();
+            _actuators = GetComponent<Actuators>();
 
             _rootTask = new AgenticPrison.Behavior.RootTask.BeGuard();
         }
@@ -236,7 +236,7 @@ namespace AgenticPrison {
 
             _currentPlan.Clear();
             _activeTask = null;    
-            _movable.StopMoving();
+            _actuators.StopMoving();
         }
 
         // Flujo de HTN
@@ -253,7 +253,7 @@ namespace AgenticPrison {
 
             // Si hay una tarea en eejcución
             if (_activeTask != null) {
-                var status = _activeTask.Execute(_movable, CurrentState); // Ejecutarla (proporcionar actuadores)
+                var status = _activeTask.Execute(_actuators, CurrentState); // Ejecutarla (proporcionar actuadores)
 
                 if (status == TaskExecutionStatus.Success) { // Si se completa con éxito
                     _activeTask = (_currentPlan.Count > 0) ? _currentPlan.Dequeue() : null; // Siguiente tarea

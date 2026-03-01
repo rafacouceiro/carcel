@@ -43,19 +43,6 @@ namespace AgenticPrison.Physical {
 
             Vector3 myCenter = _collider.bounds.center;
 
-            // Dibujar Waypoints con colores según su tipo
-            foreach (WayPointData wp in waypoints) {
-                if (wp == null) continue;
-
-                // Color según semántica
-                if (wp.isCell) Gizmos.color = Color.blue;
-                else if (wp.isKeyPoint) Gizmos.color = Color.red;
-                else Gizmos.color = Color.yellow;
-
-                Gizmos.DrawLine(myCenter, wp.transform.position);
-                Gizmos.DrawCube(wp.transform.position, Vector3.one * 0.3f);
-            }
-
             // Grafo de conexiones (verde)
             Gizmos.color = Color.green;
             foreach (RoomNode neighbor in connectedRooms) {

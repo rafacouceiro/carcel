@@ -3,12 +3,9 @@ using UnityEngine.AI;
 using AgenticPrison.Core;
 
 namespace AgenticPrison.Physical {
-    /// <summary>
-    /// Wrapper for Unity's NavMeshAgent to expose basic movement functionality
-    /// through the pure C# IMovable interface.
-    /// </summary>
+    
     [RequireComponent(typeof(NavMeshAgent))]
-    public class NavMeshDriver : MonoBehaviour, IMovable {
+    public class Actuators : MonoBehaviour, IActuators {
         private NavMeshAgent _agent;
 
         [Header("Visuales")]
@@ -18,21 +15,16 @@ namespace AgenticPrison.Physical {
             _agent = GetComponent<NavMeshAgent>();
         }
 
-        // --- EL CAMBIO ESTÁ AQUÍ ---
-        // Ahora recibe un Transform directamente (tu Waypoint)
+        // --- Implementación de IMovable ---
         public void SetDestination(Vector3 position) {
-            _agent.isStopped = false;
-            _agent.SetDestination(position);
+            if (_agent.isOnNavMesh) {
+                _agent.isStopped = false;
+                _agent.SetDestination(position);
+            }
         }
 
-        // Sobrecarga 2: Recibe un Transform (Ideal para seguir a un fugitivo en movimiento)
         public void SetDestination(Transform target) {
-            if (target != null) {
-                // Reutilizamos la lógica del Vector3 pasando target.position
-                SetDestination(target.position);
-            } else {
-                Debug.LogWarning("[NavMeshDriver] Cuidado: Intento de ir a un Transform nulo.");
-            }
+            if (target != null) SetDestination(target.position);
         }   
 
         public void StopMoving() {
@@ -60,12 +52,10 @@ namespace AgenticPrison.Physical {
         public float GetRotation() => transform.eulerAngles.y;
 
         public void RotateTo(float degrees) {
-            // NavMeshAgent suele controlar la rotación, pero para mirar a los lados 
-            // mientras está quieto, rotamos el transform directamente.
-            // Usamos el ángulo como un offset sobre el eje Y.
             transform.rotation = Quaternion.Euler(0, degrees, 0);
         }
 
+        // --- Implementación de ILightActuator ---
         public void SetLightColor(Color color) {
             if (linterna != null) {
                 linterna.color = color;

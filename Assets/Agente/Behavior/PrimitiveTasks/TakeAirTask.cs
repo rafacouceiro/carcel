@@ -13,7 +13,7 @@ namespace AgenticPrison.Behavior.PrimitiveTasks {
             return true;
         }
 
-        public TaskExecutionStatus Execute(IMovable actuators, WorldState state) {
+        public TaskExecutionStatus Execute(IActuators actuators, WorldState state) {
             
             // Simplemente dejamos pasar el tiempo, el agente se queda totalmente quieto
             _timer += Time.deltaTime;

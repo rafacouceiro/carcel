@@ -25,7 +25,7 @@ namespace AgenticPrison.Core {
         /// Executes the physical action logic using the provided actuator wrapper interfaces.
         /// Executed continuously while active until Success or Failure.
         /// </summary>
-        TaskExecutionStatus Execute(IMovable actuators, WorldState state);
+        TaskExecutionStatus Execute(IActuators actuators, WorldState state);
     }
 
     /// <summary>
@@ -45,13 +45,5 @@ namespace AgenticPrison.Core {
     /// </summary>
     public interface ICompoundTask : ITask {
         List<IMethod> Methods { get; }
-    }
-
-    /// <summary>
-    /// An aggregation representing all possible output channels an agent has to interact with Unity.
-    /// Primitive Tasks will cast or access the specific sub-interfaces they need (like IMovable).
-    /// </summary>
-    public interface IOperator {
-        // Defined in the interfaces layer. This acts as a marker/container.
     }
 }

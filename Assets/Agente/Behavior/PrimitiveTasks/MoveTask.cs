@@ -28,7 +28,7 @@ namespace AgenticPrison.Behavior.PrimitiveTasks {
             state.Energy = Mathf.Max(0, state.Energy - CalculateEnergyCost(_speed));
         }
 
-        public TaskExecutionStatus Execute(IMovable actuators, WorldState state) {
+        public TaskExecutionStatus Execute(IActuators actuators, WorldState state) {
             
             if (!_isActionStarted) {
                 actuators.SetSpeed(_speed);

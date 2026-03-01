@@ -14,7 +14,8 @@ namespace AgenticPrison.Behavior.Methods {
         private const float SearchSpeed = 4.0f;
 
         public bool CheckPreconditions(WorldState state) {
-            return state.LastNoisePosition != Vector3.zero;
+            float age = Time.time - state.LastNoisePositionTime;
+            return state.LastNoisePosition != Vector3.zero && age < 10f;
         }
 
         public Queue<ITask> Decompose(WorldState state) {

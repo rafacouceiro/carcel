@@ -8,7 +8,7 @@ namespace AgenticPrison.Behavior.PrimitiveTasks {
         public void ApplyEffects(WorldState state) {
             state.LastKnownPosition = Vector3.zero; 
         }
-        public TaskExecutionStatus Execute(IMovable actuators, WorldState state) {
+        public TaskExecutionStatus Execute(IActuators actuators, WorldState state) {
             state.LastKnownPosition = Vector3.zero;
             return TaskExecutionStatus.Success;
         }

@@ -12,7 +12,7 @@ namespace AgenticPrison.Behavior {
 
         public bool CheckPreconditions(WorldState state) => true;
 
-        public TaskExecutionStatus Execute(IMovable actuators, WorldState state) {
+        public TaskExecutionStatus Execute(IActuators actuators, WorldState state) {
 
             actuators.SetLightColor(_targetColor);
             return TaskExecutionStatus.Success; 

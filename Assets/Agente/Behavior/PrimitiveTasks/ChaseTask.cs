@@ -24,7 +24,7 @@ namespace AgenticPrison.Behavior.PrimitiveTasks {
             state.CurrentPosition = state.LastKnownPosition; 
         }
 
-        public TaskExecutionStatus Execute(IMovable actuators, WorldState state) {
+        public TaskExecutionStatus Execute(IActuators actuators, WorldState state) {
             
             // 1. Si se pierde de vista al fugitivo, fracasa la persecución
             if (!state.FugitiveInVision) {

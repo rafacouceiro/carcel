@@ -12,7 +12,7 @@ namespace AgenticPrison.Behavior.PrimitiveTasks {
             return true;
         }
 
-        public TaskExecutionStatus Execute(IMovable actuators, WorldState state) {
+        public TaskExecutionStatus Execute(IActuators actuators, WorldState state) {
             if (!_isInitialized) {
                 // Guardamos la rotación que tenía al llegar
                 _centerRotation = actuators.GetRotation(); 
