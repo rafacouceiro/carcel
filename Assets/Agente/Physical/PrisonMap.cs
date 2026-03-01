@@ -4,25 +4,26 @@ using AgenticPrison.Physical;
 
 namespace AgenticPrison.Core {
 
+    // Clase administradora global del mapa, las secciones y las celdas
     public class PrisonMap : MonoBehaviour {
         
-        // --- EL SINGLETON ---
+        // --- Patrón Singleton para acceso global ---
         public static PrisonMap Instance { get; private set; }
 
         private Dictionary<string, List<RoomNode>> _sections = new Dictionary<string, List<RoomNode>>();
         private List<RoomNode> _allNodes = new List<RoomNode>();
 
         private void Awake() {
-            // Configuración del Singleton
+            // Inicialización del Singleton
             if (Instance != null && Instance != this) {
                 Destroy(this.gameObject);
                 return;
             }
             Instance = this;
 
-            // Recorre los hijos (section1, section2...)
+            // Almacenar dinámicamente cada cuadrante y los nodos (habitaciones) que contiene
             foreach (Transform section in transform) {
-                string sectionName = section.name; // Coge el nombre automáticamente
+                string sectionName = section.name; 
                 var rooms = new List<RoomNode>(section.GetComponentsInChildren<RoomNode>());
                 
                 _sections[sectionName] = rooms;
@@ -31,11 +32,13 @@ namespace AgenticPrison.Core {
             Debug.Log($"[PrisonMap] Mapa cargado. {_sections.Count} secciones y {_allNodes.Count} salas.");
         }
 
+        // Obtiene todas las habitaciones de una sección específica del mapa
         public List<RoomNode> GetSection(string sectionId) {
             if (_sections.TryGetValue(sectionId, out var rooms)) return rooms;
             return new List<RoomNode>();
         }
 
+        // Determina en qué habitación lógica se encuentra una coordenada dada
         public RoomNode GetCurrentNode(Vector3 position) {
             RoomNode closestRoom = null;
             float minDistance = Mathf.Infinity;
@@ -44,8 +47,10 @@ namespace AgenticPrison.Core {
                 BoxCollider col = room.GetComponent<BoxCollider>();
                 if (col == null) continue;
 
+                // Comprobar si está perfectamente dentro
                 if (col.bounds.Contains(position)) return room;
 
+                // Buscar la más cercana en caso de estar en los márgenes
                 float dist = Vector3.Distance(position, col.ClosestPoint(position));
                 if (dist < minDistance) {
                     minDistance = dist;
@@ -57,10 +62,10 @@ namespace AgenticPrison.Core {
 
         public List<RoomNode> GetAllNodes() => _allNodes;
 
+        // Extrae todos los puntos de interés ("KeyPoints") del mapa entero
         public List<WayPointData> GetAllKeyPoints() {
             List<WayPointData> keyPoints = new List<WayPointData>();
 
-            // Buscamos TODOS los waypoints que sean hijos de LogicMap (estén en salas o sueltos)
             WayPointData[] allWaypointsInMap = GetComponentsInChildren<WayPointData>();
 
             foreach (WayPointData wp in allWaypointsInMap) {
@@ -72,10 +77,10 @@ namespace AgenticPrison.Core {
             return keyPoints;
         }
 
+        // Extrae todos los waypoints ubicados en el interior de las celdas de aislamiento
         public List<WayPointData> GetAllCellPoints() {
             List<WayPointData> cellPoints = new List<WayPointData>();
 
-            // Buscamos TODOS los waypoints que sean hijos de LogicMap (estén en salas o sueltos)
             WayPointData[] allWaypointsInMap = GetComponentsInChildren<WayPointData>();
 
             foreach (WayPointData wp in allWaypointsInMap) {

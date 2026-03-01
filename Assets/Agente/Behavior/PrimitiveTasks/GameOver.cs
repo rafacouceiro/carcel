@@ -3,42 +3,37 @@ using AgenticPrison.Core;
 
 namespace AgenticPrison.Behavior.PrimitiveTasks {
 
+    // Tarea primitiva: El agente ha atrapado al fugitivo, terminando la simulación
     public class GameOverTask : IPrimitiveTask {
         
         private bool _hasTriggered = false;
 
         public bool CheckPreconditions(WorldState state) {
-            // El TrapMethod ya hizo las matemáticas difíciles, así que si el 
-            // planificador nos ha metido en la cola, damos luz verde.
+            // El método superior (TrapMethod) asegura la precondición matemática para el éxito
             return true; 
         }
 
         public void ApplyEffects(WorldState state) {
-            // Aquí en el futuro podrías poner algo como state.IsGameOver = true;
+            // Sin efectos de estado adicionales necesarios
         }
 
         public TaskExecutionStatus Execute(IActuators actuators, WorldState state) {
             
             if (!_hasTriggered) {
-                // 1. Frenamos al guardia en seco
+                // Detener el movimiento físico de forma abrupta
                 actuators.SetSpeed(0f); 
                 
-                // 2. Anunciamos el fin del juego a lo grande
+                // Anunciar evento crítico
                 Debug.Log("<color=red><b>¡FUGITIVO ATRAPADO! FIN DEL JUEGO.</b></color>");
                 
-                // 3. Pausamos el motor de físicas de Unity para congelar la escena
+                // Congela la lógica de Unity
                 Time.timeScale = 0f; 
-
-                // TODO: En el futuro, aquí lanzarás la animación de "Arresto" 
-                // o llamarás al GameManager para mostrar el menú de derrota.
                 
                 _hasTriggered = true;
             }
 
-            // OJO AL TRUCO: Devolvemos "Running" en bucle infinito. 
-            // ¿Por qué? Porque si devolvemos "Success", el HTN diría "¡Genial, tarea terminada!" 
-            // y al fotograma siguiente intentaría volver a patrullar. 
-            // En un Game Over, queremos que el cerebro de la IA se quede "congelado" aquí.
+            // Devuelve Running de forma continua para bloquear la asignación 
+            // de tareas futuras por el planificador y paralizar al agente
             return TaskExecutionStatus.Running; 
         }
     }

@@ -4,8 +4,10 @@ using AgenticPrison.Behavior.Methods;
 
 namespace AgenticPrison.Behavior.RootTask {
 
+    // Tarea principal (RootTask) que define la prioridad de comportamiento del agente
     public class BeGuard : ICompoundTask {
         
+        // Define el orden de evaluación: Emergencias, Investigación, Rutina
         public List<IMethod> Methods { get; }
 
         public BeGuard() {

@@ -4,18 +4,19 @@ using AgenticPrison.Core;
 
 namespace AgenticPrison.Physical {
     
+    // Componente puente entre la lógica HTN y los componentes físicos de Unity
     [RequireComponent(typeof(NavMeshAgent))]
     public class Actuators : MonoBehaviour, IActuators {
         private NavMeshAgent _agent;
 
-        [Header("Visuales")]
+        [Header("Efectos Visuales")]
         public Light linterna;
 
         private void Awake() {
             _agent = GetComponent<NavMeshAgent>();
         }
 
-        // --- Implementación de IMovable ---
+        // --- Implementación del control de movimiento ---
         public void SetDestination(Vector3 position) {
             if (_agent.isOnNavMesh) {
                 _agent.isStopped = false;
@@ -34,6 +35,7 @@ namespace AgenticPrison.Physical {
             }
         }
 
+        // Comprueba si el agente sigue desplazándose físicamente hacia su meta
         public bool IsMoving() {
             if (!_agent.pathPending) {
                 if (_agent.remainingDistance <= _agent.stoppingDistance) {
@@ -45,17 +47,20 @@ namespace AgenticPrison.Physical {
             return true;
         }
 
+        // Ajusta la velocidad del navmesh
         public void SetSpeed(float speed) {
             _agent.speed = speed;
         }
 
+        // Obtiene el ángulo Y de rotación
         public float GetRotation() => transform.eulerAngles.y;
 
+        // Rota instantáneamente el modelo
         public void RotateTo(float degrees) {
             transform.rotation = Quaternion.Euler(0, degrees, 0);
         }
 
-        // --- Implementación de ILightActuator ---
+        // --- Implementación de luces o señales ---
         public void SetLightColor(Color color) {
             if (linterna != null) {
                 linterna.color = color;

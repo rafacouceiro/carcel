@@ -2,10 +2,11 @@ using UnityEngine;
 using AgenticPrison.Core;
 
 namespace AgenticPrison.Behavior.PrimitiveTasks {
+    // Tarea primitiva: El guardia gira su cabeza brevemente inspeccionando sus alrededores
     public class LookAroundTask : IPrimitiveTask {
         private float _waitTime = 2f;
         private float _timer;
-        private float _centerRotation; // Rotación base donde se detuvo
+        private float _centerRotation; // Orientación neutral al llegar
         private bool _isInitialized = false;
 
         public bool CheckPreconditions(WorldState state) {
@@ -14,21 +15,21 @@ namespace AgenticPrison.Behavior.PrimitiveTasks {
 
         public TaskExecutionStatus Execute(IActuators actuators, WorldState state) {
             if (!_isInitialized) {
-                // Guardamos la rotación que tenía al llegar
+                // Fija la dirección base inicial
                 _centerRotation = actuators.GetRotation(); 
                 _isInitialized = true;
             }
 
             _timer += Time.deltaTime;
 
-            // Oscilación de 45 grados respecto al centro
+            // Movimiento oscilatorio natural para el escaneo (45 grados)
             float angleOffset = Mathf.Sin(Time.time * 2f) * 45f;
             actuators.RotateTo(_centerRotation + angleOffset); 
 
-            // Si ya ha pasado el tiempo de descanso
+            // Concluir revisión transcurrido el lapso de tiempo
             if (_timer >= _waitTime) {
                 
-                // Sube la energía en 20, asegurándonos de no pasarnos de 100
+                // Repostar nivel de energía como recompensa menor
                 state.Energy = Mathf.Min(100f, state.Energy + 20f);
                 
                 return TaskExecutionStatus.Success;
@@ -37,15 +38,9 @@ namespace AgenticPrison.Behavior.PrimitiveTasks {
             return TaskExecutionStatus.Running;
         }
 
-        /// <summary>
-        /// Actualiza el WorldState (Estado del Mundo) tras completar la tarea.
-        /// Esto es lo que el HTN usa para "simular" el plan.
-        /// </summary>
+        // Simulación de alivio de cansancio en el gestor HTN
         public void ApplyEffects(WorldState state) {
-            
-            // --- APLICAMOS EL EFECTO EN LA IMAGINACIÓN DEL PLANIFICADOR ---
             state.Energy = Mathf.Min(100f, state.Energy + 20f);
-            
         }
     }
 }

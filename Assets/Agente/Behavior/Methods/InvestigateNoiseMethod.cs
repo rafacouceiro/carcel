@@ -7,6 +7,7 @@ using AgenticPrison.Behavior.PrimitiveTasks;
 
 namespace AgenticPrison.Behavior.Methods {
 
+    // Método HTN: Coordina un escaneo táctico alrededor de la fuente reciente de un ruido
     public class InvestigateNoiseMethod : IMethod {
         
         private readonly float _searchRadius = 15f; 
@@ -14,6 +15,7 @@ namespace AgenticPrison.Behavior.Methods {
         private const float SearchSpeed = 4.0f;
 
         public bool CheckPreconditions(WorldState state) {
+            // El ruido debe existir y ser relativamente reciente (menos de 10s)
             float age = Time.time - state.LastNoisePositionTime;
             return state.LastNoisePosition != Vector3.zero && age < 10f;
         }
@@ -21,53 +23,51 @@ namespace AgenticPrison.Behavior.Methods {
         public Queue<ITask> Decompose(WorldState state) {
             var subTasks = new Queue<ITask>();
             
+            // Luz marrón para indicar intriga/sospecha sonora
             subTasks.Enqueue(new ChangeFlashLight(Color.brown));
 
-            // 2. Componer la ruta lógica usando el estado completo (para saber dónde estamos)
+            // Mapea la zona de influencia del sonido en una ruta útil
             List<Vector3> pointsToSearch = ComposeSearchRoute(state);
 
-            // 3. Encolar los movimientos de búsqueda
+            // Convierte en trayectos físicos
             foreach (Vector3 point in pointsToSearch) {
                 subTasks.Enqueue(new MoveTask(point, SearchSpeed));
             }
 
-            // 4. Limpiar la memoria del ruido
+            // Descarta la posición del ruido para no repetir
             subTasks.Enqueue(new ClearNoiseTask());
 
             return subTasks;
         }
 
-        /// <summary>
-        /// Método orquestador: Obtiene puntos, los recorta al máximo permitido y los ordena Greedy.
-        /// </summary>
+        // --- Orquestador de Ruta ---
+        // Adquiere posibles destinos alrededor del ruido, los recorta y ordena eficientemente
         private List<Vector3> ComposeSearchRoute(WorldState state) {
             Vector3 noisePosition = state.LastNoisePosition;
             List<Vector3> rawPoints = new List<Vector3>();
 
-            // 1. Buscar KeyPoints reales cerca del ruido (ignorando patrullas)
+            // 1. Identifica escondites estáticos en las proximidades
             List<Vector3> keyPoints = GetKeyPointsNearNoise(noisePosition);
             
-            // 2. Barajar los KeyPoints para no elegir siempre los mismos si hay más del máximo
+            // 2. Baraja aleatoriamente para evitar rutinas predictibles
             ShuffleList(keyPoints);
 
-            // 3. Añadir a la lista de candidatos hasta llegar al máximo deseado
+            // 3. Añade candidatos de escondites al listado de revisión hasta el límite
             for (int i = 0; i < keyPoints.Count && rawPoints.Count < _maxPointsToInspect; i++) {
                 rawPoints.Add(keyPoints[i]);
             }
 
-            // 4. Si faltan puntos para completar la cuota, generamos aleatorios alrededor del ruido
+            // 4. Agrega puntos muertos de patrullaje para alcanzar la cuota
             while (rawPoints.Count < _maxPointsToInspect) {
                 Vector3 randomPoint = GetRandomNavMeshPoint(noisePosition, _searchRadius);
                 rawPoints.Add(randomPoint);
             }
 
-            // 5. ORDENAMIENTO GREEDY: Trazamos la ruta más eficiente desde donde está el guardia
+            // 5. Calcula la cadena de saltos más corta para este conjunto
             return CalculateGreedyRoute(state.CurrentPosition, rawPoints);
         }
 
-        /// <summary>
-        /// Algoritmo Greedy basado en la distancia real del NavMesh.
-        /// </summary>
+        // Trazado de ruta usando Greedy basado estrictamente en topología NavMesh
         private List<Vector3> CalculateGreedyRoute(Vector3 startPos, List<Vector3> unvisitedPoints) {
             List<Vector3> route = new List<Vector3>();
             Vector3 currentPos = startPos;
@@ -81,7 +81,7 @@ namespace AgenticPrison.Behavior.Methods {
                 bool foundPath = false;
 
                 for (int i = 0; i < remainingPoints.Count; i++) {
-                    // Calculamos el camino real evitando obstáculos
+                    // Calcular ruta con el NavMesh esquivando bloqueos
                     if (NavMesh.CalculatePath(currentPos, remainingPoints[i], NavMesh.AllAreas, path)) {
                         
                         float pathLength = CalculatePathLength(path);
@@ -97,10 +97,10 @@ namespace AgenticPrison.Behavior.Methods {
 
                 if (foundPath) {
                     route.Add(closestWp);
-                    currentPos = closestWp; // El guardia "camina" mentalmente aquí para el siguiente cálculo
+                    currentPos = closestWp; // Simula que ya avanzó para calcular a futuro
                     remainingPoints.RemoveAt(closestIndex);
                 } else {
-                    // Si un punto es inalcanzable (muy raro con SamplePosition), se descarta
+                    // Exclusión de puntos topológicamente aislados
                     remainingPoints.RemoveAt(0);
                 }
             }
@@ -108,6 +108,7 @@ namespace AgenticPrison.Behavior.Methods {
             return route;
         }
 
+        // Rastrea escondites clasificados cercanos al origen sonoro
         private List<Vector3> GetKeyPointsNearNoise(Vector3 noisePosition) {
             List<Vector3> validPoints = new List<Vector3>();
 
@@ -126,6 +127,7 @@ namespace AgenticPrison.Behavior.Methods {
             return validPoints;
         }
 
+        // Localiza un punto transitable de relleno aleatorio
         private Vector3 GetRandomNavMeshPoint(Vector3 center, float radius) {
             Vector3 randomDirection = Random.insideUnitSphere * radius;
             randomDirection += center;

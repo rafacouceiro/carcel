@@ -6,15 +6,18 @@ using AgenticPrison.Physical;
 using AgenticPrison.Behavior.PrimitiveTasks;
 
 namespace AgenticPrison.Behavior.Methods {
+    
+    // Método HTN: Orquesta una pausa breve para tomar oxígeno
     public class TakeBreakMethod : IMethod {
         
         public bool CheckPreconditions(WorldState state) {
-            // El agente decide descansar si su fatiga es alta
+            // Accesible en cualquier momento (suele evaluarse al final del árbol por baja prioridad)
             return true; 
         }
 
         public Queue<ITask> Decompose(WorldState state) {
             Queue<ITask> subTasks = new Queue<ITask>();
+            // Color naranja representa momento de reposo activo
             subTasks.Enqueue(new ChangeFlashLight(Color.orange));
             subTasks.Enqueue(new TakeBreathTask());
             return subTasks;

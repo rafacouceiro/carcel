@@ -2,48 +2,41 @@ using System.Collections.Generic;
 
 namespace AgenticPrison.Core {
 
-    /// <summary>
-    /// Base interface for any task within the HTN (Compound or Primitive).
-    /// </summary>
+    // Define una tarea genérica, base para el planificador HTN
     public interface ITask {
     }
 
+    // Estados posibles durante la ejecución de tareas
     public enum TaskExecutionStatus {
         Running,
         Success,
         Failure
     }
 
-    /// <summary>
-    /// Primitive tasks act as domain operators that mutate state and communicate directly with Unity wrappers.
-    /// </summary>
+    // Tareas primitivas: acciones concretas que modifican el mundo físico
     public interface IPrimitiveTask : ITask {
+        // Verifica si la tarea se puede ejecutar bajo el estado actual
         bool CheckPreconditions(WorldState state);
+        
+        // Aplica cambios teóricos al estado de simulación
         void ApplyEffects(WorldState state);
 
-        /// <summary>
-        /// Executes the physical action logic using the provided actuator wrapper interfaces.
-        /// Executed continuously while active until Success or Failure.
-        /// </summary>
+        // Lógica física con los actuadores; se corre cada frame hasta el término
         TaskExecutionStatus Execute(IActuators actuators, WorldState state);
     }
 
-    /// <summary>
-    /// Methods decompose high level decisions into lower level tasks.
-    /// </summary>
+    // Métodos: formas de descomponer tareas complejas en subtareas
     public interface IMethod {
+        // Comprueba si este método es elegible para el estado actual
         bool CheckPreconditions(WorldState state);
         
-        /// <summary>
-        /// Returns an ordered list of smaller tasks to achieve this method's intent.
-        /// </summary>
+        // Devuelve una lista ordenada de tareas para lograr el método
         Queue<ITask> Decompose(WorldState state);
     }
 
-    /// <summary>
-    /// Compound tasks are high-level goals that try to decompose themselves via their assigned methods.
-    /// </summary>
+    // Tareas compuestas: objetivos de alto nivel que usan métodos para resolverse
     public interface ICompoundTask : ITask {
+        // Conjunto de métodos disponibles para intentar descomponer la tarea
         List<IMethod> Methods { get; }
     }
 }

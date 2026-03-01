@@ -3,28 +3,25 @@ using AgenticPrison.Core;
 
 namespace AgenticPrison.Behavior.PrimitiveTasks {
     
+    // Tarea primitiva: Inmoviliza al agente temporalmente para recuperar el aliento
     public class TakeBreathTask : IPrimitiveTask {
         
-        private float _waitTime = 2f; // Un par de segundos para tomar aire
+        private float _waitTime = 2f; // Segundos obligatorios de reposo
         private float _timer = 0f;
 
         public bool CheckPreconditions(WorldState state) {
-            // Siempre se puede intentar tomar un respiro
+            // Siempre se puede decidir pausar para descansar
             return true;
         }
 
         public TaskExecutionStatus Execute(IActuators actuators, WorldState state) {
             
-            // Simplemente dejamos pasar el tiempo, el agente se queda totalmente quieto
+            // Pausa estática progresando el contador
             _timer += Time.deltaTime;
 
-            // Si ya ha pasado el tiempo de descanso
             if (_timer >= _waitTime) {
-                
-                // --- RECUPERACIÓN REAL ---
-                // Sube la energía en 20, asegurándonos de no pasarnos de 100
+                // Ganancia energética real
                 state.Energy = Mathf.Min(100f, state.Energy + 30f);
-                
                 return TaskExecutionStatus.Success;
             }
 
@@ -32,8 +29,7 @@ namespace AgenticPrison.Behavior.PrimitiveTasks {
         }
 
         public void ApplyEffects(WorldState state) {
-            
-            // --- RECUPERACIÓN EN LA IMAGINACIÓN DEL PLANIFICADOR ---
+            // Ganancia energética para evaluación en la imaginación
             state.Energy = Mathf.Min(100f, state.Energy + 30f);
         }
     }

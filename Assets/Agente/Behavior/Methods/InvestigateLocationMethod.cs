@@ -7,27 +7,29 @@ using AgenticPrison.Behavior.PrimitiveTasks;
 
 namespace AgenticPrison.Behavior.Methods {
 
+    // Método HTN: Establece una ruta óptima para inspeccionar todos los puntos clave disponibles
     public class InvestigateLocationMethod : IMethod {
 
         private const float SearchSpeed = 4.0f;
 
         public bool CheckPreconditions(WorldState state) {
-            // Ejecutable si sabemos que el preso no está en la celda
+            // Ejecutable cuando se confirma empíricamente que el preso escapó
             return !state.PrisonerInCell; 
         }
 
         public Queue<ITask> Decompose(WorldState state) {
             Queue<ITask> subTasks = new Queue<ITask>();
             
+            // Luz amarilla indica alerta general de búsqueda
             subTasks.Enqueue(new ChangeFlashLight(Color.yellow));
             
-            // Obtener puntos de interés
             List<WayPointData> keyPoints = PrisonMap.Instance.GetAllKeyPoints();
             if (keyPoints == null || keyPoints.Count == 0) return subTasks;
 
+            // Planifica la ruta uniendo todos los nodos de forma eficiente
             List<Vector3> optimizedRoute = CalculateGreedyRoute(state.CurrentPosition, keyPoints);
 
-            // Transformar la ruta calculada en tareas primitivas
+            // Convierte cada salto de la ruta en un MoveTask
             foreach (Vector3 destination in optimizedRoute) {
                 subTasks.Enqueue(new MoveTask(destination, SearchSpeed));
             }
@@ -35,16 +37,14 @@ namespace AgenticPrison.Behavior.Methods {
             return subTasks;
         }
 
-        /// <summary>
-        /// Algoritmo Greedy (Vecino más cercano) para ordenar los puntos a visitar 
-        /// usando distancias reales del NavMesh.
-        /// </summary>
+        // --- Algoritmo de planificación de ruta Greedy (Vecino más cercano) ---
+        // Construye un circuito visitando el punto de interés accesible más cercano en cada salto
         private List<Vector3> CalculateGreedyRoute(Vector3 startPos, List<WayPointData> unvisitedPoints) {
             List<Vector3> route = new List<Vector3>();
             Vector3 currentPos = startPos;
             NavMeshPath path = new NavMeshPath();
 
-            // Clonamos la lista para ir eliminando elementos sin afectar al mapa original
+            // Lista auxiliar para descartar destinos secuencialmente
             List<WayPointData> remainingPoints = new List<WayPointData>(unvisitedPoints);
 
             while (remainingPoints.Count > 0) {
@@ -53,7 +53,7 @@ namespace AgenticPrison.Behavior.Methods {
                 int closestIndex = -1;
 
                 for (int i = 0; i < remainingPoints.Count; i++) {
-                    // Calculamos el camino real ignorando al fugitivo
+                    // Evalúa coste de desplazamiento usando física real del NavMesh
                     if (NavMesh.CalculatePath(currentPos, remainingPoints[i].transform.position, NavMesh.AllAreas, path)) {
                         
                         float pathLength = CalculatePathLength(path);
@@ -68,10 +68,10 @@ namespace AgenticPrison.Behavior.Methods {
 
                 if (closestWp != null) {
                     route.Add(closestWp.transform.position);
-                    currentPos = closestWp.transform.position; // Actualizamos para el siguiente salto
+                    currentPos = closestWp.transform.position; // Se proyecta al nuevo origen
                     remainingPoints.RemoveAt(closestIndex);
                 } else {
-                    // Si un punto es inalcanzable por NavMesh, lo descartamos
+                    // Descarta el nodo primario si es totalmente inalcanzable
                     remainingPoints.RemoveAt(0);
                 }
             }
@@ -79,9 +79,7 @@ namespace AgenticPrison.Behavior.Methods {
             return route;
         }
 
-        /// <summary>
-        /// Calcula la longitud total sumando los segmentos entre las esquinas del camino.
-        /// </summary>
+        // Determina la longitud sumando vectores del recorrido NavMesh
         private float CalculatePathLength(NavMeshPath path) {
             if (path.corners.Length < 2) return 0f;
 

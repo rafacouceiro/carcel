@@ -3,10 +3,11 @@ using UnityEngine;
 
 namespace AgenticPrison.Physical {
 
+    // Estructura de datos referida a los ruidos producidos
     public struct NoiseEvent {
-        public Vector3 Position; // Origen real
-        public float Volume;     // Radio de alcance en metros
-        public string emisor;   // Nombre del emisor
+        public Vector3 Position; // Origen físico del sonido en el mapa
+        public float Volume;     // Volumen que determina el radio de alcance
+        public string emisor;   // Identificador del emisor para filtrar ruidos propios
         
         public NoiseEvent(Vector3 pos, float vol, string emisor) {
             Position = pos;
@@ -15,13 +16,15 @@ namespace AgenticPrison.Physical {
         }
     }
     
+    // Gestor estático para emitir sonidos y notificar a los oyentes cercanos
     public static class NoiseManager {
-        // Lista de todos los agentes que pueden oír
+        // Registro de los agentes con capacidad auditiva en escena
         private static List<INoiseReceiver> _receivers = new List<INoiseReceiver>();
 
         public static void RegisterReceiver(INoiseReceiver receiver) => _receivers.Add(receiver);
         public static void UnregisterReceiver(INoiseReceiver receiver) => _receivers.Remove(receiver);
 
+        // Envía el estímulo acústico a los agentes basándose en la distancia y alcance
         public static void EmitNoise(NoiseEvent noise) {
             foreach (var receiver in _receivers) {
                 float dist = Vector3.Distance(noise.Position, receiver.GetPosition());
@@ -32,8 +35,9 @@ namespace AgenticPrison.Physical {
         }
     }
 
+    // Interfaz que deben implementar los objetos capaces de oír
     public interface INoiseReceiver {
-        Vector3 GetPosition();
-        void OnNoiseHeard(NoiseEvent noise);
+        Vector3 GetPosition(); // Posición en la que se ubica el oído
+        void OnNoiseHeard(NoiseEvent noise); // Callback al percibir el sonido
     }
 }

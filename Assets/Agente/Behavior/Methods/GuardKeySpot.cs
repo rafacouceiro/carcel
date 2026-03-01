@@ -6,21 +6,26 @@ using AgenticPrison.Physical;
 using AgenticPrison.Behavior.PrimitiveTasks;
 
 namespace AgenticPrison.Behavior.Methods {
+    // Método HTN: Dirige al guardia al punto crucial más cercano para vigilar mientras recarga energía
     public class GuardKeySpotMethod : IMethod {
         
         public bool CheckPreconditions(WorldState state) {
-            // El agente decide descansar si su fatiga es alta
+            // Condicionado a no estar persiguiendo activamente al fugitivo
             return !state.FugitiveInVision; 
         }
 
         public Queue<ITask> Decompose(WorldState state) {
             Queue<ITask> subTasks = new Queue<ITask>();
+            // Luz morada indica estado de guardia estática
             subTasks.Enqueue(new ChangeFlashLight(Color.purple));
             
             WayPointData closestRestPoint = FindClosestKeyPoint(state.CurrentPosition);
             
             if (closestRestPoint != null) {
+                // Navegar asumiendo paso de vigilancia normal
                 subTasks.Enqueue(new MoveTask(closestRestPoint.transform.position, 3.0f));
+                
+                // Inspeccionar el área tantas veces como sea necesario para recuperarse al 100%
                 int tasksNeeded = Mathf.CeilToInt((100f - state.Energy) / 20f);
 
                 for (int i = 0; i < tasksNeeded; i++) {
@@ -31,6 +36,7 @@ namespace AgenticPrison.Behavior.Methods {
             return subTasks;
         }
 
+        // Calcula el puesto de guardia más próximo usando distancias reales del NavMesh
         private WayPointData FindClosestKeyPoint(Vector3 currentPos) {
             List<WayPointData> keyPoints = PrisonMap.Instance.GetAllKeyPoints();
             WayPointData bestPoint = null;

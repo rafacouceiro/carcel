@@ -4,36 +4,36 @@ using AgenticPrison.Core;
 using AgenticPrison.Physical;
 using AgenticPrison.Behavior;
 #if UNITY_EDITOR
-using UnityEditor; // Necesario para Handles
+using UnityEditor; 
 #endif
 
 namespace AgenticPrison {
 
+    // Cerebro del agente: controla la percepción, el estado y el planificador HTN
     public class Brain : MonoBehaviour, INoiseReceiver, IVisionEvents, ICellEventReceiver {
 
-        [Header("Tangible References")]
+        [Header("Referencias Tangibles")]
         public Transform PlayerTarget;
 
         [Header("Configuración del Guardia")]
         [Tooltip("El ID simbólico del cuadrante. Puedes escribirlo o arrastrar el objeto abajo.")]
-        public string QuadrantId = "section1"; // <--- Tu agente SOLO usará este string
+        public string QuadrantId = "section1"; 
 
-        // --- MAGIA DEL EDITOR DE UNITY ---
         #if UNITY_EDITOR
-                [Header("Herramientas de Editor (No se compila en el juego final)")]
-                [Tooltip("Arrastra aquí un objeto. El agente copiará su nombre y soltará el objeto al instante.")]
+                [Header("Herramientas de Editor (No compila en build)")]
+                [Tooltip("Arrastra un objeto para copiar su nombre como cuadrante y soltarlo al instante.")]
                 public Transform ArrastrarCuadrante;
 
-                // OnValidate se ejecuta automáticamente cada vez que tocas algo en el Inspector
+                // Transfiere automáticamente el nombre del objeto arrastrado al QuadrantId
                 private void OnValidate() {
                     if (ArrastrarCuadrante != null) {
-                        QuadrantId = ArrastrarCuadrante.name; // 1. Copia el nombre al string
-                        ArrastrarCuadrante = null;            // 2. Borra la referencia física
+                        QuadrantId = ArrastrarCuadrante.name; 
+                        ArrastrarCuadrante = null;            
                     }
                 }
         #endif
 
-        [Header("Logic State")]
+        [Header("Estado Lógico")]
         public WorldState CurrentState;
 
         [Header("Audición")]
@@ -46,7 +46,7 @@ namespace AgenticPrison {
         private IActuators _actuators;
         private ICompoundTask _rootTask;
 
-        [Tooltip("El nombre del agente, recogido automáticamente del GameObject.")]
+        [Tooltip("Nombre del agente, recogido automáticamente.")]
         public string AgentName;
         private static int _guardCounter = 1;
 
@@ -57,9 +57,8 @@ namespace AgenticPrison {
         }
 
         private void Start() {
-
+            // Inicializar estado del mundo y asignar al agente
             CurrentState = new WorldState();
-
             CurrentState.AgentName = AgentName;
             CurrentState.Map = PrisonMap.Instance;
             CurrentState.AssignedQuadrantId = QuadrantId;
@@ -93,41 +92,40 @@ namespace AgenticPrison {
         // EVENTOS DE AUDICIÓN
         public void OnNoiseHeard(NoiseEvent noise) 
         {
+            if (noise.emisor == AgentName) return; // Ignorar ruidos propios
 
-            if (noise.emisor == AgentName) return; // Ignorar ruido propio 
-
-            // Ignorar ruido si tenemos al fugitivo en visión
+            // Si el fugitivo está a la vista, ignorar el ruido
             if (CurrentState.FugitiveInVision) 
             {
                 return;
             }
 
+            // Comprobar cercanía de otros guardias
             bool sawGuardRecently = CurrentState.LastGuardPosition != Vector3.zero && (Time.time - CurrentState.LastGuardPositionTime < 8f);
             
             if (sawGuardRecently) 
             {
-                // ¿El ruido viene de cerca de donde estaba el guardia? (Margen de 6 metros)
                 float distToGuard = Vector3.Distance(noise.Position, CurrentState.LastGuardPosition);
                 
-                // Si está cerca Y el ruido es de pasos normales (menor a 18f de volumen)
+                // Si está cerca y es ruido de pasos suaves, descartar
                 if (distToGuard < 10f && noise.Volume < 18f) 
                 {
-                    Debug.Log($"<color=cyan>[{AgentName}] Ignorando ruido bajo cerca de un compañero. Falsa alarma.</color>");
-                    return; // Abortamos la audición por completo
+                    Debug.Log($"<color=cyan>[{AgentName}] Ignorando ruido cercano a un compañero. Falsa alarma.</color>");
+                    return; 
                 }
             }
 
+            // Margen de error al localizar sonido según la distancia
             float dist = Vector3.Distance(transform.position, noise.Position);
             float errorMagnitude = Mathf.Lerp(0.5f, 10f, dist / noise.Volume);
             Vector2 randomCircle = Random.insideUnitCircle * errorMagnitude;
             Vector3 diffusePosition = noise.Position + new Vector3(randomCircle.x, 0, randomCircle.y);
 
-
-            // Determinar 'supervivencia' de pistas visuales y auditivas activas
+            // Vigencia de las pistas previas
             bool isLKPActive = CurrentState.LastKnownPosition != Vector3.zero && (Time.time - CurrentState.LastKnownPositionTime < 20f);
             bool isLNPActive = CurrentState.LastNoisePosition != Vector3.zero && (Time.time - CurrentState.LastNoisePositionTime < 30f);
 
-            // Si tengo una pista visual reciente, ignoro el ruido
+            // Pista visual previa es prioridad absoluta
             if (isLKPActive)
             {    
                 CurrentState.LastNoisePosition = diffusePosition;
@@ -136,21 +134,19 @@ namespace AgenticPrison {
             } 
             else if (isLNPActive)
             {
-                // Solamente replanificamos si el sonido escuchado es muy fuerte
+                // Replanificar solo ante un sonido más fuerte y alejado del origen anterior
                 if (noise.Volume > 18f && Vector3.Distance(CurrentState.LastNoisePosition, diffusePosition) > 15f)
                 {
                     CurrentState.LastNoisePosition = diffusePosition;
                     CurrentState.LastNoisePositionTime = Time.time;
                     ForzarReplanificacion();
                 }
-                // Si es cualquier otro sonido seguimos investigando
                 else
                 {
                     return;
                 }
             }
-            // Si no tenemos pistas visuales o auditivas recientes 
-            // reaccionamos al sonido
+            // Sin rastro reciente, el agente reacciona y replanifica por el sonido
             else
             {
                 CurrentState.LastNoisePosition = diffusePosition;
@@ -159,10 +155,10 @@ namespace AgenticPrison {
             }            
         }
 
-        // EVENTOS DE VISION
-        // EVENTO: Veo a un compañero guardia
+        // EVENTOS DE VISIÓN
         public void OnGuardSpotted(Vector3 guardPosition) 
         {
+            // Registrar ubicación de compañeros detectados
             CurrentState.LastGuardPosition = guardPosition;
             CurrentState.LastGuardPositionTime = Time.time;
         }
@@ -171,8 +167,7 @@ namespace AgenticPrison {
 
              Debug.LogWarning($"<color=magenta>{CurrentState.PrisonerInCell} prisioner in cell</color>");
 
-            // Para la primera vez que lo vemos: queremos saber si esá en la celda o fuera
-            // Si está dentro de la celda, ignoramos que hemos visto al fugitivo
+            // Determinar si lo avistado rompe la condición de cautiverio
             if(CurrentState.PrisonerInCell)
             {
                 List<WayPointData> cellPoints = CurrentState.Map.GetAllCellPoints();
@@ -181,15 +176,14 @@ namespace AgenticPrison {
                 foreach(WayPointData cellPoint in cellPoints)
                 {
                     BoxCollider cellBox = cellPoint.GetComponent<BoxCollider>();
-                    if(cellBox != null)
+                    if(cellBox != null && cellBox.bounds.Contains(position))
                     {
-                        if(cellBox.bounds.Contains(position))
-                        {
-                            isInsideAnyCell = true;
-                            break; // Ya sabemos que está en una celda, dejamos de buscar
-                        }
+                        isInsideAnyCell = true;
+                        break; 
                     }
                 }
+                
+                // Si efectivamente sigue en la celda según los colliders, ignorar
                 if(isInsideAnyCell)
                 {
                     Debug.LogWarning("<color=magenta>El prisionero está dentro de la celda.</color>");
@@ -197,7 +191,8 @@ namespace AgenticPrison {
                 }
             }
             
-            Debug.LogWarning("<color=red>He visto al prisionero fuera de la celda");
+            // Fuga confirmada visualmente
+            Debug.LogWarning("<color=red>He visto al prisionero fuera de la celda</color>");
             CurrentState.PrisonerInCell = false;
             CurrentState.FugitiveInVision = true;
             CurrentState.LastKnownPosition = position;
@@ -206,60 +201,62 @@ namespace AgenticPrison {
         }
 
         public void OnFugitivePositionUpdated(Vector3 position) {
-            if (CurrentState.PrisonerInCell) return; // Ignorar si el prisionero está en la celda
+            if (CurrentState.PrisonerInCell) return; // Ignorar actualizaciones si no hay fuga
+
             CurrentState.LastKnownPosition = position;
             CurrentState.LastKnownPositionTime = Time.time;
         }
 
         public void OnFugitiveLost() {
-            Debug.LogWarning("<color=red>He perdido de vista al prisionero");
+            Debug.LogWarning("<color=red>He perdido de vista al prisionero</color>");
             CurrentState.FugitiveInVision = false;
         }
 
         public void OnCellFoundOpen() 
         {
+            // Constatación de la huida al patrullar las celdas
             if (CurrentState.PrisonerInCell) {
                 CurrentState.PrisonerInCell = false;  
-                Debug.LogWarning("<color=yellow>El prisionero SE HA FUGADO");              
+                Debug.LogWarning("<color=yellow>El prisionero SE HA FUGADO</color>");              
                 ForzarReplanificacion();
             }
         }
 
-
-        // Actualizar posición del agente
+        // Refrescar coordenadas del agente en su estado interno
         private void UpdateLocation(){
             CurrentState.CurrentPosition = transform.position;
         }
 
-
+        // Interrumpir plan y detener movimiento actual
         private void ForzarReplanificacion() {
-
             _currentPlan.Clear();
             _activeTask = null;    
             _actuators.StopMoving();
         }
 
-        // Flujo de HTN
+        // Motor de ejecución continua HTN
         private void ProcessHTNExecution() {
 
             if (_rootTask == null) return;
             
-            // Si no tenemos plan: generar uno
+            // Solicitar nuevo plan si la cola está vacía
             if (_currentPlan.Count == 0 && _activeTask == null) {
-
                 _currentPlan = _planner.GeneratePlan(CurrentState, _rootTask);
-                if (_currentPlan.Count > 0) _activeTask = _currentPlan.Dequeue(); // Comenzar plan
+                if (_currentPlan.Count > 0) _activeTask = _currentPlan.Dequeue(); 
             }
 
-            // Si hay una tarea en eejcución
+            // Seguimiento de la tarea primitiva actual
             if (_activeTask != null) {
-                var status = _activeTask.Execute(_actuators, CurrentState); // Ejecutarla (proporcionar actuadores)
+                var status = _activeTask.Execute(_actuators, CurrentState); 
 
-                if (status == TaskExecutionStatus.Success) { // Si se completa con éxito
-                    _activeTask = (_currentPlan.Count > 0) ? _currentPlan.Dequeue() : null; // Siguiente tarea
-                } else if (status == TaskExecutionStatus.Failure) { // Si falla
-                    _currentPlan.Clear(); // Limpiar plan
-                    _activeTask = null; // Resetear, va a replanificar en el siguiente frame
+                // Extraer próxima si logró éxito
+                if (status == TaskExecutionStatus.Success) { 
+                    _activeTask = (_currentPlan.Count > 0) ? _currentPlan.Dequeue() : null; 
+                } 
+                // Vaciado ante fallo para replanificar en el siguiente frame
+                else if (status == TaskExecutionStatus.Failure) { 
+                    _currentPlan.Clear(); 
+                    _activeTask = null; 
                 }
             }
         }
