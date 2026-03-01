@@ -133,6 +133,8 @@ namespace AgenticPrison {
             // reaccionamos al sonido
             else
             {
+                CurrentState.LastNoisePosition = diffusePosition;
+                CurrentState.LastNoisePositionTime = Time.time;
                 ForzarReplanificacion();
             }            
         }
