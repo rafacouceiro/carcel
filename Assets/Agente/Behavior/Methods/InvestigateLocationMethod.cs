@@ -13,7 +13,7 @@ namespace AgenticPrison.Behavior.Methods {
 
         public bool CheckPreconditions(WorldState state) {
             // Ejecutable si sabemos que el preso no está en la celda
-            return !state.PrisonerInCell && state.LastKnownPosition == Vector3.zero; 
+            return !state.PrisonerInCell; 
         }
 
         public Queue<ITask> Decompose(WorldState state) {
