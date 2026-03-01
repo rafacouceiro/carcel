@@ -103,7 +103,7 @@ InitTestScene*.unity*
 
 # macOS, Windows, VSCode
 .DS_Store
-.vscode/*
+.vscode/
 Thumbs.db
 desktop.ini
 ehthumbs.db
