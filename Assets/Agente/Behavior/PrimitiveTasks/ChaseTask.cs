@@ -1,10 +1,13 @@
 using AgenticPrison.Core;
+using AgenticPrison.Physical;
 using UnityEngine;
 
 namespace AgenticPrison.Behavior.PrimitiveTasks {
 
     public class ChaseTask : IPrimitiveTask {
         private float _speed;
+        private float _noiseTimer = 0f;
+        private const float RunStepInterval = 0.3f;
 
         public ChaseTask(float speed) {
             _speed = speed;
@@ -39,6 +42,13 @@ namespace AgenticPrison.Behavior.PrimitiveTasks {
             
             // Le restamos 3 puntos POR SEGUNDO, no por fotograma.
             state.Energy = Mathf.Max(0, state.Energy - (3f * Time.deltaTime)); 
+            
+            // Emitir ruido al correr
+            _noiseTimer -= Time.deltaTime;
+            if (_noiseTimer <= 0f) {
+                NoiseManager.EmitNoise(new NoiseEvent(state.CurrentPosition, 20f));
+                _noiseTimer = RunStepInterval;
+            }
 
             // Comprobar si estamos lo suficientemente cerca para atraparlo
             float distance = Vector3.Distance(state.CurrentPosition, state.LastKnownPosition);
