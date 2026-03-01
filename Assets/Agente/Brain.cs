@@ -123,14 +123,18 @@ namespace AgenticPrison {
             Vector3 diffusePosition = noise.Position + new Vector3(randomCircle.x, 0, randomCircle.y);
 
 
+            // Determinar 'supervivencia' de pistas visuales y auditivas activas
+            bool isLKPActive = CurrentState.LastKnownPosition != Vector3.zero && (Time.time - CurrentState.LastKnownPositionTime < 20f);
+            bool isLNPActive = CurrentState.LastNoisePosition != Vector3.zero && (Time.time - CurrentState.LastNoisePositionTime < 30f);
+
             // Si tengo una pista visual reciente, ignoro el ruido
-            if (CurrentState.LastKnownPosition != Vector3.zero)
+            if (isLKPActive)
             {    
                 CurrentState.LastNoisePosition = diffusePosition;
                 CurrentState.LastNoisePositionTime = Time.time;        
                 return;
             } 
-            else if (CurrentState.LastNoisePosition != Vector3.zero)
+            else if (isLNPActive)
             {
                 // Solamente replanificamos si el sonido escuchado es muy fuerte
                 if (noise.Volume > 18f && Vector3.Distance(CurrentState.LastNoisePosition, diffusePosition) > 15f)
