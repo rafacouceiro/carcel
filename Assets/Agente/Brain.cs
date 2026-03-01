@@ -177,6 +177,7 @@ namespace AgenticPrison {
         }
 
         public void OnFugitivePositionUpdated(Vector3 position) {
+            if (CurrentState.PrisonerInCell) return; // Ignorar si el prisionero está en la celda
             CurrentState.LastKnownPosition = position;
             CurrentState.LastKnownPositionTime = Time.time;
         }
@@ -197,10 +198,7 @@ namespace AgenticPrison {
 
         // Actualizar posición del agente
         private void UpdateLocation(){
-            if (!CurrentState.PrisonerInCell)
-            {
-                CurrentState.CurrentPosition = transform.position;
-            }
+            CurrentState.CurrentPosition = transform.position;
         }
 
 
