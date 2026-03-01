@@ -1,14 +1,12 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using AgenticPrison.Physical; // Necesario para acceder al NoiseManager
 
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(Animator))]
 public class ControlJugador : MonoBehaviour
 {
-    [Header("Ruido")]
-    public float radioRuidoMaximo = 10f;   // alcance máximo del ruido
-    public float multiplicadorRuido = 1.2f; // escala intensidad
-    private float nivelRuido; // valor actual de ruido
+    public enum PlayerState { Idle, Walking, Running }
 
     [Header("Movimiento")]
     public float velocidadAndar = 3.5f;
@@ -19,111 +17,185 @@ public class ControlJugador : MonoBehaviour
     public float sensibilidad = 0.5f;
     public float maxPitch = 90f;
 
-    private CharacterController controller;
-    private Animator animator;
-    private Transform camara;
+    [Header("Ajustes de Sonido")]
+    public float intervaloPasosAndar = 0.5f;
+    public float intervaloPasosCorrer = 0.3f;
 
-    private float rotacionX = 0f;
-    private float velocidadVertical = 0f;
+    // --- Variables de Estado Interno ---
+    private CharacterController _controller;
+    private Animator _animator;
+    private Transform _camara;
 
-    void Start()
+    public PlayerState CurrentState { get; private set; }
+    public float CurrentNoiseLevel { get; private set; }
+
+    // --- Variables de Input y Físicas ---
+    private Vector2 _moveInput;
+    private Vector2 _lookInput;
+    private bool _isSprintPressed;
+    private float _rotacionX = 0f;
+    private float _velocidadVertical = 0f;
+    private float _noiseTimer; // Temporizador para los pulsos de ruido
+
+    private void Start()
     {
-        controller = GetComponent<CharacterController>();
-        animator = GetComponent<Animator>();
-
-        // Cámara: busca una cámara hija, si no usa la MainCamera
-        Camera camChild = GetComponentInChildren<Camera>();
-        if (camChild != null) camara = camChild.transform;
-        else if (Camera.main != null) camara = Camera.main.transform;
-        else Debug.LogWarning("No se encontró Camera. Mete una cámara dentro del jugador o marca una como MainCamera.");
-
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        InicializarComponentes();
+        BloquearCursor(true);
     }
 
-    void Update()
+    private void Update()
+    {
+        ProcesarInput();
+        ManejarCamara();
+        ManejarMovimiento();
+        ActualizarEstado();
+        ManejarAnimaciones();
+        
+        // El sistema de ruido se actualiza cada frame pero emite por pulsos
+        GenerarRuido();
+        BecomeVisible();
+
+    }
+
+    private void InicializarComponentes()
+    {
+        _controller = GetComponent<CharacterController>();
+        _animator = GetComponent<Animator>();
+
+        Camera camChild = GetComponentInChildren<Camera>();
+        if (camChild != null) _camara = camChild.transform;
+        else if (Camera.main != null) _camara = Camera.main.transform;
+    }
+
+    private void ProcesarInput()
     {
         var keyboard = Keyboard.current;
         var mouse = Mouse.current;
         if (keyboard == null || mouse == null) return;
 
-        // --- 1) Mirar (ratón/trackpad) ---
-        if (camara != null && Cursor.lockState == CursorLockMode.Locked)
-        {
-            Vector2 look = mouse.delta.ReadValue();
-            float mouseX = look.x * sensibilidad;
-            float mouseY = look.y * sensibilidad;
-
-            rotacionX -= mouseY;
-            rotacionX = Mathf.Clamp(rotacionX, -maxPitch, maxPitch);
-
-            camara.localRotation = Quaternion.Euler(rotacionX, 0f, 0f);
-            transform.Rotate(Vector3.up * mouseX);
-        }
-
-        // --- 2) Input movimiento (WASD) ---
         float x = (keyboard.dKey.isPressed ? 1f : 0f) - (keyboard.aKey.isPressed ? 1f : 0f);
         float y = (keyboard.wKey.isPressed ? 1f : 0f) - (keyboard.sKey.isPressed ? 1f : 0f);
+        _moveInput = new Vector2(x, y);
+        if (_moveInput.sqrMagnitude > 1f) _moveInput.Normalize();
 
-        Vector2 input = new Vector2(x, y);
-        if (input.sqrMagnitude > 1f) input.Normalize(); // diagonales
+        if (Cursor.lockState == CursorLockMode.Locked)
+            _lookInput = mouse.delta.ReadValue() * sensibilidad;
 
-        // Umbral para evitar que se quede "andando" por ruido
-        bool moving = input.magnitude > 0.1f;
+        _isSprintPressed = keyboard.leftShiftKey.isPressed || keyboard.rightShiftKey.isPressed;
 
-        bool shift = keyboard.leftShiftKey.isPressed || keyboard.rightShiftKey.isPressed;
-        bool running = shift && moving;
+        if (keyboard.escapeKey.wasPressedThisFrame) BloquearCursor(false);
+        if (mouse.leftButton.wasPressedThisFrame && Cursor.lockState != CursorLockMode.Locked) BloquearCursor(true);
+    }
 
-        float speed = running ? velocidadCorrer : velocidadAndar;
+    private void ManejarCamara()
+    {
+        if (_camara == null) return;
 
-        Vector3 moveHorizontal = (transform.right * input.x + transform.forward * input.y) * speed;
+        _rotacionX -= _lookInput.y;
+        _rotacionX = Mathf.Clamp(_rotacionX, -maxPitch, maxPitch);
+        _camara.localRotation = Quaternion.Euler(_rotacionX, 0f, 0f);
 
-        // --- 3) Gravedad ---
-        if (controller.isGrounded && velocidadVertical < 0f)
-            velocidadVertical = -2f; // pegado al suelo
+        transform.Rotate(Vector3.up * _lookInput.x);
+    }
 
-        velocidadVertical += gravedad * Time.deltaTime;
+    private void ManejarMovimiento()
+    {
+        float targetSpeed = _isSprintPressed ? velocidadCorrer : velocidadAndar;
+        if (_moveInput.magnitude < 0.1f) targetSpeed = 0f;
 
-        Vector3 move = new Vector3(moveHorizontal.x, velocidadVertical, moveHorizontal.z);
-        controller.Move(move * Time.deltaTime);
+        Vector3 moveHorizontal = (transform.right * _moveInput.x + transform.forward * _moveInput.y) * targetSpeed;
 
-        // --- 4) Animaciones (basadas en velocidad real) ---
+        if (_controller.isGrounded && _velocidadVertical < 0f)
+            _velocidadVertical = -2f;
+        
+        _velocidadVertical += gravedad * Time.deltaTime;
 
-        Vector3 horizontalVelocity = new Vector3(controller.velocity.x, 0f, controller.velocity.z);
-        float velocidadActual = horizontalVelocity.magnitude;
+        Vector3 move = new Vector3(moveHorizontal.x, _velocidadVertical, moveHorizontal.z);
+        _controller.Move(move * Time.deltaTime);
+    }
 
-        // --- Ruido ---
-        if (velocidadActual < 0.1f)
+    private void ActualizarEstado()
+    {
+        if (_moveInput.magnitude < 0.1f) 
+            CurrentState = PlayerState.Idle;
+        else if (_isSprintPressed) 
+            CurrentState = PlayerState.Running;
+        else 
+            CurrentState = PlayerState.Walking;
+    }
+
+    private void ManejarAnimaciones()
+    {
+        Vector3 horizontalVelocity = new Vector3(_controller.velocity.x, 0f, _controller.velocity.z);
+        float velocidadNormalizada = horizontalVelocity.magnitude / velocidadCorrer;
+        _animator.SetFloat("Speed", velocidadNormalizada, 0.1f, Time.deltaTime);
+    }
+
+    private void GenerarRuido()
+    {
+        // 1. Definir el alcance del ruido según el estado actual
+        switch (CurrentState)
         {
-            nivelRuido = 0f;
+            case PlayerState.Idle:
+                CurrentNoiseLevel = 0f;
+                break;
+            case PlayerState.Walking:
+                CurrentNoiseLevel = 7f; // Alcance de 4 metros al andar
+                break;
+            case PlayerState.Running:
+                CurrentNoiseLevel = 20f; // Alcance de 40 metros al correr
+                break;
+        }
+
+        // 2. Lógica de pulsos: solo emitimos ruido si nos movemos
+        if (CurrentNoiseLevel > 0f)
+        {
+            _noiseTimer -= Time.deltaTime;
+            if (_noiseTimer <= 0f)
+            {
+                // Emitir el evento de ruido para que los guardias lo procesen
+                NoiseManager.EmitNoise(new NoiseEvent(transform.position, CurrentNoiseLevel, "Player"));
+
+                // Resetear el timer según la cadencia del paso
+                _noiseTimer = (CurrentState == PlayerState.Running) ? intervaloPasosCorrer : intervaloPasosAndar;
+            }
         }
         else
         {
-            nivelRuido = Mathf.Clamp(velocidadActual * multiplicadorRuido, 0f, radioRuidoMaximo);
-        }
-
-        float velocidadNormalizada = velocidadActual / velocidadCorrer;
-
-        animator.SetFloat("Speed", velocidadNormalizada, 0.1f, Time.deltaTime);
-
-        // --- 5) Escape libera ratón ---
-        if (keyboard.escapeKey.wasPressedThisFrame)
-        {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-        }
-
-        // Click para volver a bloquear
-        if (mouse.leftButton.wasPressedThisFrame && Cursor.lockState != CursorLockMode.Locked)
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
+            _noiseTimer = 0f; 
         }
     }
 
-    public float ObtenerNivelRuido()
+    private void BloquearCursor(bool bloquear)
     {
-        return nivelRuido;
+        Cursor.lockState = bloquear ? CursorLockMode.Locked : CursorLockMode.None;
+        Cursor.visible = !bloquear;
     }
 
+    private void BecomeVisible()
+    {
+        VisionManager.EmitPresence(this.transform);;
+    }
+
+   
+        // --- DIBUJO DE DEBUGGING DEL RUIDO ---
+    private void OnDrawGizmos()
+    {
+        // Solo dibujamos la esfera si el jugador está haciendo ruido (andando o corriendo)
+        if (CurrentNoiseLevel > 0f)
+        {
+            // Elegimos color: Rojo para correr, Amarillo para andar
+            Color gizmoColor = (CurrentState == PlayerState.Running) ? Color.red : Color.yellow;
+
+            // 1. Dibujamos una esfera transparente para ver el área rellena
+            gizmoColor.a = 0.2f; // 20% de opacidad
+            Gizmos.color = gizmoColor;
+            Gizmos.DrawSphere(transform.position, CurrentNoiseLevel);
+
+            // 2. Dibujamos el borde (anillo) para que se vea claro el límite exacto
+            gizmoColor.a = 1f; // 100% de opacidad
+            Gizmos.color = gizmoColor;
+            Gizmos.DrawWireSphere(transform.position, CurrentNoiseLevel);
+        }
+    }
 }
