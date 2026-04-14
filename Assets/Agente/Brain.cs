@@ -3,17 +3,24 @@ using System.Collections.Generic;
 using AgenticPrison.Core;
 using AgenticPrison.Physical;
 using AgenticPrison.Behavior;
+using AgenticPrison.Communication;
 #if UNITY_EDITOR
-using UnityEditor; 
+using UnityEditor;
 #endif
 
 namespace AgenticPrison {
 
     // Cerebro del agente: controla la percepción, el estado y el planificador HTN
-    public class Brain : MonoBehaviour, INoiseReceiver, IVisionEvents, ICellEventReceiver {
+    public class Brain : FIPAAgent, INoiseReceiver, IVisionEvents, ICellEventReceiver {
 
         [Header("Referencias Tangibles")]
         public Transform PlayerTarget;
+
+        [Header("Comunicación FIPA")]
+        public Light Flashlight;
+
+        // Identificador único del agente en el bus de mensajes
+        public override string AgentId => gameObject.name;
 
         [Header("Configuración del Guardia")]
         [Tooltip("El ID simbólico del cuadrante. Puedes escribirlo o arrastrar el objeto abajo.")]
@@ -56,7 +63,10 @@ namespace AgenticPrison {
             _guardCounter++; 
         }
 
-        private void Start() {
+        protected override void Start() {
+            // Registrar en MessageBus con el nombre ya asignado por Awake()
+            base.Start();
+
             // Inicializar estado del mundo y asignar al agente
             CurrentState = new WorldState();
             CurrentState.AgentName = AgentName;
@@ -71,7 +81,9 @@ namespace AgenticPrison {
             _rootTask = new AgenticPrison.Behavior.RootTask.BeGuard();
         }
 
-        private void Update() {
+        protected override void Update() {
+            // El ciclo BDI (social) precede al tick HTN (físico) — constraint del diseño Phase 2
+            base.Update();
             UpdateLocation();
             ProcessHTNExecution();
             VisionManager.EmitPresence(this.transform);
@@ -220,6 +232,16 @@ namespace AgenticPrison {
                 Debug.LogWarning("<color=yellow>El prisionero SE HA FUGADO</color>");              
                 ForzarReplanificacion();
             }
+        }
+
+        // COMUNICACIÓN FIPA
+
+        // Brain no se suscribe a ontologías propias todavía (Phase 2: CommPlanner)
+        public override string[] GetOntologies() { return new string[0]; }
+
+        protected override void OnMessageReceived(ACLMessage msg) {
+            // TODO: CommPlanner.ReviseBeliefs(msg)
+            GetComponent<PresenceNotifier>()?.HandleMessage(msg);
         }
 
         // Refrescar coordenadas del agente en su estado interno
