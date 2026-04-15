@@ -75,7 +75,7 @@ namespace AgenticPrison.Communication {
 
         // Procesar todos los mensajes pendientes en el buffer y vaciar
         void ProcessMessages() {
-            int toProcess = _count;
+            int toProcess = _coXunt;
             for (int i = 0; i < toProcess; i++) {
                 ACLMessage msg = _buffer[_head];
                 _head  = (_head + 1) % BUFFER_SIZE;

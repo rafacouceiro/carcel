@@ -113,3 +113,7 @@ Each agent type provides its own implementation (`HTNActionBridge` writes `World
 4. Maximum **2–3 communicative acts per frame** (`MAX_ACTS_PER_FRAME`).
 5. `MessageBus` delivers CFPs only to agents **subscribed to the relevant ontology**; all subsequent messages in the same conversation are **unicast by `conversationId`**.
 6. Reliability scores start at **0.5** for unknown agents and are updated on `InformDone` (success) / `Failure`.
+
+## Workflow
+Follow git-workflow skill autonomously. Run `git add` and `git commit` 
+after each verified step without waiting for instruction.

@@ -8,7 +8,7 @@ namespace AgenticPrison.Communication {
     public struct ACLMessage {
         public string      MessageId;        // GUID único generado al crear el mensaje
         public Performative Performative;
-        public string      Sender;
+        public string      Sender;           // Lo que no sea sobre la comunicación va en contenido
         public string      Receiver;         // Vacío si es broadcast
         public string      ConversationId;
         public string      Ontology;
