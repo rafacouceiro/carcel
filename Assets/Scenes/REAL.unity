@@ -2923,10 +2923,10 @@ PrefabInstance:
       addedObject: {fileID: 50945114}
     - targetCorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 50945117}
+      addedObject: {fileID: 50945119}
     - targetCorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 50945111}
+      addedObject: {fileID: 50945117}
     - targetCorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 50945115}
@@ -2944,24 +2944,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
   m_PrefabInstance: {fileID: 50945108}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &50945111
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 50945110}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4dcdaffd2dde490d89085d65ebce103, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Brain
-  PlayerTarget: {fileID: 1796544529}
-  Flashlight: {fileID: 48536891}
-  QuadrantId: section2
-  ArrastrarCuadrante: {fileID: 0}
-  AuditoryRange: 20
-  AgentName: 
 --- !u!195 &50945114
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -3026,6 +3008,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2914b576dc8074766ad5a159e3459679, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Communication.PresenceNotifier
+--- !u!114 &50945119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 50945110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc59f0bdba5294b81b807a793b7a0b96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Agents.GuardBrain
+  PlayerTarget: {fileID: 1796544529}
+  Flashlight: {fileID: 48536891}
+  QuadrantId: section2
+  ArrastrarCuadrante: {fileID: 0}
+  AuditoryRange: 20
+  AgentName: 
 --- !u!1001 &52761029
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -65090,10 +65090,10 @@ PrefabInstance:
       addedObject: {fileID: 963554431}
     - targetCorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 963554434}
+      addedObject: {fileID: 963554436}
     - targetCorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 963554428}
+      addedObject: {fileID: 963554434}
     - targetCorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 963554432}
@@ -65111,24 +65111,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
   m_PrefabInstance: {fileID: 963554425}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &963554428
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 963554427}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4dcdaffd2dde490d89085d65ebce103, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Brain
-  PlayerTarget: {fileID: 1796544529}
-  Flashlight: {fileID: 1639233611}
-  QuadrantId: section4
-  ArrastrarCuadrante: {fileID: 0}
-  AuditoryRange: 20
-  AgentName: 
 --- !u!195 &963554431
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -65193,6 +65175,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2914b576dc8074766ad5a159e3459679, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Communication.PresenceNotifier
+--- !u!114 &963554436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963554427}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc59f0bdba5294b81b807a793b7a0b96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Agents.GuardBrain
+  PlayerTarget: {fileID: 1796544529}
+  Flashlight: {fileID: 1639233611}
+  QuadrantId: section4
+  ArrastrarCuadrante: {fileID: 0}
+  AuditoryRange: 20
+  AgentName: 
 --- !u!1 &965070405 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6999322035538773533, guid: baf57603f98cbdd4e8007a7276476d51, type: 3}
@@ -88429,10 +88429,10 @@ PrefabInstance:
       addedObject: {fileID: 1242211435}
     - targetCorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1242211438}
+      addedObject: {fileID: 1242211440}
     - targetCorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1242211432}
+      addedObject: {fileID: 1242211438}
     - targetCorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1242211436}
@@ -88450,24 +88450,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
   m_PrefabInstance: {fileID: 1242211429}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1242211432
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1242211431}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4dcdaffd2dde490d89085d65ebce103, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Brain
-  PlayerTarget: {fileID: 1796544529}
-  Flashlight: {fileID: 1939868495}
-  QuadrantId: section5
-  ArrastrarCuadrante: {fileID: 0}
-  AuditoryRange: 20
-  AgentName: 
 --- !u!195 &1242211435
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -88532,6 +88514,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2914b576dc8074766ad5a159e3459679, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Communication.PresenceNotifier
+--- !u!114 &1242211440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1242211431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc59f0bdba5294b81b807a793b7a0b96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Agents.GuardBrain
+  PlayerTarget: {fileID: 1796544529}
+  Flashlight: {fileID: 1939868495}
+  QuadrantId: section5
+  ArrastrarCuadrante: {fileID: 0}
+  AuditoryRange: 20
+  AgentName: 
 --- !u!1001 &1242221384
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -123136,10 +123136,10 @@ PrefabInstance:
       addedObject: {fileID: 1777676844}
     - targetCorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1777676855}
+      addedObject: {fileID: 1777676857}
     - targetCorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1777676849}
+      addedObject: {fileID: 1777676855}
     - targetCorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1777676850}
@@ -123180,24 +123180,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &1777676849
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1557340913}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4dcdaffd2dde490d89085d65ebce103, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Brain
-  PlayerTarget: {fileID: 1796544529}
-  Flashlight: {fileID: 2038932078}
-  QuadrantId: section1
-  ArrastrarCuadrante: {fileID: 0}
-  AuditoryRange: 20
-  AgentName: 
 --- !u!114 &1777676850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123290,6 +123272,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2914b576dc8074766ad5a159e3459679, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Communication.PresenceNotifier
+--- !u!114 &1777676857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1557340913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc59f0bdba5294b81b807a793b7a0b96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Agents.GuardBrain
+  PlayerTarget: {fileID: 1796544529}
+  Flashlight: {fileID: 2038932078}
+  QuadrantId: section1
+  ArrastrarCuadrante: {fileID: 0}
+  AuditoryRange: 20
+  AgentName: 
 --- !u!1 &1777836571
 GameObject:
   m_ObjectHideFlags: 0
@@ -125513,10 +125513,10 @@ PrefabInstance:
       addedObject: {fileID: 1799366120}
     - targetCorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1799366123}
+      addedObject: {fileID: 1799366125}
     - targetCorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1799366117}
+      addedObject: {fileID: 1799366123}
     - targetCorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1799366121}
@@ -125534,24 +125534,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
   m_PrefabInstance: {fileID: 1799366114}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1799366117
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1799366116}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4dcdaffd2dde490d89085d65ebce103, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Brain
-  PlayerTarget: {fileID: 1796544529}
-  Flashlight: {fileID: 1036260510}
-  QuadrantId: section7
-  ArrastrarCuadrante: {fileID: 0}
-  AuditoryRange: 20
-  AgentName: 
 --- !u!195 &1799366120
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -125616,6 +125598,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2914b576dc8074766ad5a159e3459679, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Communication.PresenceNotifier
+--- !u!114 &1799366125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1799366116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc59f0bdba5294b81b807a793b7a0b96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Agents.GuardBrain
+  PlayerTarget: {fileID: 1796544529}
+  Flashlight: {fileID: 1036260510}
+  QuadrantId: Patrulla7
+  ArrastrarCuadrante: {fileID: 0}
+  AuditoryRange: 20
+  AgentName: 
 --- !u!1 &1799442420
 GameObject:
   m_ObjectHideFlags: 0
@@ -128984,10 +128984,10 @@ PrefabInstance:
       addedObject: {fileID: 1838112917}
     - targetCorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1838112920}
+      addedObject: {fileID: 1838112922}
     - targetCorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1838112914}
+      addedObject: {fileID: 1838112920}
     - targetCorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1838112918}
@@ -129005,24 +129005,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
   m_PrefabInstance: {fileID: 1838112911}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1838112914
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1838112913}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4dcdaffd2dde490d89085d65ebce103, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Brain
-  PlayerTarget: {fileID: 1796544529}
-  Flashlight: {fileID: 662681994}
-  QuadrantId: section6
-  ArrastrarCuadrante: {fileID: 0}
-  AuditoryRange: 20
-  AgentName: 
 --- !u!195 &1838112917
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -129087,6 +129069,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2914b576dc8074766ad5a159e3459679, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Communication.PresenceNotifier
+--- !u!114 &1838112922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1838112913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc59f0bdba5294b81b807a793b7a0b96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Agents.GuardBrain
+  PlayerTarget: {fileID: 1796544529}
+  Flashlight: {fileID: 662681994}
+  QuadrantId: section6
+  ArrastrarCuadrante: {fileID: 0}
+  AuditoryRange: 20
+  AgentName: 
 --- !u!1001 &1839704027
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -145182,10 +145182,10 @@ PrefabInstance:
       addedObject: {fileID: 2044574263}
     - targetCorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2044574266}
+      addedObject: {fileID: 2044574268}
     - targetCorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2044574260}
+      addedObject: {fileID: 2044574266}
     - targetCorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2044574264}
@@ -145203,24 +145203,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
   m_PrefabInstance: {fileID: 2044574257}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2044574260
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2044574259}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4dcdaffd2dde490d89085d65ebce103, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Brain
-  PlayerTarget: {fileID: 1796544529}
-  Flashlight: {fileID: 48536891}
-  QuadrantId: section3
-  ArrastrarCuadrante: {fileID: 0}
-  AuditoryRange: 20
-  AgentName: 
 --- !u!195 &2044574263
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -145285,6 +145267,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2914b576dc8074766ad5a159e3459679, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Communication.PresenceNotifier
+--- !u!114 &2044574268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2044574259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc59f0bdba5294b81b807a793b7a0b96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Agents.GuardBrain
+  PlayerTarget: {fileID: 1796544529}
+  Flashlight: {fileID: 288692327}
+  QuadrantId: section3
+  ArrastrarCuadrante: {fileID: 0}
+  AuditoryRange: 20
+  AgentName: 
 --- !u!1 &2044697736 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 453d762048f90974c8a7164f9efc863e, type: 3}

@@ -8,10 +8,10 @@ using AgenticPrison.Communication;
 using UnityEditor;
 #endif
 
-namespace AgenticPrison {
+namespace AgenticPrison.Agents {
 
     // Cerebro del agente: controla la percepción, el estado y el planificador HTN
-    public class Brain : FIPAAgent, INoiseReceiver, IVisionEvents, ICellEventReceiver {
+    public class GuardBrain : FIPAAgent, INoiseReceiver, IVisionEvents, ICellEventReceiver {
 
         [Header("Referencias Tangibles")]
         public Transform PlayerTarget;

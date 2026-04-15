@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using AgenticPrison.Agents;
 
 namespace AgenticPrison.Communication {
 
@@ -9,10 +10,10 @@ namespace AgenticPrison.Communication {
     // Eliminar cuando CommPlanner este operativo.
     public class PresenceNotifier : MonoBehaviour {
 
-        Brain _brain;
+        GuardBrain _brain;
 
         void Awake() {
-            _brain = GetComponent<Brain>();
+            _brain = GetComponent<GuardBrain>();
 
             // Suscribir a la ontologia de presencia a traves del agente FIPAAgent de este GameObject
             MessageBus.Instance.AddOntologies(_brain, new[] { "agent-present" });
