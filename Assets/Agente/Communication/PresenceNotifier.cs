@@ -61,9 +61,8 @@ namespace AgenticPrison.Communication {
 
                 _brain.Send(reply);
 
-                // Senal visual si el emisor esta en radio cercano
-                float dist = Vector3.Distance(transform.position, msg.SenderPosition);
-                if (dist < 20f && _brain.Flashlight != null)
+                // Senal visual de confirmacion de presencia
+                if (_brain.Flashlight != null)
                     StartCoroutine(DoubleBlink(_brain.Flashlight));
             }
         }
