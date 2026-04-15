@@ -37,6 +37,7 @@ namespace AgenticPrison.Physical {
 
         // Comprueba si el agente sigue desplazándose físicamente hacia su meta
         public bool IsMoving() {
+            if (!_agent.isOnNavMesh) return false;
             if (!_agent.pathPending) {
                 if (_agent.remainingDistance <= _agent.stoppingDistance) {
                     if (!_agent.hasPath || _agent.velocity.sqrMagnitude == 0f) {
