@@ -12,10 +12,14 @@ Your working scope is **exclusively this directory** (`Assets/Agente/`). This fo
 
 ## Project Overview
 
-**AgenticPrison** is a Unity-based multi-agent simulation of a prison escape scenario. The project is in active development across two phases:
+**AgenticPrison** is a Unity-based multi-agent simulation of a prison escape scenario built in two phases:
 
 - **Phase 1 (complete):** A single guard agent with perception (vision cone + audio), a `WorldState` belief model, and a fully working HTN planner that drives physical behavior.
-- **Phase 2 (in progress):** A FIPA-compliant multiagent communication layer, architected as a BDI `CommPlanner` that operates in parallel with the HTN planner, communicating through an `IActionBridge` interface. The goal is to make this layer **agnostic to any planner architecture** — a guard (HTN), a drone (reactive), or a static camera (no locomotion) must all participate in the same FIPA protocol identically from the outside.
+- **Phase 2 (in progress):** A FIPA-compliant multiagent communication layer built in three layers — transport (`FIPAAgent` + `MessageBus`), reusable protocol FSMs (`ContractNetProtocol`, `InformProtocol`, `RequestProtocol`), and per-agent decision logic. For the guard, the decision layer is a second HTN tree (`BeSocial`) that runs each frame alongside the physical HTN (`BeGuard`). Both trees run on the same `WorldState`; social tasks write communicative acts instead of physical movements.
+
+The communication layer must coordinate four concrete scenarios: fugitive spotted (Contract Net to cover exits), noise heard (Inform to claim investigation), guard tired with an assigned post (Request swap), and bid rejection (guard busy or chasing). Only communicate when the HTN cannot solve the problem alone.
+
+For the full technical spec — architecture layers, state design, protocol FSMs, HTN social tree, file list, and 3-day plan — see [`FIPA_multiagente_contexto.md`](FIPA_multiagente_contexto.md).
 
 ---
 
@@ -25,73 +29,26 @@ This is a Unity project. There is no CLI build or test runner. Development is do
 
 ---
 
-## Architecture
+## Principles
 
-### Namespace
+**Simplicity is the main goal.** This is a complex multi-agent system — keep the design simple. Don't implement something if it is not needed.
+
+**Simplicity first.** Only add communication when the HTN cannot solve the problem alone. The physical HTN already handles patrol, chase, noise investigation, and energy recovery. Communication adds coordination between agents, not replaces individual behavior.
+
+**Two HTN trees, one `WorldState`.** Each guard runs `BeGuard` (physical) and `BeSocial` (social) each frame. Both read the same `WorldState`; only the physical HTN writes physical fields. Social tasks write communicative acts and update coordination fields (`NoiseCoveredBy`, `CoveredExits`, `AssignedTask`).
+
+**Protocols are reusable, decisions are agent-specific.** `ContractNetProtocol`, `InformProtocol`, and `RequestProtocol` are FSMs that any agent type can use. The guard drives them from `BeSocial`; a camera drives them from a sensor callback. The protocol layer never knows which.
+
+**No structural changes to Phase 1.** Phase 2 integrates through additions only — 5 new fields in `WorldState`, an `AssignedTask` check at the top of `BeGuard`, and `BeSocial` running alongside it. The existing HTN task tree is untouched.
+
+---
+
+## Namespace
+
 All code lives under `AgenticPrison`, with sub-namespaces:
 - `AgenticPrison.Core` — interfaces, `WorldState`, `HTNPlanner`
 - `AgenticPrison.Physical` — sensors, actuators, map structures
 - `AgenticPrison.Behavior` — HTN task tree (compound tasks, methods, primitive tasks, root task)
-
-### Two independent reasoning planes per agent
-
-| Plane | Component | State | Output |
-|---|---|---|---|
-| Physical | HTN planner (`HTNPlanner.cs`) | Reads & writes `WorldState` | `Queue<IPrimitiveTask>` executed by `Actuators.cs` |
-| Social | `CommPlanner` BDI *(Phase 2)* | Reads both states; writes `SocialState` | FIPA communicative acts via `MessageBus` |
-
-The two planes **never know about each other**. The only crossing point is `IActionBridge`, called by `CommPlanner` when a task must be delegated to the physical planner.
-
-### Core types
-
-- **`WorldState`** (`Core/WorldState.cs`): Physical belief model — position, energy, fugitive memory, auditory/visual traces, map reference. Phase 2 adds `AssignedTask`, `ActiveContractId`, `dirty`.
-- **`SocialState`** *(Phase 2)*: Social belief model — known agents, reliability scores, active contracts, conversation records. Written exclusively by `CommPlanner`.
-- **`Brain.cs`**: Central MonoBehaviour. Implements `IVisionEvents`, `INoiseReceiver`, `ICellEventReceiver`. Owns `WorldState`, runs `HTNPlanner` on every `Update()`, and calls `ForzarReplanificacion()` on perception interrupts.
-
-### HTN planner
-
-```
-BeGuard (RootTask)
-├── SelectEmergency → EmergencyTask (FugitiveInVision)
-│   ├── CatchMethod (distance < 1.5f) → GameOverTask
-│   └── ChaseMethod → ChangeFlashLight, ChaseTask
-├── SelectInvestigation → InvestigationTask
-│   ├── SelectInvestigateEscape → InvestigateEscapeTask (fresh LKP, < 25s)
-│   │   ├── PredictivePursuitMethod (< 2s)
-│   │   └── WideSweepMethod (< 35s, 2nd-degree room expansion + greedy)
-│   ├── InvestigateNoiseMethod (LNP < 10s, greedy on nearest key points)
-│   └── InvestigateLocationMethod (global key point greedy sweep)
-└── SelectRoutine → RoutineTask
-    ├── PatrolMethod (PrisonerInCell, DFS on quadrant RoomNode graph)
-    └── SelectEnergyRecovery → EnergyRecoveryTask
-        ├── GuardKeySpotMethod → move + LookAroundTask (recovers energy)
-        └── TakeBreakMethod → TakeAirTask (fallback)
-```
-
-The planner works on a **cloned `WorldState`**. `CheckPreconditions` and `ApplyEffects` run on the clone; if a full plan is found, it is returned as a `Queue<IPrimitiveTask>`. `Execute()` on each primitive runs against the real actuators and state each frame.
-
-### Sensor architecture (Emitter–Manager–Receiver)
-
-- **Vision** (`VisionSystem.cs`): Every entity calls `VisionManager.EmitPresence()` each frame. `VisionSystem` runs `CheckPhysicalVisibility` (range + angle + raycast) and fires `IVisionEvents` callbacks on `Brain`.
-- **Audition** (`AuditionSystem.cs`): `NoiseManager` broadcasts `NoiseEvent`; `Brain` implements `INoiseReceiver.OnNoiseHeard()` with distance-based error and priority filtering (visual cue > audio cue, self-noise discarded, nearby-guard heuristic).
-
-### Map
-
-`PrisonMap` is a singleton managing `RoomNode` objects (logical rooms with `BoxCollider` + `connectedRooms` graph) and `WayPointData` (waypoints tagged as `isKeyPoint`, `isPatrolCheckpoint`, or `isCell`). Navigation algorithms use `NavMesh.CalculatePath` for real cost estimates.
-
-### IActionBridge (Phase 2 integration point)
-
-```csharp
-public interface IActionBridge {
-    bool QueryCapability(TaskType taskType);
-    bool AssignTask(TaskDescriptor task);
-    void CancelTask(string taskId);
-    event Action<string> OnTaskCompleted;
-    event Action<string, string> OnTaskFailed;
-}
-```
-
-Each agent type provides its own implementation (`HTNActionBridge` writes `WorldState.AssignedTask` and calls `ForzarReplanificacion`). The `CommPlanner` only ever calls this interface — never the HTN directly.
 
 ---
 
@@ -100,20 +57,9 @@ Each agent type provides its own implementation (`HTNActionBridge` writes `World
 - **Language**: C# targeting Unity (no `async/await`, no LINQ beyond simple projections).
 - **Comments**: Spanish, in line with the existing codebase. All comments explain *why* or *what*, not the obvious.
 - **Interfaces over concrete types**: Tasks, actuators, and the bridge are always expressed through interfaces (`IActuators`, `IActionBridge`, `IPrimitiveTask`, etc.).
-- **No structural modification to Phase 1 HTN**: Phase 2 work integrates through additions (`AssignedTask` check at top of `BeGuard`, new `IActionBridge` impl), not refactors of existing task tree logic.
-- **Rigor sobre pragmatismo**: The project has academic requirements — preserve theoretical correctness of the BDI cycle (Belief Revision → Option Generation → Filter → Execute, in that order, every frame), FIPA performative semantics, and the clean separation between physical and social planes.
 
 ---
 
-## Key design constraints for Phase 2
-
-1. `CommPlanner` reads `WorldState` **read-only**. Only `HTNPlanner` writes `WorldState`.
-2. `SocialState` is written **exclusively** by `CommPlanner`. No other component touches it.
-3. The BDI cycle runs **before** the HTN tick each frame (steps 3–7 precede steps 8–10 in the per-frame order).
-4. Maximum **2–3 communicative acts per frame** (`MAX_ACTS_PER_FRAME`).
-5. `MessageBus` delivers CFPs only to agents **subscribed to the relevant ontology**; all subsequent messages in the same conversation are **unicast by `conversationId`**.
-6. Reliability scores start at **0.5** for unknown agents and are updated on `InformDone` (success) / `Failure`.
-
 ## Workflow
-Follow git-workflow skill autonomously. Run `git add` and `git commit` 
-after each verified step without waiting for instruction.
+
+Follow git-workflow skill autonomously. Run `git add` and `git commit` after each verified step without waiting for instruction. Create different branches for really different functionalities, merge them, but **never** commit directly to main. Let me handle that myself or if I directly tell you.
