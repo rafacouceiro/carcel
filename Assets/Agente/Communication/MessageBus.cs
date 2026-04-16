@@ -50,7 +50,7 @@ namespace AgenticPrison.Communication {
         // Entrega unicast: busca al receptor por nombre y le pone el mensaje en el buffer
         public void Send(ACLMessage msg) {
             FIPAAgent target;
-            if (_agents.TryGetValue(msg.Receiver, out target)) {
+            if (_agents.TryGetValue(msg.Receiver, out target)) { // Acceso 'safe' al diccionario
                 target.ReceiveMessage(msg);
             } else {
                 Debug.LogWarning("[FIPA] Receptor no encontrado: " + msg.Receiver);

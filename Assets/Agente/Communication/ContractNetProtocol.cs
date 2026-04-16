@@ -7,7 +7,7 @@ namespace AgenticPrison.Communication {
 
     // Protocolo Contract Net como FSM con tabla de transiciones.
     // Sin ifs ni switch-on-strings en las transiciones — todo por delegates indexados por (estado, performativa).
-    // Soporta los roles de iniciador y participante en la misma clase.
+    // Soporta los roles de iniciador y participante en la misma clase. 
     public class ContractNetProtocol : ICommProtocol {
 
         // ── Estados ────────────────────────────────────────────────────────────────

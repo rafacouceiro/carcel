@@ -2,6 +2,7 @@ using AgenticPrison.Core;
 using AgenticPrison.Physical;
 using UnityEngine;
 
+/*
 namespace AgenticPrison.Agents.Guard.Social {
 
     // Tarea social: envía un Inform genérico (stub — no implementado en esta iteración)
@@ -28,3 +29,4 @@ namespace AgenticPrison.Agents.Guard.Social {
         }
     }
 }
+*/
