@@ -53,6 +53,9 @@ namespace AgenticPrison.Core {
         // CFP pendiente de respuesta por el HTN social (null si ninguno)
         public ACLMessage? PendingCfp = null;
 
+        // true mientras haya al menos un Contract Net activo — impide que BeSocial lo relance
+        public bool ContractNetActive = false;
+
         // Genera una copia del estado para simulaciones de planificación
         public WorldState Clone() {
             var clone = new WorldState {
@@ -76,6 +79,7 @@ namespace AgenticPrison.Core {
                 CoveredExits          = new List<Vector3>(this.CoveredExits),
                 NoiseCoveredBy        = this.NoiseCoveredBy,
                 PendingCfp            = this.PendingCfp,
+                ContractNetActive     = this.ContractNetActive,
             };
 
             return clone;

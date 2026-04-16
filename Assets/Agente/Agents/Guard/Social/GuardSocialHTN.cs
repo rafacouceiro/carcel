@@ -28,7 +28,7 @@ namespace AgenticPrison.Agents.Guard.Social {
         public CoordinateFlightMethod(FIPAAgent agent) { _agent = agent; }
 
         public bool CheckPreconditions(WorldState state) {
-            return state.FugitiveInVision && state.TeamMembers.Count == 0;
+            return state.FugitiveInVision && state.TeamMembers.Count == 0 && !state.ContractNetActive;
         }
 
         public Queue<ITask> Decompose(WorldState state) {

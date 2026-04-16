@@ -21,8 +21,8 @@ namespace AgenticPrison.Agents.Guard.Social {
         }
 
         public void ApplyEffects(WorldState state) {
-            // Efecto optimista: asume que los contratos serán aceptados
-            state.TeamMembers.Add("pending");
+            // Bloquea nuevas subastas hasta que todos los protocolos activos terminen
+            state.ContractNetActive = true;
         }
 
         public TaskExecutionStatus Execute(IActuators actuators, WorldState state) {
@@ -48,6 +48,9 @@ namespace AgenticPrison.Agents.Guard.Social {
                 Debug.Log($"[{state.AgentName}] CFP lanzado para habitación {room.name}");
             }
 
+            // Activar lock en el estado real — ApplyEffects lo hace en el clon del planificador,
+            // pero Execute opera sobre CurrentState, así que hay que hacerlo aquí también.
+            state.ContractNetActive = true;
             return TaskExecutionStatus.Success;
         }
     }

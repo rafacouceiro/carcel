@@ -13,10 +13,10 @@ namespace AgenticPrison.Communication {
         readonly ACLMessage[] _buffer = new ACLMessage[BUFFER_SIZE];
         int _head;
         int _tail;
-        int _count;
+        int _count; // Numero de mensajes en el buffer
 
         // Protocolos activos indexados por ConversationId
-        readonly Dictionary<string, ICommProtocol> _protocols = new Dictionary<string, ICommProtocol>();
+        readonly Dictionary<string, ICommProtocol> _ongoing_conversations = new Dictionary<string, ICommProtocol>();
         const int MAX_CONVERSATIONS = 3;
 
         // Identificador único del agente, usado como clave en MessageBus
@@ -25,12 +25,9 @@ namespace AgenticPrison.Communication {
         // Ontologías a las que se suscribe este agente (broadcast filtrado, para compatibilidad)
         public virtual string[] GetOntologies() { return new string[0]; }
 
+        // Registrar al agente en sus topics
         protected virtual void Start() {
             MessageBus.Instance.Register(this, GetOntologies());
-        }
-
-        protected virtual void OnDestroy() {
-            MessageBus.Instance.Unregister(this);
         }
 
         // Solo descarta mensajes expirados — el procesamiento lo hace la subclase con ProcessIncoming
@@ -53,46 +50,50 @@ namespace AgenticPrison.Communication {
         // Lanza un protocolo registrándolo por ConversationId e iniciándolo.
         // Public para que las tareas sociales puedan llamarlo con la referencia al agente.
         public void LaunchProtocol(ICommProtocol protocol, WorldState ws) {
-            if (_protocols.Count >= MAX_CONVERSATIONS) return;
-            _protocols[protocol.ConversationId] = protocol;
+            if (_ongoing_conversations.Count >= MAX_CONVERSATIONS) return;
+            _ongoing_conversations[protocol.ConversationId] = protocol;
             protocol.Init(this, ws);
         }
 
-        // Procesa mensajes del buffer enrutándolos a protocolos activos o a OnMessageReceived.
+        // Procesa mensajes del buffer enrutándolos a conversaciones activas o a OnMessageReceived.
         // Las conversaciones activas tienen prioridad sobre mensajes desconocidos.
         protected void ProcessIncoming(WorldState ws, int maxPerFrame = 2) {
             int processed = 0;
 
             // Primero: avanzar protocolos activos por tiempo (transiciones de deadline)
             // Se hace antes de procesar mensajes para que los estados sean coherentes
-            var convIds = new List<string>(_protocols.Keys);
+            var convIds = new List<string>(_ongoing_conversations.Keys);
             foreach (string id in convIds) {
-                _protocols[id].Tick(Time.time, ws);
-                if (_protocols[id].IsComplete)
-                    _protocols.Remove(id);
+                _ongoing_conversations[id].Tick(Time.time, ws);
+                if (_ongoing_conversations[id].IsComplete)
+                    _ongoing_conversations.Remove(id); // Eliminar conversación cuando se acaba
             }
+
+            // Si ya no quedan conversaciones activas, liberar el lock de Contract Net
+            if (_ongoing_conversations.Count == 0)
+                ws.ContractNetActive = false;
 
             // Segundo: procesar mensajes del buffer, priorizando conversaciones activas
             // Primera pasada: mensajes de conversaciones ya activas
             int bufferSnapshot = _count;
             int readPos = _head;
-            var deferred = new List<ACLMessage>();
+            var deferred = new List<ACLMessage>(); // Mensajes que no pertenecen a conversaciones conocidas
 
-            for (int i = 0; i < bufferSnapshot && processed < maxPerFrame; i++) {
+            for (int i = 0; i < bufferSnapshot && processed < maxPerFrame; i++) { // No vaciar la cola ni procesar demasiados mensajes
                 int pos = (readPos + i) % BUFFER_SIZE;
                 ACLMessage msg = _buffer[pos];
 
                 bool expired = msg.ReplyBy > 0f && Time.time > msg.ReplyBy;
                 if (expired) continue;
 
-                if (_protocols.ContainsKey(msg.ConversationId)) {
-                    _protocols[msg.ConversationId].Tick(msg, ws);
-                    if (_protocols[msg.ConversationId].IsComplete)
-                        _protocols.Remove(msg.ConversationId);
-                    RemoveFromBuffer(pos);
+                if (_ongoing_conversations.ContainsKey(msg.ConversationId)) {
+                    _ongoing_conversations[msg.ConversationId].Tick(msg, ws); // Avanzar el protocolo en un tick de mensaje
+                    if (_ongoing_conversations[msg.ConversationId].IsComplete)
+                        _ongoing_conversations.Remove(msg.ConversationId); // Eliminar conversación si se ha termiando
+                    RemoveFromBuffer(pos); // Eliminar mensaje del buffer
                     processed++;
                 } else {
-                    deferred.Add(msg);
+                    deferred.Add(msg); // Solo se eejcuta si queda espacio para mensajes nuevos
                 }
             }
 
