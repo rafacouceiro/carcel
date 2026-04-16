@@ -39,7 +39,7 @@ namespace AgenticPrison.Agents.Guard.Social {
             float cost = CalculateNavMeshCost(state.CurrentPosition, task.Target);
 
             // Crear protocolo participante con el mismo ConversationId que el iniciador
-            var protocol = new ContractNetProtocol(cfp, _agent.AgentId);
+            var protocol = new ContractNetParticipant(cfp, _agent.AgentId);
             _agent.LaunchProtocol(protocol, state);  // Init → CfpReceived
 
             // Enviar Propose a través del protocolo

@@ -42,7 +42,7 @@ namespace AgenticPrison.Agents.Guard.Social {
                     ContractId = System.Guid.NewGuid().ToString()
                 };
 
-                var protocol = new ContractNetProtocol(task, _agent.AgentId);
+                var protocol = new ContractNetInitiator(task, _agent.AgentId);
                 _agent.LaunchProtocol(protocol, state);
 
                 Debug.Log($"[{state.AgentName}] CFP lanzado para habitación {room.name}");
