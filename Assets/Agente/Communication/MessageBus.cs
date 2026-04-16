@@ -51,22 +51,31 @@ namespace AgenticPrison.Communication {
         public void Send(ACLMessage msg) {
             FIPAAgent target;
             if (_agents.TryGetValue(msg.Receiver, out target)) {
-                target.Receive(msg);
+                target.ReceiveMessage(msg);
             } else {
                 Debug.LogWarning("[FIPA] Receptor no encontrado: " + msg.Receiver);
             }
         }
 
-        // Entrega broadcast: envía a todos los agentes suscritos a la ontología excepto al emisor
+        // Entrega broadcast sin filtro: todos los agentes registrados excepto el emisor
+        public void Broadcast(ACLMessage msg) {
+            FIPAAgent[] snapshot = new FIPAAgent[_agents.Values.Count];
+            _agents.Values.CopyTo(snapshot, 0);
+            foreach (FIPAAgent agent in snapshot) {
+                if (agent.AgentId != msg.Sender)
+                    agent.ReceiveMessage(msg);
+            }
+        }
+
+        // Entrega broadcast filtrada por ontología (mantiene compatibilidad con PresenceNotifier)
         public void Broadcast(ACLMessage msg, string ontologyFilter) {
             List<FIPAAgent> subscribers;
             if (!_ontologies.TryGetValue(ontologyFilter, out subscribers)) return;
 
-            // Iterar sobre copia para evitar modificaciones durante entrega
             FIPAAgent[] snapshot = subscribers.ToArray();
             foreach (FIPAAgent agent in snapshot) {
                 if (agent.AgentId != msg.Sender)
-                    agent.Receive(msg);
+                    agent.ReceiveMessage(msg);
             }
         }
     }

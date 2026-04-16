@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using AgenticPrison.Physical;
+using AgenticPrison.Communication;
+using UnityEngine;
 
 namespace AgenticPrison.Core {
 
@@ -100,19 +102,26 @@ namespace AgenticPrison.Core {
 
         // Copia el estado simulado en el estado original durante la construcción del plan
         private void CopyState(WorldState source, WorldState destination) {
-            destination.FugitiveInVision = source.FugitiveInVision;
-            destination.PrisonerInCell = source.PrisonerInCell;
-            destination.Energy = source.Energy;
-            destination.LastKnownPosition = source.LastKnownPosition;
-            destination.CurrentPosition = source.CurrentPosition;
-            destination.Map = source.Map;
-            destination.AssignedQuadrantId = source.AssignedQuadrantId;
-            destination.LastNoisePosition = source.LastNoisePosition;
+            destination.FugitiveInVision      = source.FugitiveInVision;
+            destination.PrisonerInCell        = source.PrisonerInCell;
+            destination.Energy                = source.Energy;
+            destination.LastKnownPosition     = source.LastKnownPosition;
+            destination.CurrentPosition       = source.CurrentPosition;
+            destination.Map                   = source.Map;
+            destination.AssignedQuadrantId    = source.AssignedQuadrantId;
+            destination.LastNoisePosition     = source.LastNoisePosition;
             destination.LastKnownPositionTime = source.LastKnownPositionTime;
             destination.LastNoisePositionTime = source.LastNoisePositionTime;
-            destination.LastGuardPosition = source.LastGuardPosition;
+            destination.LastGuardPosition     = source.LastGuardPosition;
             destination.LastGuardPositionTime = source.LastGuardPositionTime;
-            destination.AgentName = source.AgentName;
+            destination.AgentName             = source.AgentName;
+            // Campos sociales Phase 2
+            destination.AssignedTask          = source.AssignedTask;
+            destination.CurrentTaskPriority   = source.CurrentTaskPriority;
+            destination.TeamMembers           = new List<string>(source.TeamMembers);
+            destination.CoveredExits          = new List<Vector3>(source.CoveredExits);
+            destination.NoiseCoveredBy        = source.NoiseCoveredBy;
+            destination.PendingCfp            = source.PendingCfp;
         }
     }
 }

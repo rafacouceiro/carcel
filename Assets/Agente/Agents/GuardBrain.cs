@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using AgenticPrison.Core;
 using AgenticPrison.Physical;
 using AgenticPrison.Behavior;
+using AgenticPrison.Behavior.RootTask;
 using AgenticPrison.Communication;
+using AgenticPrison.Agents.Guard.Social;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -50,6 +52,12 @@ namespace AgenticPrison.Agents {
         private Queue<IPrimitiveTask> _currentPlan;
         private IPrimitiveTask _activeTask;
 
+        // Plano social Phase 2
+        private HTNPlanner _socialPlanner;
+        private Queue<IPrimitiveTask> _socialPlan;
+        private IPrimitiveTask _activeSocialTask;
+        private ICompoundTask _socialRootTask;
+
         private IActuators _actuators;
         private ICompoundTask _rootTask;
 
@@ -73,19 +81,26 @@ namespace AgenticPrison.Agents {
             CurrentState.Map = PrisonMap.Instance;
             CurrentState.AssignedQuadrantId = QuadrantId;
 
-            _planner = new HTNPlanner();
-            _currentPlan = new Queue<IPrimitiveTask>();
+            _planner      = new HTNPlanner();
+            _currentPlan  = new Queue<IPrimitiveTask>();
 
             _actuators = GetComponent<Actuators>();
 
-            _rootTask = new AgenticPrison.Behavior.RootTask.BeGuard();
+            _rootTask = new BeGuard(this);  // Phase 2: pasa el agente para AssignedTaskMethod
+
+            // Plano social Phase 2
+            _socialPlanner  = new HTNPlanner();
+            _socialPlan     = new Queue<IPrimitiveTask>();
+            _socialRootTask = new BeSocial(this);
         }
 
         protected override void Update() {
-            // El ciclo BDI (social) precede al tick HTN (físico) — constraint del diseño Phase 2
-            base.Update();
+            // Orden Phase 2: plano social antes que plano físico
+            base.Update();                          // DiscardExpired del buffer de mensajes
+            ProcessIncoming(CurrentState);          // enruta mensajes a protocolos o OnMessageReceived
             UpdateLocation();
-            ProcessHTNExecution();
+            ProcessSocialHTNExecution();            // plano social (BeSocial)
+            ProcessHTNExecution();                  // plano físico (BeGuard)
             VisionManager.EmitPresence(this.transform);
         }
 
@@ -209,7 +224,8 @@ namespace AgenticPrison.Agents {
             CurrentState.FugitiveInVision = true;
             CurrentState.LastKnownPosition = position;
             CurrentState.LastKnownPositionTime = Time.time;
-            ForzarReplanificacion(); 
+            ForzarReplanificacion();
+            ForzarReplanificacionSocial(); // Phase 2: activa coordinación de fuga
         }
 
         public void OnFugitivePositionUpdated(Vector3 position) {
@@ -236,11 +252,13 @@ namespace AgenticPrison.Agents {
 
         // COMUNICACIÓN FIPA
 
-        // Brain no se suscribe a ontologías propias todavía (Phase 2: CommPlanner)
         public override string[] GetOntologies() { return new string[0]; }
 
         protected override void OnMessageReceived(ACLMessage msg) {
-            // TODO: CommPlanner.ReviseBeliefs(msg)
+            // Si llega un CFP y no hay ninguno pendiente, almacenarlo para el HTN social
+            if (msg.Performative == Performative.Cfp && CurrentState.PendingCfp == null)
+                CurrentState.PendingCfp = msg;
+
             GetComponent<PresenceNotifier>()?.HandleMessage(msg);
         }
 
@@ -249,11 +267,39 @@ namespace AgenticPrison.Agents {
             CurrentState.CurrentPosition = transform.position;
         }
 
-        // Interrumpir plan y detener movimiento actual
+        // Interrumpir plan físico y detener movimiento actual
         private void ForzarReplanificacion() {
             _currentPlan.Clear();
-            _activeTask = null;    
+            _activeTask = null;
             _actuators.StopMoving();
+        }
+
+        // Interrumpir plan social para replanificar en el siguiente frame
+        private void ForzarReplanificacionSocial() {
+            _socialPlan.Clear();
+            _activeSocialTask = null;
+        }
+
+        // Motor de ejecución del HTN social — mismo patrón que el físico, sin actuadores
+        private void ProcessSocialHTNExecution() {
+            if (_socialRootTask == null) return;
+
+            if (_socialPlan.Count == 0 && _activeSocialTask == null) {
+                _socialPlan = _socialPlanner.GeneratePlan(CurrentState, _socialRootTask);
+                if (_socialPlan.Count > 0) _activeSocialTask = _socialPlan.Dequeue();
+            }
+
+            if (_activeSocialTask != null) {
+                // Las tareas sociales no usan actuadores físicos — se pasa null
+                var status = _activeSocialTask.Execute(null, CurrentState);
+
+                if (status == TaskExecutionStatus.Success) {
+                    _activeSocialTask = (_socialPlan.Count > 0) ? _socialPlan.Dequeue() : null;
+                } else if (status == TaskExecutionStatus.Failure) {
+                    _socialPlan.Clear();
+                    _activeSocialTask = null;
+                }
+            }
         }
 
         // Motor de ejecución continua HTN

@@ -12,7 +12,7 @@ namespace AgenticPrison.Communication {
         public string      Receiver;         // Vacío si es broadcast
         public string      ConversationId;
         public string      Ontology;
-        public string      Content;          // Payload serializado como string
+        public object      Content;          // Payload tipado (ProposalContent, ContractTask, etc.)
         public float       SentAt;           // Time.time al enviar
         public float       ReplyBy;          // Tiempo límite de respuesta (0 = sin límite)
         public Vector3     SenderPosition;   // Posición del emisor al enviar
@@ -32,7 +32,7 @@ namespace AgenticPrison.Communication {
                 receiver,
                 conv,
                 msg.Ontology,
-                msg.Content,
+                msg.Content?.ToString(),
                 msg.SentAt
             );
 

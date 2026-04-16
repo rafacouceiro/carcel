@@ -1,13 +1,8 @@
 namespace AgenticPrison.Communication {
 
-    // Tipos de tarea física que el CommPlanner puede delegar al plano físico via IActionBridge
+    // Tipos de tarea que puede resultar de un contrato FIPA
     public enum TaskType {
-        GoToPosition,
-        CoverPosition,
-        InvestigateZone,
-        ChaseTarget,
-        MonitorZone,
-        PatrolArea,
-        TakeBreak
+        InvestigateRoom,  // ir a una habitación y explorarla
+        GuardWaypoint,    // ir a un waypoint y vigilar la zona
     }
 }
