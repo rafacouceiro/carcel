@@ -3,8 +3,9 @@ using UnityEngine;
 using AgenticPrison.Core;
 using AgenticPrison.Physical;
 using AgenticPrison.Communication;
+using AgenticPrison.Agents.Tools;
 
-namespace AgenticPrison.Agents.Guard.Social {
+namespace AgenticPrison.Behavior.Social {
 
     // Tarea social: lanza subastas Contract Net para las habitaciones adyacentes al fugitivo.
     // Efecto optimista: añade "pending" a TeamMembers para bloquear subastas duplicadas.

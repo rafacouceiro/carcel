@@ -4,7 +4,7 @@ using AgenticPrison.Core;
 using AgenticPrison.Physical;
 using AgenticPrison.Communication;
 
-namespace AgenticPrison.Agents.Guard.Social {
+namespace AgenticPrison.Behavior.Social {
 
     // Tarea social: responde a un CFP de la cola con una propuesta.
     // Crea el protocolo participante, envía el Propose y consume el mensaje de PendingActions.

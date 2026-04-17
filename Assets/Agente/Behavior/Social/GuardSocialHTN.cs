@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using AgenticPrison.Core;
 using AgenticPrison.Communication;
 
-namespace AgenticPrison.Agents.Guard.Social {
+namespace AgenticPrison.Behavior.Social {
 
     // Tarea raíz del plano social del guardia.
     // Selecciona cada frame entre: iniciar un protocolo, responder mensajes pendientes, o esperar.

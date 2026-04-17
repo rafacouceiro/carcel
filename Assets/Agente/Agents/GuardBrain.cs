@@ -5,7 +5,7 @@ using AgenticPrison.Physical;
 using AgenticPrison.Behavior;
 using AgenticPrison.Behavior.RootTask;
 using AgenticPrison.Communication;
-using AgenticPrison.Agents.Guard.Social;
+using AgenticPrison.Behavior.Social;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif

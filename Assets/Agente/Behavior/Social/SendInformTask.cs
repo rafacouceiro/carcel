@@ -3,7 +3,7 @@ using AgenticPrison.Physical;
 using UnityEngine;
 
 /*
-namespace AgenticPrison.Agents.Guard.Social {
+namespace AgenticPrison.Behavior.Social {
 
     // Tarea social: envía un Inform genérico (stub — no implementado en esta iteración)
     public class SendInformTask : IPrimitiveTask {

@@ -4,7 +4,7 @@ using AgenticPrison.Core;
 using AgenticPrison.Physical;
 using AgenticPrison.Communication;
 
-namespace AgenticPrison.Agents.Guard.Social {
+namespace AgenticPrison.Behavior.Social {
 
     // Tarea social: rechaza el primer CFP de la cola enviando Refuse al iniciador.
     // El método padre (SendRefuseMethod) ya garantiza que el mensaje es un CFP.

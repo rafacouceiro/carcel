@@ -3,7 +3,7 @@ using UnityEngine;
 using AgenticPrison.Core;
 using AgenticPrison.Physical;
 
-namespace AgenticPrison.Agents.Guard.Social {
+namespace AgenticPrison.Agents.Tools {
 
     // Helper estático para obtener habitaciones adyacentes a una posición dada.
     // Usa el grafo connectedRooms del RoomNode actual.
