@@ -179,12 +179,21 @@ namespace AgenticPrison.Communication {
         void EvaluateAndAccept(WorldState ws) {
             _state = State.Evaluating;
 
-            // Encontrar la propuesta de menor coste
-            ACLMessage winner  = _proposals[0];
-            float      minCost = GetCost(winner);
+            // Encontrar la propuesta de menor coste entre candidatos que no sean ya del equipo
+            ACLMessage winner  = null;
+            float      minCost = float.MaxValue;
             foreach (ACLMessage p in _proposals) {
+                if (ws.TeamMembers.Contains(p.Sender)) continue; // descartar candidatos ya en equipo
                 float c = GetCost(p);
                 if (c < minCost) { minCost = c; winner = p; }
+            }
+
+            if (winner == null) {
+                FIPALogger.Log(_agent.AgentId, ConversationId, Performative.Failure,
+                    "all proposers already in team");
+                ConversationTracker.Instance.SetOutcome(ConversationId, "Failed");
+                _state = State.Failed;
+                return;
             }
 
             // Enviar Accept al ganador
