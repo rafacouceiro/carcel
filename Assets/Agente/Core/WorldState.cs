@@ -41,7 +41,7 @@ namespace AgenticPrison.Core {
         // Prioridad de la tarea física actual — determina si el agente acepta bids entrantes
         public TaskPriority CurrentTaskPriority = TaskPriority.Idle;
 
-        // Guardias que forman el equipo activo para la coordinación en curso
+        // Guardias ya asignados a contratos activos — evita repetir asignaciones
         public List<string> TeamMembers = new List<string>();
 
         // Salidas ya cubiertas por contratos activos — evita subastas duplicadas
@@ -49,9 +49,6 @@ namespace AgenticPrison.Core {
 
         // AgentId del guardia que investiga el ruido actual (null = nadie)
         public string NoiseCoveredBy = null;
-
-        // CFP pendiente de respuesta por el HTN social (null si ninguno)
-        public ACLMessage? PendingCfp = null;
 
         // true mientras haya al menos un Contract Net activo — impide que BeSocial lo relance
         public bool ContractNetActive = false;
@@ -78,7 +75,6 @@ namespace AgenticPrison.Core {
                 TeamMembers           = new List<string>(this.TeamMembers),
                 CoveredExits          = new List<Vector3>(this.CoveredExits),
                 NoiseCoveredBy        = this.NoiseCoveredBy,
-                PendingCfp            = this.PendingCfp,
                 ContractNetActive     = this.ContractNetActive,
             };
 

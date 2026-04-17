@@ -121,7 +121,6 @@ namespace AgenticPrison.Core {
             destination.TeamMembers           = new List<string>(source.TeamMembers);
             destination.CoveredExits          = new List<Vector3>(source.CoveredExits);
             destination.NoiseCoveredBy        = source.NoiseCoveredBy;
-            destination.PendingCfp            = source.PendingCfp;
         }
     }
 }

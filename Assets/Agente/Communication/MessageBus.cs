@@ -28,25 +28,6 @@ namespace AgenticPrison.Communication {
             }
         }
 
-        // Añadir ontologías adicionales a un agente ya registrado (útil para scripts temporales como PresenceNotifier)
-        public void AddOntologies(FIPAAgent agent, string[] ontologies) {
-            foreach (string ont in ontologies) {
-                if (!_ontologies.ContainsKey(ont))
-                    _ontologies[ont] = new List<FIPAAgent>();
-
-                if (!_ontologies[ont].Contains(agent))
-                    _ontologies[ont].Add(agent);
-            }
-        }
-
-        // Desregistrar un agente de todos los índices
-        public void Unregister(FIPAAgent agent) {
-            _agents.Remove(agent.AgentId);
-
-            foreach (var list in _ontologies.Values)
-                list.Remove(agent);
-        }
-
         // Entrega unicast: busca al receptor por nombre y le pone el mensaje en el buffer
         public void Send(ACLMessage msg) {
             FIPAAgent target;

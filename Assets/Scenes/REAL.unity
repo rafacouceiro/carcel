@@ -3023,6 +3023,7 @@ MonoBehaviour:
   PlayerTarget: {fileID: 1796544529}
   Flashlight: {fileID: 48536891}
   QuadrantId: section2
+  ContractNetReplyWindow: 1
   ArrastrarCuadrante: {fileID: 0}
   AuditoryRange: 20
   AgentName: 
@@ -65253,6 +65254,7 @@ MonoBehaviour:
   PlayerTarget: {fileID: 1796544529}
   Flashlight: {fileID: 1639233611}
   QuadrantId: section4
+  ContractNetReplyWindow: 1
   ArrastrarCuadrante: {fileID: 0}
   AuditoryRange: 20
   AgentName: 
@@ -88624,6 +88626,7 @@ MonoBehaviour:
   PlayerTarget: {fileID: 1796544529}
   Flashlight: {fileID: 1939868495}
   QuadrantId: section5
+  ContractNetReplyWindow: 1
   ArrastrarCuadrante: {fileID: 0}
   AuditoryRange: 20
   AgentName: 
@@ -123382,6 +123385,7 @@ MonoBehaviour:
   PlayerTarget: {fileID: 1796544529}
   Flashlight: {fileID: 2038932078}
   QuadrantId: section1
+  ContractNetReplyWindow: 5
   ArrastrarCuadrante: {fileID: 0}
   AuditoryRange: 20
   AgentName: 
@@ -125708,6 +125712,7 @@ MonoBehaviour:
   PlayerTarget: {fileID: 1796544529}
   Flashlight: {fileID: 1036260510}
   QuadrantId: Patrulla7
+  ContractNetReplyWindow: 1
   ArrastrarCuadrante: {fileID: 0}
   AuditoryRange: 20
   AgentName: 
@@ -129179,6 +129184,7 @@ MonoBehaviour:
   PlayerTarget: {fileID: 1796544529}
   Flashlight: {fileID: 662681994}
   QuadrantId: section6
+  ContractNetReplyWindow: 1
   ArrastrarCuadrante: {fileID: 0}
   AuditoryRange: 20
   AgentName: 
@@ -145377,6 +145383,7 @@ MonoBehaviour:
   PlayerTarget: {fileID: 1796544529}
   Flashlight: {fileID: 288692327}
   QuadrantId: section3
+  ContractNetReplyWindow: 1
   ArrastrarCuadrante: {fileID: 0}
   AuditoryRange: 20
   AgentName: 

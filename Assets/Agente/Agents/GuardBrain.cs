@@ -26,7 +26,10 @@ namespace AgenticPrison.Agents {
 
         [Header("Configuración del Guardia")]
         [Tooltip("El ID simbólico del cuadrante. Puedes escribirlo o arrastrar el objeto abajo.")]
-        public string QuadrantId = "section1"; 
+        public string QuadrantId = "section1";
+
+        [Tooltip("Segundos que el iniciador espera propuestas antes de evaluar (Contract Net).")]
+        public float ContractNetReplyWindow = 1.0f;
 
         #if UNITY_EDITOR
                 [Header("Herramientas de Editor (No compila en build)")]
@@ -91,7 +94,7 @@ namespace AgenticPrison.Agents {
             // Plano social Phase 2
             _socialPlanner  = new HTNPlanner();
             _socialPlan     = new Queue<IPrimitiveTask>();
-            _socialRootTask = new BeSocial(this);
+            _socialRootTask = new BeSocial(this, ContractNetReplyWindow);
         }
 
         protected override void Update() {
@@ -258,8 +261,6 @@ namespace AgenticPrison.Agents {
             // Si llega un CFP y no hay ninguno pendiente, almacenarlo para el HTN social
             if (msg.Performative == Performative.Cfp && CurrentState.PendingCfp == null)
                 CurrentState.PendingCfp = msg;
-
-            GetComponent<PresenceNotifier>()?.HandleMessage(msg);
         }
 
         // Refrescar coordenadas del agente en su estado interno

@@ -11,9 +11,11 @@ namespace AgenticPrison.Agents.Guard.Social {
     public class LaunchRoomCfpsTask : IPrimitiveTask {
 
         readonly FIPAAgent _agent;
+        readonly float     _replyByWindow;
 
-        public LaunchRoomCfpsTask(FIPAAgent agent) {
-            _agent = agent;
+        public LaunchRoomCfpsTask(FIPAAgent agent, float replyByWindow) {
+            _agent         = agent;
+            _replyByWindow = replyByWindow;
         }
 
         public bool CheckPreconditions(WorldState state) {
@@ -34,15 +36,17 @@ namespace AgenticPrison.Agents.Guard.Social {
                 return TaskExecutionStatus.Failure;
             }
 
+            Debug.Log($"<color=red><b>[{state.AgentName}] LaunchRoomCfpsTask {targets.Count} Adjacent Roooms</b></color>");
+
             foreach (RoomNode room in targets) {
                 var task = new ContractTask {
                     Type       = TaskType.InvestigateRoom,
-                    Target     = room.transform.position,
+                    Target     = room.GetNavigablePosition(),
                     Priority   = TaskPriority.Investigate,
                     ContractId = System.Guid.NewGuid().ToString()
                 };
 
-                var protocol = new ContractNetInitiator(task, _agent.AgentId);
+                var protocol = new ContractNetInitiator(task, _agent.AgentId, _replyByWindow);
                 _agent.LaunchProtocol(protocol, state);
 
                 Debug.Log($"[{state.AgentName}] CFP lanzado para habitación {room.name}");

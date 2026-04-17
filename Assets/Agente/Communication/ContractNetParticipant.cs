@@ -32,7 +32,8 @@ namespace AgenticPrison.Communication {
 
         // ── Datos internos ─────────────────────────────────────────────────────────
         State      _state = State.CfpReceived;
-        ACLMessage _originalCfp;   // guardamos el CFP original para responder al emisor correcto
+        ACLMessage _originalCfp;    // guardamos el CFP original para responder al emisor correcto
+        string     _participantId;  // AgentId de este guardia, para los logs
 
         // ── ICommProtocol ──────────────────────────────────────────────────────────
         public string ConversationId { get; private set; }
@@ -43,6 +44,7 @@ namespace AgenticPrison.Communication {
         // participantId: AgentId de este guardia (para identificación)
         public ContractNetParticipant(ACLMessage cfp, string participantId) {
             _originalCfp   = cfp;
+            _participantId = participantId;
             ConversationId = cfp.ConversationId; // usamos el mismo ID que el iniciador para el enrutado
             BuildTransitions();
         }
@@ -102,12 +104,17 @@ namespace AgenticPrison.Communication {
         // El iniciador eligió nuestra propuesta.
         // Escribimos la tarea en WorldState para que BeGuard la ejecute.
         void OnAccepted(ACLMessage msg, WorldState ws) {
+
+            // Añadir emisor al equipo
+            if (!ws.TeamMembers.Contains(msg.Sender))
+                ws.TeamMembers.Add(msg.Sender);
+
             ContractTask won = (ContractTask)_originalCfp.Content;
             won.InitiatorId = _originalCfp.Sender;  // InformDoneTask necesita saber a quién informar
             ws.AssignedTask = won;
             ws.PendingCfp   = null;
 
-            FIPALogger.Log(null, ConversationId, Performative.AcceptProposal,
+            FIPALogger.Log(_participantId, ConversationId, Performative.AcceptProposal,
                 $"task assigned: {ws.AssignedTask?.Type}");
             ConversationTracker.Instance.UpdateState(ConversationId, "Executing");
             _state = State.Executing;
@@ -115,8 +122,13 @@ namespace AgenticPrison.Communication {
 
         // El iniciador eligió a otro guardia. Limpiamos el CFP y cerramos.
         void OnRejected(ACLMessage msg, WorldState ws) {
+
+            // Retirar emisor del equipo
+            if (ws.TeamMembers.Contains(msg.Sender))
+                ws.TeamMembers.Remove(msg.Sender);
+
             ws.PendingCfp = null;
-            FIPALogger.Log(null, ConversationId, Performative.RejectProposal,
+            FIPALogger.Log(_participantId, ConversationId, Performative.RejectProposal,
                 "proposal rejected");
             ConversationTracker.Instance.SetOutcome(ConversationId, "Done");
             _state = State.Done;

@@ -9,9 +9,9 @@ namespace AgenticPrison.Agents.Guard.Social {
     public class BeSocial : ICompoundTask {
         public List<IMethod> Methods { get; }
 
-        public BeSocial(FIPAAgent agent) {
+        public BeSocial(FIPAAgent agent, float contractNetReplyWindow) {
             Methods = new List<IMethod> {
-                new CoordinateFlightMethod(agent),
+                new CoordinateFlightMethod(agent, contractNetReplyWindow),
                 new RespondToBidMethod(agent),
                 new RefuseBidMethod(agent),
                 new SocialIdleMethod()
@@ -25,7 +25,11 @@ namespace AgenticPrison.Agents.Guard.Social {
     // lanza subastas para que otros cubran las habitaciones adyacentes.
     public class CoordinateFlightMethod : IMethod {
         readonly FIPAAgent _agent;
-        public CoordinateFlightMethod(FIPAAgent agent) { _agent = agent; }
+        readonly float     _replyByWindow;
+        public CoordinateFlightMethod(FIPAAgent agent, float replyByWindow) {
+            _agent         = agent;
+            _replyByWindow = replyByWindow;
+        }
 
         public bool CheckPreconditions(WorldState state) {
             return state.FugitiveInVision && state.TeamMembers.Count == 0 && !state.ContractNetActive;
@@ -33,7 +37,7 @@ namespace AgenticPrison.Agents.Guard.Social {
 
         public Queue<ITask> Decompose(WorldState state) {
             var tasks = new Queue<ITask>();
-            tasks.Enqueue(new LaunchRoomCfpsTask(_agent));
+            tasks.Enqueue(new LaunchRoomCfpsTask(_agent, _replyByWindow));
             return tasks;
         }
     }

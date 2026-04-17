@@ -42,10 +42,8 @@ namespace AgenticPrison.Communication {
         FIPAAgent        _agent;
         ContractTask     _task;
         float            _deadline;
+        float            _replyByWindow;
         List<ACLMessage> _proposals = new List<ACLMessage>();
-
-        // Ventana de tiempo para recoger propuestas (en segundos)
-        const float REPLY_BY_WINDOW = 0.5f;
 
         // ── ICommProtocol ──────────────────────────────────────────────────────────
         public string ConversationId { get; private set; }
@@ -54,8 +52,9 @@ namespace AgenticPrison.Communication {
         // ── Constructor ────────────────────────────────────────────────────────────
         // task:        la tarea que se va a subastar
         // initiatorId: AgentId del guardia que inicia la subasta (para identificación)
-        public ContractNetInitiator(ContractTask task, string initiatorId) {
+        public ContractNetInitiator(ContractTask task, string initiatorId, float replyByWindow) {
             _task          = task;
+            _replyByWindow = replyByWindow;
             ConversationId = Guid.NewGuid().ToString();
             BuildTransitions();
         }
@@ -65,7 +64,7 @@ namespace AgenticPrison.Communication {
         // Envía el CFP en broadcast y arranca el temporizador.
         public void Init(FIPAAgent agent, WorldState ws) {
             _agent    = agent;
-            _deadline = Time.time + REPLY_BY_WINDOW;
+            _deadline = Time.time + _replyByWindow;
 
             agent.Broadcast(new ACLMessage {
                 MessageId      = Guid.NewGuid().ToString(),
@@ -132,8 +131,11 @@ namespace AgenticPrison.Communication {
 
         // El ganador confirma que completó la tarea asignada.
         void OnTaskDone(ACLMessage msg, WorldState ws) {
-            if (!ws.TeamMembers.Contains(msg.Sender))
-                ws.TeamMembers.Add(msg.Sender);
+
+            // Retirar del equipo
+            if (ws.TeamMembers.Contains(msg.Sender))
+                ws.TeamMembers.Remove(msg.Sender);
+
             FIPALogger.Log(_agent.AgentId, ConversationId, Performative.InformDone,
                 $"from={msg.Sender}");
             ConversationTracker.Instance.SetOutcome(ConversationId, "Done");
@@ -142,6 +144,11 @@ namespace AgenticPrison.Communication {
 
         // El ganador no pudo completar la tarea.
         void OnTaskFailed(ACLMessage msg, WorldState ws) {
+
+            // Retirar del equipo
+            if (ws.TeamMembers.Contains(msg.Sender))
+                ws.TeamMembers.Remove(msg.Sender);
+
             FIPALogger.Log(_agent.AgentId, ConversationId, Performative.Failure,
                 $"from={msg.Sender}");
             ConversationTracker.Instance.SetOutcome(ConversationId, "Failed");
@@ -194,6 +201,10 @@ namespace AgenticPrison.Communication {
             FIPALogger.Log(_agent.AgentId, ConversationId, Performative.AcceptProposal,
                 $"winner={winner.Sender} cost={minCost:F1}");
 
+            // Añadir ganador al equipo
+            if (!ws.TeamMembers.Contains(winner.Sender))
+                ws.TeamMembers.Add(winner.Sender);
+
             // Enviar Reject a todos los demás
             foreach (ACLMessage p in _proposals) {
                 if (p.Sender == winner.Sender) continue;
@@ -208,6 +219,12 @@ namespace AgenticPrison.Communication {
                 });
                 FIPALogger.Log(_agent.AgentId, ConversationId, Performative.RejectProposal,
                     $"to={p.Sender}");
+            }
+
+            // Retirar perdedores del equipo
+            foreach (ACLMessage p in _proposals) {
+                if (p.Sender == winner.Sender) continue;
+                ws.TeamMembers.Remove(p.Sender);
             }
 
             ConversationTracker.Instance.UpdateState(ConversationId, "AcceptSent");
