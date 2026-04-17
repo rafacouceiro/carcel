@@ -6,46 +6,41 @@ using AgenticPrison.Communication;
 
 namespace AgenticPrison.Agents.Guard.Social {
 
-    // Tarea social: responde a un CFP con una propuesta usando coste NavMesh como bid.
-    // Crea el protocolo participante y envía el Propose al iniciador.
+    // Tarea social: responde a un CFP de la cola con una propuesta.
+    // Crea el protocolo participante, envía el Propose y consume el mensaje de PendingActions.
     public class SendProposeTask : IPrimitiveTask {
 
         readonly FIPAAgent _agent;
 
-        public SendProposeTask(FIPAAgent agent) {
-            _agent = agent;
-        }
+        public SendProposeTask(FIPAAgent agent) { _agent = agent; }
 
-        public bool CheckPreconditions(WorldState state) {
-            return state.PendingCfp != null;
-        }
+        public bool CheckPreconditions(WorldState state) =>
+            state.PendingActions.Count > 0 &&
+            state.PendingActions.Peek().Performative == Performative.Cfp;
 
+        // Consume el mensaje de la cola — el planificador ve el efecto durante la simulación
         public void ApplyEffects(WorldState state) {
-            // Efecto optimista: limpia el CFP pendiente
-            state.PendingCfp = null;
+            if (state.PendingActions.Count > 0)
+                state.PendingActions.Dequeue();
         }
 
         public TaskExecutionStatus Execute(IActuators actuators, WorldState state) {
-            ACLMessage cfp = state.PendingCfp.Value;
+            if (state.PendingActions.Count == 0) return TaskExecutionStatus.Failure;
+
+            ACLMessage cfp  = state.PendingActions.Dequeue();
             ContractTask task = cfp.Content as ContractTask;
 
             if (task == null) {
                 Debug.LogWarning($"[{state.AgentName}] SendProposeTask: contenido del CFP no es ContractTask");
-                state.PendingCfp = null;
                 return TaskExecutionStatus.Failure;
             }
 
-            // Calcular coste como longitud del camino NavMesh hasta el objetivo
             float cost = CalculateNavMeshCost(state.CurrentPosition, task.Target);
 
-            // Crear protocolo participante con el mismo ConversationId que el iniciador
             var protocol = new ContractNetParticipant(cfp, _agent.AgentId);
-            _agent.LaunchProtocol(protocol, state);  // Init → CfpReceived
-
-            // Enviar Propose a través del protocolo
+            _agent.LaunchProtocol(protocol, state);
             protocol.SendPropose(_agent, state, cost);
 
-            state.PendingCfp = null;
             Debug.Log($"[{state.AgentName}] Propose enviado a {cfp.Sender} coste={cost:F1}");
             return TaskExecutionStatus.Success;
         }

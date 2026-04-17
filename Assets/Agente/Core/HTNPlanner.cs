@@ -119,8 +119,8 @@ namespace AgenticPrison.Core {
             destination.AssignedTask          = source.AssignedTask;
             destination.CurrentTaskPriority   = source.CurrentTaskPriority;
             destination.TeamMembers           = new List<string>(source.TeamMembers);
-            destination.CoveredExits          = new List<Vector3>(source.CoveredExits);
-            destination.NoiseCoveredBy        = source.NoiseCoveredBy;
+            destination.ContractNetActive     = source.ContractNetActive;
+            destination.PendingActions        = new Queue<ACLMessage>(source.PendingActions);
         }
     }
 }

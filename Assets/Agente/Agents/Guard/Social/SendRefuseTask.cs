@@ -6,28 +6,30 @@ using AgenticPrison.Communication;
 
 namespace AgenticPrison.Agents.Guard.Social {
 
-    // Tarea social: rechaza un CFP enviando Refuse directamente.
-    // No requiere protocolo — el Refuse no genera conversación continuada.
+    // Tarea social: rechaza el primer CFP de la cola enviando Refuse al iniciador.
+    // El método padre (SendRefuseMethod) ya garantiza que el mensaje es un CFP.
     public class SendRefuseTask : IPrimitiveTask {
 
         readonly FIPAAgent _agent;
 
-        public SendRefuseTask(FIPAAgent agent) {
-            _agent = agent;
-        }
+        public SendRefuseTask(FIPAAgent agent) { _agent = agent; }
 
-        public bool CheckPreconditions(WorldState state) {
-            return state.PendingCfp != null;
-        }
+        public bool CheckPreconditions(WorldState state) =>
+            state.PendingActions.Count > 0 &&
+            state.PendingActions.Peek().Performative == Performative.Cfp;
 
+        // Consume el mensaje de la cola — el planificador ve el efecto durante la simulación
         public void ApplyEffects(WorldState state) {
-            state.PendingCfp = null;
+            if (state.PendingActions.Count > 0)
+                state.PendingActions.Dequeue();
         }
 
         public TaskExecutionStatus Execute(IActuators actuators, WorldState state) {
-            ACLMessage cfp = state.PendingCfp.Value;
+            if (state.PendingActions.Count == 0) return TaskExecutionStatus.Failure;
 
-            var refuse = new ACLMessage {
+            ACLMessage cfp = state.PendingActions.Dequeue();
+
+            _agent.Send(new ACLMessage {
                 MessageId      = Guid.NewGuid().ToString(),
                 Performative   = Performative.Refuse,
                 Sender         = _agent.AgentId,
@@ -35,10 +37,8 @@ namespace AgenticPrison.Agents.Guard.Social {
                 ConversationId = cfp.ConversationId,
                 SentAt         = Time.time,
                 SenderPosition = state.CurrentPosition
-            };
-            _agent.Send(refuse);
+            });
 
-            state.PendingCfp = null;
             Debug.Log($"[{state.AgentName}] Refuse enviado a {cfp.Sender}");
             return TaskExecutionStatus.Success;
         }

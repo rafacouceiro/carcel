@@ -112,7 +112,6 @@ namespace AgenticPrison.Communication {
             ContractTask won = (ContractTask)_originalCfp.Content;
             won.InitiatorId = _originalCfp.Sender;  // InformDoneTask necesita saber a quién informar
             ws.AssignedTask = won;
-            ws.PendingCfp   = null;
 
             FIPALogger.Log(_participantId, ConversationId, Performative.AcceptProposal,
                 $"task assigned: {ws.AssignedTask?.Type}");
@@ -127,7 +126,6 @@ namespace AgenticPrison.Communication {
             if (ws.TeamMembers.Contains(msg.Sender))
                 ws.TeamMembers.Remove(msg.Sender);
 
-            ws.PendingCfp = null;
             FIPALogger.Log(_participantId, ConversationId, Performative.RejectProposal,
                 "proposal rejected");
             ConversationTracker.Instance.SetOutcome(ConversationId, "Done");

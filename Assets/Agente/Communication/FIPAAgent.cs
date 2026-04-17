@@ -17,7 +17,7 @@ namespace AgenticPrison.Communication {
 
         // Protocolos activos indexados por ConversationId
         readonly Dictionary<string, ICommProtocol> _ongoing_conversations = new Dictionary<string, ICommProtocol>();
-        const int MAX_CONVERSATIONS = 3;
+        const int MAX_CONVERSATIONS = 8;
 
         // Identificador único del agente, usado como clave en MessageBus
         public abstract string AgentId { get; }
@@ -89,7 +89,8 @@ namespace AgenticPrison.Communication {
                 if (_ongoing_conversations.ContainsKey(msg.ConversationId)) {
                     _ongoing_conversations[msg.ConversationId].Tick(msg, ws); // Avanzar el protocolo en un tick de mensaje
                     if (_ongoing_conversations[msg.ConversationId].IsComplete)
-                        _ongoing_conversations.Remove(msg.ConversationId); // Eliminar conversación si se ha termiando
+                        _ongoing_conversations.Remove(msg.ConversationId); // Eliminar conversación si se ha terminado
+                    OnMessageReceived(msg); // Notificar al agente de cualquier mensaje, también mid-protocol
                     RemoveFromBuffer(pos); // Eliminar mensaje del buffer
                     processed++;
                 } else {

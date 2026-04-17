@@ -19,11 +19,10 @@ namespace AgenticPrison.Agents.Guard.Social {
         }
 
         public bool CheckPreconditions(WorldState state) {
-            return state.FugitiveInVision && state.TeamMembers.Count == 0;
+            return state.FugitiveInVision;
         }
 
         public void ApplyEffects(WorldState state) {
-            // Bloquea nuevas subastas hasta que todos los protocolos activos terminen
             state.ContractNetActive = true;
         }
 

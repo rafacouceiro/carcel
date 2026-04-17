@@ -5,101 +5,156 @@ using AgenticPrison.Communication;
 namespace AgenticPrison.Agents.Guard.Social {
 
     // Tarea raíz del plano social del guardia.
-    // Selecciona el comportamiento comunicativo apropiado cada frame.
+    // Selecciona cada frame entre: iniciar un protocolo, responder mensajes pendientes, o esperar.
     public class BeSocial : ICompoundTask {
         public List<IMethod> Methods { get; }
 
         public BeSocial(FIPAAgent agent, float contractNetReplyWindow) {
             Methods = new List<IMethod> {
-                new CoordinateFlightMethod(agent, contractNetReplyWindow),
-                new RespondToBidMethod(agent),
-                new RefuseBidMethod(agent),
+                new GenerateProtocolMethod(agent, contractNetReplyWindow),
+                new SendResponseMethod(agent),
                 new SocialIdleMethod()
             };
         }
     }
 
-    // ── Métodos ────────────────────────────────────────────────────────────────────
+    // ── GenerateProtocol ───────────────────────────────────────────────────────────
+    // Tarea compuesta: decide qué protocolo iniciar según el estado del mundo.
 
-    // Cuando el guardia ve al fugitivo y aún no tiene equipo coordinado:
-    // lanza subastas para que otros cubran las habitaciones adyacentes.
-    public class CoordinateFlightMethod : IMethod {
-        readonly FIPAAgent _agent;
-        readonly float     _replyByWindow;
-        public CoordinateFlightMethod(FIPAAgent agent, float replyByWindow) {
-            _agent         = agent;
-            _replyByWindow = replyByWindow;
-        }
+    public class GenerateProtocol : ICompoundTask {
+        public List<IMethod> Methods { get; }
 
-        public bool CheckPreconditions(WorldState state) {
-            return state.FugitiveInVision && state.TeamMembers.Count == 0 && !state.ContractNetActive;
-        }
-
-        public Queue<ITask> Decompose(WorldState state) {
-            var tasks = new Queue<ITask>();
-            tasks.Enqueue(new LaunchRoomCfpsTask(_agent, _replyByWindow));
-            return tasks;
+        public GenerateProtocol(FIPAAgent agent, float replyWindow) {
+            Methods = new List<IMethod> {
+                new InitiateContractNetMethod(agent, replyWindow)
+            };
         }
     }
 
-    // Cuando hay un CFP pendiente y el guardia puede aceptar:
-    // no está persiguiendo, tiene energía y la prioridad de la tarea supera la actual.
-    public class RespondToBidMethod : IMethod {
+    // Activa GenerateProtocol cuando hay fuga confirmada y no hay subasta ya en curso.
+    public class GenerateProtocolMethod : IMethod {
         readonly FIPAAgent _agent;
-        public RespondToBidMethod(FIPAAgent agent) { _agent = agent; }
+        readonly float     _replyWindow;
 
-        public bool CheckPreconditions(WorldState state) {
-            if (state.PendingCfp == null) return false;
-            if (state.FugitiveInVision)   return false;
-            if (state.Energy <= 15f)      return false;
-
-            ContractTask offered = state.PendingCfp.Value.Content as ContractTask;
-            if (offered == null) return false;
-
-            return offered.Priority > state.CurrentTaskPriority;
+        public GenerateProtocolMethod(FIPAAgent agent, float replyWindow) {
+            _agent       = agent;
+            _replyWindow = replyWindow;
         }
 
+        public bool CheckPreconditions(WorldState state) =>
+            state.FugitiveInVision && !state.ContractNetActive;
+
         public Queue<ITask> Decompose(WorldState state) {
-            var tasks = new Queue<ITask>();
-            tasks.Enqueue(new SendProposeTask(_agent));
-            return tasks;
+            var q = new Queue<ITask>();
+            q.Enqueue(new GenerateProtocol(_agent, _replyWindow));
+            return q;
         }
     }
 
-    // Fallback: si hay un CFP pendiente pero las condiciones de respuesta no se cumplen,
-    // rechazar siempre para liberar el slot.
-    public class RefuseBidMethod : IMethod {
+    // Inicia una subasta Contract Net para coordinar la investigación de habitaciones adyacentes.
+    public class InitiateContractNetMethod : IMethod {
         readonly FIPAAgent _agent;
-        public RefuseBidMethod(FIPAAgent agent) { _agent = agent; }
+        readonly float     _replyWindow;
 
-        public bool CheckPreconditions(WorldState state) {
-            return state.PendingCfp != null;
+        public InitiateContractNetMethod(FIPAAgent agent, float replyWindow) {
+            _agent       = agent;
+            _replyWindow = replyWindow;
         }
 
+        public bool CheckPreconditions(WorldState state) => state.FugitiveInVision;
+
         public Queue<ITask> Decompose(WorldState state) {
-            var tasks = new Queue<ITask>();
-            tasks.Enqueue(new SendRefuseTask(_agent));
-            return tasks;
+            var q = new Queue<ITask>();
+            q.Enqueue(new LaunchRoomCfpsTask(_agent, _replyWindow));
+            return q;
         }
     }
 
-    // Fallback final: no hay nada que comunicar, el agente descansa socialmente.
+    // ── SendResponse ───────────────────────────────────────────────────────────────
+    // Tarea compuesta: responde al primer mensaje pendiente de la cola.
+
+    public class SendResponse : ICompoundTask {
+        public List<IMethod> Methods { get; }
+
+        public SendResponse(FIPAAgent agent) {
+            Methods = new List<IMethod> {
+                new SendProposeMethod(agent),
+                new SendRefuseMethod(agent)
+            };
+        }
+    }
+
+    // Activa SendResponse cuando hay mensajes en la cola que necesitan respuesta.
+    public class SendResponseMethod : IMethod {
+        readonly FIPAAgent _agent;
+
+        public SendResponseMethod(FIPAAgent agent) { _agent = agent; }
+
+        public bool CheckPreconditions(WorldState state) => state.PendingActions.Count > 0;
+
+        public Queue<ITask> Decompose(WorldState state) {
+            var q = new Queue<ITask>();
+            q.Enqueue(new SendResponse(_agent));
+            return q;
+        }
+    }
+
+    // Proponer: el mensaje pendiente es un CFP, el guardia no está persiguiendo,
+    // tiene energía y no pertenece ya a un equipo activo.
+    public class SendProposeMethod : IMethod {
+        readonly FIPAAgent _agent;
+
+        public SendProposeMethod(FIPAAgent agent) { _agent = agent; }
+
+        public bool CheckPreconditions(WorldState state) =>
+            state.PendingActions.Count > 0                                    &&
+            state.PendingActions.Peek().Performative == Performative.Cfp      &&
+            !state.FugitiveInVision                                           &&
+            state.TeamMembers.Count == 0                                      &&
+            state.Energy > 15f;
+
+        public Queue<ITask> Decompose(WorldState state) {
+            var q = new Queue<ITask>();
+            q.Enqueue(new SendProposeTask(_agent));
+            return q;
+        }
+    }
+
+    // Rechazar (fallback): hay un CFP pendiente pero las condiciones para proponer no se cumplen.
+    public class SendRefuseMethod : IMethod {
+        readonly FIPAAgent _agent;
+
+        public SendRefuseMethod(FIPAAgent agent) { _agent = agent; }
+
+        public bool CheckPreconditions(WorldState state) =>
+            state.PendingActions.Count > 0 &&
+            state.PendingActions.Peek().Performative == Performative.Cfp;
+
+        public Queue<ITask> Decompose(WorldState state) {
+            var q = new Queue<ITask>();
+            q.Enqueue(new SendRefuseTask(_agent));
+            return q;
+        }
+    }
+
+    // ── Idle ───────────────────────────────────────────────────────────────────────
+
+    // Fallback final: no hay nada que comunicar.
     public class SocialIdleMethod : IMethod {
-        public bool CheckPreconditions(WorldState state) { return true; }
+        public bool CheckPreconditions(WorldState state) => true;
 
         public Queue<ITask> Decompose(WorldState state) {
-            var tasks = new Queue<ITask>();
-            tasks.Enqueue(new SocialWaitTask());
-            return tasks;
+            var q = new Queue<ITask>();
+            q.Enqueue(new SocialWaitTask());
+            return q;
         }
     }
 
-    // Tarea primitiva nula: no hace nada, permite que el HTN social produzca un plan vacío.
+    // Tarea primitiva nula: permite que el HTN social produzca un plan vacío sin bloquear.
     public class SocialWaitTask : IPrimitiveTask {
-        public bool CheckPreconditions(WorldState state) { return true; }
+        public bool CheckPreconditions(WorldState state) => true;
         public void ApplyEffects(WorldState state) { }
-        public TaskExecutionStatus Execute(IActuators actuators, WorldState state) {
-            return TaskExecutionStatus.Success;
-        }
+        public TaskExecutionStatus Execute(IActuators actuators, WorldState state) =>
+            TaskExecutionStatus.Success;
     }
 }

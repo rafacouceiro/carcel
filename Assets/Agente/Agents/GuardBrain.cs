@@ -258,9 +258,10 @@ namespace AgenticPrison.Agents {
         public override string[] GetOntologies() { return new string[0]; }
 
         protected override void OnMessageReceived(ACLMessage msg) {
-            // Si llega un CFP y no hay ninguno pendiente, almacenarlo para el HTN social
-            if (msg.Performative == Performative.Cfp && CurrentState.PendingCfp == null)
-                CurrentState.PendingCfp = msg;
+            // Encolar mensajes que requieren una decisión del HTN social.
+            // Por ahora solo CFPs; añadir otros performativos aquí cuando sean necesarios.
+            if (msg.Performative == Performative.Cfp)
+                CurrentState.PendingActions.Enqueue(msg);
         }
 
         // Refrescar coordenadas del agente en su estado interno

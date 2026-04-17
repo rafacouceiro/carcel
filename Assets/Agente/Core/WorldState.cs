@@ -41,17 +41,15 @@ namespace AgenticPrison.Core {
         // Prioridad de la tarea física actual — determina si el agente acepta bids entrantes
         public TaskPriority CurrentTaskPriority = TaskPriority.Idle;
 
-        // Guardias ya asignados a contratos activos — evita repetir asignaciones
+        // Guardias del equipo activo — impide aceptar nuevos bids mientras se coordina una misión
         public List<string> TeamMembers = new List<string>();
 
-        // Salidas ya cubiertas por contratos activos — evita subastas duplicadas
-        public List<Vector3> CoveredExits = new List<Vector3>();
-
-        // AgentId del guardia que investiga el ruido actual (null = nadie)
-        public string NoiseCoveredBy = null;
-
-        // true mientras haya al menos un Contract Net activo — impide que BeSocial lo relance
+        // true mientras haya al menos un Contract Net activo como iniciador — impide relanzar subastas
         public bool ContractNetActive = false;
+
+        // Cola de mensajes entrantes que requieren una decisión del HTN social.
+        // Escrita por OnMessageReceived, consumida (Dequeue) por los efectos de las tareas sociales.
+        public Queue<ACLMessage> PendingActions = new Queue<ACLMessage>();
 
         // Genera una copia del estado para simulaciones de planificación
         public WorldState Clone() {
@@ -73,9 +71,8 @@ namespace AgenticPrison.Core {
                 AssignedTask          = this.AssignedTask,
                 CurrentTaskPriority   = this.CurrentTaskPriority,
                 TeamMembers           = new List<string>(this.TeamMembers),
-                CoveredExits          = new List<Vector3>(this.CoveredExits),
-                NoiseCoveredBy        = this.NoiseCoveredBy,
                 ContractNetActive     = this.ContractNetActive,
+                PendingActions        = new Queue<ACLMessage>(this.PendingActions),
             };
 
             return clone;
