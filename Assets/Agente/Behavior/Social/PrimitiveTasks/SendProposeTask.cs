@@ -27,13 +27,14 @@ namespace AgenticPrison.Behavior.Social {
         public TaskExecutionStatus Execute(IActuators actuators, WorldState state) {
             if (state.PendingActions.Count == 0) return TaskExecutionStatus.Failure;
 
-            ACLMessage cfp  = state.PendingActions.Dequeue();
-            ContractTask task = cfp.Content as ContractTask;
+            ACLMessage cfp         = state.PendingActions.Dequeue();
+            CfpContent cfpContent  = cfp.Content as CfpContent;
 
-            if (task == null) {
-                Debug.LogWarning($"[{state.AgentName}] SendProposeTask: contenido del CFP no es ContractTask");
+            if (cfpContent == null) {
+                Debug.LogWarning($"[{state.AgentName}] SendProposeTask: contenido del CFP no es CfpContent");
                 return TaskExecutionStatus.Failure;
             }
+            ContractTask task = cfpContent.Task;
 
             // Recuperar el participante ya indexado en FIPAAgent cuando llegó el CFP
             var participant = _agent.GetProtocol(cfp.ConversationId) as ContractNetParticipant;

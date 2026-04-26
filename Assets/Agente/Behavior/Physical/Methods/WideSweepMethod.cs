@@ -13,9 +13,10 @@ namespace AgenticPrison.Behavior.Methods {
         private const float SweepSpeed = 4.5f; 
 
         public bool CheckPreconditions(WorldState state) {
-            // Accesible cuando hay un avistamiento antiguo sin resolver (<35 seg), pero el preso sigue fugado
+            // Solo el guardia que avistó directamente al fugitivo hace el barrido amplio.
+            // Los que reciben el CFP no deben perseguir por cuenta propia: solo ejecutan su tarea asignada.
             float age = Time.time - state.LastKnownPositionTime;
-            return state.LastKnownPosition != Vector3.zero && !state.PrisonerInCell && age < 35f;
+            return state.seenByMe && state.LastKnownPosition != Vector3.zero && !state.PrisonerInCell && age < 35f;
         }
 
         public Queue<ITask> Decompose(WorldState state) {

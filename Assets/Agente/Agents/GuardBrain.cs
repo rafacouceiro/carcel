@@ -259,10 +259,20 @@ namespace AgenticPrison.Agents {
         public override string[] GetOntologies() { return new string[0]; }
 
         protected override void OnMessageReceived(ACLMessage msg) {
-            // Encolar mensajes que requieren una decisión del HTN social.
-            // Por ahora solo CFPs; añadir otros performativos aquí cuando sean necesarios.
-            if (msg.Performative == Performative.Cfp)
+            if (msg.Performative == Performative.Cfp) {
+                // El CFP informa a todos de la fuga y de la última posición conocida del fugitivo.
+                // Actualizar el estado del mundo antes de encolar la decisión social.
+                var content = msg.Content as CfpContent;
+                if (content != null) {
+                    CurrentState.PrisonerInCell = false;
+                    if (content.FugitivePositionTime > CurrentState.LastKnownPositionTime) {
+                        CurrentState.LastKnownPosition     = content.FugitivePosition;
+                        CurrentState.LastKnownPositionTime = content.FugitivePositionTime;
+                        ForzarReplanificacion();
+                    }
+                }
                 CurrentState.PendingActions.Enqueue(msg);
+            }
 
             // Al recibir aceptación de una propuesta, el protocolo ya ha escrito AssignedTask
             // en WorldState. Forzar replanificación física para que el HTN la recoja

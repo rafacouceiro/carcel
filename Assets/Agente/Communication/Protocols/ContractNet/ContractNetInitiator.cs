@@ -67,12 +67,15 @@ namespace AgenticPrison.Communication {
             _deadline = Time.time + _replyByWindow;
 
             agent.Broadcast(new ACLMessage {
-                MessageId      = Guid.NewGuid().ToString(),
                 Performative   = Performative.Cfp,
                 Sender         = agent.AgentId,
                 Receiver       = null,           // broadcast: sin receptor específico
                 ConversationId = ConversationId,
-                Content        = _task,
+                Content        = new CfpContent {
+                    FugitivePosition     = ws.LastKnownPosition,
+                    FugitivePositionTime = ws.LastKnownPositionTime,
+                    Task                 = _task
+                },
                 SentAt         = Time.time,
                 ReplyBy        = _deadline,
                 SenderPosition = ws.CurrentPosition

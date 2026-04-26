@@ -157,7 +157,7 @@ namespace AgenticPrison.Communication {
             if (!ws.TeamMembers.Contains(msg.Sender))
                 ws.TeamMembers.Add(msg.Sender);
 
-            ContractTask won = (ContractTask)_originalCfp.Content;
+            ContractTask won = ((CfpContent)_originalCfp.Content).Task;
             won.InitiatorId = _originalCfp.Sender;
             ws.AssignedTask = won;
 
