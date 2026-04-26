@@ -110,7 +110,7 @@ namespace AgenticPrison.Communication {
                 ws.TeamMembers.Add(msg.Sender);
 
             ContractTask won = (ContractTask)_originalCfp.Content;
-            won.InitiatorId = _originalCfp.Sender;  // InformDoneTask necesita saber a quién informar
+            won.InitiatorId = _originalCfp.Sender;
             ws.AssignedTask = won;
 
             FIPALogger.Log(_participantId, ConversationId, Performative.AcceptProposal,
@@ -132,8 +132,6 @@ namespace AgenticPrison.Communication {
             _state = State.Done;
         }
 
-        // InformDoneTask notifica al protocolo que la tarea física terminó.
-        // (El protocolo ya no tiene nada que hacer — la tarea fue completada.)
         void OnExecutionDone(ACLMessage msg, WorldState ws) {
             ws.AssignedTask = null;
             ConversationTracker.Instance.SetOutcome(ConversationId, "Done");

@@ -89,7 +89,7 @@ namespace AgenticPrison.Agents {
 
             _actuators = GetComponent<Actuators>();
 
-            _rootTask = new BeGuard(this);  // Phase 2: pasa el agente para AssignedTaskMethod
+            _rootTask = new BeGuard();
 
             // Plano social Phase 2
             _socialPlanner  = new HTNPlanner();
