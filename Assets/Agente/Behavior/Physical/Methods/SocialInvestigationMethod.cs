@@ -34,6 +34,10 @@ namespace AgenticPrison.Behavior.Methods {
                 subTasks.Enqueue(new MoveTask(state.AssignedTask.Target, InvestigateSpeed));
             }
 
+            // Señaliza al protocolo que la tarea ha concluido: AssignedTask = null
+            // dispara el envío de InformDone en ContractNetParticipant.Tick
+            subTasks.Enqueue(new ClearAssignedTaskTask());
+
             return subTasks;
         }
     }

@@ -32,6 +32,7 @@ namespace AgenticPrison.Communication {
 
         // ── Datos internos ─────────────────────────────────────────────────────────
         State      _state = State.CfpReceived;
+        FIPAAgent  _agent;          // almacenado en Init para poder enviar InformDone al completar
         ACLMessage _originalCfp;    // guardamos el CFP original para responder al emisor correcto
         string     _participantId;  // AgentId de este guardia, para los logs
 
@@ -53,7 +54,7 @@ namespace AgenticPrison.Communication {
         // Llamado por FIPAAgent.LaunchProtocol. El participante no envía nada aquí:
         // la tarea social SendProposeTask es quien decide si proponer o no.
         public void Init(FIPAAgent agent, WorldState ws) {
-            // Sin acción — el participante espera la decisión del HTN social
+            _agent = agent; // necesario para enviar InformDone al completar la tarea
         }
 
         // ── Tick por mensaje entrante ──────────────────────────────────────────────
@@ -66,9 +67,33 @@ namespace AgenticPrison.Communication {
 
         // ── Tick por tiempo ────────────────────────────────────────────────────────
         // Si el CFP tenía ReplyBy y ya expiró sin que el HTN haya respondido, cerrar la conversación.
+        // Si estamos ejecutando y AssignedTask es null, el HTN físico ya terminó: enviar InformDone.
         public void Tick(float currentTime, WorldState ws) {
             if (_state == State.CfpReceived && _originalCfp.ReplyBy > 0f && currentTime > _originalCfp.ReplyBy)
                 _state = State.Done;
+
+            if (_state == State.Executing && ws.AssignedTask == null)
+                SendInformDone(ws);
+        }
+
+        // Notifica al iniciador que la tarea ha concluido y limpia la coordinación de equipo.
+        void SendInformDone(WorldState ws) {
+            _agent.Send(new ACLMessage {
+                MessageId      = Guid.NewGuid().ToString(),
+                Performative   = Performative.InformDone,
+                Sender         = _agent.AgentId,
+                Receiver       = _originalCfp.Sender,
+                ConversationId = ConversationId,
+                SentAt         = Time.time
+            });
+
+            if (ws.TeamMembers.Contains(_originalCfp.Sender))
+                ws.TeamMembers.Remove(_originalCfp.Sender);
+
+            FIPALogger.Log(_participantId, ConversationId, Performative.InformDone,
+                $"to={_originalCfp.Sender}");
+            ConversationTracker.Instance.SetOutcome(ConversationId, "Done");
+            _state = State.Done;
         }
 
         // ── Construcción de la tabla de transiciones ───────────────────────────────
