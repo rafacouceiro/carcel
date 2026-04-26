@@ -10,6 +10,7 @@ namespace AgenticPrison.Behavior.Social {
 
         public GenerateProtocol(FIPAAgent agent, float replyWindow) {
             Methods = new List<IMethod> {
+                new LaunchQueryMethod(agent),                // verifica ruidos antes de investigar
                 new InitiateContractNetMethod(agent, replyWindow)
             };
         }
