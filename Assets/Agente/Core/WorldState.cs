@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using AgenticPrison.Physical;
+using AgenticPrison.Communication;
 using UnityEngine;
 
 namespace AgenticPrison.Core {

@@ -267,7 +267,10 @@ namespace AgenticPrison.Agents {
             // en WorldState. Forzar replanificación física para que el HTN la recoja
             // inmediatamente, salvo que haya una emergencia activa (persecución en curso).
             if (msg.Performative == Performative.AcceptProposal && !CurrentState.FugitiveInVision)
+            {
+                Debug.Log($"<color=cyan>[{AgentName}] Acepté propuesta de {msg.Sender}. Replanificando.</color>");
                 ForzarReplanificacion();
+            }
         }
 
         // Refrescar coordenadas del agente en su estado interno

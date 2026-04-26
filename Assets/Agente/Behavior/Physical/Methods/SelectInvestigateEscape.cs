@@ -9,7 +9,8 @@ namespace AgenticPrison.Behavior.Methods {
     public class SelectInvestigateEscape : IMethod {
         public bool CheckPreconditions(WorldState state) {
             // Activable si sabemos que escapó, existe última posición conocida, y no pasó mucho tiempo (25s)
-            return state.LastKnownPosition != Vector3.zero && !state.PrisonerInCell && (Time.time - state.LastKnownPositionTime) < 25f;
+            bool firstCond = state.LastKnownPosition != Vector3.zero && !state.PrisonerInCell && (Time.time - state.LastKnownPositionTime) < 25f;
+            return firstCond || state.AssignedTask != null;
         }
 
         public Queue<ITask> Decompose(WorldState state) {

@@ -3,7 +3,6 @@ using UnityEngine.AI;
 using AgenticPrison.Core;
 using AgenticPrison.Physical;
 using AgenticPrison.Communication;
-using AgenticPrison.Communication.Protocols.ContractNet;
 
 namespace AgenticPrison.Behavior.Social {
 

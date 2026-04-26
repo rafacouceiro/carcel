@@ -117,7 +117,7 @@ namespace AgenticPrison.Communication {
                         !_ongoing_conversations.ContainsKey(msg.ConversationId) &&
                         _ongoing_conversations.Count < MAX_CONVERSATIONS)
                     {
-                        var participant = new Protocols.ContractNet.ContractNetParticipant(msg, AgentId);
+                        var participant = new ContractNetParticipant(msg, AgentId);
                         _ongoing_conversations[participant.ConversationId] = participant;
                         // No llamamos Init: el participante no inicia nada, solo espera la decisión del HTN
                     }
