@@ -121,6 +121,15 @@ namespace AgenticPrison.Communication {
                         _ongoing_conversations[participant.ConversationId] = participant;
                         participant.Init(this, ws); // almacena _agent; no envía nada
                     }
+
+                    if (msg.Performative == Performative.Query &&
+                        !_ongoing_conversations.ContainsKey(msg.ConversationId) &&
+                        _ongoing_conversations.Count < MAX_CONVERSATIONS)
+                    {
+                        var participant = new QueryParticipant(msg, AgentId);
+                        _ongoing_conversations[participant.ConversationId] = participant;
+                        participant.Init(this, ws); // comprueba distancia, envía Inform si procede, cierra
+                    }
                     OnMessageReceived(msg);
                     processed++;
                 }

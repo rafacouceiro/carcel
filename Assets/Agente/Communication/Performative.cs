@@ -12,6 +12,7 @@ namespace AgenticPrison.Communication {
         Failure,
         Cancel,
         NotUnderstood,
-        Inform
+        Inform,
+        Query
     }
 }

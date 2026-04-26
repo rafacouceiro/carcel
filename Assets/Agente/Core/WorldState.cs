@@ -44,6 +44,9 @@ namespace AgenticPrison.Core {
         // true mientras haya al menos un Contract Net activo como iniciador — impide relanzar subastas
         public bool ContractNetActive = false;
 
+        // true mientras un QueryInitiator espera Informs — bloquea InvestigateNoiseMethod durante la ventana
+        public bool WaitingForNoiseQuery = false;
+
         // Cola de mensajes entrantes que requieren una decisión del HTN social.
         // Escrita por OnMessageReceived, consumida (Dequeue) por los efectos de las tareas sociales.
         public Queue<ACLMessage> PendingActions = new Queue<ACLMessage>();
@@ -69,6 +72,7 @@ namespace AgenticPrison.Core {
                 AssignedTask          = this.AssignedTask,
                 TeamMembers           = new List<string>(this.TeamMembers),
                 ContractNetActive     = this.ContractNetActive,
+                WaitingForNoiseQuery  = this.WaitingForNoiseQuery,
                 PendingActions        = new Queue<ACLMessage>(this.PendingActions),
             };
 

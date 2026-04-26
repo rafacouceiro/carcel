@@ -120,6 +120,7 @@ namespace AgenticPrison.Core {
             destination.AssignedTask          = source.AssignedTask;
             destination.TeamMembers           = new List<string>(source.TeamMembers);
             destination.ContractNetActive     = source.ContractNetActive;
+            destination.WaitingForNoiseQuery  = source.WaitingForNoiseQuery;
             destination.PendingActions        = new Queue<ACLMessage>(source.PendingActions);
         }
     }
