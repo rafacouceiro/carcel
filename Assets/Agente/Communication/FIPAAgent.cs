@@ -119,7 +119,7 @@ namespace AgenticPrison.Communication {
                     {
                         var participant = new ContractNetParticipant(msg, AgentId);
                         _ongoing_conversations[participant.ConversationId] = participant;
-                        // No llamamos Init: el participante no inicia nada, solo espera la decisión del HTN
+                        participant.Init(this, ws); // almacena _agent; no envía nada
                     }
                     OnMessageReceived(msg);
                     processed++;
