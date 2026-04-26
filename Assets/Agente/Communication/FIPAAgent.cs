@@ -55,6 +55,13 @@ namespace AgenticPrison.Communication {
             protocol.Init(this, ws);
         }
 
+        // Devuelve el protocolo activo con ese ConversationId, o null si no existe.
+        // Permite a las tareas sociales recuperar un protocolo pre-indexado sin crearlo de nuevo.
+        public ICommProtocol GetProtocol(string convId) {
+            ICommProtocol proto;
+            return _ongoing_conversations.TryGetValue(convId, out proto) ? proto : null;
+        }
+
         // Procesa mensajes del buffer enrutándolos a conversaciones activas o a OnMessageReceived.
         // Las conversaciones activas tienen prioridad sobre mensajes desconocidos.
         protected void ProcessIncoming(WorldState ws, int maxPerFrame = 2) {
@@ -103,6 +110,17 @@ namespace AgenticPrison.Communication {
                 if (processed >= maxPerFrame) break;
                 bool expired = msg.ReplyBy > 0f && Time.time > msg.ReplyBy;
                 if (!expired) {
+                    // Auto-indexar cualquier mensaje de apertura de conversación.
+                    // El protocolo queda registrado antes de que el HTN tome ninguna decisión,
+                    // así los mensajes siguientes (Accept, Reject) ya tienen ruta conocida.
+                    if (msg.Performative == Performative.Cfp &&
+                        !_ongoing_conversations.ContainsKey(msg.ConversationId) &&
+                        _ongoing_conversations.Count < MAX_CONVERSATIONS)
+                    {
+                        var participant = new Protocols.ContractNet.ContractNetParticipant(msg, AgentId);
+                        _ongoing_conversations[participant.ConversationId] = participant;
+                        // No llamamos Init: el participante no inicia nada, solo espera la decisión del HTN
+                    }
                     OnMessageReceived(msg);
                     processed++;
                 }

@@ -65,8 +65,11 @@ namespace AgenticPrison.Communication {
         }
 
         // ── Tick por tiempo ────────────────────────────────────────────────────────
-        // El participante no tiene deadlines propios, así que este tick no hace nada.
-        public void Tick(float currentTime, WorldState ws) { }
+        // Si el CFP tenía ReplyBy y ya expiró sin que el HTN haya respondido, cerrar la conversación.
+        public void Tick(float currentTime, WorldState ws) {
+            if (_state == State.CfpReceived && _originalCfp.ReplyBy > 0f && currentTime > _originalCfp.ReplyBy)
+                _state = State.Done;
+        }
 
         // ── Construcción de la tabla de transiciones ───────────────────────────────
         void BuildTransitions() {
@@ -97,6 +100,26 @@ namespace AgenticPrison.Communication {
             FIPALogger.Log(agent.AgentId, ConversationId, Performative.Propose,
                 $"to={_originalCfp.Sender} cost={cost:F1}");
             _state = State.Proposed;
+        }
+
+        // Llamado por SendRefuseTask cuando el HTN decide no participar en el contrato.
+        public void SendRefuse(FIPAAgent agent, WorldState ws) {
+            if (_state != State.CfpReceived) return;
+
+            agent.Send(new ACLMessage {
+                MessageId      = Guid.NewGuid().ToString(),
+                Performative   = Performative.Refuse,
+                Sender         = agent.AgentId,
+                Receiver       = _originalCfp.Sender,
+                ConversationId = ConversationId,
+                SentAt         = Time.time,
+                SenderPosition = ws.CurrentPosition
+            });
+
+            FIPALogger.Log(agent.AgentId, ConversationId, Performative.Refuse,
+                $"to={_originalCfp.Sender}");
+            ConversationTracker.Instance.SetOutcome(ConversationId, "Done");
+            _state = State.Done;
         }
 
         // ── Handlers de mensajes ───────────────────────────────────────────────────

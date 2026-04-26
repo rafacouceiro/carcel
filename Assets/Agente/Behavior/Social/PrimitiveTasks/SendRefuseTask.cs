@@ -1,8 +1,8 @@
-using System;
 using UnityEngine;
 using AgenticPrison.Core;
 using AgenticPrison.Physical;
 using AgenticPrison.Communication;
+using AgenticPrison.Communication.Protocols.ContractNet;
 
 namespace AgenticPrison.Behavior.Social {
 
@@ -29,15 +29,11 @@ namespace AgenticPrison.Behavior.Social {
 
             ACLMessage cfp = state.PendingActions.Dequeue();
 
-            _agent.Send(new ACLMessage {
-                MessageId      = Guid.NewGuid().ToString(),
-                Performative   = Performative.Refuse,
-                Sender         = _agent.AgentId,
-                Receiver       = cfp.Sender,
-                ConversationId = cfp.ConversationId,
-                SentAt         = Time.time,
-                SenderPosition = state.CurrentPosition
-            });
+            // Delegar al participante ya indexado para que cierre la conversación correctamente
+            var participant = _agent.GetProtocol(cfp.ConversationId) as ContractNetParticipant;
+            if (participant != null) {
+                participant.SendRefuse(_agent, state);
+            }
 
             Debug.Log($"[{state.AgentName}] Refuse enviado a {cfp.Sender}");
             return TaskExecutionStatus.Success;

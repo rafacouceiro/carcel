@@ -3,6 +3,7 @@ using UnityEngine.AI;
 using AgenticPrison.Core;
 using AgenticPrison.Physical;
 using AgenticPrison.Communication;
+using AgenticPrison.Communication.Protocols.ContractNet;
 
 namespace AgenticPrison.Behavior.Social {
 
@@ -35,11 +36,15 @@ namespace AgenticPrison.Behavior.Social {
                 return TaskExecutionStatus.Failure;
             }
 
-            float cost = CalculateNavMeshCost(state.CurrentPosition, task.Target);
+            // Recuperar el participante ya indexado en FIPAAgent cuando llegó el CFP
+            var participant = _agent.GetProtocol(cfp.ConversationId) as ContractNetParticipant;
+            if (participant == null) {
+                Debug.LogWarning($"[{state.AgentName}] SendProposeTask: participante no encontrado para conversación {cfp.ConversationId}");
+                return TaskExecutionStatus.Failure;
+            }
 
-            var protocol = new ContractNetParticipant(cfp, _agent.AgentId);
-            _agent.LaunchProtocol(protocol, state);
-            protocol.SendPropose(_agent, state, cost);
+            float cost = CalculateNavMeshCost(state.CurrentPosition, task.Target);
+            participant.SendPropose(_agent, state, cost);
 
             Debug.Log($"[{state.AgentName}] Propose enviado a {cfp.Sender} coste={cost:F1}");
             return TaskExecutionStatus.Success;
