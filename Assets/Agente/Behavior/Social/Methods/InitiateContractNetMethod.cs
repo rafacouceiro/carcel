@@ -14,7 +14,13 @@ namespace AgenticPrison.Behavior.Social {
             _replyWindow = replyWindow;
         }
 
-        public bool CheckPreconditions(WorldState state) => state.FugitiveInVision;
+        public bool CheckPreconditions(WorldState state)
+        {
+            // No iniciar si ya estamos en un equipo o ejecutando una tarea asignada por contrato
+            if (state.TeamMembers.Count > 0 || state.AssignedTask != null)
+                return false;
+            return state.FugitiveInVision;
+        }
 
         public Queue<ITask> Decompose(WorldState state) {
             var q = new Queue<ITask>();

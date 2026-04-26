@@ -145,8 +145,10 @@ namespace AgenticPrison.Communication {
         // El iniciador eligió a otro guardia. Limpiamos el CFP y cerramos.
         void OnRejected(ACLMessage msg, WorldState ws) {
 
-            // Retirar emisor del equipo
-            if (ws.TeamMembers.Contains(msg.Sender))
+            // Solo retirar del equipo si no tenemos una tarea activa del mismo iniciador:
+            // un iniciador puede lanzar varios CFPs y haber ganado uno aunque perdamos este.
+            bool hasActiveTaskFromSender = ws.AssignedTask != null && ws.AssignedTask.InitiatorId == msg.Sender;
+            if (!hasActiveTaskFromSender && ws.TeamMembers.Contains(msg.Sender))
                 ws.TeamMembers.Remove(msg.Sender);
 
             FIPALogger.Log(_participantId, ConversationId, Performative.RejectProposal,
