@@ -225,6 +225,7 @@ namespace AgenticPrison.Agents {
             Debug.LogWarning("<color=red>He visto al prisionero fuera de la celda</color>");
             CurrentState.PrisonerInCell = false;
             CurrentState.FugitiveInVision = true;
+            CurrentState.seenByMe = true;
             CurrentState.LastKnownPosition = position;
             CurrentState.LastKnownPositionTime = Time.time;
             ForzarReplanificacion();

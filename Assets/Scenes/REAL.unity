@@ -2930,9 +2930,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 50945115}
-    - targetCorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 50945118}
   m_SourcePrefab: {fileID: 100100000, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
 --- !u!4 &50945109 stripped
 Transform:
@@ -2996,18 +2993,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.Actuators
   linterna: {fileID: 48536891}
---- !u!114 &50945118
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 50945110}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2914b576dc8074766ad5a159e3459679, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Communication.PresenceNotifier
 --- !u!114 &50945119
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65161,9 +65146,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 963554432}
-    - targetCorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 963554435}
   m_SourcePrefab: {fileID: 100100000, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
 --- !u!4 &963554426 stripped
 Transform:
@@ -65227,18 +65209,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.Actuators
   linterna: {fileID: 1639233611}
---- !u!114 &963554435
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 963554427}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2914b576dc8074766ad5a159e3459679, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Communication.PresenceNotifier
 --- !u!114 &963554436
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -88533,9 +88503,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1242211436}
-    - targetCorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1242211439}
   m_SourcePrefab: {fileID: 100100000, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
 --- !u!4 &1242211430 stripped
 Transform:
@@ -88599,18 +88566,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.Actuators
   linterna: {fileID: 1939868495}
---- !u!114 &1242211439
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1242211431}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2914b576dc8074766ad5a159e3459679, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Communication.PresenceNotifier
 --- !u!114 &1242211440
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123247,9 +123202,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1777676852}
-    - targetCorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1777676856}
   m_SourcePrefab: {fileID: 100100000, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
 --- !u!4 &1777676841 stripped
 Transform:
@@ -123358,18 +123310,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.Actuators
   linterna: {fileID: 2038932078}
---- !u!114 &1777676856
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1557340913}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2914b576dc8074766ad5a159e3459679, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Communication.PresenceNotifier
 --- !u!114 &1777676857
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125619,9 +125559,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1799366121}
-    - targetCorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1799366124}
   m_SourcePrefab: {fileID: 100100000, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
 --- !u!4 &1799366115 stripped
 Transform:
@@ -125685,18 +125622,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.Actuators
   linterna: {fileID: 1036260510}
---- !u!114 &1799366124
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1799366116}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2914b576dc8074766ad5a159e3459679, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Communication.PresenceNotifier
 --- !u!114 &1799366125
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -129091,9 +129016,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1838112918}
-    - targetCorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1838112921}
   m_SourcePrefab: {fileID: 100100000, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
 --- !u!4 &1838112912 stripped
 Transform:
@@ -129157,18 +129079,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.Actuators
   linterna: {fileID: 662681994}
---- !u!114 &1838112921
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1838112913}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2914b576dc8074766ad5a159e3459679, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Communication.PresenceNotifier
 --- !u!114 &1838112922
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -145290,9 +145200,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2044574264}
-    - targetCorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2044574267}
   m_SourcePrefab: {fileID: 100100000, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
 --- !u!4 &2044574258 stripped
 Transform:
@@ -145356,18 +145263,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.Actuators
   linterna: {fileID: 288692327}
---- !u!114 &2044574267
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2044574259}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2914b576dc8074766ad5a159e3459679, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Communication.PresenceNotifier
 --- !u!114 &2044574268
 MonoBehaviour:
   m_ObjectHideFlags: 0

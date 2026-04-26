@@ -14,6 +14,7 @@ namespace AgenticPrison.Core {
 
         // Memoria visual
         public bool FugitiveInVision = false; // Indica si el fugitivo está a la vista
+        public bool seenByMe = false;
         public Vector3 LastKnownPosition = Vector3.zero; // Última posición donde se vio al fugitivo
         public float LastKnownPositionTime = 0f; // Instante en el que se vio al fugitivo
 
@@ -51,6 +52,7 @@ namespace AgenticPrison.Core {
         public WorldState Clone() {
             var clone = new WorldState {
                 FugitiveInVision      = this.FugitiveInVision,
+                seenByMe              = this.seenByMe,
                 PrisonerInCell        = this.PrisonerInCell,
                 Energy                = this.Energy,
                 CurrentPosition       = this.CurrentPosition,

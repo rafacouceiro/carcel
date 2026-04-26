@@ -10,7 +10,7 @@ namespace AgenticPrison.Behavior.Methods {
         public bool CheckPreconditions(WorldState state) {
 
             bool isFresh = (Time.time - state.LastKnownPositionTime) < 2f;
-            return state.FugitiveInVision || isFresh;
+            return state.FugitiveInVision || (isFresh && state.seenByMe); // Solo hacer predictive chase si lo he visto yo
         }
 
         public Queue<ITask> Decompose(WorldState state) {

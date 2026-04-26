@@ -103,6 +103,7 @@ namespace AgenticPrison.Core {
         // Copia el estado simulado en el estado original durante la construcción del plan
         private void CopyState(WorldState source, WorldState destination) {
             destination.FugitiveInVision      = source.FugitiveInVision;
+            destination.seenByMe              = source.seenByMe;
             destination.PrisonerInCell        = source.PrisonerInCell;
             destination.Energy                = source.Energy;
             destination.LastKnownPosition     = source.LastKnownPosition;
