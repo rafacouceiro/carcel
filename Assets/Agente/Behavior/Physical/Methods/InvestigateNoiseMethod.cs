@@ -15,9 +15,10 @@ namespace AgenticPrison.Behavior.Methods {
         private const float SearchSpeed = 4.0f;
 
         public bool CheckPreconditions(WorldState state) {
-            // El ruido debe existir y ser relativamente reciente (menos de 10s)
+            // El ruido debe existir, ser reciente y haber superado la verificación de Query.
+            // WaitingForNoiseQuery = true significa que aún estamos esperando respuesta de compañeros.
             float age = Time.time - state.LastNoisePositionTime;
-            return state.LastNoisePosition != Vector3.zero && age < 10f;
+            return state.LastNoisePosition != Vector3.zero && age < 10f && !state.WaitingForNoiseQuery;
         }
 
         public Queue<ITask> Decompose(WorldState state) {
