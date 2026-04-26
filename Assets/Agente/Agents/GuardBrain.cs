@@ -63,6 +63,7 @@ namespace AgenticPrison.Agents {
 
         private IActuators _actuators;
         private ICompoundTask _rootTask;
+        private bool _prevWaitingForNoiseQuery = false;
 
         [Tooltip("Nombre del agente, recogido automáticamente.")]
         public string AgentName;
@@ -103,6 +104,14 @@ namespace AgenticPrison.Agents {
             ProcessIncoming(CurrentState);          // enruta mensajes a protocolos o OnMessageReceived
             UpdateLocation();
             ProcessSocialHTNExecution();            // plano social (BeSocial)
+
+            // Si el Query acaba de terminar y queda ruido por investigar, replanificar el HTN físico
+            if (_prevWaitingForNoiseQuery && !CurrentState.WaitingForNoiseQuery
+                    && CurrentState.LastNoisePosition != Vector3.zero) {
+                ForzarReplanificacion();
+            }
+            _prevWaitingForNoiseQuery = CurrentState.WaitingForNoiseQuery;
+
             ProcessHTNExecution();                  // plano físico (BeGuard)
             VisionManager.EmitPresence(this.transform);
         }
