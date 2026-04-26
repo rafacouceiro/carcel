@@ -10,7 +10,7 @@ namespace AgenticPrison.Behavior.Methods {
     // Se activa cuando otro guardia ha ganado una subasta y debe investigar esa sala concreta.
     public class SocialInvestigationMethod : IMethod {
 
-        private const float InvestigateSpeed = 4.0f;
+        private const float InvestigateSpeed = 6.5f;
 
         public bool CheckPreconditions(WorldState state) {
             return state.AssignedTask != null;
