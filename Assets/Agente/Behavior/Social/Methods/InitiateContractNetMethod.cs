@@ -17,7 +17,8 @@ namespace AgenticPrison.Behavior.Social {
         public bool CheckPreconditions(WorldState state)
         {
             // No iniciar si ya estamos en un equipo o ejecutando una tarea asignada por contrato
-            if (state.TeamMembers.Count > 0 || state.AssignedTask != null)
+            // Ni si ya hay un Contract Net activo
+            if (state.TeamMembers.Count > 0 || state.AssignedTask != null || state.ContractNetActive)
                 return false;
             return state.FugitiveInVision;
         }

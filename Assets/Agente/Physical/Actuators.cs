@@ -14,6 +14,9 @@ namespace AgenticPrison.Physical {
 
         private void Awake() {
             _agent = GetComponent<NavMeshAgent>();
+            if (gameObject.CompareTag("Guardia")) {
+                _agent.avoidancePriority = Random.Range(30, 70);
+            }
         }
 
         // --- Implementación del control de movimiento ---

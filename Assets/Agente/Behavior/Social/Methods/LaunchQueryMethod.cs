@@ -20,7 +20,7 @@ namespace AgenticPrison.Behavior.Social {
             state.LastNoisePosition != Vector3.zero &&
             !state.WaitingForNoiseQuery &&
             (Time.time - state.LastNoisePositionTime) < QUERY_WINDOW &&
-            !state.FugitiveInVision;   // durante persecución activa no vale la pena preguntar
+            !state.FugitiveInVision ;   // durante persecución activa no vale la pena preguntar
 
         public Queue<ITask> Decompose(WorldState state) {
             var q = new Queue<ITask>();

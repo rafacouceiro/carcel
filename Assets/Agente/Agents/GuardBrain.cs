@@ -146,8 +146,8 @@ namespace AgenticPrison.Agents {
             {
                 float distToGuard = Vector3.Distance(noise.Position, CurrentState.LastGuardPosition);
                 
-                // Si está cerca y es ruido de pasos suaves, descartar
-                if (distToGuard < 10f && noise.Volume < 18f) 
+                // Si está cerca o es ruido de pasos suaves, descartar
+                if (distToGuard < 10f || noise.Volume < 18f) 
                 {
                     Debug.Log($"<color=cyan>[{AgentName}] Ignorando ruido cercano a un compañero. Falsa alarma.</color>");
                     return; 

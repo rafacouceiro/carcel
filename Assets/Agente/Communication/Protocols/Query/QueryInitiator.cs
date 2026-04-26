@@ -80,6 +80,11 @@ namespace AgenticPrison.Communication {
                 // El ruido vino de un compañero: descartar para que el HTN no lo investigue
                 ws.LastNoisePosition     = Vector3.zero;
                 ws.LastNoisePositionTime = 0f;
+                
+                // Memoria posicional del guardia para evitar queries futuras si no lo vemos
+                ws.LastGuardPosition     = _noisePosition;
+                ws.LastGuardPositionTime = Time.time;
+
                 Debug.Log($"<color=cyan>[{_agent.AgentId}] Query: ruido descartado, fuente era un compañero</color>");
             }
 

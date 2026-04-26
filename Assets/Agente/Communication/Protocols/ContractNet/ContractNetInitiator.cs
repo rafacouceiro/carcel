@@ -166,6 +166,8 @@ namespace AgenticPrison.Communication {
         void CheckDeadline(float currentTime, WorldState ws) {
             if (currentTime < _deadline) return; // todavía dentro de la ventana
 
+            ws.ContractNetActive = false;
+
             if (_proposals.Count > 0) {
                 EvaluateAndAccept(ws);
             } else {
