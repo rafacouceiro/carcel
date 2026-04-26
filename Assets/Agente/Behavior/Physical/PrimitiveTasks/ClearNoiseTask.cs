@@ -7,12 +7,12 @@ namespace AgenticPrison.Behavior.PrimitiveTasks {
 
         // Limpieza de memoria auditiva en simulación
         public void ApplyEffects(WorldState state) {
-            state.LastNoisePosition = UnityEngine.Vector3.zero; 
+            state.LastNoisePosition = UnityEngine.Vector3.zero;
         }
-        
+
         // Limpieza de memoria auditiva real
         public TaskExecutionStatus Execute(IActuators actuators, WorldState state) {
-            state.LastNoisePosition = UnityEngine.Vector3.zero; 
+            state.LastNoisePosition = UnityEngine.Vector3.zero;
             return TaskExecutionStatus.Success;
         }
     }
