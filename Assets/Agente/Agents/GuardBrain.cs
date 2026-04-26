@@ -262,6 +262,12 @@ namespace AgenticPrison.Agents {
             // Por ahora solo CFPs; añadir otros performativos aquí cuando sean necesarios.
             if (msg.Performative == Performative.Cfp)
                 CurrentState.PendingActions.Enqueue(msg);
+
+            // Al recibir aceptación de una propuesta, el protocolo ya ha escrito AssignedTask
+            // en WorldState. Forzar replanificación física para que el HTN la recoja
+            // inmediatamente, salvo que haya una emergencia activa (persecución en curso).
+            if (msg.Performative == Performative.AcceptProposal && !CurrentState.FugitiveInVision)
+                ForzarReplanificacion();
         }
 
         // Refrescar coordenadas del agente en su estado interno
