@@ -7,12 +7,12 @@ namespace AgenticPrison.Behavior.CompoundTasks {
     // Tarea compuesta: Lógica de búsqueda activa tras confirmar una fuga
     public class InvestigateEscapeTask : ICompoundTask {
         
-        // Intenta predecir su destino según pistas o realiza un peinado de la zona
+        // Realiza un peinado sistemático de la zona cuando no hay datos recientes del fugitivo
         public List<IMethod> Methods { get; }
 
         public InvestigateEscapeTask() {
             Methods = new List<IMethod> {
-                new PredictivePursuitMethod(),
+                new SocialInvestigationMethod(),
                 new WideSweepMethod()
             };
         }

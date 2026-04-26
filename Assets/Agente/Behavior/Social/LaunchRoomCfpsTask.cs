@@ -41,8 +41,8 @@ namespace AgenticPrison.Behavior.Social {
             foreach (RoomNode room in targets) {
                 var task = new ContractTask {
                     Type       = TaskType.InvestigateRoom,
+                    Room       = room,
                     Target     = room.GetNavigablePosition(),
-                    Priority   = TaskPriority.Investigate,
                     ContractId = System.Guid.NewGuid().ToString()
                 };
 

@@ -117,7 +117,6 @@ namespace AgenticPrison.Core {
             destination.AgentName             = source.AgentName;
             // Campos sociales Phase 2
             destination.AssignedTask          = source.AssignedTask;
-            destination.CurrentTaskPriority   = source.CurrentTaskPriority;
             destination.TeamMembers           = new List<string>(source.TeamMembers);
             destination.ContractNetActive     = source.ContractNetActive;
             destination.PendingActions        = new Queue<ACLMessage>(source.PendingActions);

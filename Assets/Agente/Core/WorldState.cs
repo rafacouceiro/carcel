@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using AgenticPrison.Physical;
-using AgenticPrison.Communication;
 using UnityEngine;
 
 namespace AgenticPrison.Core {
@@ -38,9 +37,6 @@ namespace AgenticPrison.Core {
         // Tarea asignada por contrato ganado — HTN físico la ejecuta con prioridad máxima si !FugitiveInVision
         public ContractTask AssignedTask = null;
 
-        // Prioridad de la tarea física actual — determina si el agente acepta bids entrantes
-        public TaskPriority CurrentTaskPriority = TaskPriority.Idle;
-
         // Guardias del equipo activo — impide aceptar nuevos bids mientras se coordina una misión
         public List<string> TeamMembers = new List<string>();
 
@@ -69,7 +65,6 @@ namespace AgenticPrison.Core {
                 LastGuardPositionTime = this.LastGuardPositionTime,
                 // Campos sociales
                 AssignedTask          = this.AssignedTask,
-                CurrentTaskPriority   = this.CurrentTaskPriority,
                 TeamMembers           = new List<string>(this.TeamMembers),
                 ContractNetActive     = this.ContractNetActive,
                 PendingActions        = new Queue<ACLMessage>(this.PendingActions),
