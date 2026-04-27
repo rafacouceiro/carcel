@@ -117,6 +117,27 @@ namespace AgenticPrison.Communication {
                         !_ongoing_conversations.ContainsKey(msg.ConversationId) &&
                         _ongoing_conversations.Count < MAX_CONVERSATIONS)
                     {
+                        // Si el CFP pertenece a un sector diferente al equipo actual, disolver primero
+                        var cfpContent = msg.Content as CfpContent;
+                        bool isDifferentSector = cfpContent != null
+                            && !string.IsNullOrEmpty(cfpContent.SectorId)
+                            && !string.IsNullOrEmpty(ws.FugitiveSectorId)
+                            && cfpContent.SectorId != ws.FugitiveSectorId
+                            && ws.TeamMembers.Count > 0;
+
+                        if (isDifferentSector) {
+                            var toRemove = new List<string>();
+                            foreach (var kv in _ongoing_conversations)
+                                if (kv.Value is ContractNetParticipant) toRemove.Add(kv.Key);
+                            foreach (var id in toRemove) _ongoing_conversations.Remove(id);
+
+                            ws.AssignedTask          = null;
+                            ws.AssignedRole          = AgentRole.None;
+                            ws.TeamMembers.Clear();
+                            ws.FugitiveSectorId      = cfpContent.SectorId;
+                            ws.SweepProtocolsActive  = 0;
+                        }
+
                         var participant = new ContractNetParticipant(msg, AgentId);
                         _ongoing_conversations[participant.ConversationId] = participant;
                         participant.Init(this, ws); // almacena _agent; no envía nada
