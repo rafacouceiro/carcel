@@ -8,5 +8,6 @@ namespace AgenticPrison.Communication {
         public Vector3      FugitivePosition;      // última posición conocida del fugitivo
         public float        FugitivePositionTime;  // instante en que se observó esa posición
         public ContractTask Task;                  // tarea concreta que se subasta
+        public string       SectorId;              // sector de operación — detecta cambios de sector
     }
 }

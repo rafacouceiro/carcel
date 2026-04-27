@@ -38,6 +38,15 @@ namespace AgenticPrison.Core {
         // Tarea asignada por contrato ganado — HTN físico la ejecuta con prioridad máxima si !FugitiveInVision
         public ContractTask AssignedTask = null;
 
+        // Rol activo durante la operación de sector (solo el líder lo escribe; participantes leen AssignedTask.AssignedRole)
+        public AgentRole AssignedRole = AgentRole.None;
+
+        // Sector del fugitivo en la operación activa — detecta cambios para disolver y relanzar
+        public string FugitiveSectorId = string.Empty;
+
+        // Número de protocolos CNP de tipo SweepSector activos como iniciador — disolución cuando llega a 0
+        public int SweepProtocolsActive = 0;
+
         // Guardias del equipo activo — impide aceptar nuevos bids mientras se coordina una misión
         public List<string> TeamMembers = new List<string>();
 
@@ -70,6 +79,9 @@ namespace AgenticPrison.Core {
                 LastGuardPositionTime = this.LastGuardPositionTime,
                 // Campos sociales
                 AssignedTask          = this.AssignedTask,
+                AssignedRole          = this.AssignedRole,
+                FugitiveSectorId      = this.FugitiveSectorId,
+                SweepProtocolsActive  = this.SweepProtocolsActive,
                 TeamMembers           = new List<string>(this.TeamMembers),
                 ContractNetActive     = this.ContractNetActive,
                 WaitingForNoiseQuery  = this.WaitingForNoiseQuery,
