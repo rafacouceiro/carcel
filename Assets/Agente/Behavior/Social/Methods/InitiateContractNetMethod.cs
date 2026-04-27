@@ -16,16 +16,25 @@ namespace AgenticPrison.Behavior.Social {
 
         public bool CheckPreconditions(WorldState state)
         {
-            // No iniciar si ya estamos en un equipo o ejecutando una tarea asignada por contrato
-            // Ni si ya hay un Contract Net activo
-            if (state.TeamMembers.Count > 0 || state.AssignedTask != null || state.ContractNetActive)
+            if (state.ContractNetActive || state.AssignedTask != null) return false;
+            if (!state.seenByMe || state.LastKnownPosition == UnityEngine.Vector3.zero) return false;
+
+            var sectors = state.Map?.GetFugitiveSectors(state.LastKnownPosition);
+            if (sectors == null || sectors.Count != 1) return false;
+
+            // No relanzar si el fugitivo sigue en el sector ya perimetrado.
+            // La comprobación usa FugitiveSectorId ANTES de que LaunchSectorCfpsTask lo actualice.
+            if (state.TeamMembers.Count > 0
+                && !string.IsNullOrEmpty(state.FugitiveSectorId)
+                && sectors[0] == state.FugitiveSectorId)
                 return false;
-            return state.FugitiveInVision;
+
+            return true;
         }
 
         public Queue<ITask> Decompose(WorldState state) {
             var q = new Queue<ITask>();
-            q.Enqueue(new LaunchRoomCfpsTask(_agent, _replyWindow));
+            q.Enqueue(new LaunchSectorCfpsTask(_agent, _replyWindow));
             return q;
         }
     }

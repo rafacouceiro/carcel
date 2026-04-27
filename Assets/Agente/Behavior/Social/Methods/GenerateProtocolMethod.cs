@@ -15,7 +15,7 @@ namespace AgenticPrison.Behavior.Social {
         }
 
         public bool CheckPreconditions(WorldState state) =>
-            (state.FugitiveInVision && !state.ContractNetActive) ||
+            (state.seenByMe && !state.ContractNetActive && state.AssignedTask == null) ||
             (state.LastNoisePosition != UnityEngine.Vector3.zero && !state.WaitingForNoiseQuery);
 
         public Queue<ITask> Decompose(WorldState state) {
