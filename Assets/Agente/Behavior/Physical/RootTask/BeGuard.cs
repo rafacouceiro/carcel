@@ -11,9 +11,12 @@ namespace AgenticPrison.Behavior.RootTask {
 
         public BeGuard() {
             Methods = new List<IMethod> {
-                new SelectEmergency(),
-                new SelectInvestigation(),
-                new SelectRoutine()
+                new SelectEmergency(),          // prio 1: persecución / captura
+                new BlockingPositionMethod(),   // prio 2: blocker — ciclo de waypoints de perímetro
+                new InvestigateNoiseMethod(),   // prio 3 ┐
+                new WideSweepMethod(),          // prio 4 ├─ investigación
+                new InvestigateLocationMethod(),// prio 5 ┘
+                new SelectRoutine()             // prio 6: rutina normal
             };
         }
     }

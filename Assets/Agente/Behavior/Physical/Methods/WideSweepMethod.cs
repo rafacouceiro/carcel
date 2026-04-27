@@ -3,40 +3,103 @@ using UnityEngine;
 using UnityEngine.AI;
 using AgenticPrison.Core;
 using AgenticPrison.Physical;
+using AgenticPrison.Communication;
 using AgenticPrison.Behavior.PrimitiveTasks;
 
 namespace AgenticPrison.Behavior.Methods {
 
-    // Método HTN: Expansión de búsqueda en un radio amplio cuando se pierde toda pista directa del fugitivo
+    // Método HTN: barrido sistemático. Cubre dos casos:
+    //   a) El guardia avistó al fugitivo y lo rastrea por su propia cuenta (seenByMe).
+    //   b) El guardia tiene asignado un SweepSector por contrato (AssignedRole == Sweeper).
     public class WideSweepMethod : IMethod {
-        
-        private const float SweepSpeed = 4.5f; 
+
+        private const float SweepSpeed = 4.5f;
 
         public bool CheckPreconditions(WorldState state) {
-            // Solo el guardia que avistó directamente al fugitivo hace el barrido amplio.
-            // Los que reciben el CFP no deben perseguir por cuenta propia: solo ejecutan su tarea asignada.
-            float age = Time.time - state.LastKnownPositionTime;
-            return state.seenByMe && state.LastKnownPosition != Vector3.zero && !state.PrisonerInCell && age < 35f;
+            bool hasSighting = state.seenByMe
+                && state.LastKnownPosition != Vector3.zero
+                && !state.PrisonerInCell
+                && (Time.time - state.LastKnownPositionTime) < 35f;
+
+            bool isSweeper = state.AssignedTask != null
+                && state.AssignedTask.AssignedRole == AgentRole.Sweeper
+                && state.AssignedTask.SweepRooms   != null
+                && state.AssignedTask.SweepRooms.Count > 0;
+
+            return hasSighting || isSweeper;
         }
 
         public Queue<ITask> Decompose(WorldState state) {
             var subTasks = new Queue<ITask>();
-            
-            // Revisa el estado de la linterna y colorea en Cyan indicando barrido sistemático
-            subTasks.Enqueue(new ChangeFlashLight(new Color(0f, 1f, 1f)));
 
-            // Coordina la lectura de varias habitaciones y waypoints posibles a través de un Greedy
-            List<Vector3> sweepPoints = CalculateGreedySweep(state);
+            bool isSweeper = state.AssignedTask != null
+                && state.AssignedTask.AssignedRole == AgentRole.Sweeper
+                && state.AssignedTask.SweepRooms   != null
+                && state.AssignedTask.SweepRooms.Count > 0;
 
-            // Convierte en trayectos físicos
-            foreach (Vector3 point in sweepPoints) {
-                subTasks.Enqueue(new MoveTask(point, SweepSpeed));
+            if (isSweeper) {
+                // Barrido de salas asignadas por contrato
+                subTasks.Enqueue(new ChangeFlashLight(new Color(0f, 1f, 1f)));
+
+                List<RoomNode> orderedRooms = SortRoomsGreedy(
+                    state.AssignedTask.SweepRooms, state.CurrentPosition);
+
+                foreach (RoomNode room in orderedRooms) {
+                    if (room.waypoints != null) {
+                        foreach (WayPointData wp in room.waypoints) {
+                            if (wp != null && wp.isPatrolCheckpoint)
+                                subTasks.Enqueue(new MoveTask(wp.transform.position, SweepSpeed));
+                        }
+                    }
+                    // Persiste el progreso: si el plan se interrumpe, no se repite esta sala
+                    subTasks.Enqueue(new RemoveSweepRoomTask(room));
+                }
+
+                // Notifica al Participant que el sweep ha terminado → envía InformDone al líder
+                subTasks.Enqueue(new ClearAssignedTaskTask());
+            } else {
+                // Barrido libre por avistamiento propio
+                subTasks.Enqueue(new ChangeFlashLight(new Color(0f, 1f, 1f)));
+
+                List<Vector3> sweepPoints = CalculateGreedySweep(state);
+                foreach (Vector3 point in sweepPoints)
+                    subTasks.Enqueue(new MoveTask(point, SweepSpeed));
+
+                subTasks.Enqueue(new ClearPositionTask());
             }
 
-            // Una vez terminado, anula la última posición de la memoria del agente
-            subTasks.Enqueue(new ClearPositionTask());
-
             return subTasks;
+        }
+
+        // Ordena habitaciones por distancia NavMesh greedy desde el punto de partida
+        private List<RoomNode> SortRoomsGreedy(List<RoomNode> rooms, Vector3 startPos) {
+            var remaining = new List<RoomNode>(rooms);
+            var sorted    = new List<RoomNode>();
+            Vector3 current  = startPos;
+            NavMeshPath path = new NavMeshPath();
+
+            while (remaining.Count > 0) {
+                RoomNode closest    = null;
+                float    minDist    = Mathf.Infinity;
+                int      closestIdx = 0;
+
+                for (int i = 0; i < remaining.Count; i++) {
+                    Vector3 target = remaining[i].GetNavigablePosition();
+                    float dist = Mathf.Infinity;
+                    if (NavMesh.CalculatePath(current, target, NavMesh.AllAreas, path))
+                        dist = CalculatePathLength(path);
+                    if (dist < minDist) { minDist = dist; closest = remaining[i]; closestIdx = i; }
+                }
+
+                if (closest != null) {
+                    sorted.Add(closest);
+                    current = closest.GetNavigablePosition();
+                    remaining.RemoveAt(closestIdx);
+                } else {
+                    remaining.RemoveAt(0);
+                }
+            }
+            return sorted;
         }
 
         // --- Algoritmo de Barrido Amplio ---
