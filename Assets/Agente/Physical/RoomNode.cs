@@ -16,6 +16,10 @@ namespace AgenticPrison.Physical {
         // Habitaciones adyacentes a las que el agente puede transitar
         public List<RoomNode> connectedRooms = new List<RoomNode>();
 
+        [Header("Zonas de Búsqueda Lógica")]
+        [Tooltip("Sectores de búsqueda a los que pertenece esta sala. Puede pertenecer a varios para zonas compartidas.")]
+        public List<string> searchSectorIds = new List<string>();
+
         private BoxCollider _collider;
 
         private void Awake() 

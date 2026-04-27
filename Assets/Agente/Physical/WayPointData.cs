@@ -16,5 +16,12 @@ namespace AgenticPrison.Physical {
         // Puntos que pertenecen al interior de las celdas
         [Tooltip("Marca para indicar que este waypoint se encuentra en el interior de una celda.")]
         public bool isCell = false;
+
+        [Header("Bloqueo de Cuadrantes (Operaciones de Búsqueda)")]
+        [Tooltip("Marca si este punto actúa como tapón para cerrar un sector.")]
+        public bool isBlockingPoint = false;
+
+        [Tooltip("Identificador para agrupar varios puntos de bloqueo (ej. 'PuertaNorte'). El agente patrullará entre los puntos con este mismo ID.")]
+        public string blockingGroupId = string.Empty;
     }
 }

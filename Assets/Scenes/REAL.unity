@@ -1509,6 +1509,8 @@ MonoBehaviour:
   connectedRooms:
   - {fileID: 882727791}
   - {fileID: 1269399558}
+  searchSectorIds:
+  - 1
 --- !u!1001 &18612995
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1729,6 +1731,8 @@ MonoBehaviour:
   waypoints: []
   connectedRooms:
   - {fileID: 1897075064}
+  searchSectorIds:
+  - 4
 --- !u!1001 &24800510
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2200,6 +2204,8 @@ MonoBehaviour:
   waypoints: []
   connectedRooms:
   - {fileID: 976098661}
+  searchSectorIds:
+  - 1
 --- !u!1001 &29780057
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2791,7 +2797,7 @@ Transform:
   m_GameObject: {fileID: 49628532}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -23.54, y: 0, z: -4.19}
+  m_LocalPosition: {x: -23.54, y: 0, z: -0.99}
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2812,6 +2818,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 1
+  blockingGroupId: 1
 --- !u!1 &50077604 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -8284644261160355701, guid: 14cce29ad9058904d96cc3067402803d, type: 3}
@@ -3151,6 +3159,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1001 &52982064
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3263,6 +3273,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &54417250 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 74d8ce1b968c674498d4edd34de9334c, type: 3}
@@ -3412,6 +3424,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &59656283
 GameObject:
   m_ObjectHideFlags: 0
@@ -3707,6 +3721,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1001 &65826002
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4973,6 +4989,8 @@ MonoBehaviour:
   connectedRooms:
   - {fileID: 1284341609}
   - {fileID: 907466633}
+  searchSectorIds:
+  - 3
 --- !u!1 &80414110 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8242361918107146482, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -6150,6 +6168,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &90441407
 GameObject:
   m_ObjectHideFlags: 0
@@ -6332,6 +6352,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &90988574 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 453d762048f90974c8a7164f9efc863e, type: 3}
@@ -6384,6 +6406,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &93813604
 GameObject:
   m_ObjectHideFlags: 0
@@ -7470,6 +7494,8 @@ MonoBehaviour:
   connectedRooms:
   - {fileID: 2122253248}
   - {fileID: 224590764}
+  searchSectorIds:
+  - 4
 --- !u!1 &104158372 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3698344006298356524, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -8049,6 +8075,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1001 &106441878
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8165,6 +8193,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &108685912
 GameObject:
   m_ObjectHideFlags: 0
@@ -8776,6 +8806,8 @@ MonoBehaviour:
   waypoints: []
   connectedRooms:
   - {fileID: 842322890}
+  searchSectorIds:
+  - 4
 --- !u!1 &117095533 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 453d762048f90974c8a7164f9efc863e, type: 3}
@@ -9086,6 +9118,55 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 453d762048f90974c8a7164f9efc863e, type: 3}
   m_PrefabInstance: {fileID: 121102644}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &121339511
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 121339512}
+  - component: {fileID: 121339513}
+  m_Layer: 0
+  m_Name: WP_133 (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &121339512
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 121339511}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -28, y: 0.29, z: -19.86}
+  m_LocalScale: {x: 14.083057, y: 5, z: 9.105583}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1652990584}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &121339513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 121339511}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 1
+  isPatrolCheckpoint: 1
+  isCell: 0
+  isBlockingPoint: 1
+  blockingGroupId: 10
 --- !u!1001 &121700622
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10611,7 +10692,7 @@ Transform:
   m_GameObject: {fileID: 143853351}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -23.81, y: 0.5, z: -51.76}
+  m_LocalPosition: {x: -23.77, y: 0.5, z: -49.02}
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10632,6 +10713,8 @@ MonoBehaviour:
   isKeyPoint: 1
   isPatrolCheckpoint: 0
   isCell: 0
+  isBlockingPoint: 1
+  blockingGroupId: 7
 --- !u!1 &143967330
 GameObject:
   m_ObjectHideFlags: 0
@@ -10933,6 +11016,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &148019994 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7291683185506409767, guid: 14cce29ad9058904d96cc3067402803d, type: 3}
@@ -11007,6 +11092,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1001 &150554525
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11792,6 +11879,8 @@ MonoBehaviour:
   waypoints: []
   connectedRooms:
   - {fileID: 18452705}
+  searchSectorIds:
+  - 1
 --- !u!1001 &153789040
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13480,6 +13569,8 @@ MonoBehaviour:
   - {fileID: 311769187}
   - {fileID: 711297839}
   - {fileID: 1095327316}
+  searchSectorIds:
+  - 1
 --- !u!1 &181812323
 GameObject:
   m_ObjectHideFlags: 0
@@ -13802,6 +13893,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &182965301 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7291683185506409767, guid: 14cce29ad9058904d96cc3067402803d, type: 3}
@@ -14502,6 +14595,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1001 &188694281
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16398,6 +16493,8 @@ MonoBehaviour:
   waypoints: []
   connectedRooms:
   - {fileID: 1366477879}
+  searchSectorIds:
+  - 4
 --- !u!1001 &225659341
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16796,6 +16893,8 @@ MonoBehaviour:
   isKeyPoint: 1
   isPatrolCheckpoint: 0
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1001 &230696552
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17082,6 +17181,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &234726410
 GameObject:
   m_ObjectHideFlags: 0
@@ -17129,6 +17230,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1001 &237356373
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19140,6 +19243,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1001 &263363241
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19931,6 +20036,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &278421897
 GameObject:
   m_ObjectHideFlags: 0
@@ -20140,6 +20247,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1001 &280041418
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20759,6 +20868,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &297455190 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7655588946788480272, guid: 14cce29ad9058904d96cc3067402803d, type: 3}
@@ -21195,6 +21306,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1001 &305534449
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21875,6 +21988,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.RoomNode
   waypoints: []
   connectedRooms: []
+  searchSectorIds:
+  - 1
 --- !u!1 &312262507
 GameObject:
   m_ObjectHideFlags: 0
@@ -21922,6 +22037,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &312748209 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 614141466607972236, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -23113,6 +23230,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.RoomNode
   waypoints: []
   connectedRooms: []
+  searchSectorIds:
+  - 2
 --- !u!1001 &331084496
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23468,6 +23587,8 @@ MonoBehaviour:
   waypoints: []
   connectedRooms:
   - {fileID: 115556551}
+  searchSectorIds:
+  - 4
 --- !u!1 &334191557 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 453d762048f90974c8a7164f9efc863e, type: 3}
@@ -23647,6 +23768,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1001 &339944050
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23977,6 +24100,8 @@ MonoBehaviour:
   waypoints: []
   connectedRooms:
   - {fileID: 153737764}
+  searchSectorIds:
+  - 1
 --- !u!1 &361208689 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2627565222294444803, guid: d0429c2ebdf57e6499fc6a336b2fb320, type: 3}
@@ -25041,6 +25166,8 @@ MonoBehaviour:
   connectedRooms:
   - {fileID: 103826332}
   - {fileID: 1366147222}
+  searchSectorIds:
+  - 4
 --- !u!1001 &372917177
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25889,6 +26016,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &392382141 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8550454373022275157, guid: d0429c2ebdf57e6499fc6a336b2fb320, type: 3}
@@ -26144,6 +26273,8 @@ MonoBehaviour:
   connectedRooms:
   - {fileID: 1897075064}
   - {fileID: 224590764}
+  searchSectorIds:
+  - 4
 --- !u!1001 &397414754
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26517,6 +26648,8 @@ MonoBehaviour:
   waypoints: []
   connectedRooms:
   - {fileID: 1241771936}
+  searchSectorIds:
+  - 4
 --- !u!1 &399599578 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3698344006298356524, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -27003,6 +27136,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1001 &409782350
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28594,6 +28729,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1001 &439232654
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -30297,6 +30434,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &457533196 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -6009232476891666573, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -31073,6 +31212,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &469465797 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 74d8ce1b968c674498d4edd34de9334c, type: 3}
@@ -32045,6 +32186,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &493278229 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3058497736089453759, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -32862,6 +33005,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1001 &501856610
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -34998,6 +35143,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &532001522 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: baf57603f98cbdd4e8007a7276476d51, type: 3}
@@ -37670,6 +37817,8 @@ MonoBehaviour:
   isKeyPoint: 1
   isPatrolCheckpoint: 0
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &562489932
 GameObject:
   m_ObjectHideFlags: 0
@@ -38725,6 +38874,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &574758460 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -1212349745884697633, guid: 14cce29ad9058904d96cc3067402803d, type: 3}
@@ -39070,6 +39221,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &580163747 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3899565891299101084, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -39227,6 +39380,8 @@ MonoBehaviour:
   waypoints: []
   connectedRooms:
   - {fileID: 1700368244}
+  searchSectorIds:
+  - 4
 --- !u!1 &586290274 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6635305459715344173, guid: 14cce29ad9058904d96cc3067402803d, type: 3}
@@ -39447,6 +39602,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1001 &587722430
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -40694,6 +40851,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1001 &601564281
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -41140,6 +41299,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.RoomNode
   waypoints: []
   connectedRooms: []
+  searchSectorIds:
+  - 1
 --- !u!1001 &605753307
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -41579,6 +41740,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.RoomNode
   waypoints: []
   connectedRooms: []
+  searchSectorIds:
+  - 2
 --- !u!1001 &609034645
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -41789,6 +41952,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &609626236 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2627565222294444803, guid: d0429c2ebdf57e6499fc6a336b2fb320, type: 3}
@@ -41893,6 +42058,8 @@ MonoBehaviour:
   connectedRooms:
   - {fileID: 330272879}
   - {fileID: 1343895194}
+  searchSectorIds:
+  - 2
 --- !u!1001 &612427396
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -42290,6 +42457,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1001 &619533616
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -42554,6 +42723,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &624032765 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1799300713203106943, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -43139,6 +43310,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &635503264 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8267196642337891365, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -43213,6 +43386,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &637004196 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6122035535824019343, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -44152,6 +44327,8 @@ MonoBehaviour:
   connectedRooms:
   - {fileID: 1089949829}
   - {fileID: 1253546256}
+  searchSectorIds:
+  - 2
 --- !u!1 &647678286 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3058497736089453759, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -44735,6 +44912,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &657831310 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8557927624525350344, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -45480,6 +45659,8 @@ MonoBehaviour:
   isKeyPoint: 1
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &667965182
 GameObject:
   m_ObjectHideFlags: 0
@@ -45527,6 +45708,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &671068257
 GameObject:
   m_ObjectHideFlags: 0
@@ -46486,6 +46669,8 @@ MonoBehaviour:
   - {fileID: 29529535}
   - {fileID: 1095327316}
   - {fileID: 311769187}
+  searchSectorIds:
+  - 1
 --- !u!1001 &687318326
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -47043,6 +47228,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &696004972 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7291683185506409767, guid: 14cce29ad9058904d96cc3067402803d, type: 3}
@@ -47874,6 +48061,8 @@ MonoBehaviour:
   connectedRooms:
   - {fileID: 1095327316}
   - {fileID: 358098904}
+  searchSectorIds:
+  - 1
 --- !u!1 &712320539 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 453d762048f90974c8a7164f9efc863e, type: 3}
@@ -48018,6 +48207,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1001 &718568877
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -48222,6 +48413,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1001 &719899191
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -49388,6 +49581,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1001 &733617733
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -50424,7 +50619,7 @@ Transform:
   m_GameObject: {fileID: 751649297}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -30.8, y: 0.13, z: -27.6}
+  m_LocalPosition: {x: -30.8, y: 0.13, z: -26.83}
   m_LocalScale: {x: 23.809525, y: 5, z: 7.352941}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -50445,6 +50640,8 @@ MonoBehaviour:
   isKeyPoint: 1
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 1
+  blockingGroupId: 9
 --- !u!1001 &751739702
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -51200,6 +51397,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &757496084 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 74d8ce1b968c674498d4edd34de9334c, type: 3}
@@ -51915,6 +52114,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1001 &767329247
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -52460,6 +52661,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1001 &772083483
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -53847,6 +54050,8 @@ MonoBehaviour:
   waypoints: []
   connectedRooms:
   - {fileID: 942557834}
+  searchSectorIds:
+  - 2
 --- !u!1 &794855183 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5674046508059327650, guid: d0429c2ebdf57e6499fc6a336b2fb320, type: 3}
@@ -54205,6 +54410,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &799540694 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8550454373022275157, guid: d0429c2ebdf57e6499fc6a336b2fb320, type: 3}
@@ -54333,6 +54540,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &801622434 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 453d762048f90974c8a7164f9efc863e, type: 3}
@@ -55474,6 +55683,7 @@ Transform:
   - {fileID: 143853352}
   - {fileID: 1439840777}
   - {fileID: 1297564755}
+  - {fileID: 1246055449}
   - {fileID: 561894248}
   - {fileID: 1405213631}
   - {fileID: 1363749515}
@@ -56955,6 +57165,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &842322886
 GameObject:
   m_ObjectHideFlags: 0
@@ -57026,6 +57238,8 @@ MonoBehaviour:
   waypoints: []
   connectedRooms:
   - {fileID: 399560885}
+  searchSectorIds:
+  - 4
 --- !u!1001 &842328924
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -57472,6 +57686,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &850407125
 GameObject:
   m_ObjectHideFlags: 0
@@ -58467,6 +58683,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1001 &859242946
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -58698,6 +58916,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1001 &863264669
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -58810,6 +59030,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1001 &867773301
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -58975,6 +59197,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &868695264
 GameObject:
   m_ObjectHideFlags: 0
@@ -59022,6 +59246,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 1
+  blockingGroupId: 4
 --- !u!1 &869739858
 GameObject:
   m_ObjectHideFlags: 0
@@ -59256,6 +59482,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.RoomNode
   waypoints: []
   connectedRooms: []
+  searchSectorIds:
+  - 1
 --- !u!1001 &872733716
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -59995,6 +60223,8 @@ MonoBehaviour:
   connectedRooms:
   - {fileID: 605543414}
   - {fileID: 1652990587}
+  searchSectorIds:
+  - 1
 --- !u!1 &883006613 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -6009232476891666573, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -60918,6 +61148,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1001 &895575559
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -61895,6 +62127,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.RoomNode
   waypoints: []
   connectedRooms: []
+  searchSectorIds:
+  - 3
 --- !u!1 &907826102 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8557927624525350344, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -62668,6 +62902,8 @@ MonoBehaviour:
   isKeyPoint: 1
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 1
+  blockingGroupId: 10
 --- !u!1 &919357980 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 453d762048f90974c8a7164f9efc863e, type: 3}
@@ -63063,6 +63299,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &929771499 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 453d762048f90974c8a7164f9efc863e, type: 3}
@@ -63618,6 +63856,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.RoomNode
   waypoints: []
   connectedRooms: []
+  searchSectorIds:
+  - 2
 --- !u!1 &942625599 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -205664385127162667, guid: 14cce29ad9058904d96cc3067402803d, type: 3}
@@ -63865,6 +64105,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 1
+  blockingGroupId: 6
 --- !u!1 &945840174 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6999322035538773533, guid: baf57603f98cbdd4e8007a7276476d51, type: 3}
@@ -64267,6 +64509,8 @@ MonoBehaviour:
   waypoints: []
   connectedRooms:
   - {fileID: 608863454}
+  searchSectorIds:
+  - 2
 --- !u!1 &950376316 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 453d762048f90974c8a7164f9efc863e, type: 3}
@@ -64700,6 +64944,8 @@ MonoBehaviour:
   waypoints: []
   connectedRooms:
   - {fileID: 1042622835}
+  searchSectorIds:
+  - 3
 --- !u!1001 &955569504
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -65055,6 +65301,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1001 &963554425
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -65089,15 +65337,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8619338778009177163, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -44.1
+      value: -62
       objectReference: {fileID: 0}
     - target: {fileID: 8619338778009177163, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -34.8
+      value: -10
       objectReference: {fileID: 0}
     - target: {fileID: 8619338778009177163, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -133
+      value: -145.6
       objectReference: {fileID: 0}
     - target: {fileID: 8619338778009177163, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       propertyPath: m_LocalRotation.w
@@ -65302,6 +65550,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 1
+  blockingGroupId: 4
 --- !u!1001 &967781015
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -66383,6 +66633,8 @@ MonoBehaviour:
   waypoints: []
   connectedRooms:
   - {fileID: 1095327316}
+  searchSectorIds:
+  - 1
 --- !u!1 &977769004 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1799300713203106943, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -67156,6 +67408,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &985606381 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 614141466607972236, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -67919,6 +68173,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1001 &988449715
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -68719,6 +68975,8 @@ MonoBehaviour:
   - {fileID: 1897075064}
   - {fileID: 1439003957}
   - {fileID: 1945134110}
+  searchSectorIds:
+  - 4
 --- !u!1 &1001369366
 GameObject:
   m_ObjectHideFlags: 0
@@ -68880,6 +69138,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &1003431869 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 74d8ce1b968c674498d4edd34de9334c, type: 3}
@@ -71988,6 +72248,8 @@ MonoBehaviour:
   - {fileID: 882727791}
   - {fileID: 79562826}
   - {fileID: 1652990587}
+  searchSectorIds:
+  - 3
 --- !u!1001 &1042942090
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -72371,6 +72633,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &1048549924 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8267196642337891365, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -72647,6 +72911,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1001 &1057591438
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -73889,6 +74155,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &1076311694
 GameObject:
   m_ObjectHideFlags: 0
@@ -74180,6 +74448,8 @@ MonoBehaviour:
   - {fileID: 2068714516}
   - {fileID: 610730324}
   - {fileID: 794255446}
+  searchSectorIds:
+  - 2
 --- !u!1001 &1078028181
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -75111,6 +75381,8 @@ MonoBehaviour:
   connectedRooms:
   - {fileID: 1322074436}
   - {fileID: 608863454}
+  searchSectorIds:
+  - 2
 --- !u!1001 &1091770077
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -75606,6 +75878,9 @@ MonoBehaviour:
   - {fileID: 1089949829}
   - {fileID: 1253546256}
   - {fileID: 976098661}
+  searchSectorIds:
+  - 1
+  - 2
 --- !u!1001 &1096601292
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -75968,6 +76243,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &1103525253
 GameObject:
   m_ObjectHideFlags: 0
@@ -76044,6 +76321,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.RoomNode
   waypoints: []
   connectedRooms: []
+  searchSectorIds:
+  - 1
 --- !u!1 &1103666912 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 74d8ce1b968c674498d4edd34de9334c, type: 3}
@@ -76334,6 +76613,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &1110353087 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6122035535824019343, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -76616,7 +76897,7 @@ Transform:
   m_GameObject: {fileID: 1114800451}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -30.6, y: 0.23000002, z: -9.21}
+  m_LocalPosition: {x: -30.6, y: 0.23000002, z: -11.06}
   m_LocalScale: {x: 17.768303, y: 5, z: 7.002802}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -76637,6 +76918,8 @@ MonoBehaviour:
   isKeyPoint: 1
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 1
+  blockingGroupId: 8
 --- !u!1 &1114890567
 GameObject:
   m_ObjectHideFlags: 0
@@ -76708,6 +76991,8 @@ MonoBehaviour:
   waypoints: []
   connectedRooms:
   - {fileID: 333932886}
+  searchSectorIds:
+  - 4
 --- !u!1001 &1115564927
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -77138,6 +77423,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1001 &1118097517
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -78964,6 +79251,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &1136059413 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 453d762048f90974c8a7164f9efc863e, type: 3}
@@ -80457,6 +80746,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1001 &1155426961
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -80682,6 +80973,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1001 &1160414917
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -81235,6 +81528,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &1166282151 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -6009232476891666573, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -82520,6 +82815,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.RoomNode
   waypoints: []
   connectedRooms: []
+  searchSectorIds:
+  - 4
 --- !u!1001 &1173275900
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -84950,6 +85247,8 @@ MonoBehaviour:
   isKeyPoint: 1
   isPatrolCheckpoint: 0
   isCell: 0
+  isBlockingPoint: 1
+  blockingGroupId: 6
 --- !u!1 &1203474557 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3899565891299101084, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -85773,6 +86072,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &1216502210 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -4926852822074955793, guid: 14cce29ad9058904d96cc3067402803d, type: 3}
@@ -86774,6 +87075,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1001 &1228152087
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -88243,6 +88546,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.RoomNode
   waypoints: []
   connectedRooms: []
+  searchSectorIds:
+  - 4
 --- !u!1 &1241828905 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: baf57603f98cbdd4e8007a7276476d51, type: 3}
@@ -88385,6 +88690,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &1241990657 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -5341747177340628442, guid: 14cce29ad9058904d96cc3067402803d, type: 3}
@@ -89078,6 +89385,55 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!1 &1246055448
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1246055449}
+  - component: {fileID: 1246055450}
+  m_Layer: 0
+  m_Name: WP_1999
+  m_TagString: Untagged
+  m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1246055449
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1246055448}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 9.33, y: 0.5, z: -42.9}
+  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 817410761}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1246055450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1246055448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de04e34518c714750a32a4b805fa9576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.WayPointData
+  isKeyPoint: 1
+  isPatrolCheckpoint: 0
+  isCell: 0
+  isBlockingPoint: 1
+  blockingGroupId: 2
 --- !u!1 &1246262286
 GameObject:
   m_ObjectHideFlags: 0
@@ -89125,6 +89481,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &1246752046
 GameObject:
   m_ObjectHideFlags: 0
@@ -89172,6 +89530,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &1246902247
 GameObject:
   m_ObjectHideFlags: 0
@@ -89219,6 +89579,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &1247578219 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 453d762048f90974c8a7164f9efc863e, type: 3}
@@ -89610,6 +89972,8 @@ MonoBehaviour:
   waypoints: []
   connectedRooms:
   - {fileID: 976098661}
+  searchSectorIds:
+  - 2
 --- !u!1 &1255106821 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8167296784718277556, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -90477,6 +90841,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.RoomNode
   waypoints: []
   connectedRooms: []
+  searchSectorIds:
+  - 1
 --- !u!1 &1264923438 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 453d762048f90974c8a7164f9efc863e, type: 3}
@@ -90583,6 +90949,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1001 &1267193617
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -90859,6 +91227,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.RoomNode
   waypoints: []
   connectedRooms: []
+  searchSectorIds:
+  - 1
 --- !u!1001 &1270504320
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -90993,6 +91363,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &1276880290
 GameObject:
   m_ObjectHideFlags: 0
@@ -91040,6 +91412,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &1277036785 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 74d8ce1b968c674498d4edd34de9334c, type: 3}
@@ -91321,6 +91695,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.RoomNode
   waypoints: []
   connectedRooms: []
+  searchSectorIds:
+  - 3
 --- !u!1001 &1284370059
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -92283,6 +92659,8 @@ MonoBehaviour:
   isKeyPoint: 1
   isPatrolCheckpoint: 0
   isCell: 0
+  isBlockingPoint: 1
+  blockingGroupId: 2
 --- !u!1 &1298980711 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3058497736089453759, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -92737,6 +93115,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &1311487701
 GameObject:
   m_ObjectHideFlags: 0
@@ -92784,6 +93164,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1001 &1315729513
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -93107,6 +93489,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &1319272589 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3899565891299101084, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -93324,6 +93708,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.RoomNode
   waypoints: []
   connectedRooms: []
+  searchSectorIds:
+  - 2
 --- !u!1 &1322615306 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8167296784718277556, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -93713,6 +94099,8 @@ MonoBehaviour:
   isKeyPoint: 1
   isPatrolCheckpoint: 0
   isCell: 1
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!65 &1324986252
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -93868,7 +94256,7 @@ Transform:
   m_GameObject: {fileID: 1329399287}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -23.4, y: 0, z: -35.9}
+  m_LocalPosition: {x: -23.44, y: 0, z: -37.27}
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -93889,6 +94277,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 1
+  blockingGroupId: 7
 --- !u!1001 &1330134176
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -94669,6 +95059,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &1340966922 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 453d762048f90974c8a7164f9efc863e, type: 3}
@@ -95074,6 +95466,8 @@ MonoBehaviour:
   waypoints: []
   connectedRooms:
   - {fileID: 949545670}
+  searchSectorIds:
+  - 2
 --- !u!1001 &1344110138
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -95282,6 +95676,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &1348478129 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1799300713203106943, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -95383,6 +95779,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1001 &1349914142
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -95809,6 +96207,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &1355453589 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3899565891299101084, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -96393,6 +96793,8 @@ MonoBehaviour:
   isKeyPoint: 1
   isPatrolCheckpoint: 0
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1001 &1364372939
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -96555,6 +96957,8 @@ MonoBehaviour:
   connectedRooms:
   - {fileID: 224590764}
   - {fileID: 1402612092}
+  searchSectorIds:
+  - 4
 --- !u!1 &1366305468 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6999322035538773533, guid: baf57603f98cbdd4e8007a7276476d51, type: 3}
@@ -96652,6 +97056,8 @@ MonoBehaviour:
   waypoints: []
   connectedRooms:
   - {fileID: 1461081926}
+  searchSectorIds:
+  - 4
 --- !u!1001 &1366553469
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -97905,6 +98311,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &1387238155
 GameObject:
   m_ObjectHideFlags: 0
@@ -97952,6 +98360,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &1387995020 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 74d8ce1b968c674498d4edd34de9334c, type: 3}
@@ -98291,6 +98701,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &1399311572
 GameObject:
   m_ObjectHideFlags: 0
@@ -98338,6 +98750,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &1399523830 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1683296501599025939, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -98480,6 +98894,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1001 &1402042141
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -98642,6 +99058,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.RoomNode
   waypoints: []
   connectedRooms: []
+  searchSectorIds:
+  - 4
 --- !u!1001 &1403479407
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -98759,7 +99177,7 @@ Transform:
   m_GameObject: {fileID: 1405213630}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -37.33, y: 0.5, z: 2.01}
+  m_LocalPosition: {x: -36.49, y: 0.5, z: 2.01}
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -98780,6 +99198,8 @@ MonoBehaviour:
   isKeyPoint: 1
   isPatrolCheckpoint: 0
   isCell: 0
+  isBlockingPoint: 1
+  blockingGroupId: 5
 --- !u!1001 &1406767401
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -99098,6 +99518,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &1413500182 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3058497736089453759, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -99770,6 +100192,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &1423114219 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 453d762048f90974c8a7164f9efc863e, type: 3}
@@ -100630,6 +101054,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.RoomNode
   waypoints: []
   connectedRooms: []
+  searchSectorIds:
+  - 4
 --- !u!1 &1439585764 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 614141466607972236, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -100704,6 +101130,8 @@ MonoBehaviour:
   isKeyPoint: 1
   isPatrolCheckpoint: 0
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1001 &1439927989
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -101613,6 +102041,8 @@ MonoBehaviour:
   - {fileID: 358098904}
   - {fileID: 1263810111}
   - {fileID: 181359835}
+  searchSectorIds:
+  - 1
 --- !u!1001 &1455586371
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -102464,6 +102894,8 @@ MonoBehaviour:
   waypoints: []
   connectedRooms:
   - {fileID: 1114890571}
+  searchSectorIds:
+  - 4
 --- !u!1001 &1462467007
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -104869,6 +105301,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &1491505954 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 453d762048f90974c8a7164f9efc863e, type: 3}
@@ -105043,6 +105477,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &1493529419 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6952557005137053212, guid: 14cce29ad9058904d96cc3067402803d, type: 3}
@@ -105562,6 +105998,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &1507483823 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8242361918107146482, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -106646,6 +107084,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1001 &1518759125
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -106867,6 +107307,8 @@ MonoBehaviour:
   connectedRooms:
   - {fileID: 1537665868}
   - {fileID: 1042622835}
+  searchSectorIds:
+  - 3
 --- !u!1001 &1522531378
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -107011,6 +107453,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &1525370848 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6999322035538773533, guid: baf57603f98cbdd4e8007a7276476d51, type: 3}
@@ -107842,6 +108286,8 @@ MonoBehaviour:
   waypoints: []
   connectedRooms:
   - {fileID: 1042622835}
+  searchSectorIds:
+  - 3
 --- !u!1 &1538333244 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -7046673171606169745, guid: d0429c2ebdf57e6499fc6a336b2fb320, type: 3}
@@ -108008,6 +108454,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &1539932025 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8557927624525350344, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -109525,6 +109973,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &1560440401 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 614141466607972236, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -110750,6 +111200,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 1
+  blockingGroupId: 3
 --- !u!1 &1579711422 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3698344006298356524, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -110889,6 +111341,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &1581252056
 GameObject:
   m_ObjectHideFlags: 0
@@ -111125,6 +111579,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &1585823950
 GameObject:
   m_ObjectHideFlags: 0
@@ -111172,6 +111628,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1001 &1586944117
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -112843,6 +113301,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &1618021548 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 74d8ce1b968c674498d4edd34de9334c, type: 3}
@@ -113473,6 +113933,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1001 &1628060447
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -113758,6 +114220,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1001 &1635391879
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -114221,6 +114685,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &1639101014 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -5125811737971877458, guid: 14cce29ad9058904d96cc3067402803d, type: 3}
@@ -115110,6 +115576,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 919342963}
+  - {fileID: 121339512}
   m_Father: {fileID: 2111580408}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &1652990586
@@ -115148,6 +115615,8 @@ MonoBehaviour:
   waypoints: []
   connectedRooms:
   - {fileID: 22278305}
+  searchSectorIds:
+  - 4
 --- !u!1 &1653225064 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8267196642337891365, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -116896,6 +117365,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &1683407826 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4608623780696759378, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -116970,6 +117441,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1001 &1683776820
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -118013,6 +118486,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.RoomNode
   waypoints: []
   connectedRooms: []
+  searchSectorIds:
+  - 4
 --- !u!1 &1701870466
 GameObject:
   m_ObjectHideFlags: 0
@@ -118060,6 +118535,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &1704810910 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 453d762048f90974c8a7164f9efc863e, type: 3}
@@ -118265,6 +118742,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &1706949247
 GameObject:
   m_ObjectHideFlags: 0
@@ -120206,6 +120685,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1001 &1742662769
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -120459,6 +120940,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1001 &1745145622
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -120792,6 +121275,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &1747499919 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -1656216863758753830, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -121912,6 +122397,8 @@ MonoBehaviour:
   waypoints: []
   connectedRooms:
   - {fileID: 584796914}
+  searchSectorIds:
+  - 4
 --- !u!1 &1757764921 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -5341747177340628442, guid: 14cce29ad9058904d96cc3067402803d, type: 3}
@@ -121965,7 +122452,7 @@ Transform:
   m_GameObject: {fileID: 1758563556}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -22.41, y: 0.5, z: 22.82}
+  m_LocalPosition: {x: -22.41, y: 0.5, z: 24.51}
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -121986,6 +122473,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 1
+  blockingGroupId: 1
 --- !u!1 &1759170403 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -7046673171606169745, guid: d0429c2ebdf57e6499fc6a336b2fb320, type: 3}
@@ -122512,7 +123001,7 @@ Transform:
   m_GameObject: {fileID: 1766217456}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -36.59, y: 0.5, z: 22.56}
+  m_LocalPosition: {x: -36.59, y: 0.5, z: 25.93}
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -122533,6 +123022,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 1
+  blockingGroupId: 
 --- !u!1 &1767650546
 GameObject:
   m_ObjectHideFlags: 0
@@ -122580,6 +123071,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &1768120866 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -5125811737971877458, guid: 14cce29ad9058904d96cc3067402803d, type: 3}
@@ -125637,7 +126130,7 @@ MonoBehaviour:
   PlayerTarget: {fileID: 1796544529}
   Flashlight: {fileID: 1036260510}
   QuadrantId: Patrulla7
-  ContractNetReplyWindow: 0.5
+  ContractNetReplyWindow: 1.5
   ArrastrarCuadrante: {fileID: 0}
   AuditoryRange: 20
   AgentName: 
@@ -125688,6 +126181,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1001 &1800973887
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -126600,6 +127095,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1001 &1817337532
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -127792,6 +128289,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &1826843484 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3899565891299101084, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -127962,6 +128461,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1001 &1828477041
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -129432,6 +129933,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &1846704219 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 453d762048f90974c8a7164f9efc863e, type: 3}
@@ -129560,6 +130063,8 @@ MonoBehaviour:
   connectedRooms:
   - {fileID: 1042622835}
   - {fileID: 955044329}
+  searchSectorIds:
+  - 3
 --- !u!1 &1850363776 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -7046673171606169745, guid: d0429c2ebdf57e6499fc6a336b2fb320, type: 3}
@@ -131403,6 +131908,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &1876376233 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5674046508059327650, guid: d0429c2ebdf57e6499fc6a336b2fb320, type: 3}
@@ -131595,6 +132102,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1001 &1882087832
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -132585,6 +133094,8 @@ MonoBehaviour:
   - {fileID: 1095327316}
   - {fileID: 1172578650}
   - {fileID: 1757011737}
+  searchSectorIds:
+  - 4
 --- !u!1 &1898266831 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -9191997259481101100, guid: 14cce29ad9058904d96cc3067402803d, type: 3}
@@ -133338,7 +133849,7 @@ Transform:
   m_GameObject: {fileID: 1903983546}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -30.7, y: 0.23000002, z: -29.74}
+  m_LocalPosition: {x: -30.7, y: 0.23000002, z: -26.65}
   m_LocalScale: {x: 17.768303, y: 5, z: 7.002802}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -133359,6 +133870,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 1
+  blockingGroupId: 8
 --- !u!1 &1905733287 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 453d762048f90974c8a7164f9efc863e, type: 3}
@@ -133579,6 +134092,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &1907997325 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -5341747177340628442, guid: 14cce29ad9058904d96cc3067402803d, type: 3}
@@ -134597,6 +135112,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1001 &1917987844
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -135395,6 +135912,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1001 &1927191048
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -137377,6 +137896,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &1942901512 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6999322035538773533, guid: baf57603f98cbdd4e8007a7276476d51, type: 3}
@@ -137480,6 +138001,8 @@ MonoBehaviour:
   connectedRooms:
   - {fileID: 1439003957}
   - {fileID: 372870620}
+  searchSectorIds:
+  - 4
 --- !u!1001 &1946546661
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -137667,6 +138190,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &1949334296 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -8284644261160355701, guid: 14cce29ad9058904d96cc3067402803d, type: 3}
@@ -137947,6 +138472,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &1952621394 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8557927624525350344, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -145973,6 +146500,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &2053350994
 GameObject:
   m_ObjectHideFlags: 0
@@ -145999,7 +146528,7 @@ Transform:
   m_GameObject: {fileID: 2053350994}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -30.9, y: 0.23, z: -10.2}
+  m_LocalPosition: {x: -30.9, y: 0.23, z: -11.73}
   m_LocalScale: {x: 23.809525, y: 5, z: 7.352941}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -146020,6 +146549,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 1
+  blockingGroupId: 9
 --- !u!1 &2054066591 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3310331766504776907, guid: d0429c2ebdf57e6499fc6a336b2fb320, type: 3}
@@ -146273,6 +146804,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &2057626765 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8167296784718277556, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -146903,6 +147436,9 @@ MonoBehaviour:
   waypoints: []
   connectedRooms:
   - {fileID: 153737764}
+  searchSectorIds:
+  - 1
+  - 2
 --- !u!1 &2069448593 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3899565891299101084, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -147536,6 +148072,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &2082180321 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6122035535824019343, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -147610,6 +148148,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1001 &2085218175
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -148320,6 +148860,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &2090340798 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8267196642337891365, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -148394,6 +148936,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1 &2093731678 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1799300713203106943, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -150088,6 +150632,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 0
+  blockingGroupId: 
 --- !u!1001 &2111217991
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -150778,6 +151324,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.RoomNode
   waypoints: []
   connectedRooms: []
+  searchSectorIds:
+  - 4
 --- !u!1 &2123252683 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6999322035538773533, guid: baf57603f98cbdd4e8007a7276476d51, type: 3}
@@ -151210,6 +151758,8 @@ MonoBehaviour:
   isKeyPoint: 0
   isPatrolCheckpoint: 1
   isCell: 0
+  isBlockingPoint: 1
+  blockingGroupId: 3
 --- !u!1 &2131515708 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6999322035538773533, guid: baf57603f98cbdd4e8007a7276476d51, type: 3}
