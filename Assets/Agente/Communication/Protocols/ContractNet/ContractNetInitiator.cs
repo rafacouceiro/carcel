@@ -249,12 +249,6 @@ namespace AgenticPrison.Communication {
                     $"to={p.Sender}");
             }
 
-            // Retirar perdedores del equipo
-            foreach (ACLMessage p in _proposals) {
-                if (p.Sender == winner.Sender) continue;
-                ws.TeamMembers.Remove(p.Sender);
-            }
-
             ConversationTracker.Instance.UpdateState(ConversationId, "AcceptSent");
             _state = State.AcceptSent;
         }
