@@ -279,6 +279,9 @@ namespace AgenticPrison.Agents {
                         CurrentState.LastKnownPositionTime = content.FugitivePositionTime;
                         ForzarReplanificacion();
                     }
+                    // Propagar el sector del fugitivo para detectar cambios de operación
+                    if (!string.IsNullOrEmpty(content.SectorId))
+                        CurrentState.FugitiveSectorId = content.SectorId;
                 }
                 CurrentState.PendingActions.Enqueue(msg);
             }
@@ -289,6 +292,23 @@ namespace AgenticPrison.Agents {
             if (msg.Performative == Performative.AcceptProposal && !CurrentState.FugitiveInVision)
             {
                 Debug.Log($"<color=cyan>[{AgentName}] Acepté propuesta de {msg.Sender}. Replanificando.</color>");
+                ForzarReplanificacion();
+            }
+
+            // Señal de disolución del equipo enviada por el líder a los blockers.
+            // Llega sin conversación activa (el protocolo ya está cerrado), por lo que
+            // no se enruta a ningún protocolo y acaba aquí. Al limpiar AssignedTask,
+            // el ContractNetParticipant en estado Executing detectará el cambio en su
+            // próximo tick y enviará InformDone de vuelta al líder, cerrando el protocolo.
+            if (msg.Performative   == Performative.InformDone
+                && CurrentState.AssignedTask != null
+                && CurrentState.AssignedTask.AssignedRole == AgentRole.Blocker
+                && CurrentState.TeamMembers.Contains(msg.Sender))
+            {
+                Debug.Log($"<color=orange>[{AgentName}] Disolución recibida de {msg.Sender}. Volviendo a rutina.</color>");
+                CurrentState.AssignedTask    = null;
+                CurrentState.FugitiveSectorId = string.Empty;
+                CurrentState.TeamMembers.Remove(msg.Sender);
                 ForzarReplanificacion();
             }
         }
