@@ -76,11 +76,11 @@ namespace AgenticPrison.Core {
             }
         }
 
-        // Devuelve los sectores que corresponden a un punto de bloqueo.
-        // Primero mira blockingSectorIds (manual); si está vacío, intenta heredar del RoomNode padre.
+        // Devuelve el sector al que pertenece un punto de bloqueo.
+        // Prioridad: blockingSectorId manual → herencia del RoomNode padre (solo si tiene 1 sector).
         private List<string> ResolveBlockingSectors(WayPointData wp) {
-            if (wp.blockingSectorIds != null && wp.blockingSectorIds.Count > 0)
-                return wp.blockingSectorIds;
+            if (!string.IsNullOrEmpty(wp.blockingSectorId))
+                return new List<string> { wp.blockingSectorId };
 
             RoomNode parentRoom = wp.GetComponentInParent<RoomNode>();
             if (parentRoom != null
