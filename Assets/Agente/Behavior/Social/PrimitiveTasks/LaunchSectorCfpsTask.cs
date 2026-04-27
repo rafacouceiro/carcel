@@ -103,6 +103,8 @@ namespace AgenticPrison.Behavior.Social {
                     SectorId     = sectorId,
                     InitiatorId  = _agent.AgentId
                 };
+                // El líder también cuenta como sweeper activo: ClearAssignedTaskTask lo decrementará
+                state.SweepProtocolsActive++;
             }
             state.AssignedRole = AgentRole.Sweeper;
 

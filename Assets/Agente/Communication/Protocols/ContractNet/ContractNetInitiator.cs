@@ -74,7 +74,8 @@ namespace AgenticPrison.Communication {
                 Content        = new CfpContent {
                     FugitivePosition     = ws.LastKnownPosition,
                     FugitivePositionTime = ws.LastKnownPositionTime,
-                    Task                 = _task
+                    Task                 = _task,
+                    SectorId             = _task.SectorId   // propagado a todos para sector-change detection
                 },
                 SentAt         = Time.time,
                 ReplyBy        = _deadline,
