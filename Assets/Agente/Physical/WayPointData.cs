@@ -23,5 +23,8 @@ namespace AgenticPrison.Physical {
 
         [Tooltip("Identificador para agrupar varios puntos de bloqueo (ej. 'PuertaNorte'). El agente patrullará entre los puntos con este mismo ID.")]
         public string blockingGroupId = string.Empty;
+
+        [Tooltip("Sectores que este punto de bloqueo defiende. No necesita estar dentro de un RoomNode.")]
+        public List<string> blockingSectorIds = new List<string>();
     }
 }

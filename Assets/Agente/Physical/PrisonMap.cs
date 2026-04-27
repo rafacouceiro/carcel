@@ -31,46 +31,64 @@ namespace AgenticPrison.Core {
             _searchSectors.Clear();
             _sectorBlockingGroups.Clear();
 
+            // 1. Indexar rooms por sección y sector de búsqueda
             foreach (Transform section in transform) {
-                string sectionName = section.name; 
+                string sectionName = section.name;
                 var rooms = new List<RoomNode>(section.GetComponentsInChildren<RoomNode>());
-                
+
                 _sections[sectionName] = rooms;
                 _allNodes.AddRange(rooms);
 
                 foreach (var room in rooms) {
                     if (room.searchSectorIds == null) continue;
-
                     foreach (string sectorId in room.searchSectorIds) {
                         if (string.IsNullOrEmpty(sectorId)) continue;
-
-                        if (!_searchSectors.ContainsKey(sectorId)) {
+                        if (!_searchSectors.ContainsKey(sectorId))
                             _searchSectors[sectorId] = new List<RoomNode>();
-                            _sectorBlockingGroups[sectorId] = new Dictionary<string, List<WayPointData>>();
-                        }
-                        
-                        if (!_searchSectors[sectorId].Contains(room)) {
+                        if (!_searchSectors[sectorId].Contains(room))
                             _searchSectors[sectorId].Add(room);
-                        }
-
-                        if (room.waypoints != null) {
-                            foreach (var wp in room.waypoints) {
-                                if (wp != null && wp.isBlockingPoint) {
-                                    string groupId = string.IsNullOrEmpty(wp.blockingGroupId) ? "DefaultGroup" : wp.blockingGroupId;
-
-                                    if (!_sectorBlockingGroups[sectorId].ContainsKey(groupId)) {
-                                        _sectorBlockingGroups[sectorId][groupId] = new List<WayPointData>();
-                                    }
-
-                                    if (!_sectorBlockingGroups[sectorId][groupId].Contains(wp)) {
-                                        _sectorBlockingGroups[sectorId][groupId].Add(wp);
-                                    }
-                                }
-                            }
-                        }
                     }
                 }
             }
+
+            // 2. Indexar puntos de bloqueo escaneando todos los WayPointData del mapa.
+            //    Prioridad para determinar el sector:
+            //      a) blockingSectorIds relleno manualmente en el inspector
+            //      b) Room padre con exactamente 1 sector (herencia automática)
+            //      c) Sin sector → se ignora el waypoint
+            foreach (WayPointData wp in GetComponentsInChildren<WayPointData>()) {
+                if (!wp.isBlockingPoint) continue;
+
+                List<string> sectors = ResolveBlockingSectors(wp);
+                if (sectors.Count == 0) continue;
+
+                string groupId = string.IsNullOrEmpty(wp.blockingGroupId) ? "DefaultGroup" : wp.blockingGroupId;
+
+                foreach (string sectorId in sectors) {
+                    if (string.IsNullOrEmpty(sectorId)) continue;
+                    if (!_sectorBlockingGroups.ContainsKey(sectorId))
+                        _sectorBlockingGroups[sectorId] = new Dictionary<string, List<WayPointData>>();
+                    if (!_sectorBlockingGroups[sectorId].ContainsKey(groupId))
+                        _sectorBlockingGroups[sectorId][groupId] = new List<WayPointData>();
+                    if (!_sectorBlockingGroups[sectorId][groupId].Contains(wp))
+                        _sectorBlockingGroups[sectorId][groupId].Add(wp);
+                }
+            }
+        }
+
+        // Devuelve los sectores que corresponden a un punto de bloqueo.
+        // Primero mira blockingSectorIds (manual); si está vacío, intenta heredar del RoomNode padre.
+        private List<string> ResolveBlockingSectors(WayPointData wp) {
+            if (wp.blockingSectorIds != null && wp.blockingSectorIds.Count > 0)
+                return wp.blockingSectorIds;
+
+            RoomNode parentRoom = wp.GetComponentInParent<RoomNode>();
+            if (parentRoom != null
+                && parentRoom.searchSectorIds != null
+                && parentRoom.searchSectorIds.Count == 1)
+                return parentRoom.searchSectorIds;
+
+            return new List<string>();
         }
 
         public List<RoomNode> GetSection(string sectionId) {
