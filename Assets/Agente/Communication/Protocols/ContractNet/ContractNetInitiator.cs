@@ -139,6 +139,10 @@ namespace AgenticPrison.Communication {
             if (ws.TeamMembers.Contains(msg.Sender))
                 ws.TeamMembers.Remove(msg.Sender);
 
+            // Liberar el contador de sweep activos para que DissolveTeamTask pueda dispararse
+            if (_task.Type == TaskType.SweepSector)
+                ws.SweepProtocolsActive = ws.SweepProtocolsActive > 0 ? ws.SweepProtocolsActive - 1 : 0;
+
             FIPALogger.Log(_agent.AgentId, ConversationId, Performative.InformDone,
                 $"from={msg.Sender}");
             ConversationTracker.Instance.SetOutcome(ConversationId, "Done");
@@ -151,6 +155,10 @@ namespace AgenticPrison.Communication {
             // Retirar del equipo
             if (ws.TeamMembers.Contains(msg.Sender))
                 ws.TeamMembers.Remove(msg.Sender);
+
+            // Ningún sweeper ejecutará esta tarea — descontar igualmente
+            if (_task.Type == TaskType.SweepSector)
+                ws.SweepProtocolsActive = ws.SweepProtocolsActive > 0 ? ws.SweepProtocolsActive - 1 : 0;
 
             FIPALogger.Log(_agent.AgentId, ConversationId, Performative.Failure,
                 $"from={msg.Sender}");
@@ -171,6 +179,10 @@ namespace AgenticPrison.Communication {
             if (_proposals.Count > 0) {
                 EvaluateAndAccept(ws);
             } else {
+                // Si nadie aceptó un sweep, decrementar igual para no bloquear la disolución
+                if (_task.Type == TaskType.SweepSector)
+                    ws.SweepProtocolsActive = ws.SweepProtocolsActive > 0 ? ws.SweepProtocolsActive - 1 : 0;
+
                 FIPALogger.Log(_agent.AgentId, ConversationId, Performative.Failure,
                     "no proposals received");
                 ConversationTracker.Instance.SetOutcome(ConversationId, "Failed");
