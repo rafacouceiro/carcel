@@ -29,14 +29,14 @@ namespace AgenticPrison.Behavior.Social {
 
         public TaskExecutionStatus Execute(IActuators actuators, WorldState state) {
             List<RoomNode> targets = AdjacentRoomGenerator.GetAdjacentRooms(
-                state.LastKnownPosition, state.Map, 2);
+                state.LastKnownPosition, state.Map, 3);
 
             if (targets.Count == 0) {
-                Debug.Log($"[{state.AgentName}] LaunchRoomCfpsTask: sin habitaciones adyacentes");
+                Debug.Log($"[{state.AgentName}] LaunchRoomCfpsTask: sin habitaciones candidatas");
                 return TaskExecutionStatus.Failure;
             }
 
-            Debug.Log($"<color=red><b>[{state.AgentName}] LaunchRoomCfpsTask {targets.Count} Adjacent Roooms</b></color>");
+            Debug.Log($"<color=red><b>[{state.AgentName}] LaunchRoomCfpsTask {targets.Count} habitaciones candidatas (grado 1-2, top por conexiones)</b></color>");
 
             foreach (RoomNode room in targets) {
                 var task = new ContractTask {
