@@ -11,6 +11,7 @@ namespace AgenticPrison.Behavior.Social {
 
         public BeSocial(FIPAAgent agent, float contractNetReplyWindow) {
             Methods = new List<IMethod> {
+                new DissolveTeamMethod(agent),                       // disolver equipo cuando sweep completo
                 new GenerateProtocolMethod(agent, contractNetReplyWindow),
                 new SendResponseMethod(agent),
                 new SocialIdleMethod()
