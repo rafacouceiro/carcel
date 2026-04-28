@@ -1,6 +1,9 @@
 using AgenticPrison.Core;
 
-namespace AgenticPrison.Communication {
+using AgenticPrison.Communication;
+using AgenticPrison.Communication.Messages;
+
+namespace AgenticPrison.Communication.Protocols {
 
     // Interfaz común para todos los protocolos de comunicación FIPA
     public interface ICommProtocol {

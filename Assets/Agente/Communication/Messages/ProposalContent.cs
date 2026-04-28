@@ -1,4 +1,4 @@
-namespace AgenticPrison.Communication {
+namespace AgenticPrison.Communication.Messages {
 
     // Payload del mensaje Propose en el protocolo Contract Net
     public class ProposalContent {

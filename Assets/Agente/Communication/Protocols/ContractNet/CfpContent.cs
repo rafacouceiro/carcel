@@ -1,6 +1,8 @@
 using UnityEngine;
 
-namespace AgenticPrison.Communication {
+using AgenticPrison.Communication;
+
+namespace AgenticPrison.Communication.Protocols.ContractNet {
 
     // Contenido de un mensaje CFP (Call For Proposals) del protocolo Contract Net.
     // Incluye el contexto de la situación que motiva la subasta, no solo la tarea en sí.

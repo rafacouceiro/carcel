@@ -3,6 +3,9 @@ using UnityEngine;
 using AgenticPrison.Core;
 using AgenticPrison.Communication;
 using AgenticPrison.Behavior.PrimitiveTasks;
+using AgenticPrison.Physical;
+
+using AgenticPrison.Communication.Messages;
 
 namespace AgenticPrison.Behavior.Methods {
 
@@ -26,7 +29,7 @@ namespace AgenticPrison.Behavior.Methods {
         public Queue<ITask> Decompose(WorldState state) {
             var subTasks = new Queue<ITask>();
 
-            subTasks.Enqueue(new ChangeFlashLight(Color.red));
+            subTasks.Enqueue(new ChangeFlashLight(Color.pink));
 
             foreach (WayPointData wp in state.AssignedTask.WayPoints) {
                 // Sprint si el guardia está lejos del waypoint (p. ej. al recibir la asignación)

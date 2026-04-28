@@ -4,6 +4,8 @@ using UnityEngine;
 using AgenticPrison.Core;
 using AgenticPrison.Communication;
 
+using AgenticPrison.Communication.Messages;
+
 namespace AgenticPrison.Behavior.Social {
 
     // Tarea social: el líder-sweeper disuelve el equipo cuando todos los sweepers han terminado.

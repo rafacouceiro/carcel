@@ -2,6 +2,8 @@ using UnityEngine;
 using AgenticPrison.Core;
 using AgenticPrison.Communication;
 
+using AgenticPrison.Communication.Protocols.Query;
+
 namespace AgenticPrison.Behavior.Social {
 
     // Tarea social: lanza un QueryInitiator para averiguar si el ruido reciente vino de un compañero.

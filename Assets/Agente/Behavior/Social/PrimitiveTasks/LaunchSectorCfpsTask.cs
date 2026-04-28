@@ -6,6 +6,9 @@ using AgenticPrison.Core;
 using AgenticPrison.Physical;
 using AgenticPrison.Communication;
 
+using AgenticPrison.Communication.Messages;
+using AgenticPrison.Communication.Protocols.ContractNet;
+
 namespace AgenticPrison.Behavior.Social {
 
     // Tarea social: lanza subastas Contract Net para tapar el perímetro del sector

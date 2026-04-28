@@ -1,4 +1,4 @@
-namespace AgenticPrison.Communication {
+namespace AgenticPrison.Communication.Messages {
 
     // Rol momentáneo asignado a un agente durante una operación de sector
     public enum AgentRole {

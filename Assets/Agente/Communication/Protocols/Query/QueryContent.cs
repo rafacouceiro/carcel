@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace AgenticPrison.Communication {
+namespace AgenticPrison.Communication.Protocols.Query {
 
     // Payload del mensaje Query: posición sospechosa y radio de relevancia para el receptor
     public class QueryContent {

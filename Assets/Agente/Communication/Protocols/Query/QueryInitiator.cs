@@ -2,7 +2,11 @@ using System;
 using UnityEngine;
 using AgenticPrison.Core;
 
-namespace AgenticPrison.Communication {
+using AgenticPrison.Communication;
+using AgenticPrison.Communication.Messages;
+using AgenticPrison.Communication.Protocols;
+
+namespace AgenticPrison.Communication.Protocols.Query {
 
     // Lado INICIADOR del protocolo Query.
     //

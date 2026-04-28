@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using AgenticPrison.Core;
 using AgenticPrison.Communication;
 
+using AgenticPrison.Communication.Messages;
+
 namespace AgenticPrison.Behavior.Social {
 
     // Rechazar (fallback): hay un CFP pendiente pero las condiciones para proponer no se cumplen.

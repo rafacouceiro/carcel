@@ -10,6 +10,8 @@ using AgenticPrison.Behavior.Social;
 using UnityEditor;
 #endif
 
+using AgenticPrison.Communication.Messages;
+
 namespace AgenticPrison.Agents {
 
     // Cerebro del agente: controla la percepción, el estado y el planificador HTN

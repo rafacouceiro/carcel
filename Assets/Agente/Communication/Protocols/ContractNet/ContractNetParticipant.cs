@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using AgenticPrison.Core;
 
-namespace AgenticPrison.Communication {
+using AgenticPrison.Communication;
+using AgenticPrison.Communication.Messages;
+using AgenticPrison.Communication.Protocols;
+
+namespace AgenticPrison.Communication.Protocols.ContractNet {
 
     // Lado PARTICIPANTE del protocolo Contract Net.
     //

@@ -2,6 +2,8 @@ using UnityEngine;
 using AgenticPrison.Physical;
 using AgenticPrison.Communication;
 
+using AgenticPrison.Communication.Messages;
+
 namespace AgenticPrison.Agents {
 
     // Cerebro de la cámara: Solo procesa eventos de visión específicos

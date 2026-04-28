@@ -3,6 +3,9 @@ using AgenticPrison.Core;
 using AgenticPrison.Physical;
 using AgenticPrison.Communication;
 
+using AgenticPrison.Communication.Messages;
+using AgenticPrison.Communication.Protocols.ContractNet;
+
 namespace AgenticPrison.Behavior.Social {
 
     // Tarea social: rechaza el primer CFP de la cola enviando Refuse al iniciador.

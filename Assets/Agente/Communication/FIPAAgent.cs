@@ -2,6 +2,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using AgenticPrison.Core;
 
+using AgenticPrison.Communication.Messages;
+using AgenticPrison.Communication.Protocols;
+using AgenticPrison.Communication.Protocols.ContractNet;
+using AgenticPrison.Communication.Protocols.Query;
+
 namespace AgenticPrison.Communication {
 
     // Base abstracta de todo agente FIPA. Gestiona el buffer de mensajes, el enrutado por conversación

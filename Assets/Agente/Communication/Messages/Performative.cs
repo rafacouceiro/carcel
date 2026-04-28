@@ -1,4 +1,4 @@
-namespace AgenticPrison.Communication {
+namespace AgenticPrison.Communication.Messages {
 
     // Performativas FIPA-ACL soportadas por el sistema de comunicación
     public enum Performative {

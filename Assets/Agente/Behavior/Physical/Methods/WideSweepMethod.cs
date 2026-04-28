@@ -6,6 +6,8 @@ using AgenticPrison.Physical;
 using AgenticPrison.Communication;
 using AgenticPrison.Behavior.PrimitiveTasks;
 
+using AgenticPrison.Communication.Messages;
+
 namespace AgenticPrison.Behavior.Methods {
 
     // Método HTN: barrido sistemático. Cubre dos casos:
@@ -25,6 +27,8 @@ namespace AgenticPrison.Behavior.Methods {
                 && state.AssignedTask.AssignedRole == AgentRole.Sweeper
                 && state.AssignedTask.SweepRooms   != null
                 && state.AssignedTask.SweepRooms.Count > 0;
+
+            Debug.Log($"<color=#00ffffff>[WIDE SWEEP]</color> <b>{state.AgentName}</b> | assignedTask: {state.AssignedTask != null} | assignedRole: {state.AssignedTask?.AssignedRole} | AssignedSweepRooms.Count: {state.AssignedTask?.SweepRooms?.Count}");
 
             return hasSighting || isSweeper;
         }

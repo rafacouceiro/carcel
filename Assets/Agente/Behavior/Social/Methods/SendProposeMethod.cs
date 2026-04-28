@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using AgenticPrison.Core;
 using AgenticPrison.Communication;
 
+using AgenticPrison.Communication.Messages;
+
 namespace AgenticPrison.Behavior.Social {
 
     // Proponer: el mensaje pendiente es un CFP, el guardia no está persiguiendo,

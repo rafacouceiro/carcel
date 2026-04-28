@@ -1,4 +1,4 @@
-namespace AgenticPrison.Communication {
+namespace AgenticPrison.Communication.Messages {
 
     // Tipos de tarea que puede resultar de un contrato FIPA
     public enum TaskType {

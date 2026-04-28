@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using AgenticPrison.Physical;
 
+using AgenticPrison.Communication.Messages;
+
 namespace AgenticPrison.Communication {
 
     // Tarea asignada a un agente como resultado de ganar un contrato FIPA
@@ -14,5 +16,20 @@ namespace AgenticPrison.Communication {
         public List<RoomNode>    SweepRooms;   // habitaciones a rastrar (sweeper)
         public string            ContractId;   // conversación que originó la tarea
         public string            InitiatorId;  // AgentId del iniciador, para enviar InformDone
+
+        // Copia profunda para que el planner HTN no mute la lista real de SweepRooms
+        // durante la simulación de efectos (ApplyEffects).
+        public ContractTask Clone() {
+            return new ContractTask {
+                Type         = this.Type,
+                AssignedRole = this.AssignedRole,
+                SectorId     = this.SectorId,
+                Target       = this.Target,
+                WayPoints    = this.WayPoints != null ? new List<WayPointData>(this.WayPoints) : null,
+                SweepRooms   = this.SweepRooms != null ? new List<RoomNode>(this.SweepRooms) : null,
+                ContractId   = this.ContractId,
+                InitiatorId  = this.InitiatorId,
+            };
+        }
     }
 }

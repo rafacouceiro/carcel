@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using AgenticPrison.Core;
 using AgenticPrison.Communication;
 
+using AgenticPrison.Communication.Messages;
+
 namespace AgenticPrison.Behavior.Social {
 
     // Método social: activa la disolución del equipo cuando todos los sweepers han terminado.

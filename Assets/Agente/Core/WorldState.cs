@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using AgenticPrison.Communication;
 using UnityEngine;
 
+using AgenticPrison.Communication.Messages;
+
 namespace AgenticPrison.Core {
 
     // Representa el conocimiento que tiene el agente, tanto interno como del entorno
@@ -78,7 +80,8 @@ namespace AgenticPrison.Core {
                 LastGuardPosition     = this.LastGuardPosition,
                 LastGuardPositionTime = this.LastGuardPositionTime,
                 // Campos sociales
-                AssignedTask          = this.AssignedTask,
+                // Clone() profundo para que la simulación HTN no mute SweepRooms real
+                AssignedTask          = this.AssignedTask?.Clone(),
                 AssignedRole          = this.AssignedRole,
                 FugitiveSectorId      = this.FugitiveSectorId,
                 SweepProtocolsActive  = this.SweepProtocolsActive,

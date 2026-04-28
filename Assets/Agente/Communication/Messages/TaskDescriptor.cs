@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace AgenticPrison.Communication {
+namespace AgenticPrison.Communication.Messages {
 
     // Descriptor de tarea pasado entre agentes en el protocolo Contract Net
     public class TaskDescriptor {

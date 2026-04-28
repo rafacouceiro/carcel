@@ -4,6 +4,9 @@ using AgenticPrison.Core;
 using AgenticPrison.Physical;
 using AgenticPrison.Communication;
 
+using AgenticPrison.Communication.Messages;
+using AgenticPrison.Communication.Protocols.ContractNet;
+
 namespace AgenticPrison.Behavior.Social {
 
     // Tarea social: responde a un CFP de la cola con una propuesta.

@@ -2,7 +2,7 @@ using UnityEngine;
 using System;
 using System.IO;
 
-namespace AgenticPrison.Communication {
+namespace AgenticPrison.Communication.Messages {
 
     // Mensaje FIPA-ACL: unidad atómica de comunicación entre agentes
     public struct ACLMessage {

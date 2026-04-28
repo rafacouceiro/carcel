@@ -2,6 +2,8 @@ using System;
 using System.IO;
 using UnityEngine;
 
+using AgenticPrison.Communication.Messages;
+
 namespace AgenticPrison.Communication {
 
     // Logger dedicado para el protocolo Contract Net.
