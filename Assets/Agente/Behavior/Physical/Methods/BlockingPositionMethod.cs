@@ -19,6 +19,7 @@ namespace AgenticPrison.Behavior.Methods {
         private const float FarThreshold = 10f;  // distancia desde la que se considera "lejos"
 
         public bool CheckPreconditions(WorldState state) {
+
             return state.AssignedTask != null
                 && state.AssignedTask.AssignedRole == AgentRole.Blocker
                 && state.AssignedTask.WayPoints    != null

@@ -8,10 +8,10 @@ namespace AgenticPrison.Behavior.Social {
     public class GenerateProtocol : ICompoundTask {
         public List<IMethod> Methods { get; }
 
-        public GenerateProtocol(FIPAAgent agent, float replyWindow) {
+        public GenerateProtocol(FIPAAgent agent) {
             Methods = new List<IMethod> {
-                new LaunchQueryMethod(agent),                // verifica ruidos antes de investigar
-                new InitiateContractNetMethod(agent, replyWindow)
+                new InitiateContractNetMethod(agent),
+                new LaunchQueryMethod(agent)                // verifica ruidos antes de investigar
             };
         }
     }

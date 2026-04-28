@@ -5,15 +5,14 @@ using AgenticPrison.Communication;
 namespace AgenticPrison.Behavior.Social {
 
     // Tarea raíz del plano social del guardia.
-    // Selecciona cada frame entre: iniciar un protocolo, responder mensajes pendientes, o esperar.
+    // Selecciona cada frame entre: iniciar un protocolo o esperar.
+    // La disolución de equipo y la respuesta a CFPs ahora son reactivas (canal + FIPAAgent).
     public class BeSocial : ICompoundTask {
         public List<IMethod> Methods { get; }
 
-        public BeSocial(FIPAAgent agent, float contractNetReplyWindow) {
+        public BeSocial(FIPAAgent agent) {
             Methods = new List<IMethod> {
-                new DissolveTeamMethod(agent),                       // disolver equipo cuando sweep completo
-                new GenerateProtocolMethod(agent, contractNetReplyWindow),
-                new SendResponseMethod(agent),
+                new GenerateProtocolMethod(agent),
                 new SocialIdleMethod()
             };
         }

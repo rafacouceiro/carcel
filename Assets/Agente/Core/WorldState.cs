@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using AgenticPrison.Communication;
+using AgenticPrison.Communication.Messages;
 using UnityEngine;
 
 namespace AgenticPrison.Core {
@@ -33,7 +34,7 @@ namespace AgenticPrison.Core {
         public PrisonMap Map; // Referencia al mapa de la prisión
         public string AssignedQuadrantId = string.Empty; // Zona de patrulla asignada
 
-        // ── Campos sociales Phase 2 ────────────────────────────────────────────────
+        // ── Campos sociales xs─────────
 
         // Tarea asignada por contrato ganado — HTN físico la ejecuta con prioridad máxima si !FugitiveInVision
         public ContractTask AssignedTask = null;
@@ -44,7 +45,7 @@ namespace AgenticPrison.Core {
         // Sector del fugitivo en la operación activa — detecta cambios para disolver y relanzar
         public string FugitiveSectorId = string.Empty;
 
-        // Nombre del equipo activo — identifica los canales de coordinación (perimeter_<team>, patrol_<team>)
+        // Nombre del equipo activo — identifica el canal de coordinación (team_<teamName>)
         public string TeamName = string.Empty;
 
         // Sweepers pendientes de completar su tarea — solo el iniciador lo escribe; disolución cuando llega a 0
@@ -55,6 +56,9 @@ namespace AgenticPrison.Core {
 
         // true mientras un QueryInitiator espera Informs — bloquea InvestigateNoiseMethod durante la ventana
         public bool WaitingForNoiseQuery = false;
+
+        // Cola de subastas pendientes — se lanzan secuencialmente
+        public Queue<ContractTask> PendingCfps = new Queue<ContractTask>();
 
         // Genera una copia del estado para simulaciones de planificación
         public WorldState Clone() {
@@ -82,6 +86,7 @@ namespace AgenticPrison.Core {
                 PendingSweepersCount  = this.PendingSweepersCount,
                 ContractNetActive     = this.ContractNetActive,
                 WaitingForNoiseQuery  = this.WaitingForNoiseQuery,
+                PendingCfps           = new Queue<ContractTask>(this.PendingCfps)
             };
 
             return clone;

@@ -7,11 +7,9 @@ namespace AgenticPrison.Behavior.Social {
     // Activa GenerateProtocol cuando hay fuga confirmada y no hay subasta ya en curso.
     public class GenerateProtocolMethod : IMethod {
         readonly FIPAAgent _agent;
-        readonly float     _replyWindow;
 
-        public GenerateProtocolMethod(FIPAAgent agent, float replyWindow) {
+        public GenerateProtocolMethod(FIPAAgent agent) {
             _agent       = agent;
-            _replyWindow = replyWindow;
         }
 
         public bool CheckPreconditions(WorldState state) =>
@@ -20,8 +18,9 @@ namespace AgenticPrison.Behavior.Social {
 
         public Queue<ITask> Decompose(WorldState state) {
             var q = new Queue<ITask>();
-            q.Enqueue(new GenerateProtocol(_agent, _replyWindow));
+            q.Enqueue(new GenerateProtocol(_agent));
             return q;
         }
     }
 }
+

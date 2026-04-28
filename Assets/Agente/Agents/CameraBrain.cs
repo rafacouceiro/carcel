@@ -2,6 +2,7 @@ using UnityEngine;
 using AgenticPrison.Physical;
 using AgenticPrison.Communication;
 
+using AgenticPrison.Core;
 using AgenticPrison.Communication.Messages;
 
 namespace AgenticPrison.Agents {
@@ -13,6 +14,9 @@ namespace AgenticPrison.Agents {
 
         [Header("Estado")]
         public bool IsDetectingFugitive = false;
+        
+        // La cámara necesita un estado aunque no lo use para HTN complejo
+        private WorldState _dummyState = new WorldState();
 
         protected override void Start() {
             base.Start();
@@ -20,8 +24,8 @@ namespace AgenticPrison.Agents {
 
         protected override void Update() {
             base.Update();
-            // Anunciamos la presencia de la cámara en el sistema de visión
-            // Esto permite que el VisionManager sepa que este objeto "existe"
+            // Procesamos la radio de la cámara (para recibir alertas si fuera necesario)
+            ProcessIncoming(_dummyState);
             VisionManager.EmitPresence(this.transform);
         }
 
@@ -49,6 +53,6 @@ namespace AgenticPrison.Agents {
             // No implementamos lógica aquí.
         }
 
-        protected override void OnMessageReceived(ACLMessage msg) { }
+        protected override void OnMessageReceived(ACLMessage msg, WorldState ws) { }
     }
 }

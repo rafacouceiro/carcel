@@ -2959,7 +2959,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 50945110}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 1.5
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -3014,10 +3014,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc59f0bdba5294b81b807a793b7a0b96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Agents.GuardBrain
+  _replyByWindow: 0.25
   PlayerTarget: {fileID: 1796544529}
   Flashlight: {fileID: 48536891}
   QuadrantId: section2
-  ContractNetReplyWindow: 0.1
   ArrastrarCuadrante: {fileID: 0}
   AuditoryRange: 20
   AgentName: 
@@ -21237,6 +21237,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ac6d90e389c4469b8832958fbb6c750, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Agents.CameraBrain
+  _replyByWindow: 3
   IsDetectingFugitive: 0
 --- !u!114 &304209455
 MonoBehaviour:
@@ -65483,7 +65484,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 963554427}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 1.5
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -65538,10 +65539,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc59f0bdba5294b81b807a793b7a0b96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Agents.GuardBrain
+  _replyByWindow: 0.25
   PlayerTarget: {fileID: 1796544529}
   Flashlight: {fileID: 1639233611}
   QuadrantId: section4
-  ContractNetReplyWindow: 0.1
   ArrastrarCuadrante: {fileID: 0}
   AuditoryRange: 20
   AgentName: 
@@ -88918,7 +88919,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 1242211431}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 1.5
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -88973,10 +88974,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc59f0bdba5294b81b807a793b7a0b96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Agents.GuardBrain
+  _replyByWindow: 0.25
   PlayerTarget: {fileID: 1796544529}
   Flashlight: {fileID: 1939868495}
   QuadrantId: section5
-  ContractNetReplyWindow: 0.1
   ArrastrarCuadrante: {fileID: 0}
   AuditoryRange: 20
   AgentName: 
@@ -123850,7 +123851,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 1557340913}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 1.5
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -123955,10 +123956,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc59f0bdba5294b81b807a793b7a0b96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Agents.GuardBrain
+  _replyByWindow: 0.25
   PlayerTarget: {fileID: 1796544529}
   Flashlight: {fileID: 2038932078}
   QuadrantId: section1
-  ContractNetReplyWindow: 0.1
   ArrastrarCuadrante: {fileID: 0}
   AuditoryRange: 20
   AgentName: 
@@ -126139,7 +126140,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8619338778009177163, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -5.94
+      value: -5.92
       objectReference: {fileID: 0}
     - target: {fileID: 8619338778009177163, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       propertyPath: m_LocalPosition.z
@@ -126212,7 +126213,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 1799366116}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 1.5
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -126267,10 +126268,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc59f0bdba5294b81b807a793b7a0b96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Agents.GuardBrain
+  _replyByWindow: 0.25
   PlayerTarget: {fileID: 1796544529}
   Flashlight: {fileID: 1036260510}
-  QuadrantId: Patrulla7
-  ContractNetReplyWindow: 0.1
+  QuadrantId: section7
   ArrastrarCuadrante: {fileID: 0}
   AuditoryRange: 20
   AgentName: 
@@ -129681,7 +129682,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 1838112913}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 1.5
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -129736,10 +129737,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc59f0bdba5294b81b807a793b7a0b96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Agents.GuardBrain
+  _replyByWindow: 0.25
   PlayerTarget: {fileID: 1796544529}
   Flashlight: {fileID: 662681994}
   QuadrantId: section6
-  ContractNetReplyWindow: 0.1
   ArrastrarCuadrante: {fileID: 0}
   AuditoryRange: 20
   AgentName: 
@@ -145901,7 +145902,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 2044574259}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 1.5
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -145956,10 +145957,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc59f0bdba5294b81b807a793b7a0b96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Agents.GuardBrain
+  _replyByWindow: 0.25
   PlayerTarget: {fileID: 1796544529}
   Flashlight: {fileID: 288692327}
   QuadrantId: section3
-  ContractNetReplyWindow: 0.1
   ArrastrarCuadrante: {fileID: 0}
   AuditoryRange: 20
   AgentName: 

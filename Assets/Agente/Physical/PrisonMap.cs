@@ -128,6 +128,15 @@ namespace AgenticPrison.Core {
             return new List<string>();
         }
 
+        // 2.1.b) Obtiene el sector único si existe. Si es sala mixta (varios sectores) devuelve vacío.
+        public string GetCurrentSector(Vector3 position) {
+            RoomNode node = GetCurrentNode(position);
+            if (node != null && node.searchSectorIds != null && node.searchSectorIds.Count == 1) {
+                return node.searchSectorIds[0];
+            }
+            return string.Empty;
+        }
+
         // 2.2.a) Obtiene los puntos de bloqueo para cerrar un sector, agrupados
         public Dictionary<string, List<WayPointData>> GetBlockingGroupsForSector(string sectorId) {
             if (_sectorBlockingGroups.TryGetValue(sectorId, out var groups)) {

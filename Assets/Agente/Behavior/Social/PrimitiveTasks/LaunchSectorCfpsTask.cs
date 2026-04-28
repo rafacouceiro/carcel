@@ -8,22 +8,20 @@ using AgenticPrison.Communication;
 
 using AgenticPrison.Communication.Messages;
 using AgenticPrison.Communication.Protocols.ContractNet;
+using AgenticPrison.Agents.Tools;
 
 namespace AgenticPrison.Behavior.Social {
 
     // Tarea social: lanza subastas Contract Net para tapar el perímetro del sector
     // (blockers) y rastrear sus habitaciones (sweepers). El iniciador se asigna la
     // primera mitad de habitaciones como su propio sweep.
-    // FugitiveSectorId se actualiza AL FINAL, tras lanzar los protocolos, para que
-    // InitiateContractNetMethod pueda comprobar el sector antiguo antes de decidir.
+    // Genera un TeamName único y suscribe al iniciador al canal perimeter.
     public class LaunchSectorCfpsTask : IPrimitiveTask {
 
         readonly FIPAAgent _agent;
-        readonly float     _replyByWindow;
 
-        public LaunchSectorCfpsTask(FIPAAgent agent, float replyByWindow) {
+        public LaunchSectorCfpsTask(FIPAAgent agent) {
             _agent         = agent;
-            _replyByWindow = replyByWindow;
         }
 
         public bool CheckPreconditions(WorldState state) {
@@ -38,86 +36,38 @@ namespace AgenticPrison.Behavior.Social {
         public TaskExecutionStatus Execute(IActuators actuators, WorldState state) {
             // 1. Determinar el sector del fugitivo
             List<string> sectors = state.Map.GetFugitiveSectors(state.LastKnownPosition);
-            if (sectors.Count != 1) {
-                Debug.Log($"[{state.AgentName}] LaunchSectorCfpsTask: sector ambiguo ({sectors.Count} sectores)");
-                return TaskExecutionStatus.Failure;
-            }
+            if (sectors.Count != 1) return TaskExecutionStatus.Failure;
             string sectorId = sectors[0];
 
-            // 2. No relanzar si el sector ya está perimetrado (FugitiveSectorId aún no actualizado)
-            if (sectorId == state.FugitiveSectorId && state.TeamMembers.Count > 0) {
-                Debug.Log($"[{state.AgentName}] LaunchSectorCfpsTask: sector {sectorId} ya perimetrado");
+            // 2. No relanzar si el sector ya está perimetrado
+            if (sectorId == state.FugitiveSectorId && !string.IsNullOrEmpty(state.TeamName)) 
                 return TaskExecutionStatus.Failure;
+
+            // 3. Generar plan del equipo usando la herramienta centralizada
+            var plan = PerimeterTool.GenerateTeamPlan(sectorId, state.Map, state.AgentName);
+            
+            state.TeamName             = plan.TeamName;
+            state.PendingSweepersCount = plan.TotalSweepers;
+            state.FugitiveSectorId     = sectorId;
+            state.ContractNetActive    = true;
+
+            // 4. El líder se queda siempre con la primera tarea de Sweeping
+            ContractTask myTask = plan.AllTasks.Find(t => t.AssignedRole == AgentRole.Sweeper);
+            if (myTask != null) {
+                state.AssignedTask = myTask;
+                plan.AllTasks.Remove(myTask);
             }
 
-            // 3. Lanzar CFPs de bloqueo — uno por grupo de puntos de perímetro
-            Dictionary<string, List<WayPointData>> blockingGroups = state.Map.GetBlockingGroupsForSector(sectorId);
-            foreach (var pair in blockingGroups) {
-                List<WayPointData> waypoints = pair.Value;
-                if (waypoints.Count == 0) continue;
-
-                var blockTask = new ContractTask {
-                    Type         = TaskType.BlockSector,
-                    AssignedRole = AgentRole.Blocker,
-                    WayPoints    = new List<WayPointData>(waypoints),
-                    SectorId     = sectorId,
-                    Target       = waypoints[0].transform.position
-                };
-                _agent.LaunchProtocol(new ContractNetInitiator(blockTask, _agent.AgentId, _replyByWindow), state);
-                Debug.Log($"<color=cyan>[{state.AgentName}] CFP blocker: grupo {pair.Key} ({waypoints.Count} wps)</color>");
+            // 5. El resto de tareas van a la cola secuencial del WorldState
+            state.PendingCfps.Clear();
+            foreach (var task in plan.AllTasks) {
+                state.PendingCfps.Enqueue(task);
             }
 
-            // 4. Obtener y ordenar habitaciones de rastreo por distancia greedy
-            List<RoomNode> sweepRooms  = state.Map.GetSweepRoomsForSector(sectorId);
-            List<RoomNode> orderedRooms = SortRoomsGreedy(sweepRooms, state.CurrentPosition);
+            // 6. Suscribir al canal único del equipo
+            FIPAAgent.SubscribeToChannel(_agent.AgentId, "team_" + plan.TeamName);
 
-            // Dividir en mitades: primera para el iniciador, segunda para subcontratar
-            int half       = orderedRooms.Count / 2;
-            int ownCount   = (half > 0) ? half : orderedRooms.Count;
-            int otherStart = ownCount;
-            int otherCount = orderedRooms.Count - ownCount;
-
-            List<RoomNode> myRooms    = orderedRooms.GetRange(0, ownCount);
-            List<RoomNode> otherRooms = (otherCount > 0)
-                ? orderedRooms.GetRange(otherStart, otherCount)
-                : new List<RoomNode>();
-
-            // 5. Lanzar CFP de sweep para la segunda mitad
-            if (otherRooms.Count > 0) {
-                var sweepTask = new ContractTask {
-                    Type         = TaskType.SweepSector,
-                    AssignedRole = AgentRole.Sweeper,
-                    SweepRooms   = new List<RoomNode>(otherRooms),
-                    SectorId     = sectorId,
-                    Target       = otherRooms[0].GetNavigablePosition(),
-                    InitiatorId  = _agent.AgentId
-                };
-                _agent.LaunchProtocol(new ContractNetInitiator(sweepTask, _agent.AgentId, _replyByWindow), state);
-                state.SweepProtocolsActive++;
-                Debug.Log($"<color=cyan>[{state.AgentName}] CFP sweeper: {otherRooms.Count} habitaciones</color>");
-            }
-
-            // 6. Asignarse la primera mitad como sweep propio (líder es también sweeper)
-            if (myRooms.Count > 0) {
-                state.AssignedTask = new ContractTask {
-                    Type         = TaskType.SweepSector,
-                    AssignedRole = AgentRole.Sweeper,
-                    SweepRooms   = new List<RoomNode>(myRooms),
-                    SectorId     = sectorId,
-                    InitiatorId  = _agent.AgentId
-                };
-                // El líder también cuenta como sweeper activo: ClearAssignedTaskTask lo decrementará
-                state.SweepProtocolsActive++;
-            }
-            state.AssignedRole = AgentRole.Sweeper;
-
-            // 7. Actualizar estado global tras lanzar todos los protocolos
-            state.FugitiveSectorId  = sectorId;
-            state.ContractNetActive = true;
-            if (!state.TeamMembers.Contains(_agent.AgentId))
-                state.TeamMembers.Add(_agent.AgentId);
-
-            Debug.Log($"<color=red><b>[{state.AgentName}] Sector {sectorId}: {blockingGroups.Count} blocker(s), {myRooms.Count} salas propias, {otherRooms.Count} subcontratadas</b></color>");
+            Debug.Log($"<color=red><b>[{state.AgentName}] Operación en {sectorId} iniciada. {state.PendingCfps.Count} subastas en cola secuencial.</b></color>");
             return TaskExecutionStatus.Success;
         }
 
