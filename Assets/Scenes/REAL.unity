@@ -2820,6 +2820,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 1
   blockingGroupId: 1
+  blockingSectorId: 1
 --- !u!1 &50077604 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -8284644261160355701, guid: 14cce29ad9058904d96cc3067402803d, type: 3}
@@ -3016,7 +3017,7 @@ MonoBehaviour:
   PlayerTarget: {fileID: 1796544529}
   Flashlight: {fileID: 48536891}
   QuadrantId: section2
-  ContractNetReplyWindow: 0.5
+  ContractNetReplyWindow: 0.1
   ArrastrarCuadrante: {fileID: 0}
   AuditoryRange: 20
   AgentName: 
@@ -3161,6 +3162,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1001 &52982064
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3275,6 +3277,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &54417250 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 74d8ce1b968c674498d4edd34de9334c, type: 3}
@@ -3426,6 +3429,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &59656283
 GameObject:
   m_ObjectHideFlags: 0
@@ -3723,6 +3727,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1001 &65826002
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6170,6 +6175,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &90441407
 GameObject:
   m_ObjectHideFlags: 0
@@ -6354,6 +6360,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &90988574 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 453d762048f90974c8a7164f9efc863e, type: 3}
@@ -6408,6 +6415,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &93813604
 GameObject:
   m_ObjectHideFlags: 0
@@ -8077,6 +8085,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1001 &106441878
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8195,6 +8204,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &108685912
 GameObject:
   m_ObjectHideFlags: 0
@@ -9167,6 +9177,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 1
   blockingGroupId: 10
+  blockingSectorId: 
 --- !u!1001 &121700622
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10715,6 +10726,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 1
   blockingGroupId: 7
+  blockingSectorId: 3
 --- !u!1 &143967330
 GameObject:
   m_ObjectHideFlags: 0
@@ -11018,6 +11030,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &148019994 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7291683185506409767, guid: 14cce29ad9058904d96cc3067402803d, type: 3}
@@ -11094,6 +11107,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1001 &150554525
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13895,6 +13909,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &182965301 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7291683185506409767, guid: 14cce29ad9058904d96cc3067402803d, type: 3}
@@ -14597,6 +14612,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1001 &188694281
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16895,6 +16911,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1001 &230696552
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17183,6 +17200,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &234726410
 GameObject:
   m_ObjectHideFlags: 0
@@ -17232,6 +17250,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1001 &237356373
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19245,6 +19264,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1001 &263363241
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20038,6 +20058,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &278421897
 GameObject:
   m_ObjectHideFlags: 0
@@ -20249,6 +20270,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1001 &280041418
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20870,6 +20892,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &297455190 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7655588946788480272, guid: 14cce29ad9058904d96cc3067402803d, type: 3}
@@ -21308,6 +21331,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1001 &305534449
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22039,6 +22063,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &312748209 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 614141466607972236, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -23770,6 +23795,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1001 &339944050
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26018,6 +26044,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &392382141 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8550454373022275157, guid: d0429c2ebdf57e6499fc6a336b2fb320, type: 3}
@@ -27138,6 +27165,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1001 &409782350
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28731,6 +28759,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1001 &439232654
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -30436,6 +30465,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &457533196 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -6009232476891666573, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -31214,6 +31244,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &469465797 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 74d8ce1b968c674498d4edd34de9334c, type: 3}
@@ -32188,6 +32219,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &493278229 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3058497736089453759, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -33007,6 +33039,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1001 &501856610
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -35145,6 +35178,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &532001522 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: baf57603f98cbdd4e8007a7276476d51, type: 3}
@@ -37819,6 +37853,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &562489932
 GameObject:
   m_ObjectHideFlags: 0
@@ -38876,6 +38911,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &574758460 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -1212349745884697633, guid: 14cce29ad9058904d96cc3067402803d, type: 3}
@@ -39223,6 +39259,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &580163747 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3899565891299101084, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -39604,6 +39641,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1001 &587722430
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -40853,6 +40891,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1001 &601564281
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -41954,6 +41993,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &609626236 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2627565222294444803, guid: d0429c2ebdf57e6499fc6a336b2fb320, type: 3}
@@ -42459,6 +42499,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1001 &619533616
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -42725,6 +42766,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &624032765 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1799300713203106943, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -43312,6 +43354,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &635503264 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8267196642337891365, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -43388,6 +43431,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &637004196 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6122035535824019343, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -44914,6 +44958,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &657831310 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8557927624525350344, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -45661,6 +45706,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &667965182
 GameObject:
   m_ObjectHideFlags: 0
@@ -45710,6 +45756,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &671068257
 GameObject:
   m_ObjectHideFlags: 0
@@ -47230,6 +47277,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &696004972 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7291683185506409767, guid: 14cce29ad9058904d96cc3067402803d, type: 3}
@@ -48209,6 +48257,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1001 &718568877
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -48415,6 +48464,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1001 &719899191
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -49583,6 +49633,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1001 &733617733
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -50642,6 +50693,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 1
   blockingGroupId: 9
+  blockingSectorId: 
 --- !u!1001 &751739702
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -51399,6 +51451,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &757496084 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 74d8ce1b968c674498d4edd34de9334c, type: 3}
@@ -52116,6 +52169,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1001 &767329247
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -52663,6 +52717,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1001 &772083483
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -54412,6 +54467,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &799540694 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8550454373022275157, guid: d0429c2ebdf57e6499fc6a336b2fb320, type: 3}
@@ -54542,6 +54598,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &801622434 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 453d762048f90974c8a7164f9efc863e, type: 3}
@@ -57167,6 +57224,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &842322886
 GameObject:
   m_ObjectHideFlags: 0
@@ -57688,6 +57746,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &850407125
 GameObject:
   m_ObjectHideFlags: 0
@@ -58685,6 +58744,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1001 &859242946
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -58918,6 +58978,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1001 &863264669
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -59032,6 +59093,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1001 &867773301
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -59199,6 +59261,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &868695264
 GameObject:
   m_ObjectHideFlags: 0
@@ -59248,6 +59311,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 1
   blockingGroupId: 4
+  blockingSectorId: 2
 --- !u!1 &869739858
 GameObject:
   m_ObjectHideFlags: 0
@@ -61150,6 +61214,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1001 &895575559
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -62904,6 +62969,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 1
   blockingGroupId: 10
+  blockingSectorId: 
 --- !u!1 &919357980 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 453d762048f90974c8a7164f9efc863e, type: 3}
@@ -63301,6 +63367,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &929771499 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 453d762048f90974c8a7164f9efc863e, type: 3}
@@ -64107,6 +64174,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 1
   blockingGroupId: 6
+  blockingSectorId: 
 --- !u!1 &945840174 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6999322035538773533, guid: baf57603f98cbdd4e8007a7276476d51, type: 3}
@@ -65303,6 +65371,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1001 &963554425
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -65472,7 +65541,7 @@ MonoBehaviour:
   PlayerTarget: {fileID: 1796544529}
   Flashlight: {fileID: 1639233611}
   QuadrantId: section4
-  ContractNetReplyWindow: 0.5
+  ContractNetReplyWindow: 0.1
   ArrastrarCuadrante: {fileID: 0}
   AuditoryRange: 20
   AgentName: 
@@ -65552,6 +65621,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 1
   blockingGroupId: 4
+  blockingSectorId: 2
 --- !u!1001 &967781015
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -67410,6 +67480,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &985606381 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 614141466607972236, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -68175,6 +68246,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1001 &988449715
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -69140,6 +69212,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &1003431869 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 74d8ce1b968c674498d4edd34de9334c, type: 3}
@@ -72635,6 +72708,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &1048549924 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8267196642337891365, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -72913,6 +72987,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1001 &1057591438
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -74157,6 +74232,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &1076311694
 GameObject:
   m_ObjectHideFlags: 0
@@ -76245,6 +76321,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &1103525253
 GameObject:
   m_ObjectHideFlags: 0
@@ -76615,6 +76692,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &1110353087 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6122035535824019343, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -76920,6 +76998,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 1
   blockingGroupId: 8
+  blockingSectorId: 
 --- !u!1 &1114890567
 GameObject:
   m_ObjectHideFlags: 0
@@ -77425,6 +77504,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1001 &1118097517
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -79253,6 +79333,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &1136059413 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 453d762048f90974c8a7164f9efc863e, type: 3}
@@ -80748,6 +80829,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1001 &1155426961
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -80975,6 +81057,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1001 &1160414917
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -81530,6 +81613,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &1166282151 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -6009232476891666573, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -85249,6 +85333,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 1
   blockingGroupId: 6
+  blockingSectorId: 3
 --- !u!1 &1203474557 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3899565891299101084, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -86074,6 +86159,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &1216502210 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -4926852822074955793, guid: 14cce29ad9058904d96cc3067402803d, type: 3}
@@ -87077,6 +87163,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1001 &1228152087
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -88692,6 +88779,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &1241990657 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -5341747177340628442, guid: 14cce29ad9058904d96cc3067402803d, type: 3}
@@ -88888,7 +88976,7 @@ MonoBehaviour:
   PlayerTarget: {fileID: 1796544529}
   Flashlight: {fileID: 1939868495}
   QuadrantId: section5
-  ContractNetReplyWindow: 0.5
+  ContractNetReplyWindow: 0.1
   ArrastrarCuadrante: {fileID: 0}
   AuditoryRange: 20
   AgentName: 
@@ -89434,6 +89522,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 1
   blockingGroupId: 2
+  blockingSectorId: 1
 --- !u!1 &1246262286
 GameObject:
   m_ObjectHideFlags: 0
@@ -89483,6 +89572,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &1246752046
 GameObject:
   m_ObjectHideFlags: 0
@@ -89532,6 +89622,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &1246902247
 GameObject:
   m_ObjectHideFlags: 0
@@ -89581,6 +89672,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &1247578219 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 453d762048f90974c8a7164f9efc863e, type: 3}
@@ -90951,6 +91043,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1001 &1267193617
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -91365,6 +91458,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &1276880290
 GameObject:
   m_ObjectHideFlags: 0
@@ -91414,6 +91508,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &1277036785 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 74d8ce1b968c674498d4edd34de9334c, type: 3}
@@ -92661,6 +92756,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 1
   blockingGroupId: 2
+  blockingSectorId: 1
 --- !u!1 &1298980711 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3058497736089453759, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -93117,6 +93213,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &1311487701
 GameObject:
   m_ObjectHideFlags: 0
@@ -93166,6 +93263,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1001 &1315729513
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -93491,6 +93589,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &1319272589 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3899565891299101084, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -94101,6 +94200,7 @@ MonoBehaviour:
   isCell: 1
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!65 &1324986252
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -94279,6 +94379,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 1
   blockingGroupId: 7
+  blockingSectorId: 
 --- !u!1001 &1330134176
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -95061,6 +95162,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &1340966922 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 453d762048f90974c8a7164f9efc863e, type: 3}
@@ -95678,6 +95780,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &1348478129 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1799300713203106943, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -95781,6 +95884,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1001 &1349914142
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -96209,6 +96313,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &1355453589 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3899565891299101084, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -96795,6 +96900,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1001 &1364372939
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -98313,6 +98419,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &1387238155
 GameObject:
   m_ObjectHideFlags: 0
@@ -98362,6 +98469,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &1387995020 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 74d8ce1b968c674498d4edd34de9334c, type: 3}
@@ -98703,6 +98811,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &1399311572
 GameObject:
   m_ObjectHideFlags: 0
@@ -98752,6 +98861,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &1399523830 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1683296501599025939, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -98896,6 +99006,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1001 &1402042141
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -99200,6 +99311,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 1
   blockingGroupId: 5
+  blockingSectorId: 2
 --- !u!1001 &1406767401
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -99520,6 +99632,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &1413500182 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3058497736089453759, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -100194,6 +100307,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &1423114219 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 453d762048f90974c8a7164f9efc863e, type: 3}
@@ -101132,6 +101246,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1001 &1439927989
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -105303,6 +105418,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &1491505954 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 453d762048f90974c8a7164f9efc863e, type: 3}
@@ -105479,6 +105595,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &1493529419 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6952557005137053212, guid: 14cce29ad9058904d96cc3067402803d, type: 3}
@@ -106000,6 +106117,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &1507483823 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8242361918107146482, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -107086,6 +107204,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1001 &1518759125
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -107455,6 +107574,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &1525370848 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6999322035538773533, guid: baf57603f98cbdd4e8007a7276476d51, type: 3}
@@ -108456,6 +108576,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &1539932025 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8557927624525350344, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -109975,6 +110096,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &1560440401 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 614141466607972236, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -111202,6 +111324,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 1
   blockingGroupId: 3
+  blockingSectorId: 1
 --- !u!1 &1579711422 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3698344006298356524, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -111343,6 +111466,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &1581252056
 GameObject:
   m_ObjectHideFlags: 0
@@ -111581,6 +111705,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &1585823950
 GameObject:
   m_ObjectHideFlags: 0
@@ -111630,6 +111755,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1001 &1586944117
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -113303,6 +113429,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &1618021548 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 74d8ce1b968c674498d4edd34de9334c, type: 3}
@@ -113935,6 +114062,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1001 &1628060447
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -114222,6 +114350,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1001 &1635391879
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -114687,6 +114816,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &1639101014 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -5125811737971877458, guid: 14cce29ad9058904d96cc3067402803d, type: 3}
@@ -117367,6 +117497,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &1683407826 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4608623780696759378, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -117443,6 +117574,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1001 &1683776820
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -118537,6 +118669,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &1704810910 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 453d762048f90974c8a7164f9efc863e, type: 3}
@@ -118744,6 +118877,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &1706949247
 GameObject:
   m_ObjectHideFlags: 0
@@ -120687,6 +120821,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1001 &1742662769
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -120942,6 +121077,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1001 &1745145622
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -121277,6 +121413,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &1747499919 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -1656216863758753830, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -122475,6 +122612,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 1
   blockingGroupId: 1
+  blockingSectorId: 1
 --- !u!1 &1759170403 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -7046673171606169745, guid: d0429c2ebdf57e6499fc6a336b2fb320, type: 3}
@@ -123023,7 +123161,8 @@ MonoBehaviour:
   isPatrolCheckpoint: 1
   isCell: 0
   isBlockingPoint: 1
-  blockingGroupId: 
+  blockingGroupId: 5
+  blockingSectorId: 2
 --- !u!1 &1767650546
 GameObject:
   m_ObjectHideFlags: 0
@@ -123073,6 +123212,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &1768120866 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -5125811737971877458, guid: 14cce29ad9058904d96cc3067402803d, type: 3}
@@ -123818,7 +123958,7 @@ MonoBehaviour:
   PlayerTarget: {fileID: 1796544529}
   Flashlight: {fileID: 2038932078}
   QuadrantId: section1
-  ContractNetReplyWindow: 0.5
+  ContractNetReplyWindow: 0.1
   ArrastrarCuadrante: {fileID: 0}
   AuditoryRange: 20
   AgentName: 
@@ -126130,7 +126270,7 @@ MonoBehaviour:
   PlayerTarget: {fileID: 1796544529}
   Flashlight: {fileID: 1036260510}
   QuadrantId: Patrulla7
-  ContractNetReplyWindow: 1.5
+  ContractNetReplyWindow: 0.1
   ArrastrarCuadrante: {fileID: 0}
   AuditoryRange: 20
   AgentName: 
@@ -126183,6 +126323,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1001 &1800973887
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -127097,6 +127238,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1001 &1817337532
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -128291,6 +128433,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &1826843484 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3899565891299101084, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -128463,6 +128606,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1001 &1828477041
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -129595,7 +129739,7 @@ MonoBehaviour:
   PlayerTarget: {fileID: 1796544529}
   Flashlight: {fileID: 662681994}
   QuadrantId: section6
-  ContractNetReplyWindow: 0.5
+  ContractNetReplyWindow: 0.1
   ArrastrarCuadrante: {fileID: 0}
   AuditoryRange: 20
   AgentName: 
@@ -129935,6 +130079,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &1846704219 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 453d762048f90974c8a7164f9efc863e, type: 3}
@@ -131910,6 +132055,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &1876376233 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5674046508059327650, guid: d0429c2ebdf57e6499fc6a336b2fb320, type: 3}
@@ -132104,6 +132250,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1001 &1882087832
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -133872,6 +134019,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 1
   blockingGroupId: 8
+  blockingSectorId: 
 --- !u!1 &1905733287 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 453d762048f90974c8a7164f9efc863e, type: 3}
@@ -134094,6 +134242,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &1907997325 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -5341747177340628442, guid: 14cce29ad9058904d96cc3067402803d, type: 3}
@@ -135114,6 +135263,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1001 &1917987844
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -135914,6 +136064,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1001 &1927191048
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -137898,6 +138049,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &1942901512 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6999322035538773533, guid: baf57603f98cbdd4e8007a7276476d51, type: 3}
@@ -138192,6 +138344,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &1949334296 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -8284644261160355701, guid: 14cce29ad9058904d96cc3067402803d, type: 3}
@@ -138474,6 +138627,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &1952621394 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8557927624525350344, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -145805,7 +145959,7 @@ MonoBehaviour:
   PlayerTarget: {fileID: 1796544529}
   Flashlight: {fileID: 288692327}
   QuadrantId: section3
-  ContractNetReplyWindow: 0.5
+  ContractNetReplyWindow: 0.1
   ArrastrarCuadrante: {fileID: 0}
   AuditoryRange: 20
   AgentName: 
@@ -146502,6 +146656,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &2053350994
 GameObject:
   m_ObjectHideFlags: 0
@@ -146551,6 +146706,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 1
   blockingGroupId: 9
+  blockingSectorId: 
 --- !u!1 &2054066591 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3310331766504776907, guid: d0429c2ebdf57e6499fc6a336b2fb320, type: 3}
@@ -146806,6 +146962,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &2057626765 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8167296784718277556, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -148074,6 +148231,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &2082180321 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6122035535824019343, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -148150,6 +148308,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1001 &2085218175
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -148862,6 +149021,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &2090340798 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8267196642337891365, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -148938,6 +149098,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1 &2093731678 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1799300713203106943, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -150634,6 +150795,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 0
   blockingGroupId: 
+  blockingSectorId: 
 --- !u!1001 &2111217991
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -151760,6 +151922,7 @@ MonoBehaviour:
   isCell: 0
   isBlockingPoint: 1
   blockingGroupId: 3
+  blockingSectorId: 1
 --- !u!1 &2131515708 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6999322035538773533, guid: baf57603f98cbdd4e8007a7276476d51, type: 3}

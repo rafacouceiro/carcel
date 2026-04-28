@@ -57,8 +57,8 @@ namespace AgenticPrison.Behavior.PrimitiveTasks {
 
         // Escala el desgaste energético proporcional a la velocidad
         private float CalculateEnergyCost(float currentSpeed) {
-            float t = Mathf.InverseLerp(3.0f, 6.5f, currentSpeed);
-            return Mathf.Lerp(1f, 5f, t);
+            float t = Mathf.InverseLerp(1.0f, 6.5f, currentSpeed);
+            return Mathf.Lerp(0.2f, 1f, t);
         }
 
         // Concreta cuan ruidosos son los pasos calculando en base a la velocidad

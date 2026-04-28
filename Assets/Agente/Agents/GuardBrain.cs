@@ -6,11 +6,12 @@ using AgenticPrison.Behavior;
 using AgenticPrison.Behavior.RootTask;
 using AgenticPrison.Communication;
 using AgenticPrison.Behavior.Social;
+using AgenticPrison.Communication.Messages;
+using AgenticPrison.Communication.Protocols.ContractNet;
+
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
-
-using AgenticPrison.Communication.Messages;
 
 namespace AgenticPrison.Agents {
 
