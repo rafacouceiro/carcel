@@ -2,8 +2,6 @@ using System.Collections.Generic;
 using AgenticPrison.Communication;
 using UnityEngine;
 
-using AgenticPrison.Communication.Messages;
-
 namespace AgenticPrison.Core {
 
     // Representa el conocimiento que tiene el agente, tanto interno como del entorno
@@ -46,21 +44,17 @@ namespace AgenticPrison.Core {
         // Sector del fugitivo en la operación activa — detecta cambios para disolver y relanzar
         public string FugitiveSectorId = string.Empty;
 
-        // Número de protocolos CNP de tipo SweepSector activos como iniciador — disolución cuando llega a 0
-        public int SweepProtocolsActive = 0;
+        // Nombre del equipo activo — identifica los canales de coordinación (perimeter_<team>, patrol_<team>)
+        public string TeamName = string.Empty;
 
-        // Guardias del equipo activo — impide aceptar nuevos bids mientras se coordina una misión
-        public List<string> TeamMembers = new List<string>();
+        // Sweepers pendientes de completar su tarea — solo el iniciador lo escribe; disolución cuando llega a 0
+        public int PendingSweepersCount = 0;
 
-        // true mientras haya al menos un Contract Net activo como iniciador — impide relanzar subastas
+        // true mientras haya una operación de equipo activa — impide relanzar subastas
         public bool ContractNetActive = false;
 
         // true mientras un QueryInitiator espera Informs — bloquea InvestigateNoiseMethod durante la ventana
         public bool WaitingForNoiseQuery = false;
-
-        // Cola de mensajes entrantes que requieren una decisión del HTN social.
-        // Escrita por OnMessageReceived, consumida (Dequeue) por los efectos de las tareas sociales.
-        public Queue<ACLMessage> PendingActions = new Queue<ACLMessage>();
 
         // Genera una copia del estado para simulaciones de planificación
         public WorldState Clone() {
@@ -84,11 +78,10 @@ namespace AgenticPrison.Core {
                 AssignedTask          = this.AssignedTask?.Clone(),
                 AssignedRole          = this.AssignedRole,
                 FugitiveSectorId      = this.FugitiveSectorId,
-                SweepProtocolsActive  = this.SweepProtocolsActive,
-                TeamMembers           = new List<string>(this.TeamMembers),
+                TeamName              = this.TeamName,
+                PendingSweepersCount  = this.PendingSweepersCount,
                 ContractNetActive     = this.ContractNetActive,
                 WaitingForNoiseQuery  = this.WaitingForNoiseQuery,
-                PendingActions        = new Queue<ACLMessage>(this.PendingActions),
             };
 
             return clone;

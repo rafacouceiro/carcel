@@ -15,7 +15,8 @@ namespace AgenticPrison.Communication {
         public List<WayPointData> WayPoints;   // waypoints de bloqueo cíclico (blocker)
         public List<RoomNode>    SweepRooms;   // habitaciones a rastrar (sweeper)
         public string            ContractId;   // conversación que originó la tarea
-        public string            InitiatorId;  // AgentId del iniciador, para enviar InformDone
+        public string            InitiatorId;  // AgentId del iniciador
+        public string            TeamName;     // nombre del equipo al que pertenece esta tarea
 
         // Copia profunda para que el planner HTN no mute la lista real de SweepRooms
         // durante la simulación de efectos (ApplyEffects).
@@ -29,6 +30,7 @@ namespace AgenticPrison.Communication {
                 SweepRooms   = this.SweepRooms != null ? new List<RoomNode>(this.SweepRooms) : null,
                 ContractId   = this.ContractId,
                 InitiatorId  = this.InitiatorId,
+                TeamName     = this.TeamName,
             };
         }
     }

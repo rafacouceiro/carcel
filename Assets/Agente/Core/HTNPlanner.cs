@@ -3,8 +3,6 @@ using AgenticPrison.Physical;
 using AgenticPrison.Communication;
 using UnityEngine;
 
-using AgenticPrison.Communication.Messages;
-
 namespace AgenticPrison.Core {
 
     // Planificador HTN: Busca y genera planes estructurados basados en tareas y métodos
@@ -120,10 +118,10 @@ namespace AgenticPrison.Core {
             destination.AgentName             = source.AgentName;
             // Campos sociales Phase 2
             destination.AssignedTask          = source.AssignedTask?.Clone();
-            destination.TeamMembers           = new List<string>(source.TeamMembers);
+            destination.TeamName              = source.TeamName;
+            destination.PendingSweepersCount  = source.PendingSweepersCount;
             destination.ContractNetActive     = source.ContractNetActive;
             destination.WaitingForNoiseQuery  = source.WaitingForNoiseQuery;
-            destination.PendingActions        = new Queue<ACLMessage>(source.PendingActions);
         }
     }
 }

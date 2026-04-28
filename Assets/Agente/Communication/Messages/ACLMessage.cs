@@ -15,6 +15,7 @@ namespace AgenticPrison.Communication.Messages {
         public float       SentAt;           // Time.time al enviar
         public float       ReplyBy;          // Tiempo límite de respuesta (0 = sin límite)
         public Vector3     SenderPosition;   // Posición del emisor al enviar
+        public string      Channel;          // null = unicast/broadcast; nombre del canal si es pub/sub
 
         // Imprime el mensaje en consola y lo añade a Assets/Logs/comms.log
         public static void Log(ACLMessage msg) {

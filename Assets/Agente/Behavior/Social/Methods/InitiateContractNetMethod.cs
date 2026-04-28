@@ -16,7 +16,9 @@ namespace AgenticPrison.Behavior.Social {
 
         public bool CheckPreconditions(WorldState state)
         {
-            if (state.ContractNetActive || state.AssignedTask != null) return false;
+            // Bloquear si hay operación activa (ContractNetActive) o el agente ya tiene equipo (TeamName)
+            if (state.ContractNetActive || !string.IsNullOrEmpty(state.TeamName)) return false;
+            if (state.AssignedTask != null) return false;
             if (!state.seenByMe || state.LastKnownPosition == UnityEngine.Vector3.zero) return false;
 
             var sectors = state.Map?.GetFugitiveSectors(state.LastKnownPosition);
@@ -24,9 +26,7 @@ namespace AgenticPrison.Behavior.Social {
 
             // No relanzar si el fugitivo sigue en el sector ya perimetrado.
             // La comprobación usa FugitiveSectorId ANTES de que LaunchSectorCfpsTask lo actualice.
-            if (state.TeamMembers.Count > 0
-                && !string.IsNullOrEmpty(state.FugitiveSectorId)
-                && sectors[0] == state.FugitiveSectorId)
+            if (!string.IsNullOrEmpty(state.FugitiveSectorId) && sectors[0] == state.FugitiveSectorId)
                 return false;
 
             return true;

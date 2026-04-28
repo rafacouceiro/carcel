@@ -23,7 +23,7 @@ namespace AgenticPrison.Behavior.Methods {
                 && state.AssignedTask.AssignedRole == AgentRole.Blocker
                 && state.AssignedTask.WayPoints    != null
                 && state.AssignedTask.WayPoints.Count > 0
-                && state.TeamMembers.Count > 0;
+                && !string.IsNullOrEmpty(state.TeamName);
         }
 
         public Queue<ITask> Decompose(WorldState state) {
