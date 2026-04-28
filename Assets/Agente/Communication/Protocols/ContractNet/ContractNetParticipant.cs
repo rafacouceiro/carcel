@@ -12,57 +12,47 @@ namespace AgenticPrison.Communication.Protocols.ContractNet {
     // Lado PARTICIPANTE del protocolo Contract Net.
     //
     // Responsabilidad: recibir un CFP, enviar una propuesta con el coste estimado,
-    // y ejecutar la tarea si el iniciador acepta nuestra oferta.
+    // y escribir la tarea en WorldState si el iniciador acepta nuestra oferta.
     //
-    // Flujo de estados:
+    // Flujo de estados (sin fase de ejecución — la ejecución se gestiona por canales):
     //   CfpReceived  ──[SendPropose llamado]──► Proposed
-    //   Proposed     ──[AcceptProposal]────────► Executing
+    //   Proposed     ──[AcceptProposal]────────► Done  (tarea escrita en ws.AssignedTask)
     //   Proposed     ──[RejectProposal]───────► Done
-    //   Executing    ──[InformDone interno]───► Done
     public class ContractNetParticipant : ICommProtocol {
 
         // ── Estados ────────────────────────────────────────────────────────────────
         enum State {
-            CfpReceived,   // CFP recibido, esperando que BeSocial decida propose/refuse
+            CfpReceived,   // CFP recibido, respuesta reactiva en FIPAAgent.ProcessIncoming
             Proposed,      // propuesta enviada, esperando Accept o Reject del iniciador
-            Executing,     // aceptados, la tarea ya está en WorldState.AssignedTask
             Done
         }
 
         // ── Tabla de transición ────────────────────────────────────────────────────
-        // _onMessage[(estado, performativa)] = método a llamar cuando llega ese mensaje en ese estado
         readonly Dictionary<(State, Performative), Action<ACLMessage, WorldState>> _onMessage
             = new Dictionary<(State, Performative), Action<ACLMessage, WorldState>>();
 
         // ── Datos internos ─────────────────────────────────────────────────────────
         State      _state = State.CfpReceived;
-        FIPAAgent  _agent;          // almacenado en Init para poder enviar InformDone al completar
-        ACLMessage _originalCfp;    // guardamos el CFP original para responder al emisor correcto
-        string     _participantId;  // AgentId de este guardia, para los logs
+        ACLMessage _originalCfp;
+        string     _participantId;
 
         // ── ICommProtocol ──────────────────────────────────────────────────────────
         public string ConversationId { get; private set; }
         public bool   IsComplete     => _state == State.Done;
 
         // ── Constructor ────────────────────────────────────────────────────────────
-        // cfp:           el mensaje CFP recibido del iniciador
-        // participantId: AgentId de este guardia (para identificación)
         public ContractNetParticipant(ACLMessage cfp, string participantId) {
             _originalCfp   = cfp;
             _participantId = participantId;
-            ConversationId = cfp.ConversationId; // usamos el mismo ID que el iniciador para el enrutado
+            ConversationId = cfp.ConversationId;
             BuildTransitions();
         }
 
         // ── Inicio del protocolo ───────────────────────────────────────────────────
-        // Llamado por FIPAAgent.LaunchProtocol. El participante no envía nada aquí:
-        // la tarea social SendProposeTask es quien decide si proponer o no.
-        public void Init(FIPAAgent agent, WorldState ws) {
-            _agent = agent; // necesario para enviar InformDone al completar la tarea
-        }
+        // FIPAAgent llama a EvaluateCfp() justo después y envía respuesta reactiva.
+        public void Init(FIPAAgent agent, WorldState ws) { }
 
         // ── Tick por mensaje entrante ──────────────────────────────────────────────
-        // FIPAAgent llama a este método cuando llega un mensaje con nuestro ConversationId.
         public void Tick(ACLMessage msg, WorldState ws) {
             Action<ACLMessage, WorldState> handler;
             if (_onMessage.TryGetValue((_state, msg.Performative), out handler))
@@ -70,68 +60,42 @@ namespace AgenticPrison.Communication.Protocols.ContractNet {
         }
 
         // ── Tick por tiempo ────────────────────────────────────────────────────────
-        // Si el CFP tenía ReplyBy y ya expiró sin que el HTN haya respondido, cerrar la conversación.
-        // Si estamos ejecutando y AssignedTask es null, el HTN físico ya terminó: enviar InformDone.
+        // Si el CFP tenía ReplyBy y ya expiró antes de que se enviara respuesta, cerrar.
         public void Tick(float currentTime, WorldState ws) {
             if (_state == State.CfpReceived && _originalCfp.ReplyBy > 0f && currentTime > _originalCfp.ReplyBy)
                 _state = State.Done;
-
-            if (_state == State.Executing && ws.AssignedTask == null)
-                SendInformDone(ws);
-        }
-
-        // Notifica al iniciador que la tarea ha concluido y limpia la coordinación de equipo.
-        void SendInformDone(WorldState ws) {
-            _agent.Send(new ACLMessage {
-                MessageId      = Guid.NewGuid().ToString(),
-                Performative   = Performative.InformDone,
-                Sender         = _agent.AgentId,
-                Receiver       = _originalCfp.Sender,
-                ConversationId = ConversationId,
-                SentAt         = Time.time
-            });
-
-            if (ws.TeamMembers.Contains(_originalCfp.Sender))
-                ws.TeamMembers.Remove(_originalCfp.Sender);
-
-            FIPALogger.Log(_participantId, ConversationId, Performative.InformDone,
-                $"to={_originalCfp.Sender}");
-            ConversationTracker.Instance.SetOutcome(ConversationId, "Done");
-            _state = State.Done;
         }
 
         // ── Construcción de la tabla de transiciones ───────────────────────────────
         void BuildTransitions() {
-            _onMessage[(State.Proposed,  Performative.AcceptProposal)] = OnAccepted;
-            _onMessage[(State.Proposed,  Performative.RejectProposal)] = OnRejected;
-            _onMessage[(State.Executing, Performative.InformDone)]     = OnExecutionDone;
+            _onMessage[(State.Proposed, Performative.AcceptProposal)] = OnAccepted;
+            _onMessage[(State.Proposed, Performative.RejectProposal)] = OnRejected;
         }
 
         // ── API pública ────────────────────────────────────────────────────────────
 
-        // Llamado por SendProposeTask para enviar la propuesta al iniciador.
-        // cost: longitud del camino NavMesh hasta el objetivo (bid del guardia)
+        // Envía la propuesta al iniciador con el coste calculado
         public void SendPropose(FIPAAgent agent, WorldState ws, float cost) {
-            if (_state != State.CfpReceived) return; // solo se puede proponer una vez
+            if (_state != State.CfpReceived) return;
 
             agent.Send(new ACLMessage {
                 MessageId      = Guid.NewGuid().ToString(),
                 Performative   = Performative.Propose,
                 Sender         = agent.AgentId,
-                Receiver       = _originalCfp.Sender,   // responder al iniciador
+                Receiver       = _originalCfp.Sender,
                 ConversationId = ConversationId,
-                Content        = new ProposalContent { EstimatedCost = cost, ExecutorId = agent.AgentId },
+                Content        = cost, // El coste va directo como float
                 SentAt         = Time.time,
-                ReplyBy        = _originalCfp.ReplyBy,  // respetar el deadline del iniciador
-                SenderPosition = ws.CurrentPosition
+                ReplyBy        = _originalCfp.ReplyBy
             });
 
             FIPALogger.Log(agent.AgentId, ConversationId, Performative.Propose,
                 $"to={_originalCfp.Sender} cost={cost:F1}");
+            
             _state = State.Proposed;
         }
 
-        // Llamado por SendRefuseTask cuando el HTN decide no participar en el contrato.
+        // Rechaza el CFP cuando EvaluateCfp() devuelve false
         public void SendRefuse(FIPAAgent agent, WorldState ws) {
             if (_state != State.CfpReceived) return;
 
@@ -141,8 +105,7 @@ namespace AgenticPrison.Communication.Protocols.ContractNet {
                 Sender         = agent.AgentId,
                 Receiver       = _originalCfp.Sender,
                 ConversationId = ConversationId,
-                SentAt         = Time.time,
-                SenderPosition = ws.CurrentPosition
+                SentAt         = Time.time
             });
 
             FIPALogger.Log(agent.AgentId, ConversationId, Performative.Refuse,
@@ -153,42 +116,21 @@ namespace AgenticPrison.Communication.Protocols.ContractNet {
 
         // ── Handlers de mensajes ───────────────────────────────────────────────────
 
-        // El iniciador eligió nuestra propuesta.
-        // Escribimos la tarea en WorldState para que BeGuard la ejecute.
+        // El iniciador eligió nuestra propuesta — el agente (GuardBrain.HandleAcceptProposal)
+        // es quien escribe los efectos en WorldState; el protocolo solo cierra.
         void OnAccepted(ACLMessage msg, WorldState ws) {
-
-            // Añadir emisor al equipo
-            if (!ws.TeamMembers.Contains(msg.Sender))
-                ws.TeamMembers.Add(msg.Sender);
-
-            ContractTask won = ((CfpContent)_originalCfp.Content).Task;
-            won.InitiatorId = _originalCfp.Sender;
-            ws.AssignedTask = won;
-
             FIPALogger.Log(_participantId, ConversationId, Performative.AcceptProposal,
-                $"task assigned: {ws.AssignedTask?.Type}");
-            ConversationTracker.Instance.UpdateState(ConversationId, "Executing");
-            _state = State.Executing;
-        }
-
-        // El iniciador eligió a otro guardia. Limpiamos el CFP y cerramos.
-        void OnRejected(ACLMessage msg, WorldState ws) {
-
-            // Solo retirar del equipo si no tenemos una tarea activa del mismo iniciador:
-            // un iniciador puede lanzar varios CFPs y haber ganado uno aunque perdamos este.
-            bool hasActiveTaskFromSender = ws.AssignedTask != null && ws.AssignedTask.InitiatorId == msg.Sender;
-            if (!hasActiveTaskFromSender && ws.TeamMembers.Contains(msg.Sender))
-                ws.TeamMembers.Remove(msg.Sender);
-
-            FIPALogger.Log(_participantId, ConversationId, Performative.RejectProposal,
-                "proposal rejected");
-            ConversationTracker.Instance.SetOutcome(ConversationId, "Done");
+                $"proposal accepted by {msg.Sender}");
+            ConversationTracker.Instance.UpdateState(ConversationId, "Done");
             _state = State.Done;
         }
 
-        void OnExecutionDone(ACLMessage msg, WorldState ws) {
-            ws.AssignedTask = null;
+        // El iniciador eligió a otro guardia — simplemente cerrar
+        void OnRejected(ACLMessage msg, WorldState ws) {
+            FIPALogger.Log(_participantId, ConversationId, Performative.RejectProposal,
+                "proposal rejected");
             ConversationTracker.Instance.SetOutcome(ConversationId, "Done");
+            
             _state = State.Done;
         }
     }

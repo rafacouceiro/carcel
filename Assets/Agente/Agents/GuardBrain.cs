@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.AI;
 using System.Collections.Generic;
 using AgenticPrison.Core;
 using AgenticPrison.Physical;
@@ -8,6 +9,7 @@ using AgenticPrison.Communication;
 using AgenticPrison.Behavior.Social;
 using AgenticPrison.Communication.Messages;
 using AgenticPrison.Communication.Protocols.ContractNet;
+using AgenticPrison.Communication.Protocols.Query;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -30,22 +32,17 @@ namespace AgenticPrison.Agents {
         [Header("Configuración del Guardia")]
         [Tooltip("El ID simbólico del cuadrante. Puedes escribirlo o arrastrar el objeto abajo.")]
         public string QuadrantId = "section1";
-
-        [Tooltip("Segundos que el iniciador espera propuestas antes de evaluar (Contract Net).")]
-        public float ContractNetReplyWindow = 1.0f;
+        const float EnergyThreshold = 15f;
 
         #if UNITY_EDITOR
-                [Header("Herramientas de Editor (No compila en build)")]
-                [Tooltip("Arrastra un objeto para copiar su nombre como cuadrante y soltarlo al instante.")]
-                public Transform ArrastrarCuadrante;
-
-                // Transfiere automáticamente el nombre del objeto arrastrado al QuadrantId
-                private void OnValidate() {
-                    if (ArrastrarCuadrante != null) {
-                        QuadrantId = ArrastrarCuadrante.name; 
-                        ArrastrarCuadrante = null;            
-                    }
-                }
+        [Header("Herramientas de Editor (No compila en build)")]
+        public Transform ArrastrarCuadrante;
+        private void OnValidate() {
+            if (ArrastrarCuadrante != null) {
+                QuadrantId = ArrastrarCuadrante.name; 
+                ArrastrarCuadrante = null;            
+            }
+        }
         #endif
 
         [Header("Estado Lógico")]
@@ -66,7 +63,6 @@ namespace AgenticPrison.Agents {
 
         private IActuators _actuators;
         private ICompoundTask _rootTask;
-        private bool _prevWaitingForNoiseQuery = false;
 
         [Tooltip("Nombre del agente, recogido automáticamente.")]
         public string AgentName;
@@ -90,15 +86,13 @@ namespace AgenticPrison.Agents {
 
             _planner      = new HTNPlanner();
             _currentPlan  = new Queue<IPrimitiveTask>();
-
-            _actuators = GetComponent<Actuators>();
-
-            _rootTask = new BeGuard();
+            _actuators    = GetComponent<Actuators>();
+            _rootTask     = new BeGuard();
 
             // Plano social Phase 2
             _socialPlanner  = new HTNPlanner();
             _socialPlan     = new Queue<IPrimitiveTask>();
-            _socialRootTask = new BeSocial(this, ContractNetReplyWindow);
+            _socialRootTask = new BeSocial(this);
         }
 
         protected override void Update() {
@@ -108,52 +102,72 @@ namespace AgenticPrison.Agents {
             UpdateLocation();
             ProcessSocialHTNExecution();            // plano social (BeSocial)
 
-            // Si el Query acaba de terminar y queda ruido por investigar, replanificar el HTN físico
-            if (_prevWaitingForNoiseQuery && !CurrentState.WaitingForNoiseQuery
-                    && CurrentState.LastNoisePosition != Vector3.zero) {
-                ForzarReplanificacion();
+            // Cuando el QueryInitiator ha terminado (ya no está activo), limpiar el flag
+            // y replanificar el HTN físico para que decida si investigar el ruido o ignorarlo
+            if (CurrentState.WaitingForNoiseQuery && !HasActiveQueryInitiator()) {
+                CurrentState.WaitingForNoiseQuery = false;
+                if (CurrentState.LastNoisePosition != UnityEngine.Vector3.zero) ForzarReplanificacion();
             }
-            _prevWaitingForNoiseQuery = CurrentState.WaitingForNoiseQuery;
 
             ProcessHTNExecution();                  // plano físico (BeGuard)
             VisionManager.EmitPresence(this.transform);
+            CheckSweepCompletion();
         }
 
-        public Vector3 GetPosition() {
-            return transform.position;
-        }
+        public Vector3 GetPosition() => transform.position;
 
-        private void OnEnable() {
-            NoiseManager.RegisterReceiver(this);
-        }
+        private void OnEnable() => NoiseManager.RegisterReceiver(this);
+        private void OnDisable() => NoiseManager.UnregisterReceiver(this);
 
-        private void OnDisable() {
-            NoiseManager.UnregisterReceiver(this);
+        // ── Evaluación reactiva de CFPs ────────────────────────────────────────────
+        protected override bool EvaluateCfp(ACLMessage cfp, WorldState ws, out float cost) {
+            cost = 0f;
+            var content = cfp.Content as CfpContent;
+            if (content == null) return false;
+
+            if (ws.AssignedTask != null || ws.ContractNetActive || ws.Energy < EnergyThreshold
+                    || !string.IsNullOrEmpty(ws.TeamName) || HasActiveCnpParticipant())
+                return false;
+
+            Vector3 targetPos = content.Task.Target;
+
+            if (content.Task.AssignedRole == AgentRole.Sweeper && content.Task.SweepRooms != null && content.Task.SweepRooms.Count > 0) {
+                float minLinearDist = float.MaxValue;
+                foreach (var room in content.Task.SweepRooms) {
+                    Vector3 roomPos = room.GetNavigablePosition();
+                    float d = Vector3.Distance(ws.CurrentPosition, roomPos);
+                    if (d < minLinearDist) {
+                        minLinearDist = d;
+                        targetPos = roomPos;
+                    }
+                }
+            }
+
+            var path = new NavMeshPath();
+            if (!NavMesh.CalculatePath(ws.CurrentPosition, targetPos, NavMesh.AllAreas, path))
+                return false;
+
+            cost = CalculatePathLength(path);
+            return true;
         }
 
         // EVENTOS DE AUDICIÓN
-        public void OnNoiseHeard(NoiseEvent noise) 
+        public void OnNoiseHeard(NoiseEvent noise)
         {
             if (noise.emisor == AgentName) return; // Ignorar ruidos propios
 
             // Si el fugitivo está a la vista, ignorar el ruido
-            if (CurrentState.FugitiveInVision) 
-            {
-                return;
-            }
+            if (CurrentState.FugitiveInVision) return;
 
             // Comprobar cercanía de otros guardias
             bool sawGuardRecently = CurrentState.LastGuardPosition != Vector3.zero && (Time.time - CurrentState.LastGuardPositionTime < 8f);
-            
-            if (sawGuardRecently) 
-            {
+            if (sawGuardRecently) {
                 float distToGuard = Vector3.Distance(noise.Position, CurrentState.LastGuardPosition);
-                
+
                 // Si está cerca o es ruido de pasos suaves, descartar
-                if (distToGuard < 10f || noise.Volume < 18f) 
-                {
+                if (distToGuard < 10f || noise.Volume < 18f) {
                     Debug.Log($"<color=cyan>[{AgentName}] Ignorando ruido cercano a un compañero. Falsa alarma.</color>");
-                    return; 
+                    return;
                 }
             }
 
@@ -168,37 +182,27 @@ namespace AgenticPrison.Agents {
             bool isLNPActive = CurrentState.LastNoisePosition != Vector3.zero && (Time.time - CurrentState.LastNoisePositionTime < 30f);
 
             // Pista visual previa es prioridad absoluta
-            if (isLKPActive)
-            {    
-                CurrentState.LastNoisePosition = diffusePosition;
-                CurrentState.LastNoisePositionTime = Time.time;        
-                return;
-            } 
-            else if (isLNPActive)
-            {
-                // Replanificar solo ante un sonido más fuerte y alejado del origen anterior
-                if (noise.Volume > 18f && Vector3.Distance(CurrentState.LastNoisePosition, diffusePosition) > 15f)
-                {
-                    CurrentState.LastNoisePosition = diffusePosition;
-                    CurrentState.LastNoisePositionTime = Time.time;
-                    ForzarReplanificacion();
-                }
-                else
-                {
-                    return;
-                }
-            }
-            // Sin rastro reciente, el agente reacciona y replanifica por el sonido
-            else
-            {
+            if (isLKPActive) {
                 CurrentState.LastNoisePosition = diffusePosition;
                 CurrentState.LastNoisePositionTime = Time.time;
-                ForzarReplanificacion();
-            }            
+                return;
+            }
+            else if (isLNPActive) {
+                // Replanificar solo ante un sonido más fuerte y alejado del origen anterior
+                if (noise.Volume > 18f && Vector3.Distance(CurrentState.LastNoisePosition, diffusePosition) > 15f) {
+                    CurrentState.LastNoisePosition = diffusePosition;
+                    CurrentState.LastNoisePositionTime = Time.time;
+                } else return;
+            }
+            // Sin rastro reciente, el agente registra el sonido para coordinación social
+            else {
+                CurrentState.LastNoisePosition = diffusePosition;
+                CurrentState.LastNoisePositionTime = Time.time;
+            }
         }
 
         // EVENTOS DE VISIÓN
-        public void OnGuardSpotted(Vector3 guardPosition) 
+        public void OnGuardSpotted(Vector3 guardPosition)
         {
             // Registrar ubicación de compañeros detectados
             CurrentState.LastGuardPosition = guardPosition;
@@ -206,35 +210,30 @@ namespace AgenticPrison.Agents {
         }
 
         public void OnFugitiveSpotted(Vector3 position) {
-
-             Debug.LogWarning($"<color=magenta>{CurrentState.PrisonerInCell} prisioner in cell</color>");
+            Debug.LogWarning($"<color=magenta>{CurrentState.PrisonerInCell} prisioner in cell</color>");
 
             // Determinar si lo avistado rompe la condición de cautiverio
-            if(CurrentState.PrisonerInCell)
-            {
+            if(CurrentState.PrisonerInCell) {
                 List<WayPointData> cellPoints = CurrentState.Map.GetAllCellPoints();
                 bool isInsideAnyCell = false;
-
-                foreach(WayPointData cellPoint in cellPoints)
-                {
+                foreach(WayPointData cellPoint in cellPoints) {
                     BoxCollider cellBox = cellPoint.GetComponent<BoxCollider>();
-                    if(cellBox != null && cellBox.bounds.Contains(position))
-                    {
+                    if(cellBox != null && cellBox.bounds.Contains(position)) {
                         isInsideAnyCell = true;
-                        break; 
+                        break;
                     }
                 }
-                
+
                 // Si efectivamente sigue en la celda según los colliders, ignorar
-                if(isInsideAnyCell)
-                {
+                if(isInsideAnyCell) {
                     Debug.LogWarning("<color=magenta>El prisionero está dentro de la celda.</color>");
-                    return; 
+                    return;
                 }
             }
-            
+
             // Fuga confirmada visualmente
             Debug.LogWarning("<color=red>He visto al prisionero fuera de la celda</color>");
+            CheckAndBroadcastSector(position);
             CurrentState.PrisonerInCell = false;
             CurrentState.FugitiveInVision = true;
             CurrentState.seenByMe = true;
@@ -246,7 +245,7 @@ namespace AgenticPrison.Agents {
 
         public void OnFugitivePositionUpdated(Vector3 position) {
             if (CurrentState.PrisonerInCell) return; // Ignorar actualizaciones si no hay fuga
-
+            CheckAndBroadcastSector(position);
             CurrentState.LastKnownPosition = position;
             CurrentState.LastKnownPositionTime = Time.time;
         }
@@ -256,68 +255,113 @@ namespace AgenticPrison.Agents {
             CurrentState.FugitiveInVision = false;
         }
 
-        public void OnCellFoundOpen() 
+        public void OnCellFoundOpen()
         {
             // Constatación de la huida al patrullar las celdas
             if (CurrentState.PrisonerInCell) {
-                CurrentState.PrisonerInCell = false;  
-                Debug.LogWarning("<color=yellow>El prisionero SE HA FUGADO</color>");              
+                CurrentState.PrisonerInCell = false;
+                Debug.LogWarning("<color=yellow>El prisionero SE HA FUGADO</color>");
                 ForzarReplanificacion();
             }
         }
 
-        // COMUNICACIÓN FIPA
+        // ── COMUNICACIÓN FIPA ──────────────────────────────────────────────────────
 
-        protected override void OnMessageReceived(ACLMessage msg) {
-            if (msg.Performative == Performative.Cfp) {
-                // El CFP informa a todos de la fuga y de la última posición conocida del fugitivo.
-                // Actualizar el estado del mundo antes de encolar la decisión social.
-                var content = msg.Content as CfpContent;
-                if (content != null) {
-                    CurrentState.PrisonerInCell = false;
-                    if (content.FugitivePositionTime > CurrentState.LastKnownPositionTime) {
-                        CurrentState.LastKnownPosition     = content.FugitivePosition;
-                        CurrentState.LastKnownPositionTime = content.FugitivePositionTime;
-                        ForzarReplanificacion();
-                    }
-                    // Propagar el sector del fugitivo para detectar cambios de operación
-                    if (!string.IsNullOrEmpty(content.SectorId))
-                        CurrentState.FugitiveSectorId = content.SectorId;
+        protected override void OnMessageReceived(ACLMessage msg, WorldState ws) {
+            base.OnMessageReceived(msg, ws);
+            if (msg.Performative == Performative.AcceptProposal) HandleAcceptProposal(msg, ws);
+            else if (msg.Channel != null && msg.Channel.StartsWith("team_")) HandleTeamSincronization(msg, ws);
+        }
+
+        protected override void HandleInform(ACLMessage msg, WorldState ws) {
+            base.HandleInform(msg, ws);
+            if (msg.Content is FugitiveSightingContent && !ws.FugitiveInVision) ForzarReplanificacion();
+        }
+
+        protected override void OnCfpReceived(ACLMessage msg, WorldState ws, ContractNetParticipant participant) {
+            if (!string.IsNullOrEmpty(ws.TeamName) && !ws.FugitiveInVision) {
+                if (ws.ContractNetActive && ws.AssignedTask != null) {
+                    DissolveTeam(ws, msg.ConversationId);
                 }
-                CurrentState.PendingActions.Enqueue(msg);
             }
+            ws.PrisonerInCell = false;
+            float cost;
+            if (EvaluateCfp(msg, ws, out cost)) participant.SendPropose(this, ws, cost);
+            else participant.SendRefuse(this, ws);
+            if (!ws.FugitiveInVision) ForzarReplanificacion();
+        }
 
-            // Al recibir aceptación de una propuesta, el protocolo ya ha escrito AssignedTask
-            // en WorldState. Forzar replanificación física para que el HTN la recoja
-            // inmediatamente, salvo que haya una emergencia activa (persecución en curso).
-            if (msg.Performative == Performative.AcceptProposal && !CurrentState.FugitiveInVision)
-            {
-                Debug.Log($"<color=cyan>[{AgentName}] Acepté propuesta de {msg.Sender}. Replanificando.</color>");
-                ForzarReplanificacion();
-            }
+        private void HandleAcceptProposal(ACLMessage msg, WorldState ws) {
+            // El protocolo solo cerró; aquí aplicamos los efectos contractuales en WorldState
+            ContractTask won = msg.Content as ContractTask;
+            if (won == null) return;
 
-            // Señal de disolución del equipo enviada por el líder a los blockers.
-            // Llega sin conversación activa (el protocolo ya está cerrado), por lo que
-            // no se enruta a ningún protocolo y acaba aquí. Al limpiar AssignedTask,
-            // el ContractNetParticipant en estado Executing detectará el cambio en su
-            // próximo tick y enviará InformDone de vuelta al líder, cerrando el protocolo.
-            if (msg.Performative   == Performative.InformDone
-                && CurrentState.AssignedTask != null
-                && CurrentState.AssignedTask.AssignedRole == AgentRole.Blocker
-                && CurrentState.TeamMembers.Contains(msg.Sender))
-            {
-                Debug.Log($"<color=orange>[{AgentName}] Disolución recibida de {msg.Sender}. Volviendo a rutina.</color>");
-                CurrentState.AssignedTask    = null;
-                CurrentState.FugitiveSectorId = string.Empty;
-                CurrentState.TeamMembers.Remove(msg.Sender);
-                ForzarReplanificacion();
+            ws.AssignedTask        = won;
+            ws.TeamName            = won.TeamName;
+            ws.PendingSweepersCount = won.TotalSweepers;
+            ws.ContractNetActive   = true;
+
+            Debug.Log($"<color=cyan>[{AgentName}] Tarea asignada: {won.Type} | equipo: {won.TeamName}</color>");
+            SubscribeToChannel(AgentId, "team_" + won.TeamName);
+
+            if (!ws.FugitiveInVision) ForzarReplanificacion();
+        }
+
+        private void HandleTeamSincronization(ACLMessage msg, WorldState ws) {
+            if (msg.Performative != Performative.InformDone) return;
+            if (msg.Sender == AgentId) return;
+            if (ws.PendingSweepersCount > 0) {
+                ws.PendingSweepersCount--;
+                if (ws.PendingSweepersCount <= 0) DissolveTeam(ws, msg.ConversationId);
             }
+        }
+
+        private void DissolveTeam(WorldState ws, string conversationId) {
+            string teamName = ws.TeamName;
+            if (string.IsNullOrEmpty(teamName)) return;
+            ws.TeamName           = string.Empty;
+            ws.ContractNetActive   = false;
+            ws.AssignedRole        = AgentRole.None;
+            ws.AssignedTask        = null;
+            ws.PendingSweepersCount = 0;
+            UnsubscribeFromChannel(AgentId, "team_" + teamName);
+            ForzarReplanificacion();
+        }
+
+        private void CheckAndBroadcastSector(Vector3 position) {
+            string newSectorId = CurrentState.Map.GetCurrentSector(position);
+            if (!string.IsNullOrEmpty(newSectorId) && newSectorId != CurrentState.FugitiveSectorId) {
+                Broadcast(new ACLMessage {
+                    Performative   = Performative.Inform,
+                    Sender         = AgentId,
+                    Content        = new FugitiveSightingContent(position, Time.time, newSectorId, AgentId),
+                    SentAt         = Time.time
+                });
+                CurrentState.FugitiveSectorId = newSectorId;
+            }
+        }
+
+        private void CheckSweepCompletion() {
+            if (CurrentState.AssignedTask == null || CurrentState.AssignedTask.Type != TaskType.SweepSector) return;
+            if (CurrentState.AssignedTask.SweepRooms == null || CurrentState.AssignedTask.SweepRooms.Count > 0) return;
+
+            string teamName = CurrentState.TeamName;
+            if (!string.IsNullOrEmpty(teamName)) {
+                if (CurrentState.PendingSweepersCount > 0) CurrentState.PendingSweepersCount--;
+                BroadcastToChannel("team_" + teamName, new ACLMessage {
+                    Performative   = Performative.InformDone,
+                    Sender         = AgentId,
+                    Content        = CurrentState.AssignedRole.ToString(),
+                    SentAt         = Time.time
+                });
+                if (CurrentState.PendingSweepersCount <= 0) DissolveTeam(CurrentState, "sweep_done");
+            }
+            CurrentState.AssignedTask = null;
+            ForzarReplanificacion();
         }
 
         // Refrescar coordenadas del agente en su estado interno
-        private void UpdateLocation(){
-            CurrentState.CurrentPosition = transform.position;
-        }
+        private void UpdateLocation() => CurrentState.CurrentPosition = transform.position;
 
         // Interrumpir plan físico y detener movimiento actual
         private void ForzarReplanificacion() {
@@ -344,42 +388,41 @@ namespace AgenticPrison.Agents {
             if (_activeSocialTask != null) {
                 // Las tareas sociales no usan actuadores físicos — se pasa null
                 var status = _activeSocialTask.Execute(null, CurrentState);
-
-                if (status == TaskExecutionStatus.Success) {
-                    _activeSocialTask = (_socialPlan.Count > 0) ? _socialPlan.Dequeue() : null;
-                } else if (status == TaskExecutionStatus.Failure) {
-                    _socialPlan.Clear();
-                    _activeSocialTask = null;
-                }
+                if (status == TaskExecutionStatus.Success) _activeSocialTask = (_socialPlan.Count > 0) ? _socialPlan.Dequeue() : null;
+                else if (status == TaskExecutionStatus.Failure) { _socialPlan.Clear(); _activeSocialTask = null; }
             }
         }
 
         // Motor de ejecución continua HTN
         private void ProcessHTNExecution() {
-
             if (_rootTask == null) return;
-            
+
             // Solicitar nuevo plan si la cola está vacía
             if (_currentPlan.Count == 0 && _activeTask == null) {
                 _currentPlan = _planner.GeneratePlan(CurrentState, _rootTask);
-                if (_currentPlan.Count > 0) _activeTask = _currentPlan.Dequeue(); 
+                if (_currentPlan.Count > 0) _activeTask = _currentPlan.Dequeue();
             }
 
             // Seguimiento de la tarea primitiva actual
             if (_activeTask != null) {
-                var status = _activeTask.Execute(_actuators, CurrentState); 
+                var status = _activeTask.Execute(_actuators, CurrentState);
 
                 // Extraer próxima si logró éxito
-                if (status == TaskExecutionStatus.Success) { 
-                    _activeTask = (_currentPlan.Count > 0) ? _currentPlan.Dequeue() : null; 
-                } 
+                if (status == TaskExecutionStatus.Success) {
+                    _activeTask = (_currentPlan.Count > 0) ? _currentPlan.Dequeue() : null;
+                }
                 // Vaciado ante fallo para replanificar en el siguiente frame
-                else if (status == TaskExecutionStatus.Failure) { 
-                    _currentPlan.Clear(); 
-                    _activeTask = null; 
+                else if (status == TaskExecutionStatus.Failure) {
+                    _currentPlan.Clear();
+                    _activeTask = null;
                 }
             }
         }
 
+        private float CalculatePathLength(NavMeshPath path) {
+            float length = 0f;
+            for (int i = 0; i < path.corners.Length - 1; i++) length += Vector3.Distance(path.corners[i], path.corners[i + 1]);
+            return length;
+        }
     }
 }
