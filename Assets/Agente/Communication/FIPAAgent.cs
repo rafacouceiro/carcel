@@ -27,6 +27,9 @@ namespace AgenticPrison.Communication {
         // Registro global de agentes por id (transporte unicast y broadcast)
         static readonly Dictionary<string, FIPAAgent> _agents = new Dictionary<string, FIPAAgent>();
 
+        // Registro global de suscripciones a canales: canal → conjunto de agentIds
+        static readonly Dictionary<string, HashSet<string>> _channels = new Dictionary<string, HashSet<string>>();
+
         // Identificador único del agente, usado como clave en el registro global
         public abstract string AgentId { get; }
 
@@ -79,9 +82,7 @@ namespace AgenticPrison.Communication {
                     _ongoing_conversations.Remove(id);
             }
 
-            // Si ya no quedan conversaciones activas, liberar el lock de Contract Net
-            if (_ongoing_conversations.Count == 0)
-                ws.ContractNetActive = false;
+            // ContractNetActive ya no se limpia aquí: lo gestiona GuardBrain cuando el equipo se disuelve
 
             // Segundo: procesar mensajes del buffer, priorizando conversaciones activas
             int bufferSnapshot = _count;
@@ -112,7 +113,7 @@ namespace AgenticPrison.Communication {
                 if (processed >= maxPerFrame) break;
                 bool expired = msg.ReplyBy > 0f && Time.time > msg.ReplyBy;
                 if (!expired) {
-                    // Auto-indexar CFPs de apertura para que los mensajes siguientes ya tengan ruta conocida
+                    // Auto-indexar CFPs de apertura + respuesta reactiva (sin HTN)
                     if (msg.Performative == Performative.Cfp &&
                         !_ongoing_conversations.ContainsKey(msg.ConversationId) &&
                         _ongoing_conversations.Count < MAX_CONVERSATIONS)
@@ -123,7 +124,7 @@ namespace AgenticPrison.Communication {
                             && !string.IsNullOrEmpty(cfpContent.SectorId)
                             && !string.IsNullOrEmpty(ws.FugitiveSectorId)
                             && cfpContent.SectorId != ws.FugitiveSectorId
-                            && ws.TeamMembers.Count > 0;
+                            && !string.IsNullOrEmpty(ws.TeamName);
 
                         if (isDifferentSector) {
                             var toRemove = new List<string>();
@@ -131,16 +132,22 @@ namespace AgenticPrison.Communication {
                                 if (kv.Value is ContractNetParticipant) toRemove.Add(kv.Key);
                             foreach (var id in toRemove) _ongoing_conversations.Remove(id);
 
-                            ws.AssignedTask          = null;
-                            ws.AssignedRole          = AgentRole.None;
-                            ws.TeamMembers.Clear();
-                            ws.FugitiveSectorId      = cfpContent.SectorId;
-                            ws.SweepProtocolsActive  = 0;
+                            ws.AssignedTask      = null;
+                            ws.AssignedRole      = AgentRole.None;
+                            ws.TeamName          = string.Empty;
+                            ws.FugitiveSectorId  = cfpContent.SectorId;
                         }
 
                         var participant = new ContractNetParticipant(msg, AgentId);
                         _ongoing_conversations[participant.ConversationId] = participant;
                         participant.Init(this, ws);
+
+                        // Respuesta reactiva: evaluar y proponer/rechazar sin pasar por el HTN social
+                        float cost;
+                        if (EvaluateCfp(msg, ws, out cost))
+                            participant.SendPropose(this, ws, cost);
+                        else
+                            participant.SendRefuse(this, ws);
                     }
 
                     if (msg.Performative == Performative.Query &&
@@ -167,6 +174,45 @@ namespace AgenticPrison.Communication {
             } else {
                 Debug.LogWarning("[FIPA] Receptor no encontrado: " + msg.Receiver);
             }
+        }
+
+        // ── Sistema de canales pub/sub ─────────────────────────────────────────────
+
+        public static void SubscribeToChannel(string agentId, string channel) {
+            if (!_channels.ContainsKey(channel)) _channels[channel] = new HashSet<string>();
+            _channels[channel].Add(agentId);
+        }
+
+        public static void UnsubscribeFromChannel(string agentId, string channel) {
+            if (_channels.ContainsKey(channel)) _channels[channel].Remove(agentId);
+        }
+
+        // Envía un mensaje a todos los suscriptores del canal excepto el emisor
+        public void BroadcastToChannel(string channel, ACLMessage msg) {
+            msg.Channel = channel;
+            ACLMessage.Log(msg);
+            HashSet<string> subs;
+            if (!_channels.TryGetValue(channel, out subs) || subs.Count == 0) return;
+            var snapshot = new string[subs.Count];
+            subs.CopyTo(snapshot);
+            foreach (string id in snapshot) {
+                if (id == msg.Sender) continue;
+                FIPAAgent target;
+                if (_agents.TryGetValue(id, out target)) target.ReceiveMessage(msg);
+            }
+        }
+
+        // Verdadero mientras haya algún ContractNetInitiator activo como iniciador
+        protected bool HasActiveCnpInitiator() {
+            foreach (var p in _ongoing_conversations.Values)
+                if (p is ContractNetInitiator) return true;
+            return false;
+        }
+
+        // Hook para que las subclases evalúen reactivamente si proponer o rechazar un CFP.
+        // Devuelve true = proponer con el coste calculado; false = rechazar.
+        protected virtual bool EvaluateCfp(ACLMessage cfp, WorldState ws, out float cost) {
+            cost = 0f; return false;
         }
 
         // Envío broadcast a todos los agentes registrados excepto el emisor
