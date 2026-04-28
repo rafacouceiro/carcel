@@ -13,7 +13,6 @@ namespace AgenticPrison.Agents {
         public bool IsDetectingFugitive = false;
 
         protected override void Start() {
-            // Registro en el MessageBus (FIPA) por si en el futuro debe enviar mensajes
             base.Start();
         }
 
@@ -48,8 +47,6 @@ namespace AgenticPrison.Agents {
             // No implementamos lógica aquí.
         }
 
-        // Requerido por FIPA pero no usado activamente por ahora
-        public override string[] GetOntologies() => new string[0];
         protected override void OnMessageReceived(ACLMessage msg) { }
     }
 }

@@ -11,7 +11,6 @@ namespace AgenticPrison.Communication {
         public string      Sender;           // Lo que no sea sobre la comunicación va en contenido
         public string      Receiver;         // Vacío si es broadcast
         public string      ConversationId;
-        public string      Ontology;
         public object      Content;          // Payload tipado (ProposalContent, ContractTask, etc.)
         public float       SentAt;           // Time.time al enviar
         public float       ReplyBy;          // Tiempo límite de respuesta (0 = sin límite)
@@ -25,13 +24,12 @@ namespace AgenticPrison.Communication {
                               : msg.ConversationId;
 
             string line = string.Format(
-                "[FIPA] frame:{0} | {1} | from:{2} -> to:{3} | conv:{4} | ontology:{5} | content:{6} | sentAt:{7:F2}",
+                "[FIPA] frame:{0} | {1} | from:{2} -> to:{3} | conv:{4} | content:{5} | sentAt:{6:F2}",
                 Time.frameCount.ToString("D6"),
                 msg.Performative.ToString(),
                 msg.Sender,
                 receiver,
                 conv,
-                msg.Ontology,
                 msg.Content?.ToString(),
                 msg.SentAt
             );

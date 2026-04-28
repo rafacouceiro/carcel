@@ -265,8 +265,6 @@ namespace AgenticPrison.Agents {
 
         // COMUNICACIÓN FIPA
 
-        public override string[] GetOntologies() { return new string[0]; }
-
         protected override void OnMessageReceived(ACLMessage msg) {
             if (msg.Performative == Performative.Cfp) {
                 // El CFP informa a todos de la fuga y de la última posición conocida del fugitivo.
