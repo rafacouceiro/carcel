@@ -242,10 +242,6 @@ namespace AgenticPrison.Communication {
             return false;
         }
 
-        protected bool HasActiveQueryInitiator() {
-            foreach (var p in _ongoing_conversations.Values) if (p is QueryInitiator) return true;
-            return false;
-        }
 
         void DiscardExpired() {
             float now = Time.time;
