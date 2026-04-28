@@ -124,11 +124,10 @@ namespace AgenticPrison.Communication {
 
             if (msg.Performative == Performative.Cfp) {
                 var p = new ContractNetParticipant(msg, AgentId);
-                _ongoing_conversations[p.ConversationId] = p;
                 p.Init(this, ws);
-                
-                // workflow: Notificar al agente para que evalúe y responda
+                // Evaluar primero; registrar solo si propuso (IsComplete=false tras Refuse)
                 OnCfpReceived(msg, ws, p);
+                if (!p.IsComplete) _ongoing_conversations[p.ConversationId] = p;
                 return true;
             } else if (msg.Performative == Performative.Query) {
                 var p = new QueryParticipant(msg, AgentId);

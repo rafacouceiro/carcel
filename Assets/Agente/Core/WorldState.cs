@@ -42,8 +42,12 @@ namespace AgenticPrison.Core {
         // Rol activo durante la operación de sector (solo el líder lo escribe; participantes leen AssignedTask.AssignedRole)
         public AgentRole AssignedRole = AgentRole.None;
 
-        // Sector del fugitivo en la operación activa — detecta cambios para disolver y relanzar
+        // Último sector donde se avistó al fugitivo (vía visión directa o Inform de compañero)
         public string FugitiveSectorId = string.Empty;
+
+        // Sector para el que ya se lanzó un CNP — impide relanzar para el mismo sector
+        // Solo lo escribe LaunchSectorCfpsTask; CheckAndBroadcastSector no lo toca
+        public string PerimeteredSectorId = string.Empty;
 
         // Nombre del equipo activo — identifica el canal de coordinación (team_<teamName>)
         public string TeamName = string.Empty;
@@ -82,6 +86,7 @@ namespace AgenticPrison.Core {
                 AssignedTask          = this.AssignedTask?.Clone(),
                 AssignedRole          = this.AssignedRole,
                 FugitiveSectorId      = this.FugitiveSectorId,
+                PerimeteredSectorId   = this.PerimeteredSectorId,
                 TeamName              = this.TeamName,
                 PendingSweepersCount  = this.PendingSweepersCount,
                 ContractNetActive     = this.ContractNetActive,

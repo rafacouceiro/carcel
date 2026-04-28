@@ -22,6 +22,10 @@ namespace AgenticPrison.Behavior.Social {
             var sectors = state.Map?.GetFugitiveSectors(state.LastKnownPosition);
             if (sectors == null || sectors.Count != 1) return false;
 
+            // Solo lanzar si el sector es nuevo o nunca se ha perimetrado
+            if (!string.IsNullOrEmpty(state.PerimeteredSectorId) && sectors[0] == state.PerimeteredSectorId)
+                return false;
+
             return true;
         }
 

@@ -122,6 +122,7 @@ namespace AgenticPrison.Core {
             destination.PendingSweepersCount  = source.PendingSweepersCount;
             destination.ContractNetActive     = source.ContractNetActive;
             destination.WaitingForNoiseQuery  = source.WaitingForNoiseQuery;
+            destination.PerimeteredSectorId   = source.PerimeteredSectorId;
         }
     }
 }

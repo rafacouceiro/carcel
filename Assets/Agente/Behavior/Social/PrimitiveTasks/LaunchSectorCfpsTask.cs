@@ -25,7 +25,7 @@ namespace AgenticPrison.Behavior.Social {
         }
 
         public bool CheckPreconditions(WorldState state) {
-            return state.FugitiveInVision && state.LastKnownPosition != Vector3.zero;
+            return state.seenByMe && state.LastKnownPosition != Vector3.zero;
         }
 
         public void ApplyEffects(WorldState state) {
@@ -39,16 +39,12 @@ namespace AgenticPrison.Behavior.Social {
             if (sectors.Count != 1) return TaskExecutionStatus.Failure;
             string sectorId = sectors[0];
 
-            // 2. No relanzar si el sector ya está perimetrado
-            if (sectorId == state.FugitiveSectorId && !string.IsNullOrEmpty(state.TeamName)) 
-                return TaskExecutionStatus.Failure;
-
-            // 3. Generar plan del equipo usando la herramienta centralizada
+            // 2. Generar plan del equipo usando la herramienta centralizada
             var plan = PerimeterTool.GenerateTeamPlan(sectorId, state.Map, state.AgentName);
-            
+
             state.TeamName             = plan.TeamName;
             state.PendingSweepersCount = plan.TotalSweepers;
-            state.FugitiveSectorId     = sectorId;
+            state.PerimeteredSectorId  = sectorId; // marca el sector como ya perimetrado
             state.ContractNetActive    = true;
 
             // 4. El líder se queda siempre con la primera tarea de Sweeping
