@@ -232,7 +232,6 @@ namespace AgenticPrison.Agents {
                 CurrentState.ShouldInitiateCnp = true;
                 Debug.LogWarning("<color=yellow>El prisionero SE HA FUGADO</color>");
                 ForzarReplanificacion();
-                ForzarReplanificacionSocial();
             }
         }
 
