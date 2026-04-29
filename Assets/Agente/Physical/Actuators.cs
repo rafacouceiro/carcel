@@ -12,10 +12,14 @@ namespace AgenticPrison.Physical {
         [Header("Efectos Visuales")]
         public Light linterna;
 
+        // Contador estático para asignar prioridades únicas y espaciadas a cada guardia
+        private static int _priorityCounter = 0;
+
         private void Awake() {
             _agent = GetComponent<NavMeshAgent>();
             if (gameObject.CompareTag("Guardia")) {
-                _agent.avoidancePriority = Random.Range(30, 70);
+                // Prioridades 10, 20, 30... evitan empates que causan bloqueos en pasillos
+                _agent.avoidancePriority = 10 + (_priorityCounter++ % 9) * 10;
             }
         }
 
@@ -38,16 +42,33 @@ namespace AgenticPrison.Physical {
             }
         }
 
+        // Tiempo que lleva el agente sin moverse cuando debería hacerlo
+        private float _stuckTimer = 0f;
+        private const float StuckTimeout = 2.5f;
+
         // Comprueba si el agente sigue desplazándose físicamente hacia su meta
         public bool IsMoving() {
             if (!_agent.isOnNavMesh) return false;
             if (!_agent.pathPending) {
                 if (_agent.remainingDistance <= _agent.stoppingDistance) {
                     if (!_agent.hasPath || _agent.velocity.sqrMagnitude == 0f) {
+                        _stuckTimer = 0f;
                         return false;
                     }
                 }
             }
+
+            // Si hay destino pero la velocidad es cero, el agente está atascado
+            if (_agent.hasPath && _agent.velocity.sqrMagnitude < 0.01f) {
+                _stuckTimer += Time.deltaTime;
+                if (_stuckTimer >= StuckTimeout) {
+                    _stuckTimer = 0f;
+                    return false; // Dar la tarea por terminada y replanificar
+                }
+            } else {
+                _stuckTimer = 0f;
+            }
+
             return true;
         }
 

@@ -59,9 +59,6 @@ namespace AgenticPrison.Core {
         // Sweepers pendientes de completar su tarea — solo el iniciador lo escribe; disolución cuando llega a 0
         public int PendingSweepersCount = 0;
 
-        // true mientras haya una operación de equipo activa — impide relanzar subastas
-        public bool ContractNetActive = false;
-
         // true mientras un QueryInitiator espera Informs — bloquea InvestigateNoiseMethod durante la ventana
         public bool WaitingForNoiseQuery = false;
 
@@ -93,7 +90,6 @@ namespace AgenticPrison.Core {
                 PerimeteredSectorId   = this.PerimeteredSectorId,
                 TeamName              = this.TeamName,
                 PendingSweepersCount  = this.PendingSweepersCount,
-                ContractNetActive     = this.ContractNetActive,
                 ShouldInitiateCnp     = this.ShouldInitiateCnp,
                 WaitingForNoiseQuery  = this.WaitingForNoiseQuery,
                 PendingCfps           = new Queue<ContractTask>(this.PendingCfps)

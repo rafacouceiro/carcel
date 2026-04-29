@@ -60,10 +60,17 @@ namespace AgenticPrison.Communication.Protocols.ContractNet {
         }
 
         // ── Tick por tiempo ────────────────────────────────────────────────────────
-        // Si el CFP tenía ReplyBy y ya expiró antes de que se enviara respuesta, cerrar.
+        // Si el CFP tenía ReplyBy y ya expiró antes de recibir respuesta definitiva (Accept/Reject), cerrar.
+        // Esto evita que el agente quede bloqueado en "participación activa" si el iniciador falla.
         public void Tick(float currentTime, WorldState ws) {
-            if (_state == State.CfpReceived && _originalCfp.ReplyBy > 0f && currentTime > _originalCfp.ReplyBy)
+            if (_state == State.Done) return;
+
+            if (_originalCfp.ReplyBy > 0f && currentTime > _originalCfp.ReplyBy + 1.0f) {
+                if (_state == State.Proposed) {
+                    FIPALogger.Log(_participantId, ConversationId, Performative.Failure, "Protocol timeout - no response from initiator");
+                }
                 _state = State.Done;
+            }
         }
 
         // ── Construcción de la tabla de transiciones ───────────────────────────────

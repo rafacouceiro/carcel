@@ -251,8 +251,16 @@ namespace AgenticPrison.Agents {
         }
 
         protected override void HandleInform(ACLMessage msg, WorldState ws) {
+            string sectorAntes = ws.FugitiveSectorId;
             base.HandleInform(msg, ws);
-            if (msg.Content is FugitiveSightingContent && !ws.FugitiveInVision) ForzarReplanificacion();
+            if (!(msg.Content is FugitiveSightingContent)) return;
+
+            if (ws.FugitiveSectorId != sectorAntes) {
+                // sector cambió: disolver equipo inmediatamente, cancelar subastas pendientes
+                DissolveTeam(ws, abortCnps: true);
+            } else if (!ws.FugitiveInVision) {
+                ForzarReplanificacion();
+            }
         }
 
         protected override void OnCfpReceived(ACLMessage msg, WorldState ws, ContractNetParticipant participant) {
@@ -268,9 +276,8 @@ namespace AgenticPrison.Agents {
             var content = cfp.Content as CfpContent;
             if (content == null) return false;
 
-            if (ws.AssignedTask != null || ws.ContractNetActive || !string.IsNullOrEmpty(ws.TeamName) || HasActiveCnpParticipant()) {
+            if (ws.AssignedTask != null || !string.IsNullOrEmpty(ws.TeamName) || HasActiveCnpParticipant()) {
                 string reason = ws.AssignedTask != null ? "AssignedTask" :
-                               ws.ContractNetActive ? "ContractNetActive" :
                                !string.IsNullOrEmpty(ws.TeamName) ? $"TeamActive({ws.TeamName})" :
                                "HasActiveCnpParticipant";
                 Debug.Log($"<color=yellow>[{AgentId}] REFUSE CFP {cfp.ConversationId}: {reason}</color>");
@@ -307,10 +314,9 @@ namespace AgenticPrison.Agents {
             ContractTask won = msg.Content as ContractTask;
             if (won == null) return;
 
-            ws.AssignedTask        = won;
-            ws.TeamName            = won.TeamName;
+            ws.AssignedTask         = won;
+            ws.TeamName             = won.TeamName;
             ws.PendingSweepersCount = won.TotalSweepers;
-            ws.ContractNetActive   = true;
 
             Debug.Log($"<color=cyan>[{AgentName}] Tarea asignada: {won.Type} | equipo: {won.TeamName}</color>");
             SubscribeToChannel(AgentId, "team_" + won.TeamName);
@@ -324,20 +330,33 @@ namespace AgenticPrison.Agents {
             if (ws.PendingSweepersCount > 0) {
                 ws.PendingSweepersCount--;
                 FIPALogger.Log(AgentId, "team", Performative.InformDone, $"recv from={msg.Sender} team={ws.TeamName} pending={ws.PendingSweepersCount}");
-                if (ws.PendingSweepersCount <= 0) DissolveTeam(ws, msg.ConversationId);
+                if (ws.PendingSweepersCount <= 0) DissolveTeam(ws);
             }
         }
 
-        private void DissolveTeam(WorldState ws, string conversationId) {
+        // abortCnps=false → disolución normal al completar sweep (PendingSweepersCount==0)
+        // abortCnps=true  → disolución inmediata por cambio de sector (cancela subastas en curso)
+        private void DissolveTeam(WorldState ws, bool abortCnps = false) {
             string teamName = ws.TeamName;
-            if (string.IsNullOrEmpty(teamName)) return;
-            FIPALogger.Log(AgentId, "team", Performative.InformDone, $"DISSOLVED team={teamName}");
-            ws.TeamName            = string.Empty;
-            ws.ContractNetActive   = false;
-            ws.AssignedRole        = AgentRole.None;
-            ws.AssignedTask        = null;
-            ws.PendingSweepersCount = 0;
-            UnsubscribeFromChannel(AgentId, "team_" + teamName);
+            bool hasTeam    = !string.IsNullOrEmpty(teamName);
+
+            if (!hasTeam && !abortCnps) return;
+
+            if (hasTeam) {
+                FIPALogger.Log(AgentId, "team", Performative.InformDone,
+                    abortCnps ? $"ABORT sector change — team={teamName}" : $"DISSOLVED team={teamName}");
+                UnsubscribeFromChannel(AgentId, "team_" + teamName);
+                ws.TeamName             = string.Empty;
+                ws.AssignedRole         = AgentRole.None;
+                ws.AssignedTask         = null;
+                ws.PendingSweepersCount = 0;
+            }
+
+            if (abortCnps) {
+                ws.PendingCfps.Clear();
+                CancelOngoingCnpProtocols();
+            }
+
             ForzarReplanificacion();
             ForzarReplanificacionSocial();
         }
@@ -375,6 +394,8 @@ namespace AgenticPrison.Agents {
                 SentAt         = Time.time
             });
             CurrentState.FugitiveSectorId = newSectorId;
+            // seenByMe permanece true — este agente mantiene la autoridad de iniciar el nuevo perímetro
+            DissolveTeam(CurrentState, abortCnps: true);
         }
 
         private void CheckSweepCompletion() {
@@ -393,7 +414,7 @@ namespace AgenticPrison.Agents {
                 });
                 if (CurrentState.PendingSweepersCount <= 0) {
                     Debug.Log($"<color=cyan>[{AgentId}] Team {teamName} completed. Dissolving...</color>");
-                    DissolveTeam(CurrentState, "sweep_done");
+                    DissolveTeam(CurrentState);
                     NotifySweepFailed(CurrentState, teamName);
                     CurrentState.ShouldInitiateCnp = true; // Hacer que tome él la iniciativa apra empezar el CNP
                 } else {

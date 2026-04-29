@@ -28,8 +28,6 @@ namespace AgenticPrison.Behavior.Methods {
                 && state.AssignedTask.SweepRooms   != null
                 && state.AssignedTask.SweepRooms.Count > 0;
 
-            Debug.Log($"<color=#00ffffff>[WIDE SWEEP]</color> <b>{state.AgentName}</b> | assignedTask: {state.AssignedTask != null} | assignedRole: {state.AssignedTask?.AssignedRole} | AssignedSweepRooms.Count: {state.AssignedTask?.SweepRooms?.Count}");
-
             return hasSighting || isSweeper;
         }
 

@@ -78,16 +78,16 @@ namespace AgenticPrison.Communication {
 
         private void ProcessBuffer(WorldState ws, int maxPerFrame) {
             int processed = 0;
-            int bufferSnapshot = _count;
-            int readPos = _head;
-            var deferred = new List<ACLMessage>();
+            int readIdx   = 0;           // solo avanza cuando NO se elimina el elemento
+            var deferred  = new List<ACLMessage>();
 
             // Pasada 1: Conversaciones activas
-            for (int i = 0; i < bufferSnapshot && processed < maxPerFrame; i++) {
-                int pos = (readPos + i) % BUFFER_SIZE;
+            // readIdx no avanza al eliminar: el elemento siguiente se desplaza a la misma posición
+            while (readIdx < _count && processed < maxPerFrame) {
+                int pos = (_head + readIdx) % BUFFER_SIZE;
                 ACLMessage msg = _buffer[pos];
 
-                if (IsExpired(msg)) continue;
+                if (IsExpired(msg)) { RemoveFromBuffer(pos); continue; } // eliminar, no avanzar
 
                 if (!string.IsNullOrEmpty(msg.ConversationId) && _ongoing_conversations.ContainsKey(msg.ConversationId)) {
                     _ongoing_conversations[msg.ConversationId].Tick(msg, ws);
@@ -95,8 +95,10 @@ namespace AgenticPrison.Communication {
                     OnMessageReceived(msg, ws); // permite que el agente reaccione al resultado del protocolo
                     RemoveFromBuffer(pos);
                     processed++;
+                    // no avanzar readIdx: el siguiente elemento se desplazó a pos
                 } else {
                     deferred.Add(msg);
+                    readIdx++; // solo se avanza cuando el elemento queda en el buffer
                 }
             }
 
@@ -106,15 +108,14 @@ namespace AgenticPrison.Communication {
                 if (IsExpired(msg)) { RemoveFromBuffer(FindInBuffer(msg)); continue; }
 
                 // Intentar iniciar protocolo si tiene ID y es una performativa de inicio
-                bool startedProtocol = false;
                 if (!string.IsNullOrEmpty(msg.ConversationId)) {
-                    startedProtocol = HandlePotentialNewProtocol(msg, ws);
+                    HandlePotentialNewProtocol(msg, ws);
                 }
 
                 // En cualquier caso, el agente reacciona al mensaje
                 OnMessageReceived(msg, ws);
 
-                RemoveFromBuffer(FindInBuffer(msg)); 
+                RemoveFromBuffer(FindInBuffer(msg));
                 processed++;
             }
         }
@@ -165,14 +166,23 @@ namespace AgenticPrison.Communication {
                 ws.PrisonerInCell = false;
 
                 if (sighting.SectorId == "[UNK]") {
-                    // Señal de barrido fallido: sector desconocido, no sobreescribir LastKnownPosition
+                    // Evitar procesamiento y spam de log si ya estamos en estado desconocido
+                    if (ws.FugitiveSectorId == "[UNK]") return;
+
                     ws.FugitiveSectorId    = "[UNK]";
                     ws.PerimeteredSectorId = string.Empty; // permite futuras operaciones
-                    FIPALogger.Log(AgentId, "radio", Performative.Inform, "sweep failed — sector [UNK]");
+
+                    // Timestamp == 0 → alarma inicial (celda encontrada abierta, sin barrido previo)
+                    // Timestamp  > 0 → barrido completado sin encontrar al fugitivo
+                    string logMsg = sighting.Timestamp == 0f
+                        ? "escape confirmed — sector [UNK]"
+                        : "sweep failed — sector [UNK]";
+                    FIPALogger.Log(AgentId, "radio", Performative.Inform, logMsg);
                 } else if (sighting.Timestamp > ws.LastKnownPositionTime) {
                     ws.LastKnownPosition     = sighting.Position;
                     ws.LastKnownPositionTime = sighting.Timestamp;
                     ws.FugitiveSectorId      = sighting.SectorId;
+                    ws.seenByMe              = false; // otro agente tiene la pista más reciente
                     FIPALogger.Log(AgentId, "radio", Performative.Inform, $"Fugitive at {sighting.SectorId}");
                 }
             }
@@ -235,6 +245,16 @@ namespace AgenticPrison.Communication {
         protected bool HasActiveCnpInitiator() {
             foreach (var p in _ongoing_conversations.Values) if (p is ContractNetInitiator) return true;
             return false;
+        }
+
+        // Elimina todos los protocolos CNP activos (initiator y participant) tras un cambio
+        // de sector, liberando al agente para responder al nuevo CNP inmediatamente.
+        protected void CancelOngoingCnpProtocols() {
+            var toRemove = new List<string>();
+            foreach (var kvp in _ongoing_conversations)
+                if (kvp.Value is ContractNetInitiator || kvp.Value is ContractNetParticipant)
+                    toRemove.Add(kvp.Key);
+            foreach (var id in toRemove) _ongoing_conversations.Remove(id);
         }
 
         public bool HasActiveQueryInitiator() {

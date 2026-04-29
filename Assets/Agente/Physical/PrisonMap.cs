@@ -15,6 +15,7 @@ namespace AgenticPrison.Core {
 
         private Dictionary<string, List<RoomNode>> _searchSectors = new Dictionary<string, List<RoomNode>>();
         private Dictionary<string, Dictionary<string, List<WayPointData>>> _sectorBlockingGroups = new Dictionary<string, Dictionary<string, List<WayPointData>>>();
+        private HashSet<string> _availableSectors = new HashSet<string>();
 
         private void Awake() {
             if (Instance != null && Instance != this) {
@@ -30,6 +31,7 @@ namespace AgenticPrison.Core {
             _allNodes.Clear();
             _searchSectors.Clear();
             _sectorBlockingGroups.Clear();
+            _availableSectors.Clear();
 
             // 1. Indexar rooms por sección y sector de búsqueda
             foreach (Transform section in transform) {
@@ -74,6 +76,9 @@ namespace AgenticPrison.Core {
                         _sectorBlockingGroups[sectorId][groupId].Add(wp);
                 }
             }
+
+            // 3. Precalcular sectores disponibles
+            _availableSectors = new HashSet<string>(_searchSectors.Keys);
         }
 
         // Devuelve el sector al que pertenece un punto de bloqueo.
@@ -144,6 +149,8 @@ namespace AgenticPrison.Core {
             }
             return new Dictionary<string, List<WayPointData>>();
         }
+
+        public HashSet<string> GetAvailableSectors() => _availableSectors;
 
         // 2.2.b) Obtiene los roomnodes de rastreo. Excluye las salas compartidas.
         public List<RoomNode> GetSweepRoomsForSector(string sectorId) {

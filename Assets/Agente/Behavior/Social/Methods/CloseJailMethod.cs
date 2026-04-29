@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using AgenticPrison.Core;
 using AgenticPrison.Communication;
-
 namespace AgenticPrison.Behavior.Social {
 
     // Método de selección: barrido completo de la cárcel cuando el sector del fugitivo
@@ -14,12 +13,13 @@ namespace AgenticPrison.Behavior.Social {
             _agent = agent;
         }
 
-        public bool CheckPreconditions(WorldState state) =>
-            state.FugitiveSectorId == "[UNK]" &&
-            !state.ContractNetActive &&
-            state.AssignedTask == null &&
+        public bool CheckPreconditions(WorldState state) {
+            return state.FugitiveSectorId == "[UNK]" &&
             string.IsNullOrEmpty(state.TeamName) &&
+            state.AssignedTask == null &&
+            state.ShouldInitiateCnp &&
             !state.PrisonerInCell;
+        }
 
         public Queue<ITask> Decompose(WorldState state) {
             var q = new Queue<ITask>();

@@ -15,7 +15,7 @@ namespace AgenticPrison.Behavior.Social {
         }
 
         public bool CheckPreconditions(WorldState state) {
-            if (state.ContractNetActive || !string.IsNullOrEmpty(state.TeamName)) return false;
+            if (!string.IsNullOrEmpty(state.TeamName)) return false;
             if (state.AssignedTask != null) return false;
 
             // Caso [UNK]: barrido global necesario tras un barrido de sector fallido

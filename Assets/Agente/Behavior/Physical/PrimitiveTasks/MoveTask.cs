@@ -6,7 +6,7 @@ namespace AgenticPrison.Behavior.PrimitiveTasks {
 
     // Tarea primitiva: Navegación genérica hacia un objetivo emitiendo ruido
     public class MoveTask : IPrimitiveTask {
-        
+
         private Vector3 _target;
         private float _speed;
         private bool _isActionStarted = false;
@@ -14,6 +14,13 @@ namespace AgenticPrison.Behavior.PrimitiveTasks {
         // Variables de emisión de sonido
         private float _noiseTimer = 0f;
         private const float StepInterval = 0.5f; // Cadencia de pisadas
+
+        // Detección de atasco: si el agente no avanza, ceder el paso
+        private Vector3 _lastCheckedPosition;
+        private float _stuckTimer = 0f;
+        private const float StuckCheckInterval = 1.0f; // segundos entre comprobaciones
+        private const float StuckMoveThreshold = 0.2f; // metros mínimos para no considerarse atascado
+        private const float StuckTimeout = 2.5f;       // tiempo máximo parado antes de ceder
 
         public MoveTask(Vector3 target, float speed) {
             _target = target;

@@ -25,7 +25,7 @@ namespace AgenticPrison.Communication.Protocols.Query {
             _originalQuery  = queryMsg;
             _participantId  = participantId;
             ConversationId  = queryMsg.ConversationId;
-        }
+        } 
 
         // Comprueba distancia y envía Inform si está en rango. Siempre cierra al instante.
         public void Init(FIPAAgent agent, WorldState ws) {

@@ -20,11 +20,12 @@ namespace AgenticPrison.Behavior.Social {
         }
 
         public bool CheckPreconditions(WorldState state) =>
-            state.FugitiveSectorId == "[UNK]" && !state.ContractNetActive;
+            state.FugitiveSectorId == "[UNK]" && string.IsNullOrEmpty(state.TeamName);
 
         public void ApplyEffects(WorldState state) {
-            state.ContractNetActive = true;
+            state.TeamName          = "pending"; // placeholder para el planificador; Execute lo sobreescribe
             state.AssignedRole      = AgentRole.Sweeper;
+            state.ShouldInitiateCnp = false;
         }
 
         public TaskExecutionStatus Execute(IActuators actuators, WorldState state) {
@@ -32,7 +33,7 @@ namespace AgenticPrison.Behavior.Social {
 
             state.TeamName             = plan.TeamName;
             state.PendingSweepersCount = plan.TotalSweepers;
-            state.ContractNetActive    = true;
+            state.ShouldInitiateCnp    = false;
 
             // El líder se queda con la primera tarea de Sweeping
             ContractTask myTask = plan.AllTasks.Find(t => t.AssignedRole == AgentRole.Sweeper);

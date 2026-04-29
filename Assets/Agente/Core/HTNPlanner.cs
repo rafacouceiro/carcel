@@ -120,7 +120,7 @@ namespace AgenticPrison.Core {
             destination.AssignedTask          = source.AssignedTask?.Clone();
             destination.TeamName              = source.TeamName;
             destination.PendingSweepersCount  = source.PendingSweepersCount;
-            destination.ContractNetActive     = source.ContractNetActive;
+            destination.ShouldInitiateCnp     = source.ShouldInitiateCnp;
             destination.WaitingForNoiseQuery  = source.WaitingForNoiseQuery;
             destination.PerimeteredSectorId   = source.PerimeteredSectorId;
         }

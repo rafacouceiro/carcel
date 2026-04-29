@@ -14,15 +14,14 @@ namespace AgenticPrison.Behavior.Social {
         }
 
         public bool CheckPreconditions(WorldState state) {
-            if (state.ContractNetActive || !string.IsNullOrEmpty(state.TeamName)) return false;
+            if (!string.IsNullOrEmpty(state.TeamName)) return false;
             if (state.AssignedTask != null) return false;
             if (!state.seenByMe || state.LastKnownPosition == UnityEngine.Vector3.zero) return false;
-
-            var sectors = state.Map?.GetFugitiveSectors(state.LastKnownPosition);
-            if (sectors == null || sectors.Count != 1) return false;
+            if (string.IsNullOrEmpty(state.FugitiveSectorId) || state.Map == null || !state.Map.GetAvailableSectors().Contains(state.FugitiveSectorId))
+                return false;
 
             // No relanzar para el mismo sector
-            if (!string.IsNullOrEmpty(state.PerimeteredSectorId) && sectors[0] == state.PerimeteredSectorId)
+            if (!string.IsNullOrEmpty(state.PerimeteredSectorId) && state.FugitiveSectorId == state.PerimeteredSectorId)
                 return false;
 
             return true;

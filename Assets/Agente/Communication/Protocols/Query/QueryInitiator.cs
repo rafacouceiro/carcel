@@ -11,7 +11,7 @@ namespace AgenticPrison.Communication.Protocols.Query {
     public class QueryInitiator : ICommProtocol {
 
         const float QUERY_WINDOW  = 0.3f;
-        const float GUARD_THRESHOLD = 8f;
+        const float GUARD_THRESHOLD = 25f;
 
         string    _agentId;
         Vector3   _noisePosition;
@@ -39,8 +39,8 @@ namespace AgenticPrison.Communication.Protocols.Query {
                 Receiver       = null,
                 ConversationId = ConversationId,
                 Content        = new QueryContent {
-                    NoisePosition = _noisePosition,
-                    Threshold     = GUARD_THRESHOLD
+                NoisePosition = _noisePosition,
+                Threshold     = GUARD_THRESHOLD
                 },
                 SentAt         = Time.time,
                 ReplyBy        = _deadline
@@ -56,6 +56,9 @@ namespace AgenticPrison.Communication.Protocols.Query {
             if (msg.Content is float dist) {
                 if (dist <= GUARD_THRESHOLD) {
                     _sourceWasGuard = true;
+                    ws.LastNoisePosition = UnityEngine.Vector3.zero;
+                    ws.LastGuardPosition = _noisePosition;
+                    ws.LastGuardPositionTime = Time.time;
                     FIPALogger.Log(_agentId, ConversationId, Performative.Inform, $"from={msg.Sender} confirm guard source");
                 }
             }

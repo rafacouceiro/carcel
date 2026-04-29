@@ -29,8 +29,8 @@ namespace AgenticPrison.Behavior.Social {
         }
 
         public void ApplyEffects(WorldState state) {
-            state.ContractNetActive = true;
-            state.AssignedRole      = AgentRole.Sweeper;
+            state.TeamName     = "pending"; // placeholder para el planificador; Execute lo sobreescribe
+            state.AssignedRole = AgentRole.Sweeper;
         }
 
         public TaskExecutionStatus Execute(IActuators actuators, WorldState state) {
@@ -45,7 +45,6 @@ namespace AgenticPrison.Behavior.Social {
             state.TeamName             = plan.TeamName;
             state.PendingSweepersCount = plan.TotalSweepers;
             state.PerimeteredSectorId  = sectorId; // marca el sector como ya perimetrado
-            state.ContractNetActive    = true;
 
             // 4. El líder se queda siempre con la primera tarea de Sweeping
             ContractTask myTask = plan.AllTasks.Find(t => t.AssignedRole == AgentRole.Sweeper);
