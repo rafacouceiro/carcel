@@ -1,59 +1,124 @@
-/*
+using System;
+using System.Collections.Generic;
 using UnityEngine;
+using AgenticPrison.Core;
 using AgenticPrison.Physical;
 using AgenticPrison.Communication;
-
-using AgenticPrison.Core;
 using AgenticPrison.Communication.Messages;
+using AgenticPrison.Agents.Tools;
 
 namespace AgenticPrison.Agents {
 
-    // Cerebro de la cámara: Solo procesa eventos de visión específicos
+    // Agente reactivo de cámara de vigilancia.
+    //
+    // FSM de dos estados con tabla de comportamientos por estado:
+    //
+    //   Watching     → solo emite presencia, espera avistamiento
+    //   Coordinating → drena cola de CFPs y procesa respuestas Contract Net
+    //
+    // Política de activación: igual que los guardias — solo actúa si detecta
+    // al fugitivo en un sector DISTINTO al que el equipo ya conoce.
     public class CameraBrain : FIPAAgent, IVisionEvents {
 
         public override string AgentId => gameObject.name;
 
-        [Header("Estado")]
-        public bool IsDetectingFugitive = false;
-        
-        // La cámara necesita un estado aunque no lo use para HTN complejo
-        private WorldState _dummyState = new WorldState();
+        // ── Estados ───────────────────────────────────────────────────────────────
+
+        enum CameraState { Watching, Coordinating }
+
+        CameraState _state = CameraState.Watching;
+
+        // Tabla de comportamientos: estado → acción ejecutada en cada Update
+        readonly Dictionary<CameraState, Action> _behaviors
+            = new Dictionary<CameraState, Action>();
+
+        // Solo necesitamos PendingCfps y FugitiveSectorId del WorldState
+        readonly WorldState _ws = new WorldState();
+
+        // ── Ciclo de vida ─────────────────────────────────────────────────────────
 
         protected override void Start() {
             base.Start();
+            _ws.AgentName = AgentId;
+
+            _behaviors[CameraState.Watching]     = UpdateWatching;
+            _behaviors[CameraState.Coordinating] = UpdateCoordinating;
         }
 
         protected override void Update() {
             base.Update();
-            // Procesamos la radio de la cámara (para recibir alertas si fuera necesario)
-            ProcessIncoming(_dummyState);
-            VisionManager.EmitPresence(this.transform);
+            VisionManager.EmitPresence(transform);
+            _behaviors[_state]();
         }
 
-        // --- IMPLEMENTACIÓN IVISIONEVENTS (Solo reacción al preso) ---
+        // ── Comportamientos por estado ────────────────────────────────────────────
+
+        void UpdateWatching() {
+            // El sensor de visión dispara los eventos; aquí no hay acción activa
+        }
+
+        void UpdateCoordinating() {
+            // Drena la cola de CFPs (uno por frame) y procesa respuestas
+            ProcessIncoming(_ws);
+
+            // Volver a Watching cuando todos los contratos estén lanzados y resueltos
+            if (_ws.PendingCfps.Count == 0 && !HasActiveCnpInitiator())
+                Transition(CameraState.Watching);
+        }
+
+        // ── Transiciones ──────────────────────────────────────────────────────────
+
+        void Transition(CameraState next) {
+            FIPALogger.Log(AgentId, "fsm", Performative.Inform, $"{_state} → {next}");
+            _state = next;
+        }
+
+        // ── IVisionEvents ─────────────────────────────────────────────────────────
 
         public void OnFugitiveSpotted(Vector3 position) {
-            IsDetectingFugitive = true;
-            Debug.Log($"<color=red>[CÁMARA {AgentId}] INTRAUSO DETECTADO en la posición: {position}</color>");
-            
-            // Aquí podrías en el futuro enviar un ACLMessage a los guardias
-        }
+            List<string> sectors = PrisonMap.Instance.GetFugitiveSectors(position);
+            string sectorId = sectors != null && sectors.Count == 1 ? sectors[0] : "[UNK]";
 
-        public void OnFugitivePositionUpdated(Vector3 position) {
-            // Log opcional para seguimiento constante
-            // Debug.Log($"[CÁMARA {AgentId}] Actualizando posición del fugitivo: {position}");
+            // Misma política que los guardias: ignorar si el sector ya es conocido o ambiguo
+            if (sectorId == "[UNK]" || sectorId == _ws.FugitiveSectorId) return;
+
+            _ws.FugitiveSectorId = sectorId;
+            _ws.PrisonerInCell   = false;
+            _ws.PendingCfps.Clear(); // descartar operación anterior si la hubiera
+
+            // 1. Broadcast Inform para sincronizar a los guardias
+            Broadcast(new ACLMessage {
+                Performative = Performative.Inform,
+                Sender       = AgentId,
+                Content      = new FugitiveSightingContent(position, Time.time, sectorId, AgentId),
+                SentAt       = Time.time
+            });
+
+            // 2. Generar plan y encolar todos los contratos (la cámara no se queda ninguno)
+            PerimeterTool.TeamPlan plan =
+                PerimeterTool.GenerateTeamPlan(sectorId, PrisonMap.Instance, AgentId);
+
+            foreach (ContractTask task in plan.AllTasks)
+                _ws.PendingCfps.Enqueue(task);
+
+            FIPALogger.Log(AgentId, "ops", Performative.Cfp,
+                $"sector={sectorId} team={plan.TeamName} tasks={plan.AllTasks.Count}");
+
+            Transition(CameraState.Coordinating);
         }
 
         public void OnFugitiveLost() {
-            IsDetectingFugitive = false;
-            Debug.Log($"<color=white>[CÁMARA {AgentId}] Objetivo perdido. Restableciendo vigilancia.</color>");
+            if (_state != CameraState.Coordinating) return;
+            _ws.PendingCfps.Clear();
+            Transition(CameraState.Watching);
         }
 
-        public void OnGuardSpotted(Vector3 guardPosition) {
-            // La cámara es "inteligente": ignora a los guardias para no saturar la consola
-            // No implementamos lógica aquí.
-        }
+        public void OnFugitivePositionUpdated(Vector3 position) { }
+        public void OnGuardSpotted(Vector3 guardPosition) { }
 
-        protected override void OnMessageReceived(ACLMessage msg, WorldState ws) { }
+        // Escuchar Informs de guardias para mantener FugitiveSectorId sincronizado
+        protected override void OnMessageReceived(ACLMessage msg, WorldState ws) {
+            base.OnMessageReceived(msg, ws);
+        }
     }
-}*/
+}
