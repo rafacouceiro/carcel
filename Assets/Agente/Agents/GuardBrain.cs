@@ -230,6 +230,13 @@ namespace AgenticPrison.Agents {
                 CurrentState.PrisonerInCell = false;
                 // FugitiveSectorId ya es "[UNK]" por defecto — activar CNP de barrido global
                 CurrentState.ShouldInitiateCnp = true;
+                // Notificar a todos: fuga confirmada, sector desconocido (sin posición ni timestamp)
+                Broadcast(new ACLMessage {
+                    Performative = Performative.Inform,
+                    Sender       = AgentId,
+                    Content      = new FugitiveSightingContent(Vector3.zero, 0f, "[UNK]", AgentId),
+                    SentAt       = Time.time
+                });
                 Debug.LogWarning("<color=yellow>El prisionero SE HA FUGADO</color>");
                 ForzarReplanificacion();
             }
