@@ -163,10 +163,16 @@ namespace AgenticPrison.Communication {
             // Sincronización base: avistamientos fugitivo
             if (msg.Content is FugitiveSightingContent sighting) {
                 ws.PrisonerInCell = false;
-                if (sighting.Timestamp > ws.LastKnownPositionTime) {
-                    ws.LastKnownPosition = sighting.Position;
+
+                if (sighting.SectorId == "[UNK]") {
+                    // Señal de barrido fallido: sector desconocido, no sobreescribir LastKnownPosition
+                    ws.FugitiveSectorId    = "[UNK]";
+                    ws.PerimeteredSectorId = string.Empty; // permite futuras operaciones
+                    FIPALogger.Log(AgentId, "radio", Performative.Inform, "sweep failed — sector [UNK]");
+                } else if (sighting.Timestamp > ws.LastKnownPositionTime) {
+                    ws.LastKnownPosition     = sighting.Position;
                     ws.LastKnownPositionTime = sighting.Timestamp;
-                    ws.FugitiveSectorId = sighting.SectorId;
+                    ws.FugitiveSectorId      = sighting.SectorId;
                     FIPALogger.Log(AgentId, "radio", Performative.Inform, $"Fugitive at {sighting.SectorId}");
                 }
             }

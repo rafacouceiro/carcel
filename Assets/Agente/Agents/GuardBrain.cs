@@ -279,16 +279,10 @@ namespace AgenticPrison.Agents {
         }
 
         protected override void OnCfpReceived(ACLMessage msg, WorldState ws, ContractNetParticipant participant) {
-            if (!string.IsNullOrEmpty(ws.TeamName) && !ws.FugitiveInVision) {
-                if (ws.ContractNetActive && ws.AssignedTask != null) {
-                    DissolveTeam(ws, msg.ConversationId);
-                }
-            }
-            ws.PrisonerInCell = false;
+
             float cost;
             if (EvaluateCfp(msg, ws, out cost)) participant.SendPropose(this, ws, cost);
             else participant.SendRefuse(this, ws);
-            if (!ws.FugitiveInVision) ForzarReplanificacion();
         }
 
         private void HandleAcceptProposal(ACLMessage msg, WorldState ws) {
@@ -312,6 +306,7 @@ namespace AgenticPrison.Agents {
             if (msg.Sender == AgentId) return;
             if (ws.PendingSweepersCount > 0) {
                 ws.PendingSweepersCount--;
+                FIPALogger.Log(AgentId, "team", Performative.InformDone, $"recv from={msg.Sender} team={ws.TeamName} pending={ws.PendingSweepersCount}");
                 if (ws.PendingSweepersCount <= 0) DissolveTeam(ws, msg.ConversationId);
             }
         }
@@ -319,13 +314,34 @@ namespace AgenticPrison.Agents {
         private void DissolveTeam(WorldState ws, string conversationId) {
             string teamName = ws.TeamName;
             if (string.IsNullOrEmpty(teamName)) return;
-            ws.TeamName           = string.Empty;
+            FIPALogger.Log(AgentId, "team", Performative.InformDone, $"DISSOLVED team={teamName}");
+            ws.TeamName            = string.Empty;
             ws.ContractNetActive   = false;
             ws.AssignedRole        = AgentRole.None;
             ws.AssignedTask        = null;
             ws.PendingSweepersCount = 0;
             UnsubscribeFromChannel(AgentId, "team_" + teamName);
+            NotifySweepFailed(ws, teamName);
             ForzarReplanificacion();
+            ForzarReplanificacionSocial();
+        }
+
+        // Señaliza que el barrido terminó sin encontrar al fugitivo.
+        // Solo se emite cuando el sector era conocido: si ya es "[UNK]" el HTN
+        // replanifica solo hacia CloseJailMethod sin necesidad de nuevo broadcast.
+        private void NotifySweepFailed(WorldState ws, string teamName) {
+            if (ws.PrisonerInCell || ws.FugitiveSectorId == "[UNK]") return;
+
+            ws.FugitiveSectorId    = "[UNK]";
+            ws.PerimeteredSectorId = string.Empty;
+            Broadcast(new ACLMessage {
+                Performative = Performative.Inform,
+                Sender       = AgentId,
+                Content      = new FugitiveSightingContent(Vector3.zero, Time.time, "[UNK]", AgentId),
+                SentAt       = Time.time
+            });
+            FIPALogger.Log(AgentId, "team", Performative.Inform,
+                $"sector [UNK] broadcast — fugitive not found after team={teamName}");
         }
 
         private void CheckAndBroadcastSector(Vector3 position) {
@@ -348,6 +364,7 @@ namespace AgenticPrison.Agents {
             string teamName = CurrentState.TeamName;
             if (!string.IsNullOrEmpty(teamName)) {
                 if (CurrentState.PendingSweepersCount > 0) CurrentState.PendingSweepersCount--;
+                FIPALogger.Log(AgentId, "team", Performative.InformDone, $"sent team={teamName} pending={CurrentState.PendingSweepersCount}");
                 BroadcastToChannel("team_" + teamName, new ACLMessage {
                     Performative   = Performative.InformDone,
                     Sender         = AgentId,
