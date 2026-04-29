@@ -36,14 +36,18 @@ namespace AgenticPrison.Core {
 
         // ── Campos sociales xs─────────
 
+        // Si es true, el agente quiere iniciar un CNP
+        public bool ShouldInitiateCnp = false;
+
         // Tarea asignada por contrato ganado — HTN físico la ejecuta con prioridad máxima si !FugitiveInVision
         public ContractTask AssignedTask = null;
 
         // Rol activo durante la operación de sector (solo el líder lo escribe; participantes leen AssignedTask.AssignedRole)
         public AgentRole AssignedRole = AgentRole.None;
 
-        // Último sector donde se avistó al fugitivo (vía visión directa o Inform de compañero)
-        public string FugitiveSectorId = string.Empty;
+        // Último sector donde se avistó al fugitivo (vía visión directa o Inform de compañero).
+        // "[UNK]" = sector desconocido — estado inicial y fallback tras barrido fallido.
+        public string FugitiveSectorId = "[UNK]";
 
         // Sector para el que ya se lanzó un CNP — impide relanzar para el mismo sector
         // Solo lo escribe LaunchSectorCfpsTask; CheckAndBroadcastSector no lo toca
@@ -90,6 +94,7 @@ namespace AgenticPrison.Core {
                 TeamName              = this.TeamName,
                 PendingSweepersCount  = this.PendingSweepersCount,
                 ContractNetActive     = this.ContractNetActive,
+                ShouldInitiateCnp     = this.ShouldInitiateCnp,
                 WaitingForNoiseQuery  = this.WaitingForNoiseQuery,
                 PendingCfps           = new Queue<ContractTask>(this.PendingCfps)
             };

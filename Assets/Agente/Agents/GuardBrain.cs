@@ -119,38 +119,6 @@ namespace AgenticPrison.Agents {
         private void OnEnable() => NoiseManager.RegisterReceiver(this);
         private void OnDisable() => NoiseManager.UnregisterReceiver(this);
 
-        // ── Evaluación reactiva de CFPs ────────────────────────────────────────────
-        protected override bool EvaluateCfp(ACLMessage cfp, WorldState ws, out float cost) {
-            cost = 0f;
-            var content = cfp.Content as CfpContent;
-            if (content == null) return false;
-
-            if (ws.AssignedTask != null || ws.ContractNetActive || ws.Energy < EnergyThreshold
-                    || !string.IsNullOrEmpty(ws.TeamName) || HasActiveCnpParticipant())
-                return false;
-
-            Vector3 targetPos = content.Task.Target;
-
-            if (content.Task.AssignedRole == AgentRole.Sweeper && content.Task.SweepRooms != null && content.Task.SweepRooms.Count > 0) {
-                float minLinearDist = float.MaxValue;
-                foreach (var room in content.Task.SweepRooms) {
-                    Vector3 roomPos = room.GetNavigablePosition();
-                    float d = Vector3.Distance(ws.CurrentPosition, roomPos);
-                    if (d < minLinearDist) {
-                        minLinearDist = d;
-                        targetPos = roomPos;
-                    }
-                }
-            }
-
-            var path = new NavMeshPath();
-            if (!NavMesh.CalculatePath(ws.CurrentPosition, targetPos, NavMesh.AllAreas, path))
-                return false;
-
-            cost = CalculatePathLength(path);
-            return true;
-        }
-
         // EVENTOS DE AUDICIÓN
         public void OnNoiseHeard(NoiseEvent noise)
         {
@@ -166,7 +134,7 @@ namespace AgenticPrison.Agents {
 
                 // Si está cerca o es ruido de pasos suaves, descartar
                 if (distToGuard < 10f || noise.Volume < 18f) {
-                    Debug.Log($"<color=cyan>[{AgentName}] Ignorando ruido cercano a un compañero. Falsa alarma.</color>");
+                    FIPALogger.Log(AgentName, "radio", Performative.Inform, "Ignorando ruido cercano a un compañero. Falsa alarma.");
                     return;
                 }
             }
@@ -260,8 +228,11 @@ namespace AgenticPrison.Agents {
             // Constatación de la huida al patrullar las celdas
             if (CurrentState.PrisonerInCell) {
                 CurrentState.PrisonerInCell = false;
+                // FugitiveSectorId ya es "[UNK]" por defecto — activar CNP de barrido global
+                CurrentState.ShouldInitiateCnp = true;
                 Debug.LogWarning("<color=yellow>El prisionero SE HA FUGADO</color>");
                 ForzarReplanificacion();
+                ForzarReplanificacionSocial();
             }
         }
 
@@ -283,6 +254,46 @@ namespace AgenticPrison.Agents {
             float cost;
             if (EvaluateCfp(msg, ws, out cost)) participant.SendPropose(this, ws, cost);
             else participant.SendRefuse(this, ws);
+        }
+
+        // ── Evaluación reactiva de CFPs ────────────────────────────────────────────
+        protected override bool EvaluateCfp(ACLMessage cfp, WorldState ws, out float cost) {
+            cost = 0f;
+            var content = cfp.Content as CfpContent;
+            if (content == null) return false;
+
+            if (ws.AssignedTask != null || ws.ContractNetActive || !string.IsNullOrEmpty(ws.TeamName) || HasActiveCnpParticipant()) {
+                string reason = ws.AssignedTask != null ? "AssignedTask" :
+                               ws.ContractNetActive ? "ContractNetActive" :
+                               !string.IsNullOrEmpty(ws.TeamName) ? $"TeamActive({ws.TeamName})" :
+                               "HasActiveCnpParticipant";
+                Debug.Log($"<color=yellow>[{AgentId}] REFUSE CFP {cfp.ConversationId}: {reason}</color>");
+                return false;
+            }
+
+            Vector3 targetPos = content.Task.Target;
+
+            if (content.Task.AssignedRole == AgentRole.Sweeper && content.Task.SweepRooms != null && content.Task.SweepRooms.Count > 0) {
+                float minLinearDist = float.MaxValue;
+                foreach (var room in content.Task.SweepRooms) {
+                    Vector3 roomPos = room.GetNavigablePosition();
+                    float d = Vector3.Distance(ws.CurrentPosition, roomPos);
+                    if (d < minLinearDist) {
+                        minLinearDist = d;
+                        targetPos = roomPos;
+                    }
+                }
+            }
+
+            var path = new NavMeshPath();
+            if (!NavMesh.CalculatePath(ws.CurrentPosition, targetPos, NavMesh.AllAreas, path)) {
+                Debug.Log($"<color=yellow>[{AgentId}] REFUSE CFP {cfp.ConversationId}: NavMesh Unreachable to {targetPos}</color>");
+                return false;
+            }
+
+            cost = CalculatePathLength(path);
+            Debug.Log($"<color=green>[{AgentId}] PROPOSE CFP {cfp.ConversationId}: cost={cost:F1}</color>");
+            return true;
         }
 
         private void HandleAcceptProposal(ACLMessage msg, WorldState ws) {
@@ -321,7 +332,6 @@ namespace AgenticPrison.Agents {
             ws.AssignedTask        = null;
             ws.PendingSweepersCount = 0;
             UnsubscribeFromChannel(AgentId, "team_" + teamName);
-            NotifySweepFailed(ws, teamName);
             ForzarReplanificacion();
             ForzarReplanificacionSocial();
         }
@@ -330,7 +340,7 @@ namespace AgenticPrison.Agents {
         // Solo se emite cuando el sector era conocido: si ya es "[UNK]" el HTN
         // replanifica solo hacia CloseJailMethod sin necesidad de nuevo broadcast.
         private void NotifySweepFailed(WorldState ws, string teamName) {
-            if (ws.PrisonerInCell || ws.FugitiveSectorId == "[UNK]") return;
+            if (ws.PrisonerInCell || ws.FugitiveSectorId == "[UNK]" || ws.FugitiveInVision) return;
 
             ws.FugitiveSectorId    = "[UNK]";
             ws.PerimeteredSectorId = string.Empty;
@@ -345,16 +355,20 @@ namespace AgenticPrison.Agents {
         }
 
         private void CheckAndBroadcastSector(Vector3 position) {
-            string newSectorId = CurrentState.Map.GetCurrentSector(position);
-            if (!string.IsNullOrEmpty(newSectorId) && newSectorId != CurrentState.FugitiveSectorId) {
-                Broadcast(new ACLMessage {
-                    Performative   = Performative.Inform,
-                    Sender         = AgentId,
-                    Content        = new FugitiveSightingContent(position, Time.time, newSectorId, AgentId),
-                    SentAt         = Time.time
-                });
-                CurrentState.FugitiveSectorId = newSectorId;
-            }
+            // Zona ambigua (más de 1 sector) o fuera del mapa → no informar a compañeros
+            var sectors = CurrentState.Map?.GetFugitiveSectors(position);
+            if (sectors == null || sectors.Count != 1) return;
+
+            string newSectorId = sectors[0];
+            if (newSectorId == CurrentState.FugitiveSectorId) return;
+
+            Broadcast(new ACLMessage {
+                Performative   = Performative.Inform,
+                Sender         = AgentId,
+                Content        = new FugitiveSightingContent(position, Time.time, newSectorId, AgentId),
+                SentAt         = Time.time
+            });
+            CurrentState.FugitiveSectorId = newSectorId;
         }
 
         private void CheckSweepCompletion() {
@@ -371,7 +385,14 @@ namespace AgenticPrison.Agents {
                     Content        = CurrentState.AssignedRole.ToString(),
                     SentAt         = Time.time
                 });
-                if (CurrentState.PendingSweepersCount <= 0) DissolveTeam(CurrentState, "sweep_done");
+                if (CurrentState.PendingSweepersCount <= 0) {
+                    Debug.Log($"<color=cyan>[{AgentId}] Team {teamName} completed. Dissolving...</color>");
+                    DissolveTeam(CurrentState, "sweep_done");
+                    NotifySweepFailed(CurrentState, teamName);
+                    CurrentState.ShouldInitiateCnp = true; // Hacer que tome él la iniciativa apra empezar el CNP
+                } else {
+                    Debug.Log($"<color=white>[{AgentId}] Team {teamName}: {CurrentState.PendingSweepersCount} sweepers remaining.</color>");
+                }
             }
             CurrentState.AssignedTask = null;
             ForzarReplanificacion();

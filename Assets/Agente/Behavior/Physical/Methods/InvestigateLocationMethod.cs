@@ -13,8 +13,8 @@ namespace AgenticPrison.Behavior.Methods {
         private const float SearchSpeed = 4.0f;
 
         public bool CheckPreconditions(WorldState state) {
-            // Ejecutable cuando se confirma empíricamente que el preso escapó
-            return !state.PrisonerInCell; 
+            // Ejecutable cuando se confirma empíricamente que el preso escapó y no se conoce su sector
+            return !state.PrisonerInCell && state.FugitiveSectorId == "[UNK]";
         }
 
         public Queue<ITask> Decompose(WorldState state) {
