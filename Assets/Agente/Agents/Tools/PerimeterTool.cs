@@ -26,6 +26,50 @@ namespace AgenticPrison.Agents.Tools {
         }
 
         // Genera todas las tareas necesarias para cubrir un sector.
+        // IDs de todos los sectores del mapa — usados para el barrido completo de la cárcel
+        private static readonly string[] AllSectorIds = { "1", "2", "3", "4" };
+
+        // Genera un plan de barrido completo de la cárcel: cada guardia barre un sector entero.
+        // Los puntos de bloqueo son los del sector 4, que cierran el perímetro exterior.
+        public static TeamPlan GenerateJailWidePlan(PrisonMap map, string leaderName) {
+            var plan = new TeamPlan {
+                TeamName = leaderName + "_jail_" + Mathf.FloorToInt(Time.time),
+                AllTasks = new List<ContractTask>()
+            };
+
+            // 1. Blockers: puntos de bloqueo del sector 4 cierran todo el perímetro
+            var blockingGroups = map.GetBlockingGroupsForSector("4");
+            foreach (var pair in blockingGroups) {
+                if (pair.Value.Count == 0) continue;
+                plan.AllTasks.Add(new ContractTask {
+                    Type          = TaskType.BlockSector,
+                    AssignedRole  = AgentRole.Blocker,
+                    WayPoints     = new List<WayPointData>(pair.Value),
+                    Target        = pair.Value[0].transform.position,
+                    TeamName      = plan.TeamName,
+                    TotalSweepers = AllSectorIds.Length
+                });
+            }
+
+            // 2. Sweepers: un guardia por sector, barre todas las salas de ese sector
+            int sweepersAdded = 0;
+            foreach (string sectorId in AllSectorIds) {
+                List<RoomNode> rooms = map.GetSweepRoomsForSector(sectorId);
+                if (rooms.Count == 0) continue;
+                plan.AllTasks.Add(new ContractTask {
+                    Type          = TaskType.SweepSector,
+                    AssignedRole  = AgentRole.Sweeper,
+                    SweepRooms    = new List<RoomNode>(rooms),
+                    Target        = rooms[0].GetNavigablePosition(),
+                    TeamName      = plan.TeamName,
+                    TotalSweepers = AllSectorIds.Length
+                });
+                sweepersAdded++;
+            }
+            plan.TotalSweepers = sweepersAdded;
+            return plan;
+        }
+
         public static TeamPlan GenerateTeamPlan(string sectorId, PrisonMap map, string leaderName) {
             var plan = new TeamPlan {
                 TeamName = leaderName + "_" + Mathf.FloorToInt(Time.time),
