@@ -22,39 +22,39 @@ namespace AgenticPrison.Agents {
 
         public override string AgentId => gameObject.name;
 
-        static int _cameraCounter = 1;
+        static int cameraCounter = 1;
 
         private void Awake() {
-            gameObject.name = "Camara" + _cameraCounter;
-            _cameraCounter++;
+            gameObject.name = "Camara" + cameraCounter;
+            cameraCounter++;
         }
 
         // ── Estados ───────────────────────────────────────────────────────────────
 
         enum CameraState { Watching, Coordinating }
 
-        CameraState _state = CameraState.Watching;
+        CameraState state = CameraState.Watching;
 
         // Tabla de comportamientos: estado → acción ejecutada en cada Update
-        readonly Dictionary<CameraState, Action> _behaviors
+        readonly Dictionary<CameraState, Action> behaviors
             = new Dictionary<CameraState, Action>();
 
         // Solo necesitamos PendingCfps y FugitiveSectorId del WorldState
-        readonly WorldState _ws = new WorldState();
+        readonly WorldState ws = new WorldState();
 
         // ── Ciclo de vida ─────────────────────────────────────────────────────────
 
         protected override void Start() {
             base.Start();
-            _ws.AgentName = AgentId;
+            ws.AgentName = AgentId;
 
-            _behaviors[CameraState.Watching]     = UpdateWatching;
-            _behaviors[CameraState.Coordinating] = UpdateCoordinating;
+            behaviors[CameraState.Watching]     = UpdateWatching;
+            behaviors[CameraState.Coordinating] = UpdateCoordinating;
         }
 
         protected override void Update() {
             base.Update();
-            _behaviors[_state]();
+            behaviors[state]();
         }
 
         // ── Comportamientos por estado ────────────────────────────────────────────
@@ -65,18 +65,18 @@ namespace AgenticPrison.Agents {
 
         void UpdateCoordinating() {
             // Drena la cola de CFPs (uno por frame) y procesa respuestas
-            ProcessIncoming(_ws);
+            ProcessIncoming(ws);
 
             // Volver a Watching cuando todos los contratos estén lanzados y resueltos
-            if (_ws.PendingCfps.Count == 0 && !HasActiveCnpInitiator())
+            if (ws.PendingCfps.Count == 0 && !HasActiveCnpInitiator())
                 Transition(CameraState.Watching);
         }
 
         // ── Transiciones ──────────────────────────────────────────────────────────
 
         void Transition(CameraState next) {
-            FIPALogger.Log(AgentId, "fsm", Performative.Inform, $"{_state} → {next}");
-            _state = next;
+            FIPALogger.Log(AgentId, "fsm", Performative.Inform, $"{state} → {next}");
+            state = next;
         }
 
         // ── IVisionEvents ─────────────────────────────────────────────────────────
@@ -86,11 +86,11 @@ namespace AgenticPrison.Agents {
             string sectorId = sectors != null && sectors.Count == 1 ? sectors[0] : "[UNK]";
 
             // Misma política que los guardias: ignorar si el sector ya es conocido o ambiguo
-            if (sectorId == "[UNK]" || sectorId == _ws.FugitiveSectorId) return;
+            if (sectorId == "[UNK]" || sectorId == ws.FugitiveSectorId) return;
 
-            _ws.FugitiveSectorId = sectorId;
-            _ws.PrisonerInCell   = false;
-            _ws.PendingCfps.Clear(); // descartar operación anterior si la hubiera
+            ws.FugitiveSectorId = sectorId;
+            ws.PrisonerInCell   = false;
+            ws.PendingCfps.Clear(); // descartar operación anterior si la hubiera
 
             // 1. Broadcast Inform para sincronizar a los guardias
             Broadcast(new ACLMessage {
@@ -105,7 +105,7 @@ namespace AgenticPrison.Agents {
                 PerimeterTool.GenerateTeamPlan(sectorId, PrisonMap.Instance, AgentId);
 
             foreach (ContractTask task in plan.AllTasks)
-                _ws.PendingCfps.Enqueue(task);
+                ws.PendingCfps.Enqueue(task);
 
             FIPALogger.Log(AgentId, "ops", Performative.Cfp,
                 $"sector={sectorId} team={plan.TeamName} tasks={plan.AllTasks.Count}");
@@ -114,8 +114,8 @@ namespace AgenticPrison.Agents {
         }
 
         public void OnFugitiveLost() {
-            if (_state != CameraState.Coordinating) return;
-            _ws.PendingCfps.Clear();
+            if (state != CameraState.Coordinating) return;
+            ws.PendingCfps.Clear();
             Transition(CameraState.Watching);
         }
 
