@@ -22,6 +22,13 @@ namespace AgenticPrison.Agents {
 
         public override string AgentId => gameObject.name;
 
+        static int _cameraCounter = 1;
+
+        private void Awake() {
+            gameObject.name = "Camara" + _cameraCounter;
+            _cameraCounter++;
+        }
+
         // ── Estados ───────────────────────────────────────────────────────────────
 
         enum CameraState { Watching, Coordinating }
@@ -47,7 +54,6 @@ namespace AgenticPrison.Agents {
 
         protected override void Update() {
             base.Update();
-            VisionManager.EmitPresence(transform);
             _behaviors[_state]();
         }
 
