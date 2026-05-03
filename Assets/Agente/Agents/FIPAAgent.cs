@@ -9,8 +9,9 @@ using AgenticPrison.Communication.Protocols.Query;
 
 namespace AgenticPrison.Communication {
 
-    // Base abstracta de todo agente FIPA. Gestiona el enrutado por conversación
-    // y ofrece hooks estandarizados para que las subclases reaccionen a mensajes.
+    // Clase base de todos los agentes FIPA. Se encarga del bus de mensajes,
+    // el routing por conversación y el ciclo de vida de los protocolos.
+    // Cada subclase solo tiene que sobreescribir los hooks que le interesen.
     public abstract class FIPAAgent : MonoBehaviour {
 
         const int BUFFER_SIZE = 16;
@@ -18,15 +19,15 @@ namespace AgenticPrison.Communication {
         int _head;
         int _tail;
         int _count;
-        
+
         [SerializeField] protected float _replyByWindow = 3f;
 
-        // Protocolos activos con estado (GUID)
         readonly Dictionary<string, ICommProtocol> _ongoing_conversations = new Dictionary<string, ICommProtocol>();
         const int MAX_CONVERSATIONS = 8;
 
-        static readonly Dictionary<string, FIPAAgent> _agents = new Dictionary<string, FIPAAgent>();
-        static readonly Dictionary<string, HashSet<string>> _channels = new Dictionary<string, HashSet<string>>();
+        // Registro global de agentes y canales — estático para que todos compartan el bus
+        static readonly Dictionary<string, FIPAAgent>           _agents   = new Dictionary<string, FIPAAgent>();
+        static readonly Dictionary<string, HashSet<string>>     _channels = new Dictionary<string, HashSet<string>>();
 
         public abstract string AgentId { get; }
 
@@ -39,16 +40,17 @@ namespace AgenticPrison.Communication {
             ProcessIncoming(GetAgentState());
         }
 
-        // Cada subclase expone su WorldState para que el base pueda procesar mensajes
+        // Cada subclase expone su estado para que la base pueda procesar mensajes
         protected abstract WorldState GetAgentState();
 
         public void ReceiveMessage(ACLMessage msg) {
+            // Si el buffer está lleno, descartamos el más antiguo
             if (_count == BUFFER_SIZE) {
                 _head = (_head + 1) % BUFFER_SIZE;
                 _count--;
             }
             _buffer[_tail] = msg;
-            _tail = (_tail + 1) % BUFFER_SIZE;
+            _tail  = (_tail + 1) % BUFFER_SIZE;
             _count++;
         }
 
@@ -63,8 +65,8 @@ namespace AgenticPrison.Communication {
             return _ongoing_conversations.TryGetValue(convId, out proto) ? proto : null;
         }
 
-        // ── Motor de Procesamiento Unificado ───────────────────────────────────────
-
+        // Procesa el estado de las conversaciones activas, los mensajes del buffer
+        // y lanza el siguiente CFP pendiente si no hay ninguna subasta abierta.
         protected void ProcessIncoming(WorldState ws, int maxPerFrame = 5) {
             TickConversations(ws);
             ProcessBuffer(ws, maxPerFrame);
@@ -82,43 +84,38 @@ namespace AgenticPrison.Communication {
 
         private void ProcessBuffer(WorldState ws, int maxPerFrame) {
             int processed = 0;
-            int readIdx   = 0;           // solo avanza cuando NO se elimina el elemento
+            int readIdx   = 0;
             var deferred  = new List<ACLMessage>();
 
-            // Pasada 1: Conversaciones activas
-            // readIdx no avanza al eliminar: el elemento siguiente se desplaza a la misma posición
+            // Primera pasada: mensajes que pertenecen a una conversación ya abierta
+            // readIdx no avanza al eliminar porque el siguiente elemento se desplaza a esa posición
             while (readIdx < _count && processed < maxPerFrame) {
-                int pos = (_head + readIdx) % BUFFER_SIZE;
+                int pos        = (_head + readIdx) % BUFFER_SIZE;
                 ACLMessage msg = _buffer[pos];
 
-                if (IsExpired(msg)) { RemoveFromBuffer(pos); continue; } // eliminar, no avanzar
+                if (IsExpired(msg)) { RemoveFromBuffer(pos); continue; }
 
                 if (!string.IsNullOrEmpty(msg.ConversationId) && _ongoing_conversations.ContainsKey(msg.ConversationId)) {
                     _ongoing_conversations[msg.ConversationId].Tick(msg, ws);
                     if (_ongoing_conversations[msg.ConversationId].IsComplete) _ongoing_conversations.Remove(msg.ConversationId);
-                    OnMessageReceived(msg, ws); // permite que el agente reaccione al resultado del protocolo
+                    OnMessageReceived(msg, ws);
                     RemoveFromBuffer(pos);
                     processed++;
-                    // no avanzar readIdx: el siguiente elemento se desplazó a pos
                 } else {
                     deferred.Add(msg);
-                    readIdx++; // solo se avanza cuando el elemento queda en el buffer
+                    readIdx++;
                 }
             }
 
-            // Pasada 2: Nuevas conversaciones y Notificaciones sueltas
+            // Segunda pasada: mensajes que pueden abrir conversación nueva o son notificaciones sueltas
             foreach (ACLMessage msg in deferred) {
                 if (processed >= maxPerFrame) break;
                 if (IsExpired(msg)) { RemoveFromBuffer(FindInBuffer(msg)); continue; }
 
-                // Intentar iniciar protocolo si tiene ID y es una performativa de inicio
-                if (!string.IsNullOrEmpty(msg.ConversationId)) {
+                if (!string.IsNullOrEmpty(msg.ConversationId))
                     HandlePotentialNewProtocol(msg, ws);
-                }
 
-                // En cualquier caso, el agente reacciona al mensaje
                 OnMessageReceived(msg, ws);
-
                 RemoveFromBuffer(FindInBuffer(msg));
                 processed++;
             }
@@ -130,24 +127,27 @@ namespace AgenticPrison.Communication {
             if (msg.Performative == Performative.Cfp) {
                 var p = new ContractNetParticipant(msg, AgentId);
                 p.Init(this, ws);
-                // Evaluar primero; registrar solo si propuso (IsComplete=false tras Refuse)
+                // Evaluamos antes de registrar: si rechazamos, el protocolo ya termina
                 OnCfpReceived(msg, ws, p);
                 if (!p.IsComplete) _ongoing_conversations[p.ConversationId] = p;
                 return true;
-            } else if (msg.Performative == Performative.QueryIf) {
+            }
+
+            if (msg.Performative == Performative.QueryIf) {
                 var p = new QueryIfParticipant(msg, AgentId);
                 p.Init(this, ws);
-                // No se registra: el participante no espera mensajes de vuelta
+                // El participante no espera respuesta, así que no hace falta registrarlo
                 OnQueryIfReceived(msg, ws, p);
                 return true;
             }
+
             return false;
         }
 
-        // Hook para que las subclases decidan si responder a un QueryIf y con qué contenido
+        // Las subclases sobreescriben esto si quieren responder a un QueryIf
         protected virtual void OnQueryIfReceived(ACLMessage msg, WorldState ws, QueryIfParticipant participant) { }
 
-        // Hook para que las subclases decidan cómo reaccionar a la subasta
+        // Por defecto evalúa el CFP con EvaluateCfp y propone o rechaza según el resultado
         protected virtual void OnCfpReceived(ACLMessage msg, WorldState ws, ContractNetParticipant participant) {
             float cost;
             if (EvaluateCfp(msg, ws, out cost))
@@ -156,20 +156,20 @@ namespace AgenticPrison.Communication {
                 participant.SendRefuse(this, ws);
         }
 
-        // ── Handlers Virtuales (Reaction Hooks) ────────────────────────────────────
-
         protected virtual void OnMessageReceived(ACLMessage msg, WorldState ws) {
             switch (msg.Performative) {
-                case Performative.Inform:     HandleInform(msg, ws); break;
+                case Performative.Inform:     HandleInform(msg, ws);     break;
                 case Performative.InformDone: HandleInformDone(msg, ws); break;
-                case Performative.Cfp:        HandleCfp(msg, ws); break;
-                case Performative.Cancel:     HandleCancel(msg, ws); break;
-                default:                      HandleDefault(msg, ws); break;
+                case Performative.Cfp:        HandleCfp(msg, ws);        break;
+                case Performative.Cancel:     HandleCancel(msg, ws);     break;
+                default:                      HandleDefault(msg, ws);    break;
             }
         }
 
+        // Actualiza el estado con la información del Inform recibido.
+        // Usamos 'as' en vez de GetContent porque un Inform puede llevar
+        // distintos tipos de contenido según el contexto.
         protected virtual void HandleInform(ACLMessage msg, WorldState ws) {
-            // Dispatch por tipo de contenido — Inform puede llevar payloads distintos
             var sighting = msg.Content as FugitiveSightingContent;
             if (sighting == null) return;
 
@@ -177,15 +177,12 @@ namespace AgenticPrison.Communication {
 
             if (sighting.SectorId == "[UNK]") {
                 if (ws.FugitiveSectorId == "[UNK]") return;
-
                 ws.FugitiveSectorId    = "[UNK]";
                 ws.PerimeteredSectorId = string.Empty;
-
-                string logMsg = sighting.Timestamp == 0f
-                    ? "escape confirmed — sector [UNK]"
-                    : "sweep failed — sector [UNK]";
+                string logMsg = sighting.Timestamp == 0f ? "escape confirmed — sector [UNK]" : "sweep failed — sector [UNK]";
                 FIPALogger.Log(AgentId, "radio", Performative.Inform, logMsg);
             } else if (sighting.Timestamp > ws.LastKnownPositionTime) {
+                // Solo actualizamos si la info es más reciente que lo que ya sabemos
                 ws.LastKnownPosition     = sighting.Position;
                 ws.LastKnownPositionTime = sighting.Timestamp;
                 ws.FugitiveSectorId      = sighting.SectorId;
@@ -194,23 +191,22 @@ namespace AgenticPrison.Communication {
             }
         }
 
-        // Hook para que las subclases evalúen reactivamente si proponer o rechazar un CFP.
-        // Devuelve true = proponer con el coste calculado; false = rechazar.
+        // Devuelve true si este agente puede y quiere hacer la tarea del CFP.
+        // La subclase calcula el coste; la base por defecto siempre rechaza.
         protected virtual bool EvaluateCfp(ACLMessage cfp, WorldState ws, out float cost) {
             cost = 0f; return false;
         }
 
-        // Hooks para subclases
-        protected virtual void HandleCfp(ACLMessage msg, WorldState ws) { }
-        protected virtual void HandleInformDone(ACLMessage msg, WorldState ws) { }
-        protected virtual void HandleCancel(ACLMessage msg, WorldState ws) { }
-        protected virtual void HandleDefault(ACLMessage msg, WorldState ws) { }
+        protected virtual void HandleCfp(ACLMessage msg, WorldState ws)        { }
+        protected virtual void HandleInformDone(ACLMessage msg, WorldState ws)  { }
+        protected virtual void HandleCancel(ACLMessage msg, WorldState ws)      { }
+        protected virtual void HandleDefault(ACLMessage msg, WorldState ws)     { }
 
-        // ── Métodos de apoyo (FIPA Base) ───────────────────────────────────────────
-
+        // Lanza el siguiente CFP de la cola si no hay ninguna subasta abierta.
+        // Los CFPs se lanzan de uno en uno para no saturar a los participantes.
         private void ProcessPendingCfps(WorldState ws) {
             if (ws.PendingCfps == null || ws.PendingCfps.Count == 0) return;
-            if (HasActiveCnpInitiator()) return; 
+            if (HasActiveCnpInitiator()) return;
 
             ContractTask nextTask = ws.PendingCfps.Dequeue();
             LaunchProtocol(new ContractNetInitiator(new CfpContent { Task = nextTask }, _replyByWindow), ws);
@@ -226,7 +222,8 @@ namespace AgenticPrison.Communication {
 
         public void Broadcast(ACLMessage msg) {
             ACLMessage.Log(msg);
-            foreach (var agent in _agents.Values) if (agent.AgentId != msg.Sender) agent.ReceiveMessage(msg);
+            foreach (var agent in _agents.Values)
+                if (agent.AgentId != msg.Sender) agent.ReceiveMessage(msg);
         }
 
         public void BroadcastToChannel(string channel, ACLMessage msg) {
@@ -253,8 +250,8 @@ namespace AgenticPrison.Communication {
             return false;
         }
 
-        // Elimina todos los protocolos CNP activos (initiator y participant) tras un cambio
-        // de sector, liberando al agente para responder al nuevo CNP inmediatamente.
+        // Cancela todas las subastas CNP activas, tanto de iniciador como de participante.
+        // Se llama cuando cambia el sector del fugitivo y los contratos anteriores ya no sirven.
         protected void CancelOngoingCnpProtocols() {
             var toRemove = new List<string>();
             foreach (var kvp in _ongoing_conversations)
@@ -273,23 +270,24 @@ namespace AgenticPrison.Communication {
             return false;
         }
 
-
+        // Limpia el buffer de mensajes caducados antes de procesar nada.
+        // Es más barato hacer esto una vez por frame que comprobar en cada acceso.
         void DiscardExpired() {
-            float now = Time.time;
-            int toProcess = _count;
-            int newTail = _head;
-            int newCount = 0;
+            float now      = Time.time;
+            int toProcess  = _count;
+            int newTail    = _head;
+            int newCount   = 0;
 
             for (int i = 0; i < toProcess; i++) {
-                int pos = (_head + i) % BUFFER_SIZE;
+                int pos        = (_head + i) % BUFFER_SIZE;
                 ACLMessage msg = _buffer[pos];
                 if (!(msg.ReplyBy > 0f && msg.ReplyBy < now)) {
                     _buffer[newTail] = msg;
-                    newTail = (newTail + 1) % BUFFER_SIZE;
+                    newTail  = (newTail + 1) % BUFFER_SIZE;
                     newCount++;
                 }
             }
-            _tail = newTail;
+            _tail  = newTail;
             _count = newCount;
         }
 

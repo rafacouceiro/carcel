@@ -5,61 +5,57 @@ using UnityEngine;
 
 namespace AgenticPrison.Core {
 
-    // Estado del mundo del guardia. Extiende WorldState con percepción física,
-    // navegación y coordinación social propias del rol de guardia.
+    // Estado del mundo del guardia. Todo lo que necesita para percibir,
+    // moverse y coordinarse con otros agentes está aquí.
     public class GuardWorldState : WorldState {
 
-        // Estado interno
         public Vector3 CurrentPosition = Vector3.zero;
-        public float Energy = 100f; // Energía del agente (0 a 100)
+        public float   Energy          = 100f;
 
-        // Memoria visual
-        public bool FugitiveInVision = false; // Indica si el fugitivo está a la vista
-        // seenByMe, LastKnownPosition, LastKnownPositionTime → heredados de WorldState
+        // Visión
+        public bool    FugitiveInVision = false;
+        // seenByMe, LastKnownPosition, LastKnownPositionTime vienen de WorldState
 
-        // Memoria sobre otros agentes
-        public Vector3 LastGuardPosition = Vector3.zero;
-        public float LastGuardPositionTime = 0f;
-        
-        // Memoria auditiva
-        public Vector3 LastNoisePosition = Vector3.zero; // Origen del último ruido sospechoso
-        public float LastNoisePositionTime = 0f; // Instante del último ruido
+        // Última vez que vimos a otro guardia — sirve para filtrar ruidos falsos
+        public Vector3 LastGuardPosition     = Vector3.zero;
+        public float   LastGuardPositionTime = 0f;
 
-        // PrisonerInCell → heredado de WorldState
+        // Audición
+        public Vector3 LastNoisePosition     = Vector3.zero;
+        public float   LastNoisePositionTime = 0f;
 
-        // Navegación
-        public PrisonMap Map; // Referencia al mapa de la prisión
-        public string AssignedQuadrantId = string.Empty; // Zona de patrulla asignada
+        // PrisonerInCell viene de WorldState
 
-        // ── Campos sociales xs─────────
+        public PrisonMap Map;
+        public string    AssignedQuadrantId = string.Empty;
 
-        // Si es true, el agente quiere iniciar un CNP
+        // ── Coordinación ──────────────────────────────────────────────────────────
+
+        // El HTN lo activa cuando quiere iniciar un CNP pero no puede hacerlo él solo
         public bool ShouldInitiateCnp = false;
 
-        // Tarea asignada por contrato ganado — HTN físico la ejecuta con prioridad máxima si !FugitiveInVision
+        // Tarea que ganamos en una subasta. Si hay una, el HTN físico la ejecuta
+        // antes que cualquier otra cosa (salvo que veamos al fugitivo en directo).
         public ContractTask AssignedTask = null;
 
-        // Rol activo durante la operación de sector (solo el líder lo escribe; participantes leen AssignedTask.AssignedRole)
+        // Solo el líder del equipo escribe esto; los demás leen AssignedTask.AssignedRole
         public AgentRole AssignedRole = AgentRole.None;
 
-        // FugitiveSectorId, PerimeteredSectorId → heredados de WorldState
+        // FugitiveSectorId y PerimeteredSectorId vienen de WorldState
 
-        // Nombre del equipo activo — identifica el canal de coordinación (team_<teamName>)
-        public string TeamName = string.Empty;
+        public string TeamName           = string.Empty;
+        public int    PendingSweepersCount = 0;
 
-        // Sweepers pendientes de completar su tarea — solo el iniciador lo escribe; disolución cuando llega a 0
-        public int PendingSweepersCount = 0;
-
-        // true mientras un QueryInitiator espera Informs — bloquea InvestigateNoiseMethod durante la ventana
+        // Mientras esperamos respuestas al QueryIf, bloqueamos InvestigateNoiseMethod
         public bool WaitingForNoiseQuery = false;
 
-        // PendingCfps → heredado de WorldState
+        // PendingCfps viene de WorldState
 
-        // Callback que se invoca cuando el Sweeper termina todas sus salas asignadas.
-        // No se clona — es comportamiento del agente, no estado del mundo.
+        // No se clona — es el callback del agente, no parte del estado del mundo
         public System.Action OnSweepCompleted;
 
-        // Genera una copia del estado para simulaciones de planificación
+        // Copia para que el planificador HTN pueda simular sin tocar el estado real.
+        // AssignedTask se clona en profundidad porque SweepRooms se va vaciando.
         public GuardWorldState Clone() {
             var clone = new GuardWorldState {
                 FugitiveInVision      = this.FugitiveInVision,
@@ -76,8 +72,6 @@ namespace AgenticPrison.Core {
                 AgentName             = this.AgentName,
                 LastGuardPosition     = this.LastGuardPosition,
                 LastGuardPositionTime = this.LastGuardPositionTime,
-                // Campos sociales
-                // Clone() profundo para que la simulación HTN no mute SweepRooms real
                 AssignedTask          = this.AssignedTask?.Clone(),
                 AssignedRole          = this.AssignedRole,
                 FugitiveSectorId      = this.FugitiveSectorId,

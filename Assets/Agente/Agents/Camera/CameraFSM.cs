@@ -7,30 +7,21 @@ using AgenticPrison.Agents.Tools;
 
 namespace AgenticPrison.Agents.Camera {
 
-    // Capa de coordinación de la cámara de vigilancia.
+    // Coordina la respuesta de la cámara cuando detecta al fugitivo.
+    // Tiene dos estados: esperando (Watching) o lanzando subastas CNP (Coordinating).
     //
-    // FSM de dos estados con responsabilidad exclusiva sobre los contratos CNP:
-    //
-    //   Watching     → espera avistamiento de CameraBrain
-    //   Coordinating → drena PendingCfps, orquesta las subastas Contract Net
-    //
-    // Separada de CameraBrain (capa física/visión) por diseño: perder el contacto
-    // visual no tiene ninguna relación con lanzar o no un CNP.
+    // Está separado de CameraBrain a propósito: que la cámara pierda de vista
+    // al fugitivo no tiene nada que ver con si debe seguir coordinando o no.
     public class CameraFSM : FIPAAgent {
 
         public override string AgentId => gameObject.name;
 
-        // ── Estados ────────────────────────���─────────────────────────────────��────
-
         enum FsmState { Watching, Coordinating }
 
-        FsmState _state = FsmState.Watching;
-
+        FsmState         _state = FsmState.Watching;
         readonly CameraWorldState _ws = new CameraWorldState();
 
         protected override WorldState GetAgentState() => _ws;
-
-        // ── Ciclo de vida ─────────────────────────────────────────────────────────
 
         protected override void Start() {
             base.Start();
@@ -42,17 +33,14 @@ namespace AgenticPrison.Agents.Camera {
             if (_state == FsmState.Coordinating) UpdateCoordinating();
         }
 
-        // ── Comportamiento en Coordinating ────────────────────────────────────���───
-
         void UpdateCoordinating() {
             ProcessIncoming(_ws);
             if (_ws.PendingCfps.Count == 0 && !HasActiveCnpInitiator())
                 Transition(FsmState.Watching);
         }
 
-        // ── API pública para CameraBrain ──────────────────────────────────────────
-
-        // Llamado por CameraBrain cuando detecta al fugitivo en un sector nuevo.
+        // CameraBrain llama a esto cuando detecta al fugitivo en un sector concreto.
+        // Si ya sabíamos el sector o es desconocido, no hacemos nada.
         public void NotifyFugitiveSpotted(Vector3 position, string sectorId) {
             if (sectorId == "[UNK]" || sectorId == _ws.FugitiveSectorId) return;
 
@@ -60,17 +48,13 @@ namespace AgenticPrison.Agents.Camera {
             _ws.PrisonerInCell   = false;
             _ws.PendingCfps.Clear();
 
-            // Broadcast Inform para sincronizar a los guardias
             Broadcast(new ACLMessage {
                 Performative = Performative.Inform,
                 Sender       = AgentId,
                 Content      = new FugitiveSightingContent(position, Time.time, sectorId, AgentId)
             });
 
-            // Generar plan y encolar todos los contratos
-            PerimeterTool.TeamPlan plan =
-                PerimeterTool.GenerateTeamPlan(sectorId, PrisonMap.Instance, AgentId);
-
+            PerimeterTool.TeamPlan plan = PerimeterTool.GenerateTeamPlan(sectorId, PrisonMap.Instance, AgentId);
             foreach (ContractTask task in plan.AllTasks)
                 _ws.PendingCfps.Enqueue(task);
 
@@ -80,24 +64,21 @@ namespace AgenticPrison.Agents.Camera {
             Transition(FsmState.Coordinating);
         }
 
-        // ── Reacción a Informs externos ───────────────────────────────────────────
-
-        // Si un guardia avista al fugitivo en un sector distinto mientras coordinamos,
-        // abortamos: limpiamos la cola y cancelamos las subastas en curso.
+        // Si mientras coordinamos llega un Inform con un sector distinto,
+        // abortamos todo — las subastas anteriores ya no tienen sentido.
+        // Si es [UNK] lo ignoramos porque es info menos precisa que la que tenemos.
         protected override void HandleInform(ACLMessage msg, WorldState ws) {
             string sectorAntes = ws.FugitiveSectorId;
             base.HandleInform(msg, ws);
 
-            if (_state != FsmState.Coordinating) return;
-            if (ws.FugitiveSectorId == sectorAntes) return; // mismo sector, nada que abortar
-            if (ws.FugitiveSectorId == "[UNK]")     return; // info menos precisa, mantener operación
+            if (_state != FsmState.Coordinating)    return;
+            if (ws.FugitiveSectorId == sectorAntes) return;
+            if (ws.FugitiveSectorId == "[UNK]")     return;
 
             ws.PendingCfps.Clear();
             CancelOngoingCnpProtocols();
             Transition(FsmState.Watching);
         }
-
-        // ── Transiciones ──────────────────────────────────────────────────────────
 
         void Transition(FsmState next) {
             FIPALogger.Log(AgentId, "fsm", Performative.Inform, $"{_state} → {next}");
