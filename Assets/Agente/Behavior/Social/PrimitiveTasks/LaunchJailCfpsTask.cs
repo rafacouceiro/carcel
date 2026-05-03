@@ -22,7 +22,7 @@ namespace AgenticPrison.Behavior.Social {
             state.FugitiveSectorId == "[UNK]" && string.IsNullOrEmpty(state.TeamName);
 
         public void ApplyEffects(GuardWorldState state) {
-            state.TeamName          = "pending"; // placeholder para el planificador; Execute lo sobreescribe
+            state.TeamName          = "pending"; // el planificador solo necesita que no esté vacío; Execute lo asigna de verdad
             state.AssignedRole      = AgentRole.Sweeper;
             state.ShouldInitiateCnp = false;
         }

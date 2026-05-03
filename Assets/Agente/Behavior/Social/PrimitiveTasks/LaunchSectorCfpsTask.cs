@@ -27,37 +27,32 @@ namespace AgenticPrison.Behavior.Social {
         }
 
         public void ApplyEffects(GuardWorldState state) {
-            state.TeamName     = "pending"; // placeholder para el planificador; Execute lo sobreescribe
+            state.TeamName     = "pending"; // el planificador solo necesita que no esté vacío; Execute lo asigna de verdad
             state.AssignedRole = AgentRole.Sweeper;
         }
 
         public TaskExecutionStatus Execute(IActuators actuators, GuardWorldState state) {
-            // 1. Determinar el sector del fugitivo
             List<string> sectors = state.Map.GetFugitiveSectors(state.LastKnownPosition);
             if (sectors.Count != 1) return TaskExecutionStatus.Failure;
             string sectorId = sectors[0];
 
-            // 2. Generar plan del equipo usando la herramienta centralizada
             var plan = PerimeterTool.GenerateTeamPlan(sectorId, state.Map, state.AgentName);
 
             state.TeamName             = plan.TeamName;
             state.PendingSweepersCount = plan.TotalSweepers;
-            state.PerimeteredSectorId  = sectorId; // marca el sector como ya perimetrado
+            state.PerimeteredSectorId  = sectorId;
 
-            // 4. El líder se queda siempre con la primera tarea de Sweeping
+            // El líder se queda con la primera tarea de sweep; el resto va a la cola de CFPs
             ContractTask myTask = plan.AllTasks.Find(t => t.AssignedRole == AgentRole.Sweeper);
             if (myTask != null) {
                 state.AssignedTask = myTask;
                 plan.AllTasks.Remove(myTask);
             }
 
-            // 5. El resto de tareas van a la cola secuencial del GuardWorldState
             state.PendingCfps.Clear();
-            foreach (var task in plan.AllTasks) {
+            foreach (var task in plan.AllTasks)
                 state.PendingCfps.Enqueue(task);
-            }
 
-            // 6. Suscribir al canal único del equipo
             FIPAAgent.SubscribeToChannel(_agent.AgentId, "team_" + plan.TeamName);
 
             Debug.Log($"<color=red><b>[{state.AgentName}] Operación en {sectorId} iniciada. {state.PendingCfps.Count} subastas en cola secuencial.</b></color>");

@@ -4,9 +4,7 @@ using AgenticPrison.Physical;
 
 namespace AgenticPrison.Communication.Messages {
 
-    // Tarea asignada a un agente como resultado de ganar un contrato FIPA.
-    // Solo contiene información específica de la ejecución.
-    // La metadata de comunicación (Sender, ConversationId, etc.) se obtiene del ACLMessage.
+    // Tarea asignada al ganador de una subasta CNP.
     public class ContractTask : IMessageContent {
         public TaskType           Type;          // qué tipo de tarea ejecutar
         public AgentRole          AssignedRole;  // rol del agente durante la operación

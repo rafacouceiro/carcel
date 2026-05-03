@@ -56,7 +56,6 @@ namespace AgenticPrison.Agents.Guard {
         private Queue<IPrimitiveTask> _currentPlan;
         private IPrimitiveTask _activeTask;
 
-        // Plano social Phase 2
         private HTNPlanner _socialPlanner;
         private Queue<IPrimitiveTask> _socialPlan;
         private IPrimitiveTask _activeSocialTask;
@@ -76,10 +75,8 @@ namespace AgenticPrison.Agents.Guard {
         }
 
         protected override void Start() {
-            // Registrar en MessageBus con el nombre ya asignado por Awake()
             base.Start();
 
-            // Inicializar estado del mundo y asignar al agente
             CurrentState = new GuardWorldState();
             CurrentState.AgentName = AgentName;
             CurrentState.Map = PrisonMap.Instance;
@@ -90,7 +87,6 @@ namespace AgenticPrison.Agents.Guard {
             _actuators    = GetComponent<Actuators>();
             _rootTask     = new BeGuard();
 
-            // Plano social Phase 2
             _socialPlanner  = new HTNPlanner();
             _socialPlan     = new Queue<IPrimitiveTask>();
             _socialRootTask = new BeSocial(this);
@@ -101,8 +97,7 @@ namespace AgenticPrison.Agents.Guard {
         protected override WorldState GetAgentState() => CurrentState;
 
         protected override void Update() {
-            // Orden Phase 2: plano social antes que plano físico
-            base.Update();                          // DiscardExpired + ProcessIncoming vía base
+            base.Update();                          // DiscardExpired + ProcessIncoming
             UpdateLocation();
             ProcessSocialHTNExecution();            // plano social (BeSocial)
 
@@ -211,7 +206,7 @@ namespace AgenticPrison.Agents.Guard {
             CurrentState.LastKnownPosition = position;
             CurrentState.LastKnownPositionTime = Time.time;
             ForzarReplanificacion();
-            ForzarReplanificacionSocial(); // Phase 2: activa coordinación de fuga
+            ForzarReplanificacionSocial();
         }
 
         public void OnFugitivePositionUpdated(Vector3 position) {
@@ -440,7 +435,7 @@ namespace AgenticPrison.Agents.Guard {
                     Debug.Log($"<color=cyan>[{AgentId}] Team {teamName} completed. Dissolving...</color>");
                     DissolveTeam();
                     NotifySweepFailed(teamName);
-                    CurrentState.ShouldInitiateCnp = true; // Hacer que tome él la iniciativa apra empezar el CNP
+                    CurrentState.ShouldInitiateCnp = true;
                 } else {
                     Debug.Log($"<color=white>[{AgentId}] Team {teamName}: {CurrentState.PendingSweepersCount} sweepers remaining.</color>");
                 }
