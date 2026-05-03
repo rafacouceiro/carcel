@@ -5,19 +5,17 @@ using UnityEngine;
 
 namespace AgenticPrison.Core {
 
-    // Representa el conocimiento que tiene el agente, tanto interno como del entorno
-    public class WorldState {
+    // Estado del mundo del guardia. Extiende AgentState con percepción física,
+    // navegación y coordinación social propias del rol de guardia.
+    public class WorldState : AgentState {
 
         // Estado interno
-        public string AgentName = string.Empty;
         public Vector3 CurrentPosition = Vector3.zero;
         public float Energy = 100f; // Energía del agente (0 a 100)
 
         // Memoria visual
         public bool FugitiveInVision = false; // Indica si el fugitivo está a la vista
-        public bool seenByMe = false;
-        public Vector3 LastKnownPosition = Vector3.zero; // Última posición donde se vio al fugitivo
-        public float LastKnownPositionTime = 0f; // Instante en el que se vio al fugitivo
+        // seenByMe, LastKnownPosition, LastKnownPositionTime → heredados de AgentState
 
         // Memoria sobre otros agentes
         public Vector3 LastGuardPosition = Vector3.zero;
@@ -27,8 +25,7 @@ namespace AgenticPrison.Core {
         public Vector3 LastNoisePosition = Vector3.zero; // Origen del último ruido sospechoso
         public float LastNoisePositionTime = 0f; // Instante del último ruido
 
-        // Estado del entorno
-        public bool PrisonerInCell = true; // Empieza asumiendo que el prisionero está contenido
+        // PrisonerInCell → heredado de AgentState
 
         // Navegación
         public PrisonMap Map; // Referencia al mapa de la prisión
@@ -45,13 +42,7 @@ namespace AgenticPrison.Core {
         // Rol activo durante la operación de sector (solo el líder lo escribe; participantes leen AssignedTask.AssignedRole)
         public AgentRole AssignedRole = AgentRole.None;
 
-        // Último sector donde se avistó al fugitivo (vía visión directa o Inform de compañero).
-        // "[UNK]" = sector desconocido — estado inicial y fallback tras barrido fallido.
-        public string FugitiveSectorId = "[UNK]";
-
-        // Sector para el que ya se lanzó un CNP — impide relanzar para el mismo sector
-        // Solo lo escribe LaunchSectorCfpsTask; CheckAndBroadcastSector no lo toca
-        public string PerimeteredSectorId = string.Empty;
+        // FugitiveSectorId, PerimeteredSectorId → heredados de AgentState
 
         // Nombre del equipo activo — identifica el canal de coordinación (team_<teamName>)
         public string TeamName = string.Empty;
@@ -62,8 +53,7 @@ namespace AgenticPrison.Core {
         // true mientras un QueryInitiator espera Informs — bloquea InvestigateNoiseMethod durante la ventana
         public bool WaitingForNoiseQuery = false;
 
-        // Cola de subastas pendientes — se lanzan secuencialmente
-        public Queue<ContractTask> PendingCfps = new Queue<ContractTask>();
+        // PendingCfps → heredado de AgentState
 
         // Callback que se invoca cuando el Sweeper termina todas sus salas asignadas.
         // No se clona — es comportamiento del agente, no estado del mundo.
