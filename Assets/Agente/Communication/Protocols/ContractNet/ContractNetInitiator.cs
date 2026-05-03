@@ -73,7 +73,6 @@ namespace AgenticPrison.Communication.Protocols.ContractNet {
                 Receiver       = null,           // broadcast: sin receptor específico
                 ConversationId = ConversationId,
                 Content        = _content,
-                SentAt         = Time.time,
                 ReplyBy        = _deadline
             });
 
@@ -174,8 +173,7 @@ namespace AgenticPrison.Communication.Protocols.ContractNet {
                 Sender         = _agent.AgentId,
                 Receiver       = winner.Sender,
                 ConversationId = ConversationId,
-                Content        = _content.Task,
-                SentAt         = Time.time
+                Content        = _content.Task
             });
             FIPALogger.Log(_agent.AgentId, ConversationId, Performative.AcceptProposal,
                 $"winner={winner.Sender} cost={minCost:F1}");
@@ -188,8 +186,7 @@ namespace AgenticPrison.Communication.Protocols.ContractNet {
                     Performative   = Performative.RejectProposal,
                     Sender         = _agent.AgentId,
                     Receiver       = p.Sender,
-                    ConversationId = ConversationId,
-                    SentAt         = Time.time
+                    ConversationId = ConversationId
                 });
                 FIPALogger.Log(_agent.AgentId, ConversationId, Performative.RejectProposal,
                     $"to={p.Sender}");

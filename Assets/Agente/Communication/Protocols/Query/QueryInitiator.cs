@@ -42,7 +42,6 @@ namespace AgenticPrison.Communication.Protocols.Query {
                 NoisePosition = _noisePosition,
                 Threshold     = GUARD_THRESHOLD
                 },
-                SentAt         = Time.time,
                 ReplyBy        = _deadline
             });
 

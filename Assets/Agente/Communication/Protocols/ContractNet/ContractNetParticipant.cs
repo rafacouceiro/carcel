@@ -92,7 +92,6 @@ namespace AgenticPrison.Communication.Protocols.ContractNet {
                 Receiver       = _originalCfp.Sender,
                 ConversationId = ConversationId,
                 Content        = cost, // El coste va directo como float
-                SentAt         = Time.time,
                 ReplyBy        = _originalCfp.ReplyBy
             });
 
@@ -111,8 +110,7 @@ namespace AgenticPrison.Communication.Protocols.ContractNet {
                 Performative   = Performative.Refuse,
                 Sender         = agent.AgentId,
                 Receiver       = _originalCfp.Sender,
-                ConversationId = ConversationId,
-                SentAt         = Time.time
+                ConversationId = ConversationId
             });
 
             FIPALogger.Log(agent.AgentId, ConversationId, Performative.Refuse,

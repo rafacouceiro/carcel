@@ -243,7 +243,7 @@ namespace AgenticPrison.Agents {
                         Performative = Performative.Inform,
                         Sender       = AgentId,
                         Content      = new FugitiveSightingContent(Vector3.zero, 0f, "[UNK]", AgentId),
-                        SentAt       = Time.time
+
                     });
                 }
 
@@ -386,8 +386,7 @@ namespace AgenticPrison.Agents {
             Broadcast(new ACLMessage {
                 Performative = Performative.Inform,
                 Sender       = AgentId,
-                Content      = new FugitiveSightingContent(Vector3.zero, Time.time, "[UNK]", AgentId),
-                SentAt       = Time.time
+                Content      = new FugitiveSightingContent(Vector3.zero, Time.time, "[UNK]", AgentId)
             });
             FIPALogger.Log(AgentId, "team", Performative.Inform,
                 $"sector [UNK] broadcast — fugitive not found after team={teamName}");
@@ -404,8 +403,7 @@ namespace AgenticPrison.Agents {
             Broadcast(new ACLMessage {
                 Performative   = Performative.Inform,
                 Sender         = AgentId,
-                Content        = new FugitiveSightingContent(position, Time.time, newSectorId, AgentId),
-                SentAt         = Time.time
+                Content        = new FugitiveSightingContent(position, Time.time, newSectorId, AgentId)
             });
             CurrentState.FugitiveSectorId = newSectorId;
             // seenByMe permanece true — este agente mantiene la autoridad de iniciar el nuevo perímetro
@@ -423,8 +421,7 @@ namespace AgenticPrison.Agents {
                 BroadcastToChannel("team_" + teamName, new ACLMessage {
                     Performative   = Performative.InformDone,
                     Sender         = AgentId,
-                    Content        = CurrentState.AssignedRole.ToString(),
-                    SentAt         = Time.time
+                    Content        = CurrentState.AssignedRole.ToString()
                 });
                 if (CurrentState.PendingSweepersCount <= 0) {
                     Debug.Log($"<color=cyan>[{AgentId}] Team {teamName} completed. Dissolving...</color>");

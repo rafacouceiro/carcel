@@ -65,8 +65,7 @@ namespace AgenticPrison.Agents {
             Broadcast(new ACLMessage {
                 Performative = Performative.Inform,
                 Sender       = AgentId,
-                Content      = new FugitiveSightingContent(position, Time.time, sectorId, AgentId),
-                SentAt       = Time.time
+                Content      = new FugitiveSightingContent(position, Time.time, sectorId, AgentId)
             });
 
             // Generar plan y encolar todos los contratos

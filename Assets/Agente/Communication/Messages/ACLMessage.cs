@@ -13,7 +13,6 @@ namespace AgenticPrison.Communication.Messages {
         public string       Receiver;         // AgentId del receptor (vacío si es broadcast)
         public string       ConversationId;   // ID para agrupar mensajes de un mismo protocolo
         public object       Content;          // Payload tipado
-        public float        SentAt;           // Timestamp de envío
         public float        ReplyBy;          // Deadline para respuesta (0 = sin límite)
         public string       Channel;          // null = unicast; nombre del canal si es pub/sub
 

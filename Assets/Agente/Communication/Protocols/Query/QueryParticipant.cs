@@ -40,8 +40,7 @@ namespace AgenticPrison.Communication.Protocols.Query {
                         Sender         = agent.AgentId,
                         Receiver       = _originalQuery.Sender,
                         ConversationId = ConversationId,
-                        Content        = dist, // Enviamos la distancia calculada
-                        SentAt         = Time.time
+                        Content        = dist // Enviamos la distancia calculada
                     });
 
                     FIPALogger.Log(_participantId, ConversationId, Performative.Inform,
