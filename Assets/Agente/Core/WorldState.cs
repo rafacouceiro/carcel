@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using AgenticPrison.Communication;
 using AgenticPrison.Communication.Messages;
 using AgenticPrison.Physical;
 using UnityEngine;

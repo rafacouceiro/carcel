@@ -1,14 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using AgenticPrison.Physical;
-using AgenticPrison.Communication.Messages;
 
-namespace AgenticPrison.Communication {
+namespace AgenticPrison.Communication.Messages {
 
     // Tarea asignada a un agente como resultado de ganar un contrato FIPA.
     // Solo contiene información específica de la ejecución.
     // La metadata de comunicación (Sender, ConversationId, etc.) se obtiene del ACLMessage.
-    public class ContractTask {
+    public class ContractTask : IMessageContent {
         public TaskType           Type;          // qué tipo de tarea ejecutar
         public AgentRole          AssignedRole;  // rol del agente durante la operación
         public Vector3            Target;        // destino para calcular el coste de la propuesta

@@ -1,14 +1,17 @@
 using UnityEngine;
 using AgenticPrison.Core;
 using AgenticPrison.Communication;
-
+using AgenticPrison.Communication.Messages;
 using AgenticPrison.Communication.Protocols.Query;
 
 namespace AgenticPrison.Behavior.Social {
 
-    // Tarea social: lanza un QueryInitiator para averiguar si el ruido reciente vino de un compañero.
+    // Tarea social: lanza un QueryIfInitiator para averiguar si el ruido reciente vino de un compañero.
+    // Construye el contenido e inyecta en el protocolo — la respuesta la procesa GuardBrain.HandleInform.
     // Bloquea InvestigateNoiseMethod durante la ventana de espera (WaitingForNoiseQuery = true).
     public class LaunchNoiseQueryTask : IPrimitiveTask {
+
+        const float GUARD_THRESHOLD = 25f;
 
         readonly FIPAAgent _agent;
 
@@ -17,7 +20,6 @@ namespace AgenticPrison.Behavior.Social {
         public bool CheckPreconditions(WorldState state) =>
             state.LastNoisePosition != Vector3.zero && !state.WaitingForNoiseQuery;
 
-        // Efecto optimista: bloquea la investigación mientras llega la respuesta
         public void ApplyEffects(WorldState state) {
             state.WaitingForNoiseQuery = true;
         }
@@ -25,13 +27,15 @@ namespace AgenticPrison.Behavior.Social {
         public TaskExecutionStatus Execute(IActuators actuators, WorldState state) {
             if (state.LastNoisePosition == Vector3.zero) return TaskExecutionStatus.Failure;
 
-            var query = new QueryInitiator(state.LastNoisePosition);
-            _agent.LaunchProtocol(query, state);
+            var content = new QueryIfContent {
+                NoisePosition = state.LastNoisePosition,
+                Threshold     = GUARD_THRESHOLD
+            };
 
-            // ApplyEffects lo hace en el clon del planificador; aquí sobre el estado real
+            _agent.LaunchProtocol(new QueryIfInitiator(content), state);
             state.WaitingForNoiseQuery = true;
 
-            Debug.Log($"<color=cyan>[{state.AgentName}] Query lanzado para ruido en {state.LastNoisePosition}</color>");
+            Debug.Log($"<color=cyan>[{state.AgentName}] QueryIf lanzado para ruido en {state.LastNoisePosition}</color>");
             return TaskExecutionStatus.Success;
         }
     }
