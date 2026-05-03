@@ -9,36 +9,25 @@ using AgenticPrison.Communication.Protocols;
 
 namespace AgenticPrison.Communication.Protocols.ContractNet {
 
-    // Lado INICIADOR del protocolo Contract Net.
+    // Lado del que lanza la subasta Contract Net.
+    // Emite un CFP en broadcast, espera propuestas durante una ventana de tiempo
+    // y acepta la más barata. Si nadie propone, la subasta falla.
     //
-    // Responsabilidad: emitir un CFP (Call For Proposals), recoger propuestas
-    // durante una ventana de tiempo, elegir la de menor coste y notificar Accept/Reject.
-    //
-    // Flujo de estados (simplificado — sin fase inform-done):
-    //   WaitingForProposals  ──[Propose]──► WaitingForProposals  (acumula)
-    //   WaitingForProposals  ──[deadline]─► Evaluating ──► Done
-    //   WaitingForProposals  ──[deadline, sin propuestas]─► Failed
+    // Estados:
+    //   WaitingForProposals → Evaluating → Done
+    //   WaitingForProposals → Failed (si no hay propuestas al cierre)
     public class ContractNetInitiator : ICommProtocol {
 
-        // ── Estados ────────────────────────────────────────────────────────────────
-        enum State {
-            WaitingForProposals,   // esperando respuestas de los participantes
-            Evaluating,            // eligiendo al ganador (estado transitorio, dura un tick)
-            Done,
-            Failed
-        }
+        enum State { WaitingForProposals, Evaluating, Done, Failed }
 
-        // ── Tablas de transición ───────────────────────────────────────────────────
-        // Cómo leer estas tablas:
-        //   _onMessage[(estado, performativa)] = método a llamar cuando llega ese mensaje en ese estado
-        //   _onTime[estado]                   = método a llamar en cada tick de tiempo en ese estado
+        // Las transiciones se registran en tablas para que el código de despacho
+        // sea genérico y no haya un switch gigante en Tick
         readonly Dictionary<(State, Performative), Action<ACLMessage, WorldState>> _onMessage
             = new Dictionary<(State, Performative), Action<ACLMessage, WorldState>>();
 
         readonly Dictionary<State, Action<float, WorldState>> _onTime
             = new Dictionary<State, Action<float, WorldState>>();
 
-        // ── Datos internos ─────────────────────────────────────────────────────────
         State            _state = State.WaitingForProposals;
         FIPAAgent        _agent;
         CfpContent       _content;
@@ -46,12 +35,9 @@ namespace AgenticPrison.Communication.Protocols.ContractNet {
         float            _replyByWindow;
         List<ACLMessage> _proposals = new List<ACLMessage>();
 
-        // ── ICommProtocol ──────────────────────────────────────────────────────────
         public string ConversationId { get; private set; }
         public bool   IsComplete     => _state == State.Done || _state == State.Failed;
 
-
-        // ── Constructor ────────────────────────────────────────────────────────────
         public ContractNetInitiator(CfpContent content, float replyByWindow) {
             _content       = content;
             _replyByWindow = replyByWindow;
@@ -59,9 +45,8 @@ namespace AgenticPrison.Communication.Protocols.ContractNet {
             BuildTransitions();
         }
 
-        // ── Inicio del protocolo ───────────────────────────────────────────────────
-        // Llamado por FIPAAgent.LaunchProtocol justo después de registrar el protocolo.
-        // Envía el CFP en broadcast y arranca el temporizador.
+        // FIPAAgent llama a esto justo después de registrar el protocolo.
+        // Aquí es donde sale el CFP por el bus.
         public void Init(FIPAAgent agent, WorldState ws) {
             _agent    = agent;
             _deadline = Time.time + _replyByWindow;
@@ -70,7 +55,7 @@ namespace AgenticPrison.Communication.Protocols.ContractNet {
                 MessageId      = Guid.NewGuid().ToString(),
                 Performative   = Performative.Cfp,
                 Sender         = agent.AgentId,
-                Receiver       = null,           // broadcast: sin receptor específico
+                Receiver       = null,
                 ConversationId = ConversationId,
                 Content        = _content,
                 ReplyBy        = _deadline
@@ -81,38 +66,26 @@ namespace AgenticPrison.Communication.Protocols.ContractNet {
                 $"task={_content.Task.Type} target={_content.Task.Target}");
         }
 
-        // ── Tick por mensaje entrante ──────────────────────────────────────────────
-        // FIPAAgent llama a este método cuando llega un mensaje con nuestro ConversationId.
-        // La tabla _onMessage decide qué hacer según el estado actual y la performativa.
+        // FIPAAgent enruta aquí los mensajes de esta conversación
         public void Tick(ACLMessage msg, WorldState ws) {
             Action<ACLMessage, WorldState> handler;
             if (_onMessage.TryGetValue((_state, msg.Performative), out handler))
                 handler(msg, ws);
-            // Si la combinación (estado, performativa) no está en la tabla, se ignora el mensaje
+            // Combinaciones no registradas simplemente se ignoran
         }
 
-        // ── Tick por tiempo ────────────────────────────────────────────────────────
-        // FIPAAgent llama a este método en cada frame.
-        // La tabla _onTime decide qué hacer según el estado actual.
         public void Tick(float currentTime, WorldState ws) {
             Action<float, WorldState> handler;
             if (_onTime.TryGetValue(_state, out handler))
                 handler(currentTime, ws);
         }
 
-        // ── Construcción de la tabla de transiciones ───────────────────────────────
-        // Cada entrada conecta una situación (estado + evento) con el método que la maneja.
-        // Los métodos están definidos más abajo con su documentación.
         void BuildTransitions() {
             _onMessage[(State.WaitingForProposals, Performative.Propose)] = OnProposalReceived;
             _onMessage[(State.WaitingForProposals, Performative.Refuse)]  = OnRefuseReceived;
-            _onTime[State.WaitingForProposals] = CheckDeadline;
+            _onTime   [State.WaitingForProposals]                         = CheckDeadline;
         }
 
-        // ── Handlers de mensajes ───────────────────────────────────────────────────
-
-        // Un participante acepta el CFP y envía su oferta.
-        // Acumulamos todas las propuestas hasta que expire el deadline.
         void OnProposalReceived(ACLMessage msg, WorldState ws) {
             _proposals.Add(msg);
             ConversationTracker.Instance.AddParticipant(ConversationId, msg.Sender);
@@ -121,35 +94,24 @@ namespace AgenticPrison.Communication.Protocols.ContractNet {
                 $"from={msg.Sender} cost={pc?.Cost:F1}");
         }
 
-        // Un participante rechaza el CFP (demasiado ocupado, sin energía, etc.).
-        // Lo ignoramos — ya contaremos con los que sí propusieron.
+        // Los rechazos no hacen nada; simplemente no acumulamos esa propuesta
         void OnRefuseReceived(ACLMessage msg, WorldState ws) { }
 
-        // ── Handler de tiempo ──────────────────────────────────────────────────────
-
-        // Comprueba cada frame si ya expiró el plazo de recogida de propuestas.
-        // Si expiró y hay propuestas, evalúa y acepta la mejor.
-        // Si expiró sin propuestas, la subasta falla.
         void CheckDeadline(float currentTime, WorldState ws) {
-            if (currentTime < _deadline) return; // todavía dentro de la ventana
+            if (currentTime < _deadline) return;
 
-            if (_proposals.Count > 0) {
+            if (_proposals.Count > 0)
                 EvaluateAndAccept(ws);
-            } else {
-                FIPALogger.Log(_agent.AgentId, ConversationId, Performative.Failure,
-                    "no proposals received");
+            else {
+                FIPALogger.Log(_agent.AgentId, ConversationId, Performative.Failure, "no proposals received");
                 ConversationTracker.Instance.SetOutcome(ConversationId, "Failed");
                 _state = State.Failed;
             }
         }
 
-        // ── Evaluación y envío de Accept / Reject ──────────────────────────────────
-
-        // Elige la propuesta de menor coste, envía Accept al ganador y Reject al resto.
         void EvaluateAndAccept(WorldState ws) {
             _state = State.Evaluating;
 
-            // Encontrar la propuesta de menor coste
             ACLMessage winner    = default;
             bool       hasWinner = false;
             float      minCost   = float.MaxValue;
@@ -159,14 +121,12 @@ namespace AgenticPrison.Communication.Protocols.ContractNet {
             }
 
             if (!hasWinner) {
-                FIPALogger.Log(_agent.AgentId, ConversationId, Performative.Failure,
-                    "all proposers already in team");
+                FIPALogger.Log(_agent.AgentId, ConversationId, Performative.Failure, "all proposers already in team");
                 ConversationTracker.Instance.SetOutcome(ConversationId, "Failed");
                 _state = State.Failed;
                 return;
             }
 
-            // Enviar Accept al ganador
             _agent.Send(new ACLMessage {
                 MessageId      = Guid.NewGuid().ToString(),
                 Performative   = Performative.AcceptProposal,
@@ -178,7 +138,6 @@ namespace AgenticPrison.Communication.Protocols.ContractNet {
             FIPALogger.Log(_agent.AgentId, ConversationId, Performative.AcceptProposal,
                 $"winner={winner.Sender} cost={minCost:F1}");
 
-            // Enviar Reject a todos los demás
             foreach (ACLMessage p in _proposals) {
                 if (p.Sender == winner.Sender) continue;
                 _agent.Send(new ACLMessage {
@@ -188,16 +147,15 @@ namespace AgenticPrison.Communication.Protocols.ContractNet {
                     Receiver       = p.Sender,
                     ConversationId = ConversationId
                 });
-                FIPALogger.Log(_agent.AgentId, ConversationId, Performative.RejectProposal,
-                    $"to={p.Sender}");
+                FIPALogger.Log(_agent.AgentId, ConversationId, Performative.RejectProposal, $"to={p.Sender}");
             }
 
             ConversationTracker.Instance.UpdateState(ConversationId, "Done");
-            _state = State.Done; // CNP termina al asignar la tarea; la ejecución se gestiona por canales
+            // El CNP termina aquí; la ejecución de la tarea se coordina por canales de equipo
+            _state = State.Done;
         }
 
-        // Extrae el coste estimado del contenido de una propuesta.
-        // Devuelve MaxValue si el contenido no es ProposeContent, para que nunca gane.
+        // Si el contenido no es ProposeContent devolvemos MaxValue para que nunca gane
         float GetCost(ACLMessage proposal) {
             var pc = ACLMessage.GetContent<ProposeContent>(proposal);
             return pc != null ? pc.Cost : float.MaxValue;

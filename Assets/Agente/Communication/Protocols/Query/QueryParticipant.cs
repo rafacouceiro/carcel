@@ -4,11 +4,10 @@ using AgenticPrison.Communication.Messages;
 
 namespace AgenticPrison.Communication.Protocols.Query {
 
-    // Lado PARTICIPANTE del protocolo QueryIf.
-    //
-    // Agnóstico al contenido: no evalúa ni decide si responder.
-    // Solo expone SendInform() para que el agente (vía OnQueryIfReceived) responda si lo considera oportuno.
-    // Completa en el mismo frame de Init() — no mantiene estado posterior.
+    // Participante del protocolo QueryIf.
+    // No evalúa nada por sí solo: expone SendInform() para que el agente
+    // (via OnQueryIfReceived) decida si responder o ignorar la pregunta.
+    // Completa en el mismo frame que Init() — no hay estado que mantener.
     public class QueryIfParticipant : ICommProtocol {
 
         readonly ACLMessage _originalQuery;
@@ -23,12 +22,11 @@ namespace AgenticPrison.Communication.Protocols.Query {
             ConversationId = queryMsg.ConversationId;
         }
 
-        // No evalúa — el agente decide vía OnQueryIfReceived inmediatamente después
+        // Termina de inmediato; el agente llama a SendInform justo después si quiere responder
         public void Init(FIPAAgent agent, WorldState ws) {
             IsComplete = true;
         }
 
-        // API para que el agente envíe su respuesta si decide participar
         public void SendInform(FIPAAgent agent, IMessageContent content) {
             agent.Send(new ACLMessage {
                 MessageId      = Guid.NewGuid().ToString(),

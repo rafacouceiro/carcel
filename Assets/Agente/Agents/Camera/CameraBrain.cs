@@ -5,6 +5,8 @@ using AgenticPrison.Physical;
 
 namespace AgenticPrison.Agents.Camera {
 
+    // Sensor de la cámara: recibe eventos de visión y los pasa al FSM.
+    // El flash de luz es solo feedback visual para depuración — no afecta a la lógica.
     [RequireComponent(typeof(CameraFSM))]
     public class CameraBrain : MonoBehaviour, IVisionEvents {
 

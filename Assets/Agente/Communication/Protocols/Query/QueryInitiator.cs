@@ -6,14 +6,11 @@ using AgenticPrison.Communication.Messages;
 
 namespace AgenticPrison.Communication.Protocols.Query {
 
-    // Lado INICIADOR del protocolo QueryIf.
+    // Iniciador del protocolo QueryIf: lanza una pregunta en broadcast y espera
+    // respuestas Inform durante una ventana corta.
     //
-    // Flujo de estados — paralelo a ContractNetInitiator:
-    //   WaitingForResponse  ──[Inform]──────► WaitingForResponse  (acumula respuestas)
-    //   WaitingForResponse  ──[deadline]────► Done
-    //
-    // El protocolo no escribe WorldState. Cada Inform llega también a OnMessageReceived
-    // del agente (arquitectura base de FIPAAgent), que lo procesa en HandleInform.
+    // Los Inform que llegan se procesan también en FIPAAgent.HandleInform (arquitectura base),
+    // así que el protocolo solo necesita controlar el cierre por deadline.
     public class QueryIfInitiator : ICommProtocol {
 
         const float QUERY_WINDOW = 0.3f;
@@ -73,14 +70,14 @@ namespace AgenticPrison.Communication.Protocols.Query {
             if (_onTime.TryGetValue(_state, out handler)) handler(currentTime, ws);
         }
 
-        // Registra la respuesta. El WorldState lo escribe el agente en HandleInform.
+        // El WorldState lo actualiza el agente en HandleInform — aquí solo logueamos
         void OnInformReceived(ACLMessage msg, WorldState ws) {
-            FIPALogger.Log(_agentId, ConversationId, Performative.Inform, $"response from={msg.Sender}");
+            FIPALogger.Log(_agentId, ConversationId, Performative.Inform, $"respuesta de {msg.Sender}");
         }
 
         void CheckDeadline(float currentTime, WorldState ws) {
             if (currentTime < _deadline) return;
-            FIPALogger.Log(_agentId, ConversationId, Performative.QueryIf, "window closed");
+            FIPALogger.Log(_agentId, ConversationId, Performative.QueryIf, "ventana cerrada");
             _state = State.Done;
         }
     }

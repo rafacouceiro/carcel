@@ -18,7 +18,7 @@ using UnityEditor;
 
 namespace AgenticPrison.Agents.Guard {
 
-    // Cerebro del agente: controla la percepción, el estado y el planificador HTN
+    // Cerebro del guardia: percepción, estado y planificadores HTN físico + social.
     public class GuardBrain : FIPAAgent, INoiseReceiver, IVisionEvents, ICellEventReceiver {
 
         [Header("Referencias Tangibles")]
@@ -252,8 +252,6 @@ namespace AgenticPrison.Agents.Guard {
             }
         }
 
-        // ── COMUNICACIÓN FIPA ──────────────────────────────────────────────────────
-
         protected override void OnMessageReceived(ACLMessage msg, WorldState ws) {
             base.OnMessageReceived(msg, ws);
             if (msg.Performative == Performative.AcceptProposal) HandleAcceptProposal(msg);
@@ -300,7 +298,6 @@ namespace AgenticPrison.Agents.Guard {
             else participant.SendRefuse(this, ws);
         }
 
-        // ── Evaluación reactiva de CFPs ────────────────────────────────────────────
         protected override bool EvaluateCfp(ACLMessage cfp, WorldState ws, out float cost) {
             cost = 0f;
             var content = ACLMessage.GetContent<CfpContent>(cfp);
@@ -340,7 +337,7 @@ namespace AgenticPrison.Agents.Guard {
         }
 
         private void HandleAcceptProposal(ACLMessage msg) {
-            // El protocolo solo cerró; aquí aplicamos los efectos contractuales en GuardWorldState
+            // El protocolo ya cerró; aquí es donde actualizamos GuardWorldState con la tarea ganada
             var won = ACLMessage.GetContent<ContractTask>(msg);
             if (won == null) return;
 
@@ -450,23 +447,20 @@ namespace AgenticPrison.Agents.Guard {
             }
         }
 
-        // Refrescar coordenadas del agente en su estado interno
         private void UpdateLocation() => CurrentState.CurrentPosition = transform.position;
 
-        // Interrumpir plan físico y detener movimiento actual
         private void ForzarReplanificacion() {
             _currentPlan.Clear();
             _activeTask = null;
             _actuators.StopMoving();
         }
 
-        // Interrumpir plan social para replanificar en el siguiente frame
         private void ForzarReplanificacionSocial() {
             _socialPlan.Clear();
             _activeSocialTask = null;
         }
 
-        // Motor de ejecución del HTN social — mismo patrón que el físico, sin actuadores
+        // Mismo bucle que el HTN físico pero sin actuadores — las tareas sociales solo escriben mensajes
         private void ProcessSocialHTNExecution() {
             if (_socialRootTask == null) return;
 
@@ -483,26 +477,21 @@ namespace AgenticPrison.Agents.Guard {
             }
         }
 
-        // Motor de ejecución continua HTN
         private void ProcessHTNExecution() {
             if (_rootTask == null) return;
 
-            // Solicitar nuevo plan si la cola está vacía
             if (_currentPlan.Count == 0 && _activeTask == null) {
                 _currentPlan = _planner.GeneratePlan(CurrentState, _rootTask);
                 if (_currentPlan.Count > 0) _activeTask = _currentPlan.Dequeue();
             }
 
-            // Seguimiento de la tarea primitiva actual
             if (_activeTask != null) {
                 var status = _activeTask.Execute(_actuators, CurrentState);
 
-                // Extraer próxima si logró éxito
-                if (status == TaskExecutionStatus.Success) {
+                if (status == TaskExecutionStatus.Success)
                     _activeTask = (_currentPlan.Count > 0) ? _currentPlan.Dequeue() : null;
-                }
-                // Vaciado ante fallo para replanificar en el siguiente frame
                 else if (status == TaskExecutionStatus.Failure) {
+                    // Fallo en tarea primitiva → replanificar en el siguiente frame
                     _currentPlan.Clear();
                     _activeTask = null;
                 }
