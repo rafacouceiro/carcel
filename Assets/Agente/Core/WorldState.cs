@@ -1,56 +1,31 @@
 using System.Collections.Generic;
-using AgenticPrison.Physical;
 using UnityEngine;
+using AgenticPrison.Communication.Messages;
 
 namespace AgenticPrison.Core {
 
-    // Representa el conocimiento que tiene el agente, tanto interno como del entorno
-    public class WorldState {
+    // Estado base de cualquier agente del sistema. Solo tiene los campos que
+    // la capa de comunicación necesita — lo demás va en cada subclase.
+    public abstract class WorldState {
 
-        // Estado interno
         public string AgentName = string.Empty;
-        public Vector3 CurrentPosition = Vector3.zero;
-        public float Energy = 100f; // Energía del agente (0 a 100)
 
-        // Memoria visual
-        public bool FugitiveInVision = false; // Indica si el fugitivo está a la vista
-        public Vector3 LastKnownPosition = Vector3.zero; // Última posición donde se vio al fugitivo
-        public float LastKnownPositionTime = 0f; // Instante en el que se vio al fugitivo
+        // Mientras sea true, el agente asume que el preso no se ha fugado
+        public bool PrisonerInCell = true;
 
-        // Memoria sobre otros agentes
-        public Vector3 LastGuardPosition = Vector3.zero;
-        public float LastGuardPositionTime = 0f;
-        
-        // Memoria auditiva
-        public Vector3 LastNoisePosition = Vector3.zero; // Origen del último ruido sospechoso
-        public float LastNoisePositionTime = 0f; // Instante del último ruido
+        // Sector donde se vio al fugitivo por última vez. "[UNK]" si no se sabe.
+        public string FugitiveSectorId = "[UNK]";
 
-        // Estado del entorno
-        public bool PrisonerInCell = true; // Empieza asumiendo que el prisionero está contenido
+        // Sector para el que ya lanzamos un CNP, para no relanzarlo
+        public string PerimeteredSectorId = string.Empty;
 
-        // Navegación
-        public PrisonMap Map; // Referencia al mapa de la prisión
-        public string AssignedQuadrantId = string.Empty; // Zona de patrulla asignada
+        public Vector3 LastKnownPosition     = Vector3.zero;
+        public float   LastKnownPositionTime = 0f;
 
-        // Genera una copia del estado para simulaciones de planificación
-        public WorldState Clone() {
-            var clone = new WorldState {
-                FugitiveInVision = this.FugitiveInVision,
-                PrisonerInCell = this.PrisonerInCell,
-                Energy = this.Energy,
-                CurrentPosition = this.CurrentPosition,
-                LastKnownPosition = this.LastKnownPosition,
-                LastNoisePosition = this.LastNoisePosition,
-                Map = this.Map,
-                AssignedQuadrantId = this.AssignedQuadrantId,
-                LastKnownPositionTime = this.LastKnownPositionTime,
-                LastNoisePositionTime = this.LastNoisePositionTime,
-                AgentName = this.AgentName,
-                LastGuardPosition = this.LastGuardPosition,
-                LastGuardPositionTime = this.LastGuardPositionTime
-            };
+        // true solo si este agente lo vio con sus propios ojos, no por radio
+        public bool seenByMe = false;
 
-            return clone;
-        }
+        // Las subastas CNP se lanzan de una en una; aquí se acumulan las pendientes
+        public Queue<ContractTask> PendingCfps = new Queue<ContractTask>();
     }
 }
