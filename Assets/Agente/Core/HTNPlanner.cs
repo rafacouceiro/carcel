@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 using AgenticPrison.Physical;
-using AgenticPrison.Communication;
-using UnityEngine;
 
 namespace AgenticPrison.Core {
 
@@ -9,7 +7,7 @@ namespace AgenticPrison.Core {
     public class HTNPlanner {
         
         // Genera un plan ejecutable (cola de primitivas) a partir de una tarea inicial
-        public Queue<IPrimitiveTask> GeneratePlan(GuardWorldState initialState, ICompoundTask rootTask) {
+        public Queue<IPrimitiveTask> GeneratePlan(WorldState initialState, ICompoundTask rootTask) {
             var workingState = initialState.Clone();
             var finalPlan = new Queue<IPrimitiveTask>();
             
@@ -25,7 +23,7 @@ namespace AgenticPrison.Core {
         }
 
         // Bucle recursivo central para la búsqueda HTN
-        private bool FindPlan(GuardWorldState state, Stack<ITask> tasksToProcess, Queue<IPrimitiveTask> finalPlan) {
+        private bool FindPlan(WorldState state, Stack<ITask> tasksToProcess, Queue<IPrimitiveTask> finalPlan) {
             // Si no quedan tareas por procesar, el plan está completo y es válido
             if (tasksToProcess.Count == 0) return true; 
 
@@ -43,7 +41,7 @@ namespace AgenticPrison.Core {
         }
 
         // Prueba todos los métodos de una tarea compuesta para intentar descomponerla
-        private bool TryDecomposeCompound(GuardWorldState state, ICompoundTask compoundTask, Stack<ITask> tasksToProcess, Queue<IPrimitiveTask> finalPlan) {
+        private bool TryDecomposeCompound(WorldState state, ICompoundTask compoundTask, Stack<ITask> tasksToProcess, Queue<IPrimitiveTask> finalPlan) {
             foreach (var method in compoundTask.Methods) {
                 if (method.CheckPreconditions(state)) {
                     var subTasks = method.Decompose(state); 
@@ -76,7 +74,7 @@ namespace AgenticPrison.Core {
         }
 
         // Simula la ejecución de una tarea primitiva verificando sus condiciones y efectos
-        private bool TryProcessPrimitive(GuardWorldState state, IPrimitiveTask primitiveTask, Stack<ITask> tasksToProcess, Queue<IPrimitiveTask> finalPlan) {
+        private bool TryProcessPrimitive(WorldState state, IPrimitiveTask primitiveTask, Stack<ITask> tasksToProcess, Queue<IPrimitiveTask> finalPlan) {
             if (primitiveTask.CheckPreconditions(state)) {
                 var clonedState = state.Clone(); 
                 var branchPlan = new Queue<IPrimitiveTask>(finalPlan);
@@ -101,28 +99,20 @@ namespace AgenticPrison.Core {
         }
 
         // Copia el estado simulado en el estado original durante la construcción del plan
-        private void CopyState(GuardWorldState source, GuardWorldState destination) {
-            destination.FugitiveInVision      = source.FugitiveInVision;
-            destination.seenByMe              = source.seenByMe;
-            destination.PrisonerInCell        = source.PrisonerInCell;
-            destination.Energy                = source.Energy;
-            destination.LastKnownPosition     = source.LastKnownPosition;
-            destination.CurrentPosition       = source.CurrentPosition;
-            destination.Map                   = source.Map;
-            destination.AssignedQuadrantId    = source.AssignedQuadrantId;
-            destination.LastNoisePosition     = source.LastNoisePosition;
+        private void CopyState(WorldState source, WorldState destination) {
+            destination.FugitiveInVision = source.FugitiveInVision;
+            destination.PrisonerInCell = source.PrisonerInCell;
+            destination.Energy = source.Energy;
+            destination.LastKnownPosition = source.LastKnownPosition;
+            destination.CurrentPosition = source.CurrentPosition;
+            destination.Map = source.Map;
+            destination.AssignedQuadrantId = source.AssignedQuadrantId;
+            destination.LastNoisePosition = source.LastNoisePosition;
             destination.LastKnownPositionTime = source.LastKnownPositionTime;
             destination.LastNoisePositionTime = source.LastNoisePositionTime;
-            destination.LastGuardPosition     = source.LastGuardPosition;
+            destination.LastGuardPosition = source.LastGuardPosition;
             destination.LastGuardPositionTime = source.LastGuardPositionTime;
-            destination.AgentName             = source.AgentName;
-            // Campos sociales Phase 2
-            destination.AssignedTask          = source.AssignedTask?.Clone();
-            destination.TeamName              = source.TeamName;
-            destination.PendingSweepersCount  = source.PendingSweepersCount;
-            destination.ShouldInitiateCnp     = source.ShouldInitiateCnp;
-            destination.WaitingForNoiseQuery  = source.WaitingForNoiseQuery;
-            destination.PerimeteredSectorId   = source.PerimeteredSectorId;
+            destination.AgentName = source.AgentName;
         }
     }
 }

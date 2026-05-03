@@ -16,10 +16,6 @@ namespace AgenticPrison.Physical {
         // Habitaciones adyacentes a las que el agente puede transitar
         public List<RoomNode> connectedRooms = new List<RoomNode>();
 
-        [Header("Zonas de Búsqueda Lógica")]
-        [Tooltip("Sectores de búsqueda a los que pertenece esta sala. Puede pertenecer a varios para zonas compartidas.")]
-        public List<string> searchSectorIds = new List<string>();
-
         private BoxCollider _collider;
 
         private void Awake() 
@@ -40,14 +36,6 @@ namespace AgenticPrison.Physical {
                     neighbor.connectedRooms.Add(this);
                 }
             }
-        }
-
-        // Devuelve una posición navegable dentro de la sala: primer waypoint o centro del collider
-        public Vector3 GetNavigablePosition() {
-            if (waypoints.Count > 0 && waypoints[0] != null)
-                return waypoints[0].transform.position;
-            if (_collider == null) _collider = GetComponent<BoxCollider>();
-            return _collider != null ? _collider.bounds.center : transform.position;
         }
 
         // Dibuja en el editor las conexiones entre salas como líneas verdes

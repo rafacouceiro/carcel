@@ -1,189 +1,598 @@
-# **Documentación Agentes**
-
-## **1. WorldState**
-
-El archivo `WorldState.cs` contiene el estado interno y del entorno, estructurando el conocimiento o la percepción individual que tiene el agente en cada momento.
-
-### **Estado Interno**
-- **`AgentName`**: Identificador único del agente que permite descartar ruidos propios u otras lógicas.
-- **`CurrentPosition`**: Coordenada física actualizada del guardia (`transform.position`).
-- **`Energy`**: Nivel de cansancio del guardia, que va de 0 a 100. Necesario para planificar momentos de descanso.
-
-### **Memoria Visual**
-- **`FugitiveInVision`**: Bandera booleana que dicta si el agente se encuentra estableciendo contacto visual directo con el presidiario.
-- **`LastKnownPosition`**: Últimas coordenadas exactas donde el agente localizó visualmente al fugitivo. Se actualizan repetidamente durante la visión continua.
-- **`LastKnownPositionTime`**: Instante de tiempo (`Time.time`) exacto en el que el guardia perdió o refrendó su visual del fugitivo de forma concreta.
-
-### **Memoria sobre Otros Agentes**
-- **`LastGuardPosition`**: Las posiciones recientes donde ha visto físicamente a algún compañero de patrulla. 
-- **`LastGuardPositionTime`**: El respectivo momento de dicho avistamiento guardado por tiempo. Permite juzgar ruidos y evitar falsas alarmas.
-
-### **Memoria Auditiva**
-- **`LastNoisePosition`**: Información posicional sobre el foco desde el cual sonó el último ruido difuso que superó el umbral de captación.
-- **`LastNoisePositionTime`**: Tiempo de la audición.
-
-### **Estado del Entorno**
-- **`PrisonerInCell`**: Bandera lógica crucial. Por defecto es cierta, y una vez desmentida (fuga confirmada) cambia de forma absoluta todo el comportamiento del agente.
-
-### **Navegación**
-- **`Map`**: Referencia general a las estructuras transitables y a los waypoints.
-- **`AssignedQuadrantId`**: La región asignada en la que el agente realizará la patrulla general en rutinas.
-
-### **El Mapa y sus Componentes**
-El entorno navegable está representado jerárquicamente por tres componentes principales, accesibles a través de `PrisonMap.cs`:
-- **`PrisonMap.cs`**: Clase *Singleton* que administra globalmente todas las secciones de la prisión. Almacena diccionarios con los cuadrantes y agrupa todos los nodos lógicos. Ofrece métodos utilitarios para saber en qué habitación exacta cae una coordenada o extraer listas de puntos clave y celdas.
-- **`RoomNode.cs`**: Representa una habitación o espacio lógico delimitado mediante un *BoxCollider*. Contiene una lista de *waypoints* en su interior y establece conexiones lógicas bidireccionales con habitaciones adyacentes (`connectedRooms`), lo que resulta vital para los algoritmos de búsqueda grafales del agente.
-- **`WayPointData.cs`**: Representan cada uno de los puntos fijos a los que el agente puede transitar. Se categorizan bajo marcas booleanas (`isKeyPoint` para puestos críticos de guardia, `isPatrolCheckpoint` para circuitos de ronda, `isCell` para definir si están dentro de celdas de aislamiento).
+# Plan de Implementación Definitivo — Sistema FIPA Multiagente
+## Contexto para Claude Code — Fase 2 del proyecto AgenticPrison
 
 ---
 
-## **2. Sensores**
+## 0. Estado actual del proyecto
 
-El sistema sensorial de los agentes permite adquirir la información proveniente del mundo y es procesada centralmente en el `Brain.cs`. Cuenta con una arquitectura de `Emisor - Manager - Receptor`, lo que significa que el entorno empuja la señal a un medio universal, un Gestor que empareja y delega las señales a los receptores físicos registrados.
+El proyecto ya tiene implementado en C# (Unity):
 
-### **Sistema Visual**
-- **Emisores**: Todos los elementos observables publican rutinariamente su presencia. Esto abarca al jugador (`ControlJugador.cs`) como objetivo de captura o búsqueda, y al resto de guardias de la escena.
-- **Procesamiento**: En cada ciclo y ante emisiones presentes, el `VisionSystem.cs` registrado en `VisionManager` hace cálculos de visibilidad física empleando raycasts y evaluando profundidad y cono de visión angular (`CheckPhysicalVisibility`).
-- **Recepción**: Si el `VisionSystem.cs` detecta el estímulo exitosamente, envía los eventos como `OnFugitiveSpotted`, `OnFugitiveLost` o `OnGuardSpotted` según convenga al componente `Brain.cs`, el cual asume el impacto de la información. Eventualmente la huida puede constatarse viendo la alteración de una celda por proximidad (`ProximityButton.cs`).
-- **Efectos en el Mundo**: En el WorldState un encuentro visual con la fuga significa establecer `FugitiveInVision = true`, marcar el `LastKnownPosition` y, además, invalidar por completo la bandera `PrisonerInCell = false`. El seguimiento constante provocará replanificaciones obligadas.
+- **`GuardBrain.cs`** — hereda de `FIPAAgent`, implementa `INoiseReceiver`, `IVisionEvents`, `ICellEventReceiver`. Ya tiene `OnFugitiveSpotted`, `OnFugitiveLost`, `OnNoiseHeard`, `OnCellFoundOpen`. Tiene `ForzarReplanificacion()`.
+- **`HTNPlanner.cs`** — planificador HTN completo con `FindPlan`, `TryDecomposeCompound`, `TryProcessPrimitive`, `CopyState`.
+- **`WorldState.cs`** — estado del agente con campos físicos, visuales, auditivos y de navegación.
+- **`PrisonMap.cs`** — singleton con `GetSection`, `GetCurrentNode`, `GetAllKeyPoints`, `GetAllCellPoints`.
+- **`FIPAAgent.cs`** — clase base abstracta parcialmente implementada. `GuardBrain` ya hereda de ella.
 
-### **Sistema Auditivo**
-- **Emisores**: El ruido es producido tanto dinámicamente según el movimiento del jugador o los otros agentes (`NoiseEvent`), como originado por elementos de la cárcel de forma estática (el abrir una celda como `CellDoorSlide.cs`).
-- **Procesamiento**: La emisión llega al `NoiseManager`, el cual mide perimetralmente las métricas esféricas (alcance y posición) y advierte mediante llamadas a los métodos correspondientes en `Brain.cs` (`OnNoiseHeard`).
-- **Recepción**: Al interior del cerebro, el sonido no detiene automáticamente el mundo. Si hay pistas visuales más actuales el ruido se minimiza, y el cerebro descarta también ruidos con origen proveniente de sí mismo o muy tenues cerca de la ubicación de los compañeros (`LastGuardPosition`). De ser superado este filtro, se introduce cierto margen de error circular e inexacto.
-- **Efectos en el Mundo**: Graba difusamente un nuevo `LastNoisePosition` en los registros del agente y lanza un aviso en el cerebro para interrumpir la conducta actual (`ForzarReplanificacion`), deteniendo su transitar.
+El HTN físico ya maneja correctamente: patrulla, persecución (ChaseTask), investigación de ruidos (InvestigateNoiseMethod), recuperación de energía (EnergyRecoveryTask), investigación de fuga (InvestigateEscapeTask).
+
+**Regla de oro**: si el HTN ya lo resuelve bien sin comunicación, no añadir comunicación. Solo comunicar cuando se necesita coordinación entre agentes.
 
 ---
 
-## **3. Planificación**
+## 1. Qué hace el HTN físico vs qué añade la comunicación
 
-El agente elabora sus planes de comportamiento usando un sistema HTN (Hierarchical Task Network). Cuenta con una tarea raíz, tareas compuestas intermedias, tareas primitivas ejecutables y métodos que describen cómo ramificar las decisiones guiándose por el `WorldState`. 
+| Situación | HTN físico ya hace | Comunicación añade |
+|---|---|---|
+| `PrisonerInCell = false` | Todos investigan — `InvestigationTask` en todos | Coordinar quién va a qué salida y qué habitación |
+| `FugitiveInVision = true` | `ChaseTask` automático — máxima prioridad | Informar posición al equipo, subastar cobertura de salidas |
+| `LastNoisePosition` fresco | `InvestigateNoiseMethod` automático | Inform para evitar que todos vayan al mismo ruido |
+| `Energy < umbral` | `EnergyRecoveryTask` automático | Request de swap para no dejar puesto sin cubrir |
+| `AssignedTask != null` (nuevo) | `DecomposeAssignedTask` con prioridad máxima | Nada más — HTN ya lo ejecuta |
 
-### **Jerarquía HTN**
+---
+
+## 2. Arquitectura — tres capas
+
+### Capa 1 — Transporte (común, no cambia nunca)
+`FIPAAgent` + `MessageBus` + `ACLMessage`
+- `Send(msg)`, `Broadcast(msg)`, cola de entrada por conversación
+- Procesa 2-3 mensajes por frame — nunca bloquea el Update
+- No sabe nada de protocolos ni decisiones
+
+### Capa 2 — Protocolos (autómatas FSM reutilizables)
+`ICommProtocol` y sus implementaciones
+- `ContractNetProtocol`: `Idle → CfpSent → Collecting → Evaluating → Done/Failed`
+- `InformProtocol`: `Idle → Sent → Done` (fire-and-forget)
+- `RequestProtocol`: `Idle → Sent → Agreed/Refused` (para swap)
+- **Reutilizables por cualquier agente** — guardia, cámara, dron futuro
+
+### Capa 3 — Decisión (específica de cada agente)
+- **Guardia**: HTN social lee WorldState y decide cuándo lanzar protocolos
+- **Cámara**: llama `LaunchProtocol()` directamente desde su sensor
+- **Dron (futuro)**: su propia lógica, mismos protocolos
+
+### Jerarquía de clases
 
 ```
+MonoBehaviour
+  └── FIPAAgent                    (abstracta — capa transporte)
+        ├── GuardBrain             (HTN físico + HTN social)
+        ├── CameraAgent            (llama protocolos directamente)
+        └── DroneAgent             (futuro)
 
-└── 🧠 **RootTask: BeGuard**
-    ├── 📂 *Método: SelectEmergency*
-    │   ├── 📝 **Precondiciones:** `state.FugitiveInVision`
-    │   └── 📋 **Descomposición:** `EmergencyTask`
-    ├── 📂 *Método: SelectInvestigation*
-    │   ├── 📝 **Precondiciones:** `true` (Fallback)
-    │   └── 📋 **Descomposición:** `InvestigationTask`
-    └── 📂 *Método: SelectRoutine* (Default)
-        ├── 📝 **Precondiciones:** `true` (Fallback)
-        └── 📋 **Descomposición:** `RoutineTask`
-
-└── 🧠 **CompoundTask: EmergencyTask**
-    ├── 📂 *Método: CatchMethod*
-    │   ├── 📝 **Precondiciones:** `state.FugitiveInVision && distance < 1.5f`
-    │   └── 📋 **Descomposición:** `GameOverTask`
-    └── 📂 *Método: ChaseMethod*
-        ├── 📝 **Precondiciones:** `state.FugitiveInVision`
-        └── 📋 **Descomposición:** `ChangeFlashLight -> ChaseTask`
-
-└── 🧠 **CompoundTask: InvestigationTask**
-    ├── 📂 *Método: SelectInvestigateEscape*
-    │   ├── 📝 **Precondiciones:** `!state.PrisonerInCell && state.LastKnownPosition != Vector3.zero && age < 25f`
-    │   └── 📋 **Descomposición:** `InvestigateEscapeTask`
-    ├── 📂 *Método: InvestigateNoiseMethod*
-    │   ├── 📝 **Precondiciones:** `state.LastNoisePosition != Vector3.zero && age < 10f`
-    │   └── 📋 **Descomposición:** `ChangeFlashLight -> MoveTask (xN) -> ClearNoiseTask`
-    └── 📂 *Método: InvestigateLocationMethod*
-        ├── 📝 **Precondiciones:** `!state.PrisonerInCell`
-        └── 📋 **Descomposición:** `ChangeFlashLight -> MoveTask (xN)`
-
-└── 🧠 **CompoundTask: RoutineTask**
-    ├── 📂 *Método: PatrolMethod*
-    │   ├── 📝 **Precondiciones:** `state.PrisonerInCell`
-    │   └── 📋 **Descomposición:** `ChangeFlashLight -> MoveTask (xN)`
-    └── 📂 *Método: SelectEnergyRecovery*
-        ├── 📝 **Precondiciones:** `true` (Fallback)
-        └── 📋 **Descomposición:** `EnergyRecoveryTask`
-
-└── 🧠 **CompoundTask: InvestigateEscapeTask**
-    ├── 📂 *Método: PredictivePursuitMethod*
-    │   ├── 📝 **Precondiciones:** `!state.PrisonerInCell && isFresh (< 2s)`
-    │   └── 📋 **Descomposición:** `ChangeFlashLight -> MoveTask -> MoveTask (xN)`
-    └── 📂 *Método: WideSweepMethod*
-        ├── 📝 **Precondiciones:** `!state.PrisonerInCell && age < 35f`
-        └── 📋 **Descomposición:** `ChangeFlashLight -> MoveTask (xN) -> ClearPositionTask`
-
-└── 🧠 **CompoundTask: EnergyRecoveryTask**
-    ├── 📂 *Método: GuardKeySpotMethod*
-    │   ├── 📝 **Precondiciones:** `!state.FugitiveInVision`
-    │   └── 📋 **Descomposición:** `ChangeFlashLight -> MoveTask -> LookAroundTask (xN)`
-    └── 📂 *Método: TakeBreakMethod* (Default)
-        ├── 📝 **Precondiciones:** `true` (Fallback)
-        └── 📋 **Descomposición:** `ChangeFlashLight -> TakeBreathTask`
-
+ICommProtocol
+  ├── ContractNetProtocol
+  ├── InformProtocol
+  └── RequestProtocol
 ```
 
-### **Algoritmia de los Métodos**
-Los métodos actúan como resolutores lógicos que dictan cómo una Tarea Compuesta se desglosa en primitivas. A continuación, se detalla la algoritmia específica de los principales métodos implementados:
+---
 
-#### **Emergencia**
-- **`CatchMethod`**: Realiza un cálculo de distancia euclídea simple (`Vector3.Distance`). Si el guardia está a menos de `1.5f` del objetivo, desencadena el estado de *GameOver*.
-- **`ChaseMethod`**: Ejecuta una persecución predecible y directa que cede el destino de navegación hacia la coordenada más fresca del fugitivo.
+## 3. WorldState — exactamente 5 campos nuevos
 
-#### **Investigación**
-- **`InvestigateNoiseMethod`**: Aplica un algoritmo **Greedy** (vecino más cercano). Filtra hasta 3 `WayPointData` que sean `isKeyPoint` en un radio de 15 unidades respecto al origen del ruido. Luego, apoyándose en las físicas reales de ruta de Unity (`NavMesh.CalculatePath`), va encadenando y ordenando iterativamente aquellos puntos que ofrezcan menor coste de viaje calculado, para trazar un barrido óptimo y localizado.
-- **`InvestigateLocationMethod`**: También emplea un enfoque **Greedy**. Extrae todos los `KeyPoints` del mapa y planifica un recorrido cíclico visitando el más cercano (calculando su coste con `NavMeshPath`) respecto a la posición actual proyectada tras cada visita, minimizando el tiempo muerto.
+Añadir a `WorldState.cs`:
 
-#### **Rutina y Patrullaje**
-- **`PatrolMethod`**: Ejecuta una **Búsqueda en Profundidad (DFS)** a través del subgrafo compuesto de `RoomNode`. Partiendo de la sala inicial, apila (`Stack`) progresivamente las habitaciones vecinas (`connectedRooms`), limitando su alcance solo a las que pertenezcan en rigor al cuadrante asignado del agente (`AssignedQuadrantId`). Durante la topología recolecta las ubicaciones listadas como `isPatrolCheckpoint`.
-- **`GuardKeySpotMethod`**: Evalúa todas las localizaciones `isKeyPoint` de la prisión cotejando su distancia topológica (`NavMesh.CalculatePath`) y elige la de coste mínimo. Se desplaza visualizando allí mientras emite comandos `LookAroundTask` adaptados a la proporción de oxígeno que el agente necesita reparar.
+```csharp
+// Tarea asignada externamente por contrato ganado.
+// HTN físico la ejecuta con prioridad máxima en BeGuard.
+public TaskDescriptor AssignedTask = null;
 
-#### **Pérdidas de Fugitivo y Fuga**
-- **`PredictivePursuitMethod`**: Escoge predecir la sala de huida tomando la habitación en la que el prisionero desapareció (`LastKnownPosition`) y derivando a uno de sus conectores (`connectedRooms`) vecinos aledaños al azar. Una vez decidido, extrae los `WayPointData` de dicha sub-sala y los ordena por simple distancia euclídea, dirigiéndose frenético a chocar con la huida.
-- **`WideSweepMethod`**: Ejecuta una **Expansión Algorítmica de 1er Grado**. Reúne la sala del avistamiento, sus recintos colindantes directos y, a su vez, las colindantes de esas primeras logrando reclutar los nodos para componer un vecindario geográfico grande. Luego destila los `isPatrolCheckpoint` abarcados y teje una ruta conectiva usando heurística **Greedy**.
+// Prioridad de la tarea física actual.
+// Determina si el agente acepta o rechaza bids entrantes.
+public TaskPriority CurrentTaskPriority = TaskPriority.Idle;
+
+// Agentes que forman el equipo activo.
+// El HTN social no lanza subastas redundantes si el equipo ya está formado.
+public List<string> TeamMembers = new List<string>();
+
+// Salidas ya cubiertas por contratos activos.
+// Evita lanzar ContractNet para la misma salida dos veces.
+public List<Vector3> CoveredExits = new List<Vector3>();
+
+// AgentId del guardia que investiga el ruido actual. null si nadie.
+// Precondición HTN físico: InvestigateNoiseMethod solo si
+// NoiseCoveredBy == null || NoiseCoveredBy == AgentName
+public string NoiseCoveredBy = null;
+```
+
+Añadir a `Clone()`:
+```csharp
+AssignedTask        = this.AssignedTask,
+CurrentTaskPriority = this.CurrentTaskPriority,
+TeamMembers         = new List<string>(this.TeamMembers),
+CoveredExits        = new List<Vector3>(this.CoveredExits),
+NoiseCoveredBy      = this.NoiseCoveredBy,
+```
+
+También añadir en `CopyState()` de `HTNPlanner.cs`.
+
+### TaskPriority enum
+
+```csharp
+public enum TaskPriority {
+    Idle        = 0,
+    Patrol      = 1,
+    EnergyRest  = 2,
+    InvestNoise = 3,
+    CoverExit   = 4,
+    Investigate = 4,
+    Chase       = 5,   // nunca se interrumpe
+    GameOver    = 6,   // nunca se interrumpe
+}
+```
+
+> **Nota**: `FugitiveInVision = true` es condición de rechazo absoluto de cualquier bid, independientemente de la prioridad ofrecida.
 
 ---
 
-### **Tareas Primitivas (Acciones Finales)**
-Estas son las tareas que ejecutan los actuadores y modifican el estado simulado en el planificador.
+## 4. TaskDescriptor
 
-#### **1. `ChangeFlashLight`**
-* **Precondiciones:** `true`.
-* **Efectos:** Ninguno sobre el estado lógico (sólo efecto visual en color).
+```csharp
+public class TaskDescriptor {
+    public TaskType     Type;
+    public Vector3      TargetPosition;
+    public TaskPriority Priority;
+    public string       ContractId;    // conversación que lo originó
+    public float        Deadline;      // Time.time de expiración
+}
 
-#### **2. `ChaseTask`**
-* **Precondiciones:** `state.FugitiveInVision && state.Energy >= 5f`.
-* **Efectos:** `state.Energy -= 5f`, `state.CurrentPosition = state.LastKnownPosition`.
-
-#### **3. `ClearNoiseTask`**
-* **Precondiciones:** `true`.
-* **Efectos:** `state.LastNoisePosition = Vector3.zero`.
-
-#### **4. `ClearPositionTask`**
-* **Precondiciones:** `true`.
-* **Efectos:** `state.LastKnownPosition = Vector3.zero`.
-
-#### **5. `LookAroundTask`**
-* **Precondiciones:** `true`.
-* **Efectos:** `state.Energy = Mathf.Min(100f, state.Energy + 20f)`.
-
-#### **6. `MoveTask`**
-* **Precondiciones:** `_target != Vector3.zero && state.Energy >= CalculateEnergyCost`.
-* **Efectos:** `state.CurrentPosition = _target`, `state.Energy -= CalculateEnergyCost`.
-
-#### **7. `TakeAirTask` (TakeBreathTask)**
-* **Precondiciones:** `true`.
-* **Efectos:** `state.Energy = Mathf.Min(100f, state.Energy + 30f)`.
-
-#### **8. `GameOverTask`**
-* **Precondiciones:** `true`.
-* **Efectos:** Funciona como captura final abortando la simulacion, final del juego.
-
-### **Actuadores**
-Los operadores o actuadores (`Actuators.cs`) son el eslabón final que procesa las decisiones lógicas y las vuelve acciones tangibles en el motor. Reciben órdenes directas de tareas primitivas (como `SetDestination`, `SetSpeed` o `SetLightColor`) y manejan el `NavMeshAgent` o utilidades como la `linterna` de Unity.
+public enum TaskType {
+    CoverPosition,
+    Investigate,
+    // ampliar según necesidad
+}
+```
 
 ---
 
-## **4. Orquestación**
+## 5. ACLMessage
 
-La integración sistémica global está orquestada conjuntamente entre el `Brain.cs` y el `HTNPlanner.cs`. 
+```csharp
+public class ACLMessage {
+    public Performative Performative;
+    public string       Sender;
+    public string       Receiver;       // null = broadcast
+    public string       ConversationId;
+    public string       InReplyTo;
+    public float        ReplyBy;        // Time.time de expiración, 0 = sin límite
+    public object       Content;        // TaskDescriptor, ProposalContent, etc.
+}
 
-- **El Cerebro (`Brain.cs`)** actúa como el núcleo vital persistente del agente. Por un lado, mantiene los registros actualizados en memoria (`WorldState`) desde lo que dictan sus implementaciones en los terminales sensoriales (`IVisionEvents`, `INoiseReceiver`, `ICellEventReceiver`). Por el otro, actúa de director: pide constantemente un plan a seguir o lo aborta ante un estímulo que interrumpe (`ForzarReplanificacion()`) obligando así al recálculo en el siguiente `Update()`.
-  
-- **El Planificador (`HTNPlanner.cs`)** entra a escena bajo demanda central. Es un motor de resolución que clona un `WorldState` y explora un gran abanico recursivo ramificando métodos `Decompose()` y checkeando `CheckPreconditions()` simulando los `ApplyEffects()`. Si una sucesión de derivaciones conecta el estado inicial con el éxito completo, el planner expide y solidifica `Queue<IPrimitiveTask>`, para que a posteriori el cerebro lo devore tramo a tramo ejecutando `Execute()` que contactará internamente con los `Actuators.cs`.
+public enum Performative {
+    Cfp, Propose, Refuse,
+    AcceptProposal, RejectProposal,
+    Inform, InformDone, Failure,
+    Request, Agree
+}
+```
+
+---
+
+## 6. FIPAAgent — completar
+
+```csharp
+public abstract class FIPAAgent : MonoBehaviour {
+
+    public abstract string AgentId { get; }
+
+    private Dictionary<string, ICommProtocol> _conversations = new();
+    private Queue<ACLMessage> _pendingIncoming = new();
+    private const int MAX_CONVERSATIONS = 3;
+
+    protected virtual void Start() {
+        MessageBus.Instance.Register(this);
+    }
+
+    protected virtual void Update() {
+        ProcessIncoming(GetWorldState());
+    }
+
+    // Punto de entrada único para lanzar cualquier protocolo
+    protected void LaunchProtocol(ICommProtocol protocol) {
+        if (_conversations.Count >= MAX_CONVERSATIONS) return;
+        _conversations[protocol.ConversationId] = protocol;
+        protocol.Init(this);
+    }
+
+    // Llamado por MessageBus al recibir un mensaje
+    public void ReceiveMessage(ACLMessage msg) {
+        _pendingIncoming.Enqueue(msg);
+    }
+
+    protected void ProcessIncoming(WorldState ws, int maxPerFrame = 2) {
+        int processed = 0;
+        while (_pendingIncoming.Count > 0 && processed < maxPerFrame) {
+            var msg = _pendingIncoming.Dequeue();
+
+            // Descartar si expiró
+            if (msg.ReplyBy > 0 && Time.time > msg.ReplyBy) continue;
+
+            // Si pertenece a conversación activa, avanzar FSM
+            if (_conversations.TryGetValue(msg.ConversationId, out var fsm)) {
+                fsm.Tick(msg, ws);
+                if (fsm.IsComplete) _conversations.Remove(msg.ConversationId);
+                processed++;
+                continue;
+            }
+
+            // Mensaje nuevo — delegar a la subclase
+            OnIncomingMessage(msg, ws);
+            processed++;
+        }
+    }
+
+    // Cada subclase decide qué hacer con mensajes sin conversación activa
+    protected abstract void OnIncomingMessage(ACLMessage msg, WorldState ws);
+    protected abstract WorldState GetWorldState();
+}
+```
+
+---
+
+## 7. ICommProtocol — interfaz base
+
+```csharp
+public interface ICommProtocol {
+    string ConversationId { get; }
+    bool   IsComplete     { get; }
+
+    void Init(FIPAAgent agent);
+    void Tick(ACLMessage msg, WorldState ws);       // avanza por mensaje
+    void Tick(float currentTime, WorldState ws);    // avanza por deadline
+}
+```
+
+---
+
+## 8. ContractNetProtocol — estados y transiciones
+
+| Estado | Rol | Transición | Acción |
+|---|---|---|---|
+| `Idle` | ambos | `Init()` | envía cfp (iniciador) |
+| `CfpSent` | iniciador | deadline expirado | → `Evaluating` si hay propuestas, `Failed` si no |
+| `CfpSent` | iniciador | `Propose` recibido | acumula, permanece |
+| `CfpSent` | iniciador | `Refuse` recibido | descarta, permanece |
+| `CfpReceived` | participante | cfp llegó | evalúa prioridad → `Proposed` o `Refused` |
+| `Proposed` | participante | `AcceptProposal` | → `Executing`: `WS.AssignedTask = task; ForzarReplan()` |
+| `Proposed` | participante | `RejectProposal` | → `Idle`: `WS.PendingCfp = null` |
+| `Evaluating` | iniciador | (interno) | elige mejor oferta → envía Accept + Rejects |
+| `AcceptSent` | iniciador | `InformDone` | → `Done`: actualiza `CoveredExits` o `TeamMembers` |
+| `AcceptSent` | iniciador | `Failure` | → `Failed`: puede re-lanzar |
+| `Executing` | participante | tarea completada | envía `InformDone` → `Done` |
+| `Done/Failed` | ambos | — | `IsComplete = true` |
+
+> El buffer de mensajes es **por conversación**, no global. Un mensaje con `ConversationId` desconocido se descarta silenciosamente.
+
+---
+
+## 9. HTN social del guardia
+
+Usa exactamente el mismo `HTNPlanner.cs` sin cambios. Las tareas primitivas son actos comunicativos en lugar de movimientos.
+
+### Árbol BeSocial
+
+```
+BeSocial (raíz)
+  ├── CoordinateFlightMethod
+  │     precond: FugitiveInVision && TeamMembers.Count == 0
+  │     descomp: LaunchExitCfps → LaunchRoomCfps → SendInform(chasing)
+  │
+  ├── RespondToBidMethod
+  │     precond: PendingCfp != null
+  │              && !FugitiveInVision
+  │              && cfp.Priority > CurrentTaskPriority
+  │              && Energy > 15f
+  │     descomp: EvaluateCostTask → SendProposeTask
+  │
+  ├── RefuseBidMethod
+  │     precond: PendingCfp != null  (fallback)
+  │     descomp: SendRefuseTask
+  │
+  ├── RequestSwapMethod
+  │     precond: Energy < 20 && AssignedTask != null
+  │              && TeamMembers.Count > 0
+  │     descomp: SendSwapRequestTask
+  │
+  ├── InformNoiseMethod
+  │     precond: LastNoisePosition != zero
+  │              && NoiseCoveredBy == null
+  │              && !FugitiveInVision
+  │     descomp: SendInform(investigating-noise) → SetNoiseCoveredByMe
+  │
+  └── SocialIdleMethod (fallback)
+        precond: true
+        descomp: WaitTask
+```
+
+### Tareas primitivas sociales
+
+| Tarea | Precondición | Efecto en WS | Acto comunicativo |
+|---|---|---|---|
+| `LaunchExitCfpsTask` | `!CoveredExits.Contains(exit)` | `ActiveContracts.Add(exit)` | `Broadcast(Cfp, cover-exit)` |
+| `LaunchRoomCfpsTask` | room no asignada | `TeamAssignments.Add(room)` | `Broadcast(Cfp, investigate-room)` |
+| `SendProposeTask` | `ProposalCost` calculado | `PendingCfp = null` | `Reply(Propose, cost)` |
+| `SendRefuseTask` | `PendingCfp != null` | `PendingCfp = null` | `Reply(Refuse)` |
+| `SendInformTask` | `true` | `NoiseCoveredBy = AgentName` | `Broadcast(Inform, tipo)` |
+| `SendSwapRequestTask` | `TeamMembers.Count > 0` | — | `Send(Request, teamMember)` |
+
+> El HTN social usa efectos **optimistas**: asume que los contratos lanzados tendrán éxito. Si fallan, la FSM escribe el resultado real en WorldState y el HTN social replanifica.
+
+---
+
+## 10. HTN físico — cambios mínimos
+
+### Añadir `AssignedTaskMethod` como primer método de `BeGuard`
+
+```csharp
+// Primera comprobación en BeGuard — tiene prioridad sobre todo, incluido EmergencyTask
+if (state.AssignedTask != null) {
+    return DecomposeAssignedTask(state.AssignedTask);
+}
+
+Queue<IPrimitiveTask> DecomposeAssignedTask(TaskDescriptor task) {
+    return task.Type switch {
+        TaskType.CoverPosition =>
+            [ChangeFlashLight, MoveTask(task.TargetPosition),
+             LookAroundTask(x3), InformDoneTask(task.ContractId)],
+        TaskType.Investigate =>
+            [ChangeFlashLight, MoveTask(task.TargetPosition),
+             LookAroundTask(x2), InformDoneTask(task.ContractId)],
+        _ => throw new ArgumentException()
+    };
+}
+```
+
+> **Excepción**: si `FugitiveInVision = true` se activa mientras se ejecuta `AssignedTask`, `ForzarReplanificacion()` hace que `EmergencyTask` prevalezca. La persecución siempre tiene prioridad absoluta.
+
+### Precondiciones ajustadas
+
+| Método HTN | Precondición añadida | Efecto |
+|---|---|---|
+| `InvestigateNoiseMethod` | `NoiseCoveredBy == null \|\| NoiseCoveredBy == AgentName` | Solo un guardia investiga cada ruido |
+| `EnergyRecoveryTask` | `AssignedTask == null` | No descansa si tiene puesto sin swap |
+| `PatrolMethod` | sin cambios | Ya funciona bien |
+| `ChaseMethod` | sin cambios | EmergencyTask ya tiene máxima prioridad |
+
+### InformDoneTask
+
+```csharp
+public class InformDoneTask : IPrimitiveTask {
+    public bool CheckPreconditions(WorldState state) => true;
+
+    public void ApplyEffects(WorldState state) {
+        state.AssignedTask     = null;
+        state.ActiveContractId = null;
+    }
+
+    public TaskExecutionStatus Execute(IActuators act, WorldState state) {
+        state.AssignedTask     = null;
+        state.ActiveContractId = null;
+        // La ConversationFSM activa envía InformDone al iniciador automáticamente
+        return TaskExecutionStatus.Success;
+    }
+}
+```
+
+---
+
+## 11. Los cinco escenarios
+
+### 11.1 Fuga confirmada
+
+**Disparador**: `OnFugitiveSpotted()` → `FugitiveInVision = true`, `PrisonerInCell = false`
+
+```
+GuardA ve al fugitivo
+├── HTN físico: ChaseTask (CurrentTaskPriority = Chase = 5)
+└── HTN social: CoordinateFlightMethod
+      → LaunchExitCfpsTask por cada salida en PrisonMap no en CoveredExits
+      → LaunchRoomCfpsTask por salas adyacentes a LastKnownPosition
+      → SendInform(chasing, myPosition)
+
+GuardB recibe cfp(CoverExit, priority=4):
+  Patrol(1) < CoverExit(4) && Energy > 15 && !FugitiveInVision
+  → propone con coste NavMesh(myPosition → exit)
+
+GuardA evalúa al deadline → acepta mejor oferta (menor coste)
+GuardB recibe AcceptProposal:
+  → WS.AssignedTask = {CoverPosition, exitNorte, Priority=4}
+  → ForzarReplanificacion()
+  → HTN físico: BeGuard → AssignedTask != null → DecomposeAssignedTask
+  → [MoveTask(exitNorte), LookAroundTask x3, InformDoneTask]
+
+GuardB llega → InformDoneTask → WS.AssignedTask = null
+ConversationFSM → InformDone → GuardA: WS.CoveredExits.Add(exitNorte)
+```
+
+**Dissolve**:
+- `PrisonerInCell = true` → `Inform(dissolve)` broadcast → limpiar `TeamMembers`, `CoveredExits`, `AssignedTask` → todos vuelven a `RoutineTask`
+- `PrisonerInCell = false` && nadie ve al fugitivo → mantener cobertura, HTN social puede lanzar nuevas subastas
+
+### 11.2 Ruido — Inform directo
+
+```
+GuardA oye ruido → LastNoisePosition actualizado
+HTN social: InformNoiseMethod activo (NoiseCoveredBy == null)
+  → SendInform(investigating-noise, noisePos)
+  → NoiseCoveredBy = "GuardA"
+
+GuardB recibe Inform → OnIncomingMessage → WS.NoiseCoveredBy = "GuardA"
+HTN físico GuardB: InvestigateNoiseMethod
+  precond: NoiseCoveredBy == null || NoiseCoveredBy == AgentName
+  → FALLA → GuardB no va al ruido
+
+Si GuardA falla o no responde en tiempo → NoiseCoveredBy expira → null
+→ cualquier otro guardia puede ir
+```
+
+> No se necesita ContractNet para el ruido. Un Inform es suficiente. El primero que informa se adjudica la investigación.
+
+### 11.3 Swap por cansancio
+
+```
+GuardA: Energy < 20 && AssignedTask != null && TeamMembers.Count > 0
+HTN social: RequestSwapMethod
+  → Send(Request{task: myAssignedTask, position: myPosition}, teamMember)
+
+GuardB recibe Request:
+  CurrentTaskPriority(Patrol=1) < task.Priority(CoverExit=4)
+  → Agree
+  → WS.AssignedTask = task recibido
+  → ForzarReplanificacion()
+
+GuardA recibe Agree:
+  → WS.AssignedTask = null
+  → WS.CurrentTaskPriority = EnergyRest
+  → HTN físico: EnergyRecoveryTask
+
+GuardA recibe Refuse:
+  → HTN social: SocialIdleMethod (sin apoyo, aguanta)
+```
+
+### 11.4 Política de rechazo de bids
+
+| Caso | Política | Razón |
+|---|---|---|
+| `FugitiveInVision = true` | Refuse automático sin evaluar | Nunca abandonar persecución |
+| `Energy < 15` | Refuse automático | No comprometerse sin energía |
+| `cfp.Priority <= CurrentTaskPriority` | Refuse automático | No interrumpir tarea más importante |
+| `MAX_CONVERSATIONS` alcanzado | Refuse automático | No saturar conversaciones |
+| `cfp` de posición en `CoveredExits` | Refuse automático | No cubrir lo ya cubierto |
+| cfp válido | Evaluar coste NavMesh y proponer | Caso normal |
+
+### 11.5 Queries (opcional, fase posterior)
+
+`QueryRef` / `QueryIf` para preguntar si una zona está cubierta antes de lanzar un ContractNet innecesario. Implementar después de validar los cuatro escenarios anteriores.
+
+---
+
+## 12. Integración trivial — CameraAgent
+
+```csharp
+public class CameraAgent : FIPAAgent {
+    public override string AgentId => gameObject.name;
+
+    private MotionSensor _sensor;
+
+    protected override void Start() {
+        base.Start();
+        _sensor = GetComponent<MotionSensor>();
+    }
+
+    void Update() {
+        base.Update();
+
+        if (_sensor.DetectsSignificantMovement()) {
+            // Una línea. Eso es todo lo que la cámara necesita saber.
+            LaunchProtocol(new ContractNetProtocol(
+                new TaskDescriptor {
+                    Type           = TaskType.Investigate,
+                    TargetPosition = _sensor.DetectedPosition,
+                    Priority       = TaskPriority.Investigate
+                }
+            ));
+        }
+    }
+
+    protected override void OnIncomingMessage(ACLMessage msg, WorldState ws) {
+        // La cámara no tiene WorldState locomotor
+        // Solo loguea o ignora los resultados de contratos lanzados
+    }
+
+    protected override WorldState GetWorldState() => null; // sin WorldState físico
+}
+```
+
+---
+
+## 13. Ficheros a crear y modificar
+
+### Nuevos (en este orden)
+```
+Communication/
+  ACLMessage.cs
+  Performative.cs
+  MessageBus.cs
+  ICommProtocol.cs
+  ContractNetProtocol.cs
+  InformProtocol.cs
+  RequestProtocol.cs
+
+Agents/Core/
+  TaskDescriptor.cs
+  TaskType.cs
+  TaskPriority.cs
+
+Agents/Guard/Social/
+  GuardSocialHTN.cs         ← árbol BeSocial + todos sus métodos
+  LaunchExitCfpsTask.cs
+  LaunchRoomCfpsTask.cs
+  SendProposeTask.cs
+  SendRefuseTask.cs
+  SendInformTask.cs
+  SendSwapRequestTask.cs
+  EvaluateCostTask.cs
+
+Agents/Guard/Physical/
+  InformDoneTask.cs
+
+Agents/
+  CameraAgent.cs
+```
+
+### Modificar (cambios mínimos)
+```
+WorldState.cs         ← +5 campos + Clone() + CopyState()
+HTNPlanner.cs         ← +AssignedTaskMethod en BeGuard + DecomposeAssignedTask
+GuardBrain.cs         ← completar OnIncomingMessage + ForzarReplanificacionSocial
+FIPAAgent.cs          ← completar ProcessIncoming + LaunchProtocol
+```
+
+### No tocar
+```
+VisionSystem.cs, VisionManager.cs, NoiseManager.cs,
+Actuators.cs, PrisonMap.cs, RoomNode.cs, WayPointData.cs,
+ProximityButton.cs, CellDoorSlide.cs, ControlJugador.cs,
+todas las tareas HTN físicas existentes (MoveTask, ChaseTask, etc.)
+```
+
+---
+
+## 14. Plan de 3 días
+
+### Día 1 — Infraestructura base
+- `ACLMessage.cs`, `Performative.cs`, `TaskDescriptor.cs`, `TaskType.cs`, `TaskPriority.cs`
+- `MessageBus.cs` — Singleton: `Register`, `Send`, `Broadcast`
+- Completar `FIPAAgent.cs` — `LaunchProtocol`, `ProcessIncoming`, `ReceiveMessage`
+- `GuardBrain.cs` — verificar que hereda correctamente, stub de `OnIncomingMessage`
+
+**Verificación**: dos guardias intercambian un `Inform` en consola. El juego funciona exactamente igual que en fase 1.
+
+### Día 2 — Protocolos y Contract Net para fuga
+- `ICommProtocol.cs`, `ContractNetProtocol.cs`, `InformProtocol.cs`
+- `WorldState.cs` — +5 campos, `Clone()`, `CopyState()`
+- `HTNPlanner.cs` — `AssignedTaskMethod` + `DecomposeAssignedTask`
+- `InformDoneTask.cs`
+- `GuardSocialHTN.cs` — `CoordinateFlightMethod`, `RespondToBidMethod`, `RefuseBidMethod`
+
+**Verificación**: fuga confirmada → GuardA persigue → GuardB cubre salida → `InformDone` recibido. GuardC con Chase activo rechaza automáticamente el cfp.
+
+### Día 3 — Ruido, swap y cámara
+- `InformNoiseMethod` en HTN social + precondición en `InvestigateNoiseMethod` HTN físico
+- `RequestProtocol.cs` + `RequestSwapMethod` en HTN social
+- Ajuste precondición en `EnergyRecoveryTask`
+- `CameraAgent.cs`
+
+**Verificación**: solo un guardia investiga el ruido. Guardia cansado cede puesto con cobertura garantizada. Cámara lanza contrato en una línea.
+
+---
+
+## 15. Notas de implementación
+
+- **`ChaseTask` nunca se interrumpe**. Si `FugitiveInVision = true`, el agente rechaza todo automáticamente.
+- **El HTN social usa los mismos efectos optimistas que el HTN físico**: simula que los contratos tendrán éxito. Si fallan, la FSM escribe el resultado y el HTN replanifica.
+- **El buffer es por conversación**. Un mensaje con `ConversationId` desconocido se descarta silenciosamente.
+- **`MAX_CONVERSATIONS = 3`** por agente simultáneamente.
+- **El dissolve no es un protocolo nuevo**: es un `Inform` broadcast que limpia los campos sociales. El HTN físico detecta `AssignedTask = null` y vuelve a `RoutineTask` solo.
+- **`NoiseCoveredBy` puede expirar**: si el agente que se adjudicó el ruido no actualiza en un tiempo razonable (ej. `Time.time - LastNoisePositionTime > 15f`), se puede limpiar para permitir que otro vaya.
+- **La cámara no tiene `WorldState` locomotor** pero puede participar como iniciadora en cualquier `ContractNetProtocol`.

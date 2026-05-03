@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections.Generic;
 
 namespace AgenticPrison.Physical {
     // Almacena información contextual sobre un punto de navegación en el mapa
@@ -17,15 +16,5 @@ namespace AgenticPrison.Physical {
         // Puntos que pertenecen al interior de las celdas
         [Tooltip("Marca para indicar que este waypoint se encuentra en el interior de una celda.")]
         public bool isCell = false;
-
-        [Header("Bloqueo de Cuadrantes (Operaciones de Búsqueda)")]
-        [Tooltip("Marca si este punto actúa como tapón para cerrar un sector.")]
-        public bool isBlockingPoint = false;
-
-        [Tooltip("Identificador para agrupar varios puntos de bloqueo (ej. 'PuertaNorte'). El agente patrullará entre los puntos con este mismo ID.")]
-        public string blockingGroupId = string.Empty;
-
-        [Tooltip("Sector que este punto de bloqueo defiende. Solo si no puede heredarlo del RoomNode padre.")]
-        public string blockingSectorId = string.Empty;
     }
 }
