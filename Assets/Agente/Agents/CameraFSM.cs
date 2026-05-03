@@ -82,11 +82,6 @@ namespace AgenticPrison.Agents {
             Transition(CameraState.Coordinating);
         }
 
-        // Llamado por CameraBrain cuando pierde el contacto visual.
-        // No interrumpe la coordinación: el sector ya está confirmado y el perímetro
-        // debe completarse aunque se pierda el contacto visual momentáneamente.
-        public void NotifyFugitiveLost() { }
-
         // ── Transiciones ──────────────────────────────────────────────────────────
 
         void Transition(CameraState next) {

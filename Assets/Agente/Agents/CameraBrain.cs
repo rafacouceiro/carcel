@@ -34,7 +34,7 @@ namespace AgenticPrison.Agents {
             _fsm.NotifyFugitiveSpotted(position, sectorId);
         }
 
-        public void OnFugitiveLost()                          => _fsm.NotifyFugitiveLost();
+        public void OnFugitiveLost()                          { }
         public void OnFugitivePositionUpdated(Vector3 pos)    { }
         public void OnGuardSpotted(Vector3 guardPosition)     { }
     }
