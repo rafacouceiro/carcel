@@ -10,7 +10,6 @@ using AgenticPrison.Behavior.Social;
 using AgenticPrison.Communication.Messages;
 using AgenticPrison.Communication.Protocols.ContractNet;
 using AgenticPrison.Communication.Protocols.Query;
-using AgenticPrison.Communication.Messages;
 
 #if UNITY_EDITOR
 using UnityEditor;
