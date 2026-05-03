@@ -36,11 +36,11 @@ namespace AgenticPrison.Communication {
 
         protected virtual void Update() {
             DiscardExpired();
-            ProcessIncoming(GetWorldState());
+            ProcessIncoming(GetAgentState());
         }
 
-        // Cada subclase expone su WorldState para que el base pueda procesar mensajes
-        protected abstract WorldState GetWorldState();
+        // Cada subclase expone su AgentState para que el base pueda procesar mensajes
+        protected abstract AgentState GetAgentState();
 
         public void ReceiveMessage(ACLMessage msg) {
             if (_count == BUFFER_SIZE) {
@@ -52,7 +52,7 @@ namespace AgenticPrison.Communication {
             _count++;
         }
 
-        public void LaunchProtocol(ICommProtocol protocol, WorldState ws) {
+        public void LaunchProtocol(ICommProtocol protocol, AgentState ws) {
             if (_ongoing_conversations.Count >= MAX_CONVERSATIONS) return;
             _ongoing_conversations[protocol.ConversationId] = protocol;
             protocol.Init(this, ws);
@@ -65,13 +65,13 @@ namespace AgenticPrison.Communication {
 
         // ── Motor de Procesamiento Unificado ───────────────────────────────────────
 
-        protected void ProcessIncoming(WorldState ws, int maxPerFrame = 5) {
+        protected void ProcessIncoming(AgentState ws, int maxPerFrame = 5) {
             TickConversations(ws);
             ProcessBuffer(ws, maxPerFrame);
             ProcessPendingCfps(ws);
         }
 
-        private void TickConversations(WorldState ws) {
+        private void TickConversations(AgentState ws) {
             var convIds = new List<string>(_ongoing_conversations.Keys);
             foreach (string id in convIds) {
                 if (!_ongoing_conversations.ContainsKey(id)) continue;
@@ -80,7 +80,7 @@ namespace AgenticPrison.Communication {
             }
         }
 
-        private void ProcessBuffer(WorldState ws, int maxPerFrame) {
+        private void ProcessBuffer(AgentState ws, int maxPerFrame) {
             int processed = 0;
             int readIdx   = 0;           // solo avanza cuando NO se elimina el elemento
             var deferred  = new List<ACLMessage>();
@@ -124,7 +124,7 @@ namespace AgenticPrison.Communication {
             }
         }
 
-        private bool HandlePotentialNewProtocol(ACLMessage msg, WorldState ws) {
+        private bool HandlePotentialNewProtocol(ACLMessage msg, AgentState ws) {
             if (_ongoing_conversations.Count >= MAX_CONVERSATIONS) return false;
 
             if (msg.Performative == Performative.Cfp) {
@@ -145,10 +145,10 @@ namespace AgenticPrison.Communication {
         }
 
         // Hook para que las subclases decidan si responder a un QueryIf y con qué contenido
-        protected virtual void OnQueryIfReceived(ACLMessage msg, WorldState ws, QueryIfParticipant participant) { }
+        protected virtual void OnQueryIfReceived(ACLMessage msg, AgentState ws, QueryIfParticipant participant) { }
 
         // Hook para que las subclases decidan cómo reaccionar a la subasta
-        protected virtual void OnCfpReceived(ACLMessage msg, WorldState ws, ContractNetParticipant participant) {
+        protected virtual void OnCfpReceived(ACLMessage msg, AgentState ws, ContractNetParticipant participant) {
             float cost;
             if (EvaluateCfp(msg, ws, out cost))
                 participant.SendPropose(this, ws, cost);
@@ -158,7 +158,7 @@ namespace AgenticPrison.Communication {
 
         // ── Handlers Virtuales (Reaction Hooks) ────────────────────────────────────
 
-        protected virtual void OnMessageReceived(ACLMessage msg, WorldState ws) {
+        protected virtual void OnMessageReceived(ACLMessage msg, AgentState ws) {
             switch (msg.Performative) {
                 case Performative.Inform:     HandleInform(msg, ws); break;
                 case Performative.InformDone: HandleInformDone(msg, ws); break;
@@ -168,7 +168,7 @@ namespace AgenticPrison.Communication {
             }
         }
 
-        protected virtual void HandleInform(ACLMessage msg, WorldState ws) {
+        protected virtual void HandleInform(ACLMessage msg, AgentState ws) {
             // Dispatch por tipo de contenido — Inform puede llevar payloads distintos
             var sighting = msg.Content as FugitiveSightingContent;
             if (sighting == null) return;
@@ -196,19 +196,19 @@ namespace AgenticPrison.Communication {
 
         // Hook para que las subclases evalúen reactivamente si proponer o rechazar un CFP.
         // Devuelve true = proponer con el coste calculado; false = rechazar.
-        protected virtual bool EvaluateCfp(ACLMessage cfp, WorldState ws, out float cost) {
+        protected virtual bool EvaluateCfp(ACLMessage cfp, AgentState ws, out float cost) {
             cost = 0f; return false;
         }
 
         // Hooks para subclases
-        protected virtual void HandleCfp(ACLMessage msg, WorldState ws) { }
-        protected virtual void HandleInformDone(ACLMessage msg, WorldState ws) { }
-        protected virtual void HandleCancel(ACLMessage msg, WorldState ws) { }
-        protected virtual void HandleDefault(ACLMessage msg, WorldState ws) { }
+        protected virtual void HandleCfp(ACLMessage msg, AgentState ws) { }
+        protected virtual void HandleInformDone(ACLMessage msg, AgentState ws) { }
+        protected virtual void HandleCancel(ACLMessage msg, AgentState ws) { }
+        protected virtual void HandleDefault(ACLMessage msg, AgentState ws) { }
 
         // ── Métodos de apoyo (FIPA Base) ───────────────────────────────────────────
 
-        private void ProcessPendingCfps(WorldState ws) {
+        private void ProcessPendingCfps(AgentState ws) {
             if (ws.PendingCfps == null || ws.PendingCfps.Count == 0) return;
             if (HasActiveCnpInitiator()) return; 
 
