@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using AgenticPrison.Physical;
 
-namespace AgenticPrison.Agents {
+namespace AgenticPrison.Agents.Camera {
 
     [RequireComponent(typeof(CameraFSM))]
     public class CameraBrain : MonoBehaviour, IVisionEvents {
