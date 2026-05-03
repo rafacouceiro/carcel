@@ -13,9 +13,9 @@ namespace AgenticPrison.Agents.Tools {
 
         // Cantidad de sweepers recomendada por sector (ID: Cantidad)
         private static readonly Dictionary<string, int> SweepersPerSector = new Dictionary<string, int> {
-            { "1", 2 },
-            { "2", 2 },
-            { "3", 2 },
+            { "1", 4 },
+            { "2", 5 },
+            { "3", 5 },
             { "4", 4 }
         };
 

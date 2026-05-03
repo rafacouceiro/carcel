@@ -42,6 +42,8 @@ namespace AgenticPrison.Agents {
         // Solo necesitamos PendingCfps y FugitiveSectorId del WorldState
         readonly WorldState ws = new WorldState();
 
+        protected override WorldState GetWorldState() => ws;
+
         // ── Ciclo de vida ─────────────────────────────────────────────────────────
 
         protected override void Start() {
@@ -82,6 +84,8 @@ namespace AgenticPrison.Agents {
         // ── IVisionEvents ─────────────────────────────────────────────────────────
 
         public void OnFugitiveSpotted(Vector3 position) {
+            Debug.Log($"<color=red>{AgentId.ToUpper()}: FUGITIVO DETECTADO EN POSICIÓN {position}</color>");
+
             List<string> sectors = PrisonMap.Instance.GetFugitiveSectors(position);
             string sectorId = sectors != null && sectors.Count == 1 ? sectors[0] : "[UNK]";
 

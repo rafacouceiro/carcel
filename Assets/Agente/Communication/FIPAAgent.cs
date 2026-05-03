@@ -36,7 +36,11 @@ namespace AgenticPrison.Communication {
 
         protected virtual void Update() {
             DiscardExpired();
+            ProcessIncoming(GetWorldState());
         }
+
+        // Cada subclase expone su WorldState para que el base pueda procesar mensajes
+        protected abstract WorldState GetWorldState();
 
         public void ReceiveMessage(ACLMessage msg) {
             if (_count == BUFFER_SIZE) {
@@ -176,14 +180,14 @@ namespace AgenticPrison.Communication {
                     // Timestamp  > 0 → barrido completado sin encontrar al fugitivo
                     string logMsg = sighting.Timestamp == 0f
                         ? "escape confirmed — sector [UNK]"
-                        : "sweep failed — sector [UNK]";
+                        : "sweep failed — sector [UNK]";    
                     FIPALogger.Log(AgentId, "radio", Performative.Inform, logMsg);
                 } else if (sighting.Timestamp > ws.LastKnownPositionTime) {
                     ws.LastKnownPosition     = sighting.Position;
                     ws.LastKnownPositionTime = sighting.Timestamp;
                     ws.FugitiveSectorId      = sighting.SectorId;
                     ws.seenByMe              = false; // otro agente tiene la pista más reciente
-                    FIPALogger.Log(AgentId, "radio", Performative.Inform, $"Fugitive at {sighting.SectorId}");
+                    FIPALogger.Log(AgentId, "radio", Performative.Inform, $"recv: Fugitive at {sighting.SectorId} (from {sighting.ReporterId})");
                 }
             }
         }

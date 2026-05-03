@@ -2,10 +2,9 @@ using AgenticPrison.Core;
 
 namespace AgenticPrison.Behavior.PrimitiveTasks {
 
-    // Tarea primitiva: señaliza que la tarea asignada por contrato ha concluido.
-    // En el nuevo diseño GuardBrain detecta la finalización del sweep antes de que esta
-    // tarea se ejecute (broadcast al canal perimeter y ForzarReplanificacion), por lo que
-    // esta tarea actúa como fallback: limpia AssignedTask si aún no se ha hecho.
+    // Tarea primitiva: cierre del contrato de sweep.
+    // Dispara OnSweepCompleted antes de limpiar AssignedTask para que el suscriptor
+    // (GuardBrain.CheckSweepCompletion) pueda leer TeamName y AssignedRole.
     public class ClearAssignedTaskTask : IPrimitiveTask {
 
         public bool CheckPreconditions(WorldState state) => state.AssignedTask != null;
@@ -15,6 +14,7 @@ namespace AgenticPrison.Behavior.PrimitiveTasks {
         }
 
         public TaskExecutionStatus Execute(IActuators actuators, WorldState state) {
+            state.OnSweepCompleted?.Invoke();
             state.AssignedTask = null;
             return TaskExecutionStatus.Success;
         }

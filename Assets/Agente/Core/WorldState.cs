@@ -65,6 +65,10 @@ namespace AgenticPrison.Core {
         // Cola de subastas pendientes — se lanzan secuencialmente
         public Queue<ContractTask> PendingCfps = new Queue<ContractTask>();
 
+        // Callback que se invoca cuando el Sweeper termina todas sus salas asignadas.
+        // No se clona — es comportamiento del agente, no estado del mundo.
+        public System.Action OnSweepCompleted;
+
         // Genera una copia del estado para simulaciones de planificación
         public WorldState Clone() {
             var clone = new WorldState {

@@ -21237,8 +21237,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ac6d90e389c4469b8832958fbb6c750, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Agents.CameraBrain
-  _replyByWindow: 3
-  IsDetectingFugitive: 0
+  _replyByWindow: 0.25
 --- !u!114 &304209455
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -93,12 +93,15 @@ namespace AgenticPrison.Agents {
             _socialPlanner  = new HTNPlanner();
             _socialPlan     = new Queue<IPrimitiveTask>();
             _socialRootTask = new BeSocial(this);
+
+            CurrentState.OnSweepCompleted += CheckSweepCompletion;
         }
+
+        protected override WorldState GetWorldState() => CurrentState;
 
         protected override void Update() {
             // Orden Phase 2: plano social antes que plano físico
-            base.Update();                          // DiscardExpired del buffer de mensajes
-            ProcessIncoming(CurrentState);          // enruta mensajes a protocolos o OnMessageReceived
+            base.Update();                          // DiscardExpired + ProcessIncoming vía base
             UpdateLocation();
             ProcessSocialHTNExecution();            // plano social (BeSocial)
 
@@ -111,7 +114,6 @@ namespace AgenticPrison.Agents {
 
             ProcessHTNExecution();                  // plano físico (BeGuard)
             VisionManager.EmitPresence(this.transform);
-            CheckSweepCompletion();
         }
 
         public Vector3 GetPosition() => transform.position;
@@ -228,16 +230,23 @@ namespace AgenticPrison.Agents {
             // Constatación de la huida al patrullar las celdas
             if (CurrentState.PrisonerInCell) {
                 CurrentState.PrisonerInCell = false;
-                // FugitiveSectorId ya es "[UNK]" por defecto — activar CNP de barrido global
-                CurrentState.ShouldInitiateCnp = true;
-                // Notificar a todos: fuga confirmada, sector desconocido (sin posición ni timestamp)
-                Broadcast(new ACLMessage {
-                    Performative = Performative.Inform,
-                    Sender       = AgentId,
-                    Content      = new FugitiveSightingContent(Vector3.zero, 0f, "[UNK]", AgentId),
-                    SentAt       = Time.time
-                });
                 Debug.LogWarning("<color=yellow>El prisionero SE HA FUGADO</color>");
+
+                // Solo lanzar CNP de barrido global si el sector es realmente desconocido.
+                // Si ya existe un perímetro activo (sector conocido o equipo en marcha),
+                // el broadcast [UNK] disolvería el equipo — exactamente lo que no queremos.
+                bool sectorDesconocido = CurrentState.FugitiveSectorId == "[UNK]"
+                                      && string.IsNullOrEmpty(CurrentState.TeamName);
+                if (sectorDesconocido) {
+                    CurrentState.ShouldInitiateCnp = true;
+                    Broadcast(new ACLMessage {
+                        Performative = Performative.Inform,
+                        Sender       = AgentId,
+                        Content      = new FugitiveSightingContent(Vector3.zero, 0f, "[UNK]", AgentId),
+                        SentAt       = Time.time
+                    });
+                }
+
                 ForzarReplanificacion();
             }
         }
@@ -256,8 +265,13 @@ namespace AgenticPrison.Agents {
             if (!(msg.Content is FugitiveSightingContent)) return;
 
             if (ws.FugitiveSectorId != sectorAntes) {
-                // sector cambió: disolver equipo inmediatamente, cancelar subastas pendientes
-                DissolveTeam(ws, abortCnps: true);
+                // Solo disolver si el nuevo sector es conocido — [UNK] es info menos precisa
+                // que un sector confirmado; no merece abandonar un perímetro activo.
+                if (ws.FugitiveSectorId != "[UNK]") {
+                    DissolveTeam(ws, abortCnps: true);
+                } else if (!ws.FugitiveInVision) {
+                    ForzarReplanificacion();
+                }
             } else if (!ws.FugitiveInVision) {
                 ForzarReplanificacion();
             }
@@ -421,8 +435,6 @@ namespace AgenticPrison.Agents {
                     Debug.Log($"<color=white>[{AgentId}] Team {teamName}: {CurrentState.PendingSweepersCount} sweepers remaining.</color>");
                 }
             }
-            CurrentState.AssignedTask = null;
-            ForzarReplanificacion();
         }
 
         // Refrescar coordenadas del agente en su estado interno
