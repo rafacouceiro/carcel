@@ -5,22 +5,17 @@ using AgenticPrison.Communication.Messages;
 
 namespace AgenticPrison.Communication.Protocols {
 
-    // Interfaz común para todos los protocolos de comunicación FIPA
+    // Interfaz común para todos los protocolos FIPA.
+    // FIPAAgent los registra en _ongoing_conversations y los tickea cada frame.
     public interface ICommProtocol {
 
-        // Identificador único de la conversación que gestiona este protocolo
         string ConversationId { get; }
 
-        // Verdadero cuando el protocolo ha terminado (Done o Failed)
+        // Verdadero cuando el protocolo terminó (Done o Failed) — FIPAAgent lo elimina del diccionario
         bool IsComplete { get; }
 
-        // Inicializa el protocolo y envía el primer mensaje si corresponde
         void Init(FIPAAgent agent, WorldState ws);
-
-        // Avanza el protocolo al recibir un mensaje
         void Tick(ACLMessage msg, WorldState ws);
-
-        // Avanza el protocolo por tiempo (para transiciones de deadline)
         void Tick(float currentTime, WorldState ws);
     }
 }

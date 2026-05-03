@@ -4,9 +4,8 @@ using AgenticPrison.Communication;
 
 namespace AgenticPrison.Behavior.Social {
 
-    // Puerta de entrada al ContractNetTask. Se activa cuando hay motivo para iniciar
-    // una subasta: fugitivo en sector conocido O sector marcado como "[UNK]".
-    // ContractNetTask decide internamente entre closePerimeter y closeJail.
+    // Activa ContractNetTask cuando hay motivo para iniciar una subasta.
+    // ContractNetTask elige internamente entre perimeter y jail según el sector.
     public class InitiateContractNetMethod : IMethod {
         readonly FIPAAgent _agent;
 

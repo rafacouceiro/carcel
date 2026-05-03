@@ -1,6 +1,6 @@
 namespace AgenticPrison.Communication.Messages {
 
-    // Tipo base para todos los payloads de mensajes ACL.
-    // Garantiza type-safety en ACLMessage.Content sin necesidad de serialización.
+    // Marker interface para el payload de los mensajes ACL.
+    // ACLMessage.GetContent<T> necesita un tipo común para el cast.
     public interface IMessageContent { }
 }

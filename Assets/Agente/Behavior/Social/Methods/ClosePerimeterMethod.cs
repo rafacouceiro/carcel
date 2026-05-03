@@ -4,8 +4,7 @@ using AgenticPrison.Communication;
 
 namespace AgenticPrison.Behavior.Social {
 
-    // Método de selección: cierra el perímetro del sector donde está el fugitivo.
-    // Lógica extraída de InitiateContractNetMethod — mismas precondiciones, misma tarea.
+    // Activa LaunchSectorCfpsTask cuando se avistó al fugitivo en un sector concreto.
     public class ClosePerimeterMethod : IMethod {
         readonly FIPAAgent _agent;
 

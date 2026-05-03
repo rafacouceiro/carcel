@@ -8,9 +8,8 @@ using AgenticPrison.Agents.Tools;
 
 namespace AgenticPrison.Behavior.Social {
 
-    // Tarea social: inicia un barrido completo de la cárcel cuando el sector del fugitivo
-    // es desconocido. Asigna un sector entero a cada guardia (todos los rooms de ese sector).
-    // Los puntos de bloqueo son los del sector 4, que cierran todo el perímetro.
+    // Barrido completo cuando el sector es "[UNK]": cada guardia recibe un sector entero.
+    // El líder coge la primera tarea de sweep para sí y encola el resto como CFPs.
     public class LaunchJailCfpsTask : IPrimitiveTask {
 
         readonly FIPAAgent _agent;

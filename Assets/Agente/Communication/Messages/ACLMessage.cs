@@ -46,8 +46,9 @@ namespace AgenticPrison.Communication.Messages {
                 if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
                 File.AppendAllText(Path.Combine(dir, "comms.log"), line + "\n");
             } catch (Exception) {
-                // Silenciamos errores de escritura para evitar spam en consola si el archivo está bloqueado
+                // silenciamos escritura de log para no spamear la consola si el archivo está bloqueado
             }
         }
     }
 }
+

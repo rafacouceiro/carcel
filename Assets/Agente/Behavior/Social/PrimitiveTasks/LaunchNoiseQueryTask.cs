@@ -6,9 +6,8 @@ using AgenticPrison.Communication.Protocols.Query;
 
 namespace AgenticPrison.Behavior.Social {
 
-    // Tarea social: lanza un QueryIfInitiator para averiguar si el ruido reciente vino de un compañero.
-    // Construye el contenido e inyecta en el protocolo — la respuesta la procesa GuardBrain.HandleInform.
-    // Bloquea InvestigateNoiseMethod durante la ventana de espera (WaitingForNoiseQuery = true).
+    // Pregunta a los compañeros si estaban cerca del ruido antes de ir a investigarlo.
+    // Si alguien responde, GuardBrain descarta el ruido como falsa alarma.
     public class LaunchNoiseQueryTask : IPrimitiveTask {
 
         const float GUARD_THRESHOLD = 25f;

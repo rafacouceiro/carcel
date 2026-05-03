@@ -12,10 +12,8 @@ using AgenticPrison.Agents.Tools;
 
 namespace AgenticPrison.Behavior.Social {
 
-    // Tarea social: lanza subastas Contract Net para tapar el perímetro del sector
-    // (blockers) y rastrear sus habitaciones (sweepers). El iniciador se asigna la
-    // primera mitad de habitaciones como su propio sweep.
-    // Genera un TeamName único y suscribe al iniciador al canal perimeter.
+    // Lanza subastas CNP para cubrir el perímetro del sector (blockers) y rastrear
+    // sus habitaciones (sweepers). El iniciador se queda con la primera tarea de sweep.
     public class LaunchSectorCfpsTask : IPrimitiveTask {
 
         readonly FIPAAgent _agent;

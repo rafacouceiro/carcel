@@ -4,9 +4,7 @@ using AgenticPrison.Communication;
 
 namespace AgenticPrison.Behavior.Social {
 
-    // Tarea raíz del plano social del guardia.
-    // Selecciona cada frame entre: iniciar un protocolo o esperar.
-    // La disolución de equipo y la respuesta a CFPs ahora son reactivas (canal + FIPAAgent).
+    // Tarea raíz del HTN social. Cada frame decide si lanzar un protocolo o no hacer nada.
     public class BeSocial : ICompoundTask {
         public List<IMethod> Methods { get; }
 
