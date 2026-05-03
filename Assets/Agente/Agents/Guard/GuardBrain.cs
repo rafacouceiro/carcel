@@ -98,7 +98,7 @@ namespace AgenticPrison.Agents.Guard {
             CurrentState.OnSweepCompleted += CheckSweepCompletion;
         }
 
-        protected override AgentState GetWorldState() => CurrentState;
+        protected override AgentState GetAgentState() => CurrentState;
 
         protected override void Update() {
             // Orden Phase 2: plano social antes que plano físico

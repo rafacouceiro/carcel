@@ -28,7 +28,7 @@ namespace AgenticPrison.Agents.Camera {
 
         readonly CameraState _ws = new CameraState();
 
-        protected override AgentState GetWorldState() => _ws;
+        protected override AgentState GetAgentState() => _ws;
 
         // ── Ciclo de vida ─────────────────────────────────────────────────────────
 
