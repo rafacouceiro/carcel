@@ -17280,7 +17280,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08c576cc62a3d48329eb6c18cd8b5861, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Agents.CameraFSM
-  _replyByWindow: 3
+  _replyByWindow: 0.25
 --- !u!114 &228923996
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17297,7 +17297,7 @@ MonoBehaviour:
   ViewAngle: 140
   ObstacleMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1
 --- !u!114 &228923997
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17311,10 +17311,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Agents.CameraBrain
   spotLight: {fileID: 1824277436}
-  alertIntensity: 600
-  alertRange: 50
-  flashDuration: 1.5
-  cooldown: 20
 --- !u!1 &229387599
 GameObject:
   m_ObjectHideFlags: 0
@@ -21820,10 +21816,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Agents.CameraBrain
   spotLight: {fileID: 1437628651}
-  alertIntensity: 600
-  alertRange: 50
-  flashDuration: 1.5
-  cooldown: 20
 --- !u!114 &304209455
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21840,7 +21832,7 @@ MonoBehaviour:
   ViewAngle: 140
   ObstacleMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1
 --- !u!114 &304209456
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21853,7 +21845,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08c576cc62a3d48329eb6c18cd8b5861, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Agents.CameraFSM
-  _replyByWindow: 3
+  _replyByWindow: 0.25
 --- !u!1 &304876114 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5674046508059327650, guid: d0429c2ebdf57e6499fc6a336b2fb320, type: 3}
@@ -30676,7 +30668,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08c576cc62a3d48329eb6c18cd8b5861, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Agents.CameraFSM
-  _replyByWindow: 3
+  _replyByWindow: 0.25
 --- !u!114 &450785760
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30693,7 +30685,7 @@ MonoBehaviour:
   ViewAngle: 140
   ObstacleMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1
 --- !u!114 &450785761
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30707,10 +30699,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Agents.CameraBrain
   spotLight: {fileID: 1502064158}
-  alertIntensity: 600
-  alertRange: 50
-  flashDuration: 1.5
-  cooldown: 20
 --- !u!1 &452370358
 GameObject:
   m_ObjectHideFlags: 0
@@ -33100,160 +33088,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -912837102655877075, guid: d0429c2ebdf57e6499fc6a336b2fb320, type: 3}
---- !u!1001 &490783958
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 535535145}
-    m_Modifications:
-    - target: {fileID: 2122899575676446871, guid: eed54a613be71b543a99e53a8e2914de, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 21bddcb474da0415898cb422799a3865, type: 2}
-    - target: {fileID: 2617812101501673147, guid: eed54a613be71b543a99e53a8e2914de, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 21bddcb474da0415898cb422799a3865, type: 2}
-    - target: {fileID: 3755855717322859988, guid: eed54a613be71b543a99e53a8e2914de, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3755855717322859988, guid: eed54a613be71b543a99e53a8e2914de, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3755855717322859988, guid: eed54a613be71b543a99e53a8e2914de, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3755855717322859988, guid: eed54a613be71b543a99e53a8e2914de, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 56.51833
-      objectReference: {fileID: 0}
-    - target: {fileID: 3755855717322859988, guid: eed54a613be71b543a99e53a8e2914de, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -1.515
-      objectReference: {fileID: 0}
-    - target: {fileID: 3755855717322859988, guid: eed54a613be71b543a99e53a8e2914de, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 21.37204
-      objectReference: {fileID: 0}
-    - target: {fileID: 3755855717322859988, guid: eed54a613be71b543a99e53a8e2914de, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: -0.93744016
-      objectReference: {fileID: 0}
-    - target: {fileID: 3755855717322859988, guid: eed54a613be71b543a99e53a8e2914de, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3755855717322859988, guid: eed54a613be71b543a99e53a8e2914de, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0.3481466
-      objectReference: {fileID: 0}
-    - target: {fileID: 3755855717322859988, guid: eed54a613be71b543a99e53a8e2914de, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3755855717322859988, guid: eed54a613be71b543a99e53a8e2914de, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3755855717322859988, guid: eed54a613be71b543a99e53a8e2914de, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 400.748
-      objectReference: {fileID: 0}
-    - target: {fileID: 3755855717322859988, guid: eed54a613be71b543a99e53a8e2914de, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3815547084708954170, guid: eed54a613be71b543a99e53a8e2914de, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.014
-      objectReference: {fileID: 0}
-    - target: {fileID: 3815547084708954170, guid: eed54a613be71b543a99e53a8e2914de, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.013
-      objectReference: {fileID: 0}
-    - target: {fileID: 3815547084708954170, guid: eed54a613be71b543a99e53a8e2914de, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.215
-      objectReference: {fileID: 0}
-    - target: {fileID: 3815547084708954170, guid: eed54a613be71b543a99e53a8e2914de, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.75308233
-      objectReference: {fileID: 0}
-    - target: {fileID: 3815547084708954170, guid: eed54a613be71b543a99e53a8e2914de, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3815547084708954170, guid: eed54a613be71b543a99e53a8e2914de, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.65792626
-      objectReference: {fileID: 0}
-    - target: {fileID: 3815547084708954170, guid: eed54a613be71b543a99e53a8e2914de, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3815547084708954170, guid: eed54a613be71b543a99e53a8e2914de, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 82.284
-      objectReference: {fileID: 0}
-    - target: {fileID: 4563459568915873646, guid: eed54a613be71b543a99e53a8e2914de, type: 3}
-      propertyPath: m_Name
-      value: Surveillance Camera
-      objectReference: {fileID: 0}
-    - target: {fileID: 7766357206704048310, guid: eed54a613be71b543a99e53a8e2914de, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 79f62ab89a155437285d490bad2f63c8, type: 2}
-    - target: {fileID: 8051894795600161108, guid: eed54a613be71b543a99e53a8e2914de, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.001
-      objectReference: {fileID: 0}
-    - target: {fileID: 8051894795600161108, guid: eed54a613be71b543a99e53a8e2914de, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.026666448
-      objectReference: {fileID: 0}
-    - target: {fileID: 8051894795600161108, guid: eed54a613be71b543a99e53a8e2914de, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.009
-      objectReference: {fileID: 0}
-    - target: {fileID: 8051894795600161108, guid: eed54a613be71b543a99e53a8e2914de, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.74593836
-      objectReference: {fileID: 0}
-    - target: {fileID: 8051894795600161108, guid: eed54a613be71b543a99e53a8e2914de, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8051894795600161108, guid: eed54a613be71b543a99e53a8e2914de, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0.66601515
-      objectReference: {fileID: 0}
-    - target: {fileID: 8051894795600161108, guid: eed54a613be71b543a99e53a8e2914de, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: -83.52
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 8051894795600161108, guid: eed54a613be71b543a99e53a8e2914de, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 732953382}
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: eed54a613be71b543a99e53a8e2914de, type: 3}
---- !u!4 &490783959 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3755855717322859988, guid: eed54a613be71b543a99e53a8e2914de, type: 3}
-  m_PrefabInstance: {fileID: 490783958}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &490783960 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8051894795600161108, guid: eed54a613be71b543a99e53a8e2914de, type: 3}
-  m_PrefabInstance: {fileID: 490783958}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &492286729
 GameObject:
   m_ObjectHideFlags: 0
@@ -36755,88 +36589,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -8116138440861595531, guid: 74d8ce1b968c674498d4edd34de9334c, type: 3}
---- !u!1 &535535144
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 535535145}
-  - component: {fileID: 535535148}
-  - component: {fileID: 535535147}
-  - component: {fileID: 535535146}
-  m_Layer: 0
-  m_Name: Camera6
-  m_TagString: Untagged
-  m_Icon: {fileID: 3306451490063965843, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &535535145
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 535535144}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.93859434, z: -0, w: 0.34502277}
-  m_LocalPosition: {x: 22.11, y: 4.49, z: 20.77}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 490783959}
-  m_Father: {fileID: 1181495040}
-  m_LocalEulerAnglesHint: {x: 0, y: 139.634, z: 0}
---- !u!114 &535535146
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 535535144}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 08c576cc62a3d48329eb6c18cd8b5861, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Agents.CameraFSM
-  _replyByWindow: 3
---- !u!114 &535535147
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 535535144}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24fe0968e3fd24ffeaa306f3524906f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Physical.VisionSystem
-  VisionRange: 30
-  ViewAngle: 140
-  ObstacleMask:
-    serializedVersion: 2
-    m_Bits: 0
---- !u!114 &535535148
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 535535144}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ac6d90e389c4469b8832958fbb6c750, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Agents.CameraBrain
-  spotLight: {fileID: 732953384}
-  alertIntensity: 600
-  alertRange: 50
-  flashDuration: 1.5
-  cooldown: 20
 --- !u!1 &536497947 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -7046673171606169745, guid: d0429c2ebdf57e6499fc6a336b2fb320, type: 3}
@@ -50800,133 +50552,6 @@ MonoBehaviour:
   isBlockingPoint: 0
   blockingGroupId: 
   blockingSectorId: 
---- !u!1 &732953381
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 732953382}
-  - component: {fileID: 732953384}
-  - component: {fileID: 732953383}
-  m_Layer: 0
-  m_Name: Spot Light (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &732953382
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 732953381}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0.010540335, y: 0.1345852, z: -0.990845, w: -0.0014316438}
-  m_LocalPosition: {x: -0.005100789, y: 0.13085675, z: 0.13058116}
-  m_LocalScale: {x: 0.83640003, y: 0.7761053, z: 1.0480409}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 490783960}
-  m_LocalEulerAnglesHint: {x: 279.903, y: 0, z: 0}
---- !u!114 &732953383
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 732953381}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalLightData
-  m_UsePipelineSettings: 1
-  m_AdditionalLightsShadowResolutionTier: 2
-  m_CustomShadowLayers: 0
-  m_LightCookieSize: {x: 1, y: 1}
-  m_LightCookieOffset: {x: 0, y: 0}
-  m_SoftShadowQuality: 0
-  m_RenderingLayersMask:
-    serializedVersion: 0
-    m_Bits: 1
-  m_ShadowRenderingLayersMask:
-    serializedVersion: 0
-    m_Bits: 1
-  m_Version: 4
-  m_LightLayerMask: 1
-  m_ShadowLayerMask: 1
-  m_RenderingLayers: 1
-  m_ShadowRenderingLayers: 1
---- !u!108 &732953384
-Light:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 732953381}
-  m_Enabled: 1
-  serializedVersion: 12
-  m_Type: 0
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 600
-  m_Range: 50
-  m_SpotAngle: 80
-  m_InnerSpotAngle: 50
-  m_CookieSize2D: {x: 0.5, y: 0.5}
-  m_Shadows:
-    m_Type: 2
-    m_Resolution: -1
-    m_CustomResolution: -1
-    m_Strength: 1
-    m_Bias: 0.05
-    m_NormalBias: 0.4
-    m_NearPlane: 0.1
-    m_CullingMatrixOverride:
-      e00: 1
-      e01: 0
-      e02: 0
-      e03: 0
-      e10: 0
-      e11: 1
-      e12: 0
-      e13: 0
-      e20: 0
-      e21: 0
-      e22: 1
-      e23: 0
-      e30: 0
-      e31: 0
-      e32: 0
-      e33: 1
-    m_UseCullingMatrixOverride: 0
-  m_Cookie: {fileID: 0}
-  m_DrawHalo: 0
-  m_Flare: {fileID: 0}
-  m_RenderMode: 0
-  m_CullingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_RenderingLayerMask: 1
-  m_Lightmapping: 4
-  m_LightShadowCasterMode: 0
-  m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1.5
-  m_ColorTemperature: 6570
-  m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
-  m_UseBoundingSphereOverride: 0
-  m_UseViewFrustumForShadowCasterCull: 1
-  m_ForceVisible: 0
-  m_ShadowRadius: 0
-  m_ShadowAngle: 0
-  m_LightUnit: 1
-  m_LuxAtDistance: 1
-  m_EnableSpotReflector: 1
 --- !u!1001 &733617733
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -55153,7 +54778,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08c576cc62a3d48329eb6c18cd8b5861, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Agents.CameraFSM
-  _replyByWindow: 3
+  _replyByWindow: 0.25
 --- !u!114 &787697771
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55170,7 +54795,7 @@ MonoBehaviour:
   ViewAngle: 140
   ObstacleMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1
 --- !u!114 &787697772
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55184,10 +54809,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Agents.CameraBrain
   spotLight: {fileID: 239265219}
-  alertIntensity: 600
-  alertRange: 50
-  flashDuration: 1.5
-  cooldown: 20
 --- !u!1 &789217048 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8267196642337891365, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -58118,7 +57739,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08c576cc62a3d48329eb6c18cd8b5861, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Agents.CameraFSM
-  _replyByWindow: 3
+  _replyByWindow: 0.25
 --- !u!114 &832831412
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58135,7 +57756,7 @@ MonoBehaviour:
   ViewAngle: 140
   ObstacleMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1
 --- !u!114 &832831413
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58149,10 +57770,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Agents.CameraBrain
   spotLight: {fileID: 342968503}
-  alertIntensity: 600
-  alertRange: 50
-  flashDuration: 1.5
-  cooldown: 20
 --- !u!1001 &833533961
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -59012,7 +58629,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08c576cc62a3d48329eb6c18cd8b5861, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Agents.CameraFSM
-  _replyByWindow: 3
+  _replyByWindow: 0.25
 --- !u!114 &844784718
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59029,7 +58646,7 @@ MonoBehaviour:
   ViewAngle: 140
   ObstacleMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1
 --- !u!114 &844784719
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59043,10 +58660,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Agents.CameraBrain
   spotLight: {fileID: 1442105881}
-  alertIntensity: 600
-  alertRange: 50
-  flashDuration: 1.5
-  cooldown: 20
 --- !u!1001 &845144647
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -85312,7 +84925,6 @@ Transform:
   - {fileID: 832831410}
   - {fileID: 450785758}
   - {fileID: 228923994}
-  - {fileID: 535535145}
   - {fileID: 844784716}
   - {fileID: 787697769}
   - {fileID: 1805753615}
@@ -107130,13 +106742,13 @@ Transform:
   m_Children:
   - {fileID: 1777676841}
   - {fileID: 50945109}
-  - {fileID: 2044574258}
   - {fileID: 963554426}
   - {fileID: 1242211430}
   - {fileID: 1838112912}
   - {fileID: 1799366115}
   - {fileID: 1796544529}
   - {fileID: 1239058053}
+  - {fileID: 2044574258}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1490399825
@@ -129158,7 +128770,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08c576cc62a3d48329eb6c18cd8b5861, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Agents.CameraFSM
-  _replyByWindow: 3
+  _replyByWindow: 0.25
 --- !u!114 &1805753617
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -129175,7 +128787,7 @@ MonoBehaviour:
   ViewAngle: 140
   ObstacleMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1
 --- !u!114 &1805753618
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -129189,10 +128801,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Agents.CameraBrain
   spotLight: {fileID: 1822616534}
-  alertIntensity: 600
-  alertRange: 50
-  flashDuration: 1.5
-  cooldown: 20
 --- !u!1 &1808084866 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1683296501599025939, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
@@ -132981,7 +132589,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08c576cc62a3d48329eb6c18cd8b5861, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Agents.CameraFSM
-  _replyByWindow: 3
+  _replyByWindow: 0.25
 --- !u!114 &1845321513
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -132998,7 +132606,7 @@ MonoBehaviour:
   ViewAngle: 140
   ObstacleMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1
 --- !u!114 &1845321514
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133012,10 +132620,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Agents.CameraBrain
   spotLight: {fileID: 2005723308}
-  alertIntensity: 600
-  alertRange: 50
-  flashDuration: 1.5
-  cooldown: 20
 --- !u!1 &1845902348
 GameObject:
   m_ObjectHideFlags: 0
@@ -146623,7 +146227,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08c576cc62a3d48329eb6c18cd8b5861, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Agents.CameraFSM
-  _replyByWindow: 3
+  _replyByWindow: 0.25
 --- !u!114 &2022705649
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -146640,7 +146244,7 @@ MonoBehaviour:
   ViewAngle: 140
   ObstacleMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1
 --- !u!114 &2022705650
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -146654,10 +146258,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Agents.CameraBrain
   spotLight: {fileID: 1342646756}
-  alertIntensity: 600
-  alertRange: 50
-  flashDuration: 1.5
-  cooldown: 20
 --- !u!1 &2023939767 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 74d8ce1b968c674498d4edd34de9334c, type: 3}
@@ -152368,7 +151968,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08c576cc62a3d48329eb6c18cd8b5861, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Agents.CameraFSM
-  _replyByWindow: 3
+  _replyByWindow: 0.25
 --- !u!114 &2088475992
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -152385,7 +151985,7 @@ MonoBehaviour:
   ViewAngle: 140
   ObstacleMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1
 --- !u!114 &2088475993
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -152399,10 +151999,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgenticPrison.Agents.CameraBrain
   spotLight: {fileID: 81537884}
-  alertIntensity: 600
-  alertRange: 50
-  flashDuration: 1.5
-  cooldown: 20
 --- !u!1 &2090305242
 GameObject:
   m_ObjectHideFlags: 0

@@ -25,12 +25,9 @@ namespace AgenticPrison.Agents {
                 spotLight.enabled = false;
         }
 
-        // ── IVisionEvents ─────────────────────────────────────────────────────────
-
         public void OnFugitiveSpotted(Vector3 position) {
             Debug.Log($"<color=red>{gameObject.name.ToUpper()}: FUGITIVO DETECTADO EN POSICIÓN {position}</color>");
 
-            // 🔴 ACTIVAR SPOT LIGHT (flash)
             if (spotLight != null)
                 StartCoroutine(FlashLight());
 
