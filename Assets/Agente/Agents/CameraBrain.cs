@@ -1,13 +1,10 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using AgenticPrison.Physical;
 
 namespace AgenticPrison.Agents {
 
-    // Capa física de la cámara de vigilancia.
-    //
-    // Responsabilidad exclusiva: recibir eventos del sensor de visión y traducirlos
-    // al lenguaje de CameraFSM. No contiene lógica de coordinación ni de protocolo.
     [RequireComponent(typeof(CameraFSM))]
     public class CameraBrain : MonoBehaviour, IVisionEvents {
 
@@ -15,12 +12,17 @@ namespace AgenticPrison.Agents {
 
         CameraFSM _fsm;
 
+        [SerializeField] private Light spotLight;
+
         private void Awake() {
             gameObject.name = "Camara" + cameraCounter++;
         }
 
         private void Start() {
             _fsm = GetComponent<CameraFSM>();
+
+            if (spotLight != null)
+                spotLight.enabled = false;
         }
 
         // ── IVisionEvents ─────────────────────────────────────────────────────────
@@ -28,10 +30,24 @@ namespace AgenticPrison.Agents {
         public void OnFugitiveSpotted(Vector3 position) {
             Debug.Log($"<color=red>{gameObject.name.ToUpper()}: FUGITIVO DETECTADO EN POSICIÓN {position}</color>");
 
+            // 🔴 ACTIVAR SPOT LIGHT (flash)
+            if (spotLight != null)
+                StartCoroutine(FlashLight());
+
             List<string> sectors = PrisonMap.Instance.GetFugitiveSectors(position);
             string sectorId = sectors != null && sectors.Count == 1 ? sectors[0] : "[UNK]";
 
             _fsm.NotifyFugitiveSpotted(position, sectorId);
+        }
+
+        private IEnumerator FlashLight() {
+            spotLight.enabled = true;
+            spotLight.intensity = 600f;
+            spotLight.range = 50f;
+
+            yield return new WaitForSeconds(1.5f);
+
+            spotLight.enabled = false;
         }
 
         public void OnFugitiveLost()                          { }
