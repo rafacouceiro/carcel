@@ -8,7 +8,7 @@ namespace AgenticPrison.Behavior.Methods {
     // Método HTN: Lógica para decidir si el guardia puede atrapar al fugitivo inmediatamente
     public class CatchMethod : IMethod {
         
-        public bool CheckPreconditions(WorldState state) {
+        public bool CheckPreconditions(GuardWorldState state) {
             float distance = GetDistanceToTarget(state.CurrentPosition, state.LastKnownPosition);
             // Solo es posible si lo está viendo y lo tiene al alcance de la mano
             return state.FugitiveInVision && distance < 1.5f;
@@ -18,7 +18,7 @@ namespace AgenticPrison.Behavior.Methods {
             return Vector3.Distance(agentPosition, targetPosition);
         }
 
-        public Queue<ITask> Decompose(WorldState state) {
+        public Queue<ITask> Decompose(GuardWorldState state) {
             var subTasks = new Queue<ITask>();
             // Descompone en la acción terminal del juego
             subTasks.Enqueue(new GameOverTask());

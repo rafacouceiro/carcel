@@ -14,18 +14,18 @@ namespace AgenticPrison.Behavior.PrimitiveTasks {
             _speed = speed;
         }
 
-        public bool CheckPreconditions(WorldState state) {
+        public bool CheckPreconditions(GuardWorldState state) {
             // Se puede iniciar la persecución si hay visión directa y energía suficiente
             return state.FugitiveInVision && state.Energy >= 5f; 
         }
 
-        public void ApplyEffects(WorldState state) {
+        public void ApplyEffects(GuardWorldState state) {
             // Simulación física y energética de la persecución para el planificador HTN
             state.Energy = Mathf.Max(0, state.Energy - 5f); 
             state.CurrentPosition = state.LastKnownPosition; 
         }
 
-        public TaskExecutionStatus Execute(IActuators actuators, WorldState state) {
+        public TaskExecutionStatus Execute(IActuators actuators, GuardWorldState state) {
             
             // 1. Fracaso por pérdida visual del blanco
             if (!state.FugitiveInVision) {

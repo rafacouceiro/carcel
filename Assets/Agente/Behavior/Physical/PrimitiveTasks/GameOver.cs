@@ -8,16 +8,16 @@ namespace AgenticPrison.Behavior.PrimitiveTasks {
         
         private bool _hasTriggered = false;
 
-        public bool CheckPreconditions(WorldState state) {
+        public bool CheckPreconditions(GuardWorldState state) {
             // El método superior (TrapMethod) asegura la precondición matemática para el éxito
             return true; 
         }
 
-        public void ApplyEffects(WorldState state) {
+        public void ApplyEffects(GuardWorldState state) {
             // Sin efectos de estado adicionales necesarios
         }
 
-        public TaskExecutionStatus Execute(IActuators actuators, WorldState state) {
+        public TaskExecutionStatus Execute(IActuators actuators, GuardWorldState state) {
             
             if (!_hasTriggered) {
                 // Detener el movimiento físico de forma abrupta

@@ -16,13 +16,13 @@ namespace AgenticPrison.Behavior.Social {
 
         public LaunchQueryMethod(FIPAAgent agent) { _agent = agent; }
 
-        public bool CheckPreconditions(WorldState state) =>
+        public bool CheckPreconditions(GuardWorldState state) =>
             state.LastNoisePosition != Vector3.zero &&
             !state.WaitingForNoiseQuery &&
             (Time.time - state.LastNoisePositionTime) < QUERY_WINDOW &&
             !state.FugitiveInVision ;   // durante persecución activa no vale la pena preguntar
 
-        public Queue<ITask> Decompose(WorldState state) {
+        public Queue<ITask> Decompose(GuardWorldState state) {
             var q = new Queue<ITask>();
             q.Enqueue(new LaunchNoiseQueryTask(_agent));
             return q;

@@ -12,7 +12,7 @@ namespace AgenticPrison.Communication.Protocols.ContractNet {
     // Lado PARTICIPANTE del protocolo Contract Net.
     //
     // Responsabilidad: recibir un CFP, enviar una propuesta con el coste estimado,
-    // y escribir la tarea en AgentState si el iniciador acepta nuestra oferta.
+    // y escribir la tarea en WorldState si el iniciador acepta nuestra oferta.
     //
     // Flujo de estados (sin fase de ejecución — la ejecución se gestiona por canales):
     //   CfpReceived  ──[SendPropose llamado]──► Proposed
@@ -28,8 +28,8 @@ namespace AgenticPrison.Communication.Protocols.ContractNet {
         }
 
         // ── Tabla de transición ────────────────────────────────────────────────────
-        readonly Dictionary<(State, Performative), Action<ACLMessage, AgentState>> _onMessage
-            = new Dictionary<(State, Performative), Action<ACLMessage, AgentState>>();
+        readonly Dictionary<(State, Performative), Action<ACLMessage, WorldState>> _onMessage
+            = new Dictionary<(State, Performative), Action<ACLMessage, WorldState>>();
 
         // ── Datos internos ─────────────────────────────────────────────────────────
         State      _state = State.CfpReceived;
@@ -50,11 +50,11 @@ namespace AgenticPrison.Communication.Protocols.ContractNet {
 
         // ── Inicio del protocolo ───────────────────────────────────────────────────
         // FIPAAgent llama a EvaluateCfp() justo después y envía respuesta reactiva.
-        public void Init(FIPAAgent agent, AgentState ws) { }
+        public void Init(FIPAAgent agent, WorldState ws) { }
 
         // ── Tick por mensaje entrante ──────────────────────────────────────────────
-        public void Tick(ACLMessage msg, AgentState ws) {
-            Action<ACLMessage, AgentState> handler;
+        public void Tick(ACLMessage msg, WorldState ws) {
+            Action<ACLMessage, WorldState> handler;
             if (_onMessage.TryGetValue((_state, msg.Performative), out handler))
                 handler(msg, ws);
         }
@@ -62,7 +62,7 @@ namespace AgenticPrison.Communication.Protocols.ContractNet {
         // ── Tick por tiempo ────────────────────────────────────────────────────────
         // Si el CFP tenía ReplyBy y ya expiró antes de recibir respuesta definitiva (Accept/Reject), cerrar.
         // Esto evita que el agente quede bloqueado en "participación activa" si el iniciador falla.
-        public void Tick(float currentTime, AgentState ws) {
+        public void Tick(float currentTime, WorldState ws) {
             if (_state == State.Done) return;
 
             if (_originalCfp.ReplyBy > 0f && currentTime > _originalCfp.ReplyBy + 1.0f) {
@@ -82,7 +82,7 @@ namespace AgenticPrison.Communication.Protocols.ContractNet {
         // ── API pública ────────────────────────────────────────────────────────────
 
         // Envía la propuesta al iniciador con el coste calculado
-        public void SendPropose(FIPAAgent agent, AgentState ws, float cost) {
+        public void SendPropose(FIPAAgent agent, WorldState ws, float cost) {
             if (_state != State.CfpReceived) return;
 
             agent.Send(new ACLMessage {
@@ -102,7 +102,7 @@ namespace AgenticPrison.Communication.Protocols.ContractNet {
         }
 
         // Rechaza el CFP cuando EvaluateCfp() devuelve false
-        public void SendRefuse(FIPAAgent agent, AgentState ws) {
+        public void SendRefuse(FIPAAgent agent, WorldState ws) {
             if (_state != State.CfpReceived) return;
 
             agent.Send(new ACLMessage {
@@ -122,8 +122,8 @@ namespace AgenticPrison.Communication.Protocols.ContractNet {
         // ── Handlers de mensajes ───────────────────────────────────────────────────
 
         // El iniciador eligió nuestra propuesta — el agente (GuardBrain.HandleAcceptProposal)
-        // es quien escribe los efectos en AgentState; el protocolo solo cierra.
-        void OnAccepted(ACLMessage msg, AgentState ws) {
+        // es quien escribe los efectos en WorldState; el protocolo solo cierra.
+        void OnAccepted(ACLMessage msg, WorldState ws) {
             FIPALogger.Log(_participantId, ConversationId, Performative.AcceptProposal,
                 $"proposal accepted by {msg.Sender}");
             ConversationTracker.Instance.UpdateState(ConversationId, "Done");
@@ -131,7 +131,7 @@ namespace AgenticPrison.Communication.Protocols.ContractNet {
         }
 
         // El iniciador eligió a otro guardia — simplemente cerrar
-        void OnRejected(ACLMessage msg, AgentState ws) {
+        void OnRejected(ACLMessage msg, WorldState ws) {
             FIPALogger.Log(_participantId, ConversationId, Performative.RejectProposal,
                 "proposal rejected");
             ConversationTracker.Instance.SetOutcome(ConversationId, "Done");

@@ -9,6 +9,6 @@ namespace AgenticPrison.Agents.Camera {
     // y gestiona la cola de subastas CNP que lanza al detectarlo.
     //
     // Todos los campos de coordinación FIPA (FugitiveSectorId, PendingCfps,
-    // PrisonerInCell, etc.) se heredan de AgentState.
-    public class CameraState : AgentState { }
+    // PrisonerInCell, etc.) se heredan de WorldState.
+    public class CameraWorldState : WorldState { }
 }

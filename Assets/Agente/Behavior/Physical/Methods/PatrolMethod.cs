@@ -9,12 +9,12 @@ namespace AgenticPrison.Behavior.Methods {
     // Método HTN: Realiza una ronda de vigilancia por las zonas asignadas
     public class PatrolMethod : IMethod {
         
-        public bool CheckPreconditions(WorldState state) {
+        public bool CheckPreconditions(GuardWorldState state) {
             // Condición: Estado de normalidad (nadie se ha fugado que sepamos)
             return state.PrisonerInCell;
         }
 
-        public Queue<ITask> Decompose(WorldState state) {
+        public Queue<ITask> Decompose(GuardWorldState state) {
             var subTasks = new Queue<ITask>();
             
             // Luz verde indica patrullaje pasivo
@@ -33,7 +33,7 @@ namespace AgenticPrison.Behavior.Methods {
 
         // --- Planificación de Patrullaje --- 
         // Genera la ruta recorriendo las salas del cuadrante asignado usando DFS
-        private List<Transform> GenerateDFSRoute(WorldState state) {
+        private List<Transform> GenerateDFSRoute(GuardWorldState state) {
 
             List<RoomNode> quadrantRooms = state.Map.GetSection(state.AssignedQuadrantId);
             List<Transform> finalRoute = new List<Transform>();

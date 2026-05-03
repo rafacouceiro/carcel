@@ -12,12 +12,12 @@ namespace AgenticPrison.Behavior.Methods {
 
         private const float SearchSpeed = 4.0f;
 
-        public bool CheckPreconditions(WorldState state) {
+        public bool CheckPreconditions(GuardWorldState state) {
             // Ejecutable cuando se confirma empíricamente que el preso escapó
             return !state.PrisonerInCell && state.FugitiveSectorId == string.Empty;
         }
 
-        public Queue<ITask> Decompose(WorldState state) {
+        public Queue<ITask> Decompose(GuardWorldState state) {
             Queue<ITask> subTasks = new Queue<ITask>();
             
             // Luz amarilla indica alerta general de búsqueda

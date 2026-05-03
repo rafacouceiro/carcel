@@ -12,13 +12,13 @@ namespace AgenticPrison.Behavior.Methods {
         private readonly float _maxSearchRadius = 15f; 
         private const float SearchSpeed = 6.5f;
 
-        public bool CheckPreconditions(WorldState state) {
+        public bool CheckPreconditions(GuardWorldState state) {
             // Requiere: Haberlo visto hace menos de 2 segundos, y estar listos para buscarlo
             bool isFresh = (Time.time - state.LastKnownPositionTime) < 2f;
             return state.LastKnownPosition != Vector3.zero && !state.PrisonerInCell && isFresh;
         }
 
-        public Queue<ITask> Decompose(WorldState state) {
+        public Queue<ITask> Decompose(GuardWorldState state) {
             var subTasks = new Queue<ITask>();
             
             // Luz azul indica barrido táctico a toda velocidad
@@ -38,7 +38,7 @@ namespace AgenticPrison.Behavior.Methods {
         }
 
         // Diseña una ruta rápida seleccionando una habitación adyacente lógica
-        private List<Transform> ComposeSearchRoute(WorldState state) {
+        private List<Transform> ComposeSearchRoute(GuardWorldState state) {
             RoomNode chosenRoom = ChooseSearchRoom(state);
             if (chosenRoom == null || chosenRoom.waypoints == null) return new List<Transform>();
             
@@ -47,7 +47,7 @@ namespace AgenticPrison.Behavior.Methods {
         }
 
         // Escoge una sala conectada al último avistamiento que caiga en un radio lógico de persecución
-        private RoomNode ChooseSearchRoom(WorldState state) {
+        private RoomNode ChooseSearchRoom(GuardWorldState state) {
             RoomNode lkpRoom = state.Map.GetCurrentNode(state.LastKnownPosition);
             if (lkpRoom == null) return null;
             

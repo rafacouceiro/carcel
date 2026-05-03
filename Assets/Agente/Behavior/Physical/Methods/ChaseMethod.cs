@@ -8,12 +8,12 @@ namespace AgenticPrison.Behavior.Methods {
     // Método HTN: Lógica general de persecución cuando el preso es avistado
     public class ChaseMethod : IMethod {
         
-        public bool CheckPreconditions(WorldState state) {
+        public bool CheckPreconditions(GuardWorldState state) {
             // El prerrequisito fundamental es mantener contacto visual
             return state.FugitiveInVision;
         }
 
-        public Queue<ITask> Decompose(WorldState state) {
+        public Queue<ITask> Decompose(GuardWorldState state) {
             var subTasks = new Queue<ITask>();
             // Cambia luces a modo alerta roja y persigue a máxima velocidad
             subTasks.Enqueue(new ChangeFlashLight(Color.red));

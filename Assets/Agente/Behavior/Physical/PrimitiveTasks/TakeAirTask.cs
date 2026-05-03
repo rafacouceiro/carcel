@@ -9,12 +9,12 @@ namespace AgenticPrison.Behavior.PrimitiveTasks {
         private float _waitTime = 2f; // Segundos obligatorios de reposo
         private float _timer = 0f;
 
-        public bool CheckPreconditions(WorldState state) {
+        public bool CheckPreconditions(GuardWorldState state) {
             // Siempre se puede decidir pausar para descansar
             return true;
         }
 
-        public TaskExecutionStatus Execute(IActuators actuators, WorldState state) {
+        public TaskExecutionStatus Execute(IActuators actuators, GuardWorldState state) {
             
             // Pausa estática progresando el contador
             _timer += Time.deltaTime;
@@ -28,7 +28,7 @@ namespace AgenticPrison.Behavior.PrimitiveTasks {
             return TaskExecutionStatus.Running;
         }
 
-        public void ApplyEffects(WorldState state) {
+        public void ApplyEffects(GuardWorldState state) {
             // Ganancia energética para evaluación en la imaginación
             state.Energy = Mathf.Min(100f, state.Energy + 30f);
         }

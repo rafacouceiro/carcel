@@ -13,7 +13,7 @@ namespace AgenticPrison.Behavior.Social {
             _agent = agent;
         }
 
-        public bool CheckPreconditions(WorldState state) {
+        public bool CheckPreconditions(GuardWorldState state) {
             if (!string.IsNullOrEmpty(state.TeamName)) return false;
             if (state.AssignedTask != null) return false;
             if (!state.seenByMe || state.LastKnownPosition == UnityEngine.Vector3.zero) return false;
@@ -27,7 +27,7 @@ namespace AgenticPrison.Behavior.Social {
             return true;
         }
 
-        public Queue<ITask> Decompose(WorldState state) {
+        public Queue<ITask> Decompose(GuardWorldState state) {
             var q = new Queue<ITask>();
             q.Enqueue(new LaunchSectorCfpsTask(_agent));
             return q;

@@ -13,7 +13,7 @@ namespace AgenticPrison.Behavior.Social {
             _agent = agent;
         }
 
-        public bool CheckPreconditions(WorldState state) {
+        public bool CheckPreconditions(GuardWorldState state) {
             return state.FugitiveSectorId == "[UNK]" &&
             string.IsNullOrEmpty(state.TeamName) &&
             state.AssignedTask == null &&
@@ -21,7 +21,7 @@ namespace AgenticPrison.Behavior.Social {
             !state.PrisonerInCell;
         }
 
-        public Queue<ITask> Decompose(WorldState state) {
+        public Queue<ITask> Decompose(GuardWorldState state) {
             var q = new Queue<ITask>();
             q.Enqueue(new LaunchJailCfpsTask(_agent));
             return q;

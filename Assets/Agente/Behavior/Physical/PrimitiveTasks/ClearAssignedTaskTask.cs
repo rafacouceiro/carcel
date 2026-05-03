@@ -7,13 +7,13 @@ namespace AgenticPrison.Behavior.PrimitiveTasks {
     // (GuardBrain.CheckSweepCompletion) pueda leer TeamName y AssignedRole.
     public class ClearAssignedTaskTask : IPrimitiveTask {
 
-        public bool CheckPreconditions(WorldState state) => state.AssignedTask != null;
+        public bool CheckPreconditions(GuardWorldState state) => state.AssignedTask != null;
 
-        public void ApplyEffects(WorldState state) {
+        public void ApplyEffects(GuardWorldState state) {
             state.AssignedTask = null;
         }
 
-        public TaskExecutionStatus Execute(IActuators actuators, WorldState state) {
+        public TaskExecutionStatus Execute(IActuators actuators, GuardWorldState state) {
             state.OnSweepCompleted?.Invoke();
             state.AssignedTask = null;
             return TaskExecutionStatus.Success;

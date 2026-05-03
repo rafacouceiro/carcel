@@ -14,17 +14,17 @@ namespace AgenticPrison.Behavior.PrimitiveTasks {
             _room = room;
         }
 
-        public bool CheckPreconditions(WorldState state) {
+        public bool CheckPreconditions(GuardWorldState state) {
             return state.AssignedTask != null
                 && state.AssignedTask.SweepRooms != null
                 && state.AssignedTask.SweepRooms.Contains(_room);
         }
 
-        public void ApplyEffects(WorldState state) {
+        public void ApplyEffects(GuardWorldState state) {
             state.AssignedTask?.SweepRooms?.Remove(_room);
         }
 
-        public TaskExecutionStatus Execute(IActuators actuators, WorldState state) {
+        public TaskExecutionStatus Execute(IActuators actuators, GuardWorldState state) {
             if (state.AssignedTask?.SweepRooms == null) return TaskExecutionStatus.Failure;
             state.AssignedTask.SweepRooms.Remove(_room);
             return TaskExecutionStatus.Success;

@@ -14,7 +14,7 @@ namespace AgenticPrison.Behavior.Social {
             _agent = agent;
         }
 
-        public bool CheckPreconditions(WorldState state) {
+        public bool CheckPreconditions(GuardWorldState state) {
             if (!string.IsNullOrEmpty(state.TeamName)) return false;
             if (state.AssignedTask != null) return false;
 
@@ -27,7 +27,7 @@ namespace AgenticPrison.Behavior.Social {
             return sectors != null && sectors.Count == 1;
         }
 
-        public Queue<ITask> Decompose(WorldState state) {
+        public Queue<ITask> Decompose(GuardWorldState state) {
             var q = new Queue<ITask>();
             q.Enqueue(new ContractNetTask(_agent));  // compound — se descompone más en closePerimeter/closeJail
             return q;

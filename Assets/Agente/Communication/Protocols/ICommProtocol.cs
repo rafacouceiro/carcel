@@ -15,12 +15,12 @@ namespace AgenticPrison.Communication.Protocols {
         bool IsComplete { get; }
 
         // Inicializa el protocolo y envía el primer mensaje si corresponde
-        void Init(FIPAAgent agent, AgentState ws);
+        void Init(FIPAAgent agent, WorldState ws);
 
         // Avanza el protocolo al recibir un mensaje
-        void Tick(ACLMessage msg, AgentState ws);
+        void Tick(ACLMessage msg, WorldState ws);
 
         // Avanza el protocolo por tiempo (para transiciones de deadline)
-        void Tick(float currentTime, AgentState ws);
+        void Tick(float currentTime, WorldState ws);
     }
 }

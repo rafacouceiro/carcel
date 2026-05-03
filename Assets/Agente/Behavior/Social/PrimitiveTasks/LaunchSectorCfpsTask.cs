@@ -24,16 +24,16 @@ namespace AgenticPrison.Behavior.Social {
             _agent         = agent;
         }
 
-        public bool CheckPreconditions(WorldState state) {
+        public bool CheckPreconditions(GuardWorldState state) {
             return state.seenByMe && state.LastKnownPosition != Vector3.zero;
         }
 
-        public void ApplyEffects(WorldState state) {
+        public void ApplyEffects(GuardWorldState state) {
             state.TeamName     = "pending"; // placeholder para el planificador; Execute lo sobreescribe
             state.AssignedRole = AgentRole.Sweeper;
         }
 
-        public TaskExecutionStatus Execute(IActuators actuators, WorldState state) {
+        public TaskExecutionStatus Execute(IActuators actuators, GuardWorldState state) {
             // 1. Determinar el sector del fugitivo
             List<string> sectors = state.Map.GetFugitiveSectors(state.LastKnownPosition);
             if (sectors.Count != 1) return TaskExecutionStatus.Failure;
@@ -53,7 +53,7 @@ namespace AgenticPrison.Behavior.Social {
                 plan.AllTasks.Remove(myTask);
             }
 
-            // 5. El resto de tareas van a la cola secuencial del WorldState
+            // 5. El resto de tareas van a la cola secuencial del GuardWorldState
             state.PendingCfps.Clear();
             foreach (var task in plan.AllTasks) {
                 state.PendingCfps.Enqueue(task);

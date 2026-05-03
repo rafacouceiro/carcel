@@ -12,13 +12,13 @@ namespace AgenticPrison.Behavior.Social {
             _agent       = agent;
         }
 
-        public bool CheckPreconditions(WorldState state) =>
+        public bool CheckPreconditions(GuardWorldState state) =>
             (state.FugitiveInVision && string.IsNullOrEmpty(state.TeamName) && state.AssignedTask == null) ||
             (state.FugitiveSectorId == "[UNK]" && string.IsNullOrEmpty(state.TeamName) &&
              state.AssignedTask == null && !state.PrisonerInCell) ||
             (state.LastNoisePosition != UnityEngine.Vector3.zero && !state.WaitingForNoiseQuery);
 
-        public Queue<ITask> Decompose(WorldState state) {
+        public Queue<ITask> Decompose(GuardWorldState state) {
             var q = new Queue<ITask>();
             q.Enqueue(new GenerateProtocol(_agent));
             return q;

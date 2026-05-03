@@ -17,7 +17,7 @@ namespace AgenticPrison.Behavior.Methods {
 
         private const float SweepSpeed = 4.5f;
 
-        public bool CheckPreconditions(WorldState state) {
+        public bool CheckPreconditions(GuardWorldState state) {
             bool hasSighting = state.seenByMe
                 && state.LastKnownPosition != Vector3.zero
                 && !state.PrisonerInCell
@@ -31,7 +31,7 @@ namespace AgenticPrison.Behavior.Methods {
             return hasSighting || isSweeper;
         }
 
-        public Queue<ITask> Decompose(WorldState state) {
+        public Queue<ITask> Decompose(GuardWorldState state) {
             var subTasks = new Queue<ITask>();
 
             bool isSweeper = state.AssignedTask != null
@@ -106,7 +106,7 @@ namespace AgenticPrison.Behavior.Methods {
 
         // --- Algoritmo de Barrido Amplio ---
         // Genera una ruta inspeccionando nodos a partir de la sala ligada a la última posición conocida
-        private List<Vector3> CalculateGreedySweep(WorldState state) {
+        private List<Vector3> CalculateGreedySweep(GuardWorldState state) {
             RoomNode lkpRoom = state.Map.GetCurrentNode(state.LastKnownPosition);
             RoomNode currentRoom = state.Map.GetCurrentNode(state.CurrentPosition);
             

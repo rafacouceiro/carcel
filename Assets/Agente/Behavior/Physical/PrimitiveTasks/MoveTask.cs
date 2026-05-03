@@ -27,17 +27,17 @@ namespace AgenticPrison.Behavior.PrimitiveTasks {
             _speed = speed;
         }
 
-        public bool CheckPreconditions(WorldState state) {
+        public bool CheckPreconditions(GuardWorldState state) {
             // Condicionado a tener un punto válido y suficiente energía para el desplazamiento
             return _target != Vector3.zero && state.Energy >= CalculateEnergyCost(_speed);
         }
 
-        public void ApplyEffects(WorldState state) {
+        public void ApplyEffects(GuardWorldState state) {
             state.CurrentPosition = _target;
             state.Energy = Mathf.Max(0, state.Energy - CalculateEnergyCost(_speed));
         }
 
-        public TaskExecutionStatus Execute(IActuators actuators, WorldState state) {
+        public TaskExecutionStatus Execute(IActuators actuators, GuardWorldState state) {
             
             if (!_isActionStarted) {
                 actuators.SetSpeed(_speed);

@@ -12,7 +12,7 @@ namespace AgenticPrison.Communication.Protocols.Query {
     //   WaitingForResponse  ──[Inform]──────► WaitingForResponse  (acumula respuestas)
     //   WaitingForResponse  ──[deadline]────► Done
     //
-    // El protocolo no escribe AgentState. Cada Inform llega también a OnMessageReceived
+    // El protocolo no escribe WorldState. Cada Inform llega también a OnMessageReceived
     // del agente (arquitectura base de FIPAAgent), que lo procesa en HandleInform.
     public class QueryIfInitiator : ICommProtocol {
 
@@ -20,11 +20,11 @@ namespace AgenticPrison.Communication.Protocols.Query {
 
         enum State { WaitingForResponse, Done }
 
-        readonly Dictionary<(State, Performative), Action<ACLMessage, AgentState>> _onMessage
-            = new Dictionary<(State, Performative), Action<ACLMessage, AgentState>>();
+        readonly Dictionary<(State, Performative), Action<ACLMessage, WorldState>> _onMessage
+            = new Dictionary<(State, Performative), Action<ACLMessage, WorldState>>();
 
-        readonly Dictionary<State, Action<float, AgentState>> _onTime
-            = new Dictionary<State, Action<float, AgentState>>();
+        readonly Dictionary<State, Action<float, WorldState>> _onTime
+            = new Dictionary<State, Action<float, WorldState>>();
 
         readonly IMessageContent _content;
 
@@ -46,7 +46,7 @@ namespace AgenticPrison.Communication.Protocols.Query {
             _onTime   [State.WaitingForResponse]                        = CheckDeadline;
         }
 
-        public void Init(FIPAAgent agent, AgentState ws) {
+        public void Init(FIPAAgent agent, WorldState ws) {
             _agentId  = agent.AgentId;
             _deadline = Time.time + QUERY_WINDOW;
 
@@ -62,23 +62,23 @@ namespace AgenticPrison.Communication.Protocols.Query {
             FIPALogger.Log(_agentId, ConversationId, Performative.QueryIf, "broadcast");
         }
 
-        public void Tick(ACLMessage msg, AgentState ws) {
-            Action<ACLMessage, AgentState> handler;
+        public void Tick(ACLMessage msg, WorldState ws) {
+            Action<ACLMessage, WorldState> handler;
             if (_onMessage.TryGetValue((_state, msg.Performative), out handler))
                 handler(msg, ws);
         }
 
-        public void Tick(float currentTime, AgentState ws) {
-            Action<float, AgentState> handler;
+        public void Tick(float currentTime, WorldState ws) {
+            Action<float, WorldState> handler;
             if (_onTime.TryGetValue(_state, out handler)) handler(currentTime, ws);
         }
 
-        // Registra la respuesta. El AgentState lo escribe el agente en HandleInform.
-        void OnInformReceived(ACLMessage msg, AgentState ws) {
+        // Registra la respuesta. El WorldState lo escribe el agente en HandleInform.
+        void OnInformReceived(ACLMessage msg, WorldState ws) {
             FIPALogger.Log(_agentId, ConversationId, Performative.Inform, $"response from={msg.Sender}");
         }
 
-        void CheckDeadline(float currentTime, AgentState ws) {
+        void CheckDeadline(float currentTime, WorldState ws) {
             if (currentTime < _deadline) return;
             FIPALogger.Log(_agentId, ConversationId, Performative.QueryIf, "window closed");
             _state = State.Done;

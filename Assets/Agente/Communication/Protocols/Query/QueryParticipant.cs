@@ -24,7 +24,7 @@ namespace AgenticPrison.Communication.Protocols.Query {
         }
 
         // No evalúa — el agente decide vía OnQueryIfReceived inmediatamente después
-        public void Init(FIPAAgent agent, AgentState ws) {
+        public void Init(FIPAAgent agent, WorldState ws) {
             IsComplete = true;
         }
 
@@ -42,7 +42,7 @@ namespace AgenticPrison.Communication.Protocols.Query {
                 $"to={_originalQuery.Sender}");
         }
 
-        public void Tick(ACLMessage msg, AgentState ws) { }
-        public void Tick(float currentTime, AgentState ws) { }
+        public void Tick(ACLMessage msg, WorldState ws) { }
+        public void Tick(float currentTime, WorldState ws) { }
     }
 }

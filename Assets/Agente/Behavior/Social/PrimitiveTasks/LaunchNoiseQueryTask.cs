@@ -17,14 +17,14 @@ namespace AgenticPrison.Behavior.Social {
 
         public LaunchNoiseQueryTask(FIPAAgent agent) { _agent = agent; }
 
-        public bool CheckPreconditions(WorldState state) =>
+        public bool CheckPreconditions(GuardWorldState state) =>
             state.LastNoisePosition != Vector3.zero && !state.WaitingForNoiseQuery;
 
-        public void ApplyEffects(WorldState state) {
+        public void ApplyEffects(GuardWorldState state) {
             state.WaitingForNoiseQuery = true;
         }
 
-        public TaskExecutionStatus Execute(IActuators actuators, WorldState state) {
+        public TaskExecutionStatus Execute(IActuators actuators, GuardWorldState state) {
             if (state.LastNoisePosition == Vector3.zero) return TaskExecutionStatus.Failure;
 
             var content = new QueryIfContent {

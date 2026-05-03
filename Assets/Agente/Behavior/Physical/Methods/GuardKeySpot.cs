@@ -9,12 +9,12 @@ namespace AgenticPrison.Behavior.Methods {
     // Método HTN: Dirige al guardia al punto crucial más cercano para vigilar mientras recarga energía
     public class GuardKeySpotMethod : IMethod {
         
-        public bool CheckPreconditions(WorldState state) {
+        public bool CheckPreconditions(GuardWorldState state) {
             // Condicionado a no estar persiguiendo activamente al fugitivo
             return !state.FugitiveInVision; 
         }
 
-        public Queue<ITask> Decompose(WorldState state) {
+        public Queue<ITask> Decompose(GuardWorldState state) {
             Queue<ITask> subTasks = new Queue<ITask>();
             // Luz morada indica estado de guardia estática
             subTasks.Enqueue(new ChangeFlashLight(Color.purple));

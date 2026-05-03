@@ -9,11 +9,11 @@ namespace AgenticPrison.Behavior.PrimitiveTasks {
         private float _centerRotation; // Orientación neutral al llegar
         private bool _isInitialized = false;
 
-        public bool CheckPreconditions(WorldState state) {
+        public bool CheckPreconditions(GuardWorldState state) {
             return true;
         }
 
-        public TaskExecutionStatus Execute(IActuators actuators, WorldState state) {
+        public TaskExecutionStatus Execute(IActuators actuators, GuardWorldState state) {
             if (!_isInitialized) {
                 // Fija la dirección base inicial
                 _centerRotation = actuators.GetRotation(); 
@@ -39,7 +39,7 @@ namespace AgenticPrison.Behavior.PrimitiveTasks {
         }
 
         // Simulación de alivio de cansancio en el gestor HTN
-        public void ApplyEffects(WorldState state) {
+        public void ApplyEffects(GuardWorldState state) {
             state.Energy = Mathf.Min(100f, state.Energy + 20f);
         }
     }

@@ -19,16 +19,16 @@ namespace AgenticPrison.Behavior.Social {
             _agent = agent;
         }
 
-        public bool CheckPreconditions(WorldState state) =>
+        public bool CheckPreconditions(GuardWorldState state) =>
             state.FugitiveSectorId == "[UNK]" && string.IsNullOrEmpty(state.TeamName);
 
-        public void ApplyEffects(WorldState state) {
+        public void ApplyEffects(GuardWorldState state) {
             state.TeamName          = "pending"; // placeholder para el planificador; Execute lo sobreescribe
             state.AssignedRole      = AgentRole.Sweeper;
             state.ShouldInitiateCnp = false;
         }
 
-        public TaskExecutionStatus Execute(IActuators actuators, WorldState state) {
+        public TaskExecutionStatus Execute(IActuators actuators, GuardWorldState state) {
             var plan = PerimeterTool.GenerateJailWidePlan(state.Map, state.AgentName);
 
             state.TeamName             = plan.TeamName;

@@ -14,14 +14,14 @@ namespace AgenticPrison.Behavior.Methods {
         private readonly int _maxPointsToInspect = 3; 
         private const float SearchSpeed = 4.0f;
 
-        public bool CheckPreconditions(WorldState state) {
+        public bool CheckPreconditions(GuardWorldState state) {
             // El ruido debe existir, ser reciente y haber superado la verificación de Query.
             // WaitingForNoiseQuery = true significa que aún estamos esperando respuesta de compañeros.
             float age = Time.time - state.LastNoisePositionTime;
             return state.LastNoisePosition != Vector3.zero && age < 10f && !state.WaitingForNoiseQuery;
         }
 
-        public Queue<ITask> Decompose(WorldState state) {
+        public Queue<ITask> Decompose(GuardWorldState state) {
             var subTasks = new Queue<ITask>();
             
             // Luz marrón para indicar intriga/sospecha sonora
@@ -43,7 +43,7 @@ namespace AgenticPrison.Behavior.Methods {
 
         // --- Orquestador de Ruta ---
         // Adquiere posibles destinos alrededor del ruido, los recorta y ordena eficientemente
-        private List<Vector3> ComposeSearchRoute(WorldState state) {
+        private List<Vector3> ComposeSearchRoute(GuardWorldState state) {
             Vector3 noisePosition = state.LastNoisePosition;
             List<Vector3> rawPoints = new List<Vector3>();
 

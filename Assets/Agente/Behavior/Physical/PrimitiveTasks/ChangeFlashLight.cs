@@ -12,16 +12,16 @@ namespace AgenticPrison.Behavior {
         }
 
         // Siempre ejecutable visualmente
-        public bool CheckPreconditions(WorldState state) => true;
+        public bool CheckPreconditions(GuardWorldState state) => true;
 
-        public TaskExecutionStatus Execute(IActuators actuators, WorldState state) {
+        public TaskExecutionStatus Execute(IActuators actuators, GuardWorldState state) {
             // Lógica física directa
             actuators.SetLightColor(_targetColor);
             return TaskExecutionStatus.Success; 
         }
 
         // Esta acción no posee efectos sobre el estado interno simulado
-        public void ApplyEffects(WorldState state) {
+        public void ApplyEffects(GuardWorldState state) {
         }
     }
 }

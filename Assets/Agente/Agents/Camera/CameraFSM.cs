@@ -26,9 +26,9 @@ namespace AgenticPrison.Agents.Camera {
 
         FsmState _state = FsmState.Watching;
 
-        readonly CameraState _ws = new CameraState();
+        readonly CameraWorldState _ws = new CameraWorldState();
 
-        protected override AgentState GetAgentState() => _ws;
+        protected override WorldState GetAgentState() => _ws;
 
         // ── Ciclo de vida ─────────────────────────────────────────────────────────
 
@@ -84,7 +84,7 @@ namespace AgenticPrison.Agents.Camera {
 
         // Si un guardia avista al fugitivo en un sector distinto mientras coordinamos,
         // abortamos: limpiamos la cola y cancelamos las subastas en curso.
-        protected override void HandleInform(ACLMessage msg, AgentState ws) {
+        protected override void HandleInform(ACLMessage msg, WorldState ws) {
             string sectorAntes = ws.FugitiveSectorId;
             base.HandleInform(msg, ws);
 

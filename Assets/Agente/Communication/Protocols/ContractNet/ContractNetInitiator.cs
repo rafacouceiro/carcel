@@ -32,11 +32,11 @@ namespace AgenticPrison.Communication.Protocols.ContractNet {
         // Cómo leer estas tablas:
         //   _onMessage[(estado, performativa)] = método a llamar cuando llega ese mensaje en ese estado
         //   _onTime[estado]                   = método a llamar en cada tick de tiempo en ese estado
-        readonly Dictionary<(State, Performative), Action<ACLMessage, AgentState>> _onMessage
-            = new Dictionary<(State, Performative), Action<ACLMessage, AgentState>>();
+        readonly Dictionary<(State, Performative), Action<ACLMessage, WorldState>> _onMessage
+            = new Dictionary<(State, Performative), Action<ACLMessage, WorldState>>();
 
-        readonly Dictionary<State, Action<float, AgentState>> _onTime
-            = new Dictionary<State, Action<float, AgentState>>();
+        readonly Dictionary<State, Action<float, WorldState>> _onTime
+            = new Dictionary<State, Action<float, WorldState>>();
 
         // ── Datos internos ─────────────────────────────────────────────────────────
         State            _state = State.WaitingForProposals;
@@ -62,7 +62,7 @@ namespace AgenticPrison.Communication.Protocols.ContractNet {
         // ── Inicio del protocolo ───────────────────────────────────────────────────
         // Llamado por FIPAAgent.LaunchProtocol justo después de registrar el protocolo.
         // Envía el CFP en broadcast y arranca el temporizador.
-        public void Init(FIPAAgent agent, AgentState ws) {
+        public void Init(FIPAAgent agent, WorldState ws) {
             _agent    = agent;
             _deadline = Time.time + _replyByWindow;
 
@@ -84,8 +84,8 @@ namespace AgenticPrison.Communication.Protocols.ContractNet {
         // ── Tick por mensaje entrante ──────────────────────────────────────────────
         // FIPAAgent llama a este método cuando llega un mensaje con nuestro ConversationId.
         // La tabla _onMessage decide qué hacer según el estado actual y la performativa.
-        public void Tick(ACLMessage msg, AgentState ws) {
-            Action<ACLMessage, AgentState> handler;
+        public void Tick(ACLMessage msg, WorldState ws) {
+            Action<ACLMessage, WorldState> handler;
             if (_onMessage.TryGetValue((_state, msg.Performative), out handler))
                 handler(msg, ws);
             // Si la combinación (estado, performativa) no está en la tabla, se ignora el mensaje
@@ -94,8 +94,8 @@ namespace AgenticPrison.Communication.Protocols.ContractNet {
         // ── Tick por tiempo ────────────────────────────────────────────────────────
         // FIPAAgent llama a este método en cada frame.
         // La tabla _onTime decide qué hacer según el estado actual.
-        public void Tick(float currentTime, AgentState ws) {
-            Action<float, AgentState> handler;
+        public void Tick(float currentTime, WorldState ws) {
+            Action<float, WorldState> handler;
             if (_onTime.TryGetValue(_state, out handler))
                 handler(currentTime, ws);
         }
@@ -113,7 +113,7 @@ namespace AgenticPrison.Communication.Protocols.ContractNet {
 
         // Un participante acepta el CFP y envía su oferta.
         // Acumulamos todas las propuestas hasta que expire el deadline.
-        void OnProposalReceived(ACLMessage msg, AgentState ws) {
+        void OnProposalReceived(ACLMessage msg, WorldState ws) {
             _proposals.Add(msg);
             ConversationTracker.Instance.AddParticipant(ConversationId, msg.Sender);
             var pc = ACLMessage.GetContent<ProposeContent>(msg);
@@ -123,14 +123,14 @@ namespace AgenticPrison.Communication.Protocols.ContractNet {
 
         // Un participante rechaza el CFP (demasiado ocupado, sin energía, etc.).
         // Lo ignoramos — ya contaremos con los que sí propusieron.
-        void OnRefuseReceived(ACLMessage msg, AgentState ws) { }
+        void OnRefuseReceived(ACLMessage msg, WorldState ws) { }
 
         // ── Handler de tiempo ──────────────────────────────────────────────────────
 
         // Comprueba cada frame si ya expiró el plazo de recogida de propuestas.
         // Si expiró y hay propuestas, evalúa y acepta la mejor.
         // Si expiró sin propuestas, la subasta falla.
-        void CheckDeadline(float currentTime, AgentState ws) {
+        void CheckDeadline(float currentTime, WorldState ws) {
             if (currentTime < _deadline) return; // todavía dentro de la ventana
 
             if (_proposals.Count > 0) {
@@ -146,7 +146,7 @@ namespace AgenticPrison.Communication.Protocols.ContractNet {
         // ── Evaluación y envío de Accept / Reject ──────────────────────────────────
 
         // Elige la propuesta de menor coste, envía Accept al ganador y Reject al resto.
-        void EvaluateAndAccept(AgentState ws) {
+        void EvaluateAndAccept(WorldState ws) {
             _state = State.Evaluating;
 
             // Encontrar la propuesta de menor coste

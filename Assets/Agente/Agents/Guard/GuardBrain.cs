@@ -47,7 +47,7 @@ namespace AgenticPrison.Agents.Guard {
         #endif
 
         [Header("Estado Lógico")]
-        public WorldState CurrentState;
+        public GuardWorldState CurrentState;
 
         [Header("Audición")]
         public float AuditoryRange = 20f;
@@ -80,7 +80,7 @@ namespace AgenticPrison.Agents.Guard {
             base.Start();
 
             // Inicializar estado del mundo y asignar al agente
-            CurrentState = new WorldState();
+            CurrentState = new GuardWorldState();
             CurrentState.AgentName = AgentName;
             CurrentState.Map = PrisonMap.Instance;
             CurrentState.AssignedQuadrantId = QuadrantId;
@@ -98,7 +98,7 @@ namespace AgenticPrison.Agents.Guard {
             CurrentState.OnSweepCompleted += CheckSweepCompletion;
         }
 
-        protected override AgentState GetAgentState() => CurrentState;
+        protected override WorldState GetAgentState() => CurrentState;
 
         protected override void Update() {
             // Orden Phase 2: plano social antes que plano físico
@@ -254,13 +254,13 @@ namespace AgenticPrison.Agents.Guard {
 
         // ── COMUNICACIÓN FIPA ──────────────────────────────────────────────────────
 
-        protected override void OnMessageReceived(ACLMessage msg, AgentState ws) {
+        protected override void OnMessageReceived(ACLMessage msg, WorldState ws) {
             base.OnMessageReceived(msg, ws);
             if (msg.Performative == Performative.AcceptProposal) HandleAcceptProposal(msg);
             else if (msg.Channel != null && msg.Channel.StartsWith("team_")) HandleTeamSincronization(msg);
         }
 
-        protected override void HandleInform(ACLMessage msg, AgentState ws) {
+        protected override void HandleInform(ACLMessage msg, WorldState ws) {
             // Respuesta de un QueryIf: un compañero estaba cerca del ruido — falsa alarma
             if (msg.Content is QueryIfResponseContent response) {
                 CurrentState.LastGuardPosition     = CurrentState.LastNoisePosition;
@@ -286,7 +286,7 @@ namespace AgenticPrison.Agents.Guard {
             }
         }
 
-        protected override void OnQueryIfReceived(ACLMessage msg, AgentState ws, QueryIfParticipant participant) {
+        protected override void OnQueryIfReceived(ACLMessage msg, WorldState ws, QueryIfParticipant participant) {
             var content = ACLMessage.GetContent<QueryIfContent>(msg);
             if (content == null) return;
             float dist = Vector3.Distance(CurrentState.CurrentPosition, content.NoisePosition);
@@ -294,14 +294,14 @@ namespace AgenticPrison.Agents.Guard {
                 participant.SendInform(this, new QueryIfResponseContent { Distance = dist });
         }
 
-        protected override void OnCfpReceived(ACLMessage msg, AgentState ws, ContractNetParticipant participant) {
+        protected override void OnCfpReceived(ACLMessage msg, WorldState ws, ContractNetParticipant participant) {
             float cost;
             if (EvaluateCfp(msg, ws, out cost)) participant.SendPropose(this, ws, cost);
             else participant.SendRefuse(this, ws);
         }
 
         // ── Evaluación reactiva de CFPs ────────────────────────────────────────────
-        protected override bool EvaluateCfp(ACLMessage cfp, AgentState ws, out float cost) {
+        protected override bool EvaluateCfp(ACLMessage cfp, WorldState ws, out float cost) {
             cost = 0f;
             var content = ACLMessage.GetContent<CfpContent>(cfp);
             if (content == null) return false;
@@ -340,7 +340,7 @@ namespace AgenticPrison.Agents.Guard {
         }
 
         private void HandleAcceptProposal(ACLMessage msg) {
-            // El protocolo solo cerró; aquí aplicamos los efectos contractuales en WorldState
+            // El protocolo solo cerró; aquí aplicamos los efectos contractuales en GuardWorldState
             var won = ACLMessage.GetContent<ContractTask>(msg);
             if (won == null) return;
 

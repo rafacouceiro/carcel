@@ -18,7 +18,7 @@ namespace AgenticPrison.Behavior.Methods {
         private const float SprintSpeed  = 6.0f;
         private const float FarThreshold = 10f;  // distancia desde la que se considera "lejos"
 
-        public bool CheckPreconditions(WorldState state) {
+        public bool CheckPreconditions(GuardWorldState state) {
 
             return state.AssignedTask != null
                 && state.AssignedTask.AssignedRole == AgentRole.Blocker
@@ -27,7 +27,7 @@ namespace AgenticPrison.Behavior.Methods {
                 && !string.IsNullOrEmpty(state.TeamName);
         }
 
-        public Queue<ITask> Decompose(WorldState state) {
+        public Queue<ITask> Decompose(GuardWorldState state) {
             var subTasks = new Queue<ITask>();
 
             subTasks.Enqueue(new ChangeFlashLight(Color.pink));
