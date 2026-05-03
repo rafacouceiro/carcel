@@ -16,22 +16,22 @@ namespace AgenticPrison.Core {
     // Tareas primitivas: acciones concretas que modifican el mundo físico
     public interface IPrimitiveTask : ITask {
         // Verifica si la tarea se puede ejecutar bajo el estado actual
-        bool CheckPreconditions(GuardWorldState state);
+        bool CheckPreconditions(WorldState state);
         
         // Aplica cambios teóricos al estado de simulación
-        void ApplyEffects(GuardWorldState state);
+        void ApplyEffects(WorldState state);
 
         // Lógica física con los actuadores; se corre cada frame hasta el término
-        TaskExecutionStatus Execute(IActuators actuators, GuardWorldState state);
+        TaskExecutionStatus Execute(IActuators actuators, WorldState state);
     }
 
     // Métodos: formas de descomponer tareas complejas en subtareas
     public interface IMethod {
         // Comprueba si este método es elegible para el estado actual
-        bool CheckPreconditions(GuardWorldState state);
+        bool CheckPreconditions(WorldState state);
         
         // Devuelve una lista ordenada de tareas para lograr el método
-        Queue<ITask> Decompose(GuardWorldState state);
+        Queue<ITask> Decompose(WorldState state);
     }
 
     // Tareas compuestas: objetivos de alto nivel que usan métodos para resolverse
