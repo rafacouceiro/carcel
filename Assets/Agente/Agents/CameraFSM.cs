@@ -82,6 +82,23 @@ namespace AgenticPrison.Agents {
             Transition(CameraState.Coordinating);
         }
 
+        // ── Reacción a Informs externos ───────────────────────────────────────────
+
+        // Si un guardia avista al fugitivo en un sector distinto mientras coordinamos,
+        // abortamos: limpiamos la cola y cancelamos las subastas en curso.
+        protected override void HandleInform(ACLMessage msg, WorldState ws) {
+            string sectorAntes = ws.FugitiveSectorId;
+            base.HandleInform(msg, ws);
+
+            if (state != CameraState.Coordinating) return;
+            if (ws.FugitiveSectorId == sectorAntes)  return; // mismo sector, nada que abortar
+            if (ws.FugitiveSectorId == "[UNK]")       return; // info menos precisa, mantener operación
+
+            ws.PendingCfps.Clear();
+            CancelOngoingCnpProtocols();
+            Transition(CameraState.Watching);
+        }
+
         // ── Transiciones ──────────────────────────────────────────────────────────
 
         void Transition(CameraState next) {
