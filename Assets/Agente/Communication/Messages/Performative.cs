@@ -13,6 +13,6 @@ namespace AgenticPrison.Communication.Messages {
         Cancel,
         NotUnderstood,
         Inform,
-        Query
+        QueryIf
     }
 }

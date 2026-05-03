@@ -91,7 +91,7 @@ namespace AgenticPrison.Communication.Protocols.ContractNet {
                 Sender         = agent.AgentId,
                 Receiver       = _originalCfp.Sender,
                 ConversationId = ConversationId,
-                Content        = cost, // El coste va directo como float
+                Content        = new ProposeContent { Cost = cost },
                 ReplyBy        = _originalCfp.ReplyBy
             });
 

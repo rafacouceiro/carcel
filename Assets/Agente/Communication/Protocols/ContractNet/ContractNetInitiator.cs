@@ -106,7 +106,6 @@ namespace AgenticPrison.Communication.Protocols.ContractNet {
         void BuildTransitions() {
             _onMessage[(State.WaitingForProposals, Performative.Propose)] = OnProposalReceived;
             _onMessage[(State.WaitingForProposals, Performative.Refuse)]  = OnRefuseReceived;
-
             _onTime[State.WaitingForProposals] = CheckDeadline;
         }
 
@@ -117,8 +116,9 @@ namespace AgenticPrison.Communication.Protocols.ContractNet {
         void OnProposalReceived(ACLMessage msg, WorldState ws) {
             _proposals.Add(msg);
             ConversationTracker.Instance.AddParticipant(ConversationId, msg.Sender);
+            var pc = ACLMessage.GetContent<ProposeContent>(msg);
             FIPALogger.Log(_agent.AgentId, ConversationId, Performative.Propose,
-                $"from={msg.Sender} cost={(float)msg.Content:F1}");
+                $"from={msg.Sender} cost={pc?.Cost:F1}");
         }
 
         // Un participante rechaza el CFP (demasiado ocupado, sin energía, etc.).
@@ -197,10 +197,10 @@ namespace AgenticPrison.Communication.Protocols.ContractNet {
         }
 
         // Extrae el coste estimado del contenido de una propuesta.
-        // Devuelve MaxValue si el contenido no es válido, para que nunca gane.
+        // Devuelve MaxValue si el contenido no es ProposeContent, para que nunca gane.
         float GetCost(ACLMessage proposal) {
-            if (proposal.Content is float cost) return cost;
-            return float.MaxValue;
+            var pc = ACLMessage.GetContent<ProposeContent>(proposal);
+            return pc != null ? pc.Cost : float.MaxValue;
         }
     }
 }

@@ -10,6 +10,7 @@ using AgenticPrison.Behavior.Social;
 using AgenticPrison.Communication.Messages;
 using AgenticPrison.Communication.Protocols.ContractNet;
 using AgenticPrison.Communication.Protocols.Query;
+using AgenticPrison.Communication.Messages;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -107,7 +108,7 @@ namespace AgenticPrison.Agents {
 
             // Cuando el QueryInitiator ha terminado (ya no está activo), limpiar el flag
             // y replanificar el HTN físico para que decida si investigar el ruido o ignorarlo
-            if (CurrentState.WaitingForNoiseQuery && !HasActiveQueryInitiator()) {
+            if (CurrentState.WaitingForNoiseQuery && !HasActiveQueryIfInitiator()) {
                 CurrentState.WaitingForNoiseQuery = false;
                 if (CurrentState.LastNoisePosition != UnityEngine.Vector3.zero) ForzarReplanificacion();
             }
@@ -260,6 +261,14 @@ namespace AgenticPrison.Agents {
         }
 
         protected override void HandleInform(ACLMessage msg, WorldState ws) {
+            // Respuesta de un QueryIf: un compañero estaba cerca del ruido — falsa alarma
+            if (msg.Content is QueryIfResponseContent response) {
+                ws.LastGuardPosition     = ws.LastNoisePosition;
+                ws.LastGuardPositionTime = Time.time;
+                ws.LastNoisePosition     = Vector3.zero;
+                return;
+            }
+
             string sectorAntes = ws.FugitiveSectorId;
             base.HandleInform(msg, ws);
             if (!(msg.Content is FugitiveSightingContent)) return;
@@ -277,6 +286,14 @@ namespace AgenticPrison.Agents {
             }
         }
 
+        protected override void OnQueryIfReceived(ACLMessage msg, WorldState ws, QueryIfParticipant participant) {
+            var content = ACLMessage.GetContent<QueryIfContent>(msg);
+            if (content == null) return;
+            float dist = UnityEngine.Vector3.Distance(ws.CurrentPosition, content.NoisePosition);
+            if (dist <= content.Threshold)
+                participant.SendInform(this, new QueryIfResponseContent { Distance = dist });
+        }
+
         protected override void OnCfpReceived(ACLMessage msg, WorldState ws, ContractNetParticipant participant) {
 
             float cost;
@@ -287,7 +304,7 @@ namespace AgenticPrison.Agents {
         // ── Evaluación reactiva de CFPs ────────────────────────────────────────────
         protected override bool EvaluateCfp(ACLMessage cfp, WorldState ws, out float cost) {
             cost = 0f;
-            var content = cfp.Content as CfpContent;
+            var content = ACLMessage.GetContent<CfpContent>(cfp);
             if (content == null) return false;
 
             if (ws.AssignedTask != null || !string.IsNullOrEmpty(ws.TeamName) || HasActiveCnpParticipant()) {
@@ -325,7 +342,7 @@ namespace AgenticPrison.Agents {
 
         private void HandleAcceptProposal(ACLMessage msg, WorldState ws) {
             // El protocolo solo cerró; aquí aplicamos los efectos contractuales en WorldState
-            ContractTask won = msg.Content as ContractTask;
+            var won = ACLMessage.GetContent<ContractTask>(msg);
             if (won == null) return;
 
             ws.AssignedTask         = won;
@@ -421,7 +438,7 @@ namespace AgenticPrison.Agents {
                 BroadcastToChannel("team_" + teamName, new ACLMessage {
                     Performative   = Performative.InformDone,
                     Sender         = AgentId,
-                    Content        = CurrentState.AssignedRole.ToString()
+                    Content        = null
                 });
                 if (CurrentState.PendingSweepersCount <= 0) {
                     Debug.Log($"<color=cyan>[{AgentId}] Team {teamName} completed. Dissolving...</color>");

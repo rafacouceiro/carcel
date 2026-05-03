@@ -134,14 +134,18 @@ namespace AgenticPrison.Communication {
                 OnCfpReceived(msg, ws, p);
                 if (!p.IsComplete) _ongoing_conversations[p.ConversationId] = p;
                 return true;
-            } else if (msg.Performative == Performative.Query) {
-                var p = new QueryParticipant(msg, AgentId);
-                _ongoing_conversations[p.ConversationId] = p;
+            } else if (msg.Performative == Performative.QueryIf) {
+                var p = new QueryIfParticipant(msg, AgentId);
                 p.Init(this, ws);
+                // No se registra: el participante no espera mensajes de vuelta
+                OnQueryIfReceived(msg, ws, p);
                 return true;
             }
             return false;
         }
+
+        // Hook para que las subclases decidan si responder a un QueryIf y con qué contenido
+        protected virtual void OnQueryIfReceived(ACLMessage msg, WorldState ws, QueryIfParticipant participant) { }
 
         // Hook para que las subclases decidan cómo reaccionar a la subasta
         protected virtual void OnCfpReceived(ACLMessage msg, WorldState ws, ContractNetParticipant participant) {
@@ -165,30 +169,28 @@ namespace AgenticPrison.Communication {
         }
 
         protected virtual void HandleInform(ACLMessage msg, WorldState ws) {
-            // Sincronización base: avistamientos fugitivo
-            if (msg.Content is FugitiveSightingContent sighting) {
-                ws.PrisonerInCell = false;
+            // Dispatch por tipo de contenido — Inform puede llevar payloads distintos
+            var sighting = msg.Content as FugitiveSightingContent;
+            if (sighting == null) return;
 
-                if (sighting.SectorId == "[UNK]") {
-                    // Evitar procesamiento y spam de log si ya estamos en estado desconocido
-                    if (ws.FugitiveSectorId == "[UNK]") return;
+            ws.PrisonerInCell = false;
 
-                    ws.FugitiveSectorId    = "[UNK]";
-                    ws.PerimeteredSectorId = string.Empty; // permite futuras operaciones
+            if (sighting.SectorId == "[UNK]") {
+                if (ws.FugitiveSectorId == "[UNK]") return;
 
-                    // Timestamp == 0 → alarma inicial (celda encontrada abierta, sin barrido previo)
-                    // Timestamp  > 0 → barrido completado sin encontrar al fugitivo
-                    string logMsg = sighting.Timestamp == 0f
-                        ? "escape confirmed — sector [UNK]"
-                        : "sweep failed — sector [UNK]";    
-                    FIPALogger.Log(AgentId, "radio", Performative.Inform, logMsg);
-                } else if (sighting.Timestamp > ws.LastKnownPositionTime) {
-                    ws.LastKnownPosition     = sighting.Position;
-                    ws.LastKnownPositionTime = sighting.Timestamp;
-                    ws.FugitiveSectorId      = sighting.SectorId;
-                    ws.seenByMe              = false; // otro agente tiene la pista más reciente
-                    FIPALogger.Log(AgentId, "radio", Performative.Inform, $"recv: Fugitive at {sighting.SectorId} (from {sighting.ReporterId})");
-                }
+                ws.FugitiveSectorId    = "[UNK]";
+                ws.PerimeteredSectorId = string.Empty;
+
+                string logMsg = sighting.Timestamp == 0f
+                    ? "escape confirmed — sector [UNK]"
+                    : "sweep failed — sector [UNK]";
+                FIPALogger.Log(AgentId, "radio", Performative.Inform, logMsg);
+            } else if (sighting.Timestamp > ws.LastKnownPositionTime) {
+                ws.LastKnownPosition     = sighting.Position;
+                ws.LastKnownPositionTime = sighting.Timestamp;
+                ws.FugitiveSectorId      = sighting.SectorId;
+                ws.seenByMe              = false;
+                FIPALogger.Log(AgentId, "radio", Performative.Inform, $"recv: Fugitive at {sighting.SectorId} (from {sighting.ReporterId})");
             }
         }
 
@@ -261,8 +263,8 @@ namespace AgenticPrison.Communication {
             foreach (var id in toRemove) _ongoing_conversations.Remove(id);
         }
 
-        public bool HasActiveQueryInitiator() {
-            foreach (var p in _ongoing_conversations.Values) if (p is QueryInitiator) return true;
+        public bool HasActiveQueryIfInitiator() {
+            foreach (var p in _ongoing_conversations.Values) if (p is QueryIfInitiator) return true;
             return false;
         }
 

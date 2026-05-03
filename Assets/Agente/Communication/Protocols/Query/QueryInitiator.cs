@@ -1,31 +1,49 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using AgenticPrison.Core;
 using AgenticPrison.Communication.Messages;
 
 namespace AgenticPrison.Communication.Protocols.Query {
 
-    // Lado INICIADOR del protocolo Query.
-    // PUREZA: Solo gestiona el flujo de mensajes y expira por tiempo.
-    // El agente que lo lanza es el responsable de leer 'SourceWasGuard' y actuar.
-    public class QueryInitiator : ICommProtocol {
+    // Lado INICIADOR del protocolo QueryIf.
+    //
+    // Flujo de estados — paralelo a ContractNetInitiator:
+    //   WaitingForResponse  ──[Inform]──────► WaitingForResponse  (acumula respuestas)
+    //   WaitingForResponse  ──[deadline]────► Done
+    //
+    // El protocolo no escribe WorldState. Cada Inform llega también a OnMessageReceived
+    // del agente (arquitectura base de FIPAAgent), que lo procesa en HandleInform.
+    public class QueryIfInitiator : ICommProtocol {
 
-        const float QUERY_WINDOW  = 0.3f;
-        const float GUARD_THRESHOLD = 25f;
+        const float QUERY_WINDOW = 0.3f;
 
-        string    _agentId;
-        Vector3   _noisePosition;
-        float     _deadline;
-        bool      _sourceWasGuard = false;
-        bool      _isComplete     = false;
+        enum State { WaitingForResponse, Done }
+
+        readonly Dictionary<(State, Performative), Action<ACLMessage, WorldState>> _onMessage
+            = new Dictionary<(State, Performative), Action<ACLMessage, WorldState>>();
+
+        readonly Dictionary<State, Action<float, WorldState>> _onTime
+            = new Dictionary<State, Action<float, WorldState>>();
+
+        readonly IMessageContent _content;
+
+        State  _state = State.WaitingForResponse;
+        string _agentId;
+        float  _deadline;
 
         public string ConversationId { get; private set; }
-        public bool   IsComplete     => _isComplete;
-        public bool   SourceWasGuard => _sourceWasGuard;
+        public bool   IsComplete     => _state == State.Done;
 
-        public QueryInitiator(Vector3 noisePosition) {
-            _noisePosition = noisePosition;
+        public QueryIfInitiator(IMessageContent content) {
+            _content       = content;
             ConversationId = Guid.NewGuid().ToString();
+            BuildTransitions();
+        }
+
+        void BuildTransitions() {
+            _onMessage[(State.WaitingForResponse, Performative.Inform)] = OnInformReceived;
+            _onTime   [State.WaitingForResponse]                        = CheckDeadline;
         }
 
         public void Init(FIPAAgent agent, WorldState ws) {
@@ -34,38 +52,36 @@ namespace AgenticPrison.Communication.Protocols.Query {
 
             agent.Broadcast(new ACLMessage {
                 MessageId      = Guid.NewGuid().ToString(),
-                Performative   = Performative.Query,
+                Performative   = Performative.QueryIf,
                 Sender         = agent.AgentId,
-                Receiver       = null,
                 ConversationId = ConversationId,
-                Content        = new QueryContent {
-                NoisePosition = _noisePosition,
-                Threshold     = GUARD_THRESHOLD
-                },
+                Content        = _content,
                 ReplyBy        = _deadline
             });
 
-            FIPALogger.Log(_agentId, ConversationId, Performative.Query, $"Ask about noise at {_noisePosition}");
+            FIPALogger.Log(_agentId, ConversationId, Performative.QueryIf, "broadcast");
         }
 
         public void Tick(ACLMessage msg, WorldState ws) {
-            if (msg.Performative != Performative.Inform) return;
-
-            // Recogemos la distancia que nos envía el compañero
-            if (msg.Content is float dist) {
-                if (dist <= GUARD_THRESHOLD) {
-                    _sourceWasGuard = true;
-                    ws.LastNoisePosition = UnityEngine.Vector3.zero;
-                    ws.LastGuardPosition = _noisePosition;
-                    ws.LastGuardPositionTime = Time.time;
-                    FIPALogger.Log(_agentId, ConversationId, Performative.Inform, $"from={msg.Sender} confirm guard source");
-                }
-            }
+            Action<ACLMessage, WorldState> handler;
+            if (_onMessage.TryGetValue((_state, msg.Performative), out handler))
+                handler(msg, ws);
         }
 
         public void Tick(float currentTime, WorldState ws) {
-            if (_isComplete || currentTime < _deadline) return;
-            _isComplete = true;
+            Action<float, WorldState> handler;
+            if (_onTime.TryGetValue(_state, out handler)) handler(currentTime, ws);
+        }
+
+        // Registra la respuesta. El WorldState lo escribe el agente en HandleInform.
+        void OnInformReceived(ACLMessage msg, WorldState ws) {
+            FIPALogger.Log(_agentId, ConversationId, Performative.Inform, $"response from={msg.Sender}");
+        }
+
+        void CheckDeadline(float currentTime, WorldState ws) {
+            if (currentTime < _deadline) return;
+            FIPALogger.Log(_agentId, ConversationId, Performative.QueryIf, "window closed");
+            _state = State.Done;
         }
     }
 }
