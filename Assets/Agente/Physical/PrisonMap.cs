@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using AgenticPrison.Physical;
 using System.Linq;
 
-namespace AgenticPrison.Core {
+namespace AgenticPrison.Physical {
 
     public class PrisonMap : MonoBehaviour {
         
