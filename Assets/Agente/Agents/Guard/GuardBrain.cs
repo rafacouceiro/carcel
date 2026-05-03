@@ -16,7 +16,7 @@ using AgenticPrison.Communication.Messages;
 using UnityEditor;
 #endif
 
-namespace AgenticPrison.Agents {
+namespace AgenticPrison.Agents.Guard {
 
     // Cerebro del agente: controla la percepción, el estado y el planificador HTN
     public class GuardBrain : FIPAAgent, INoiseReceiver, IVisionEvents, ICellEventReceiver {
@@ -98,7 +98,7 @@ namespace AgenticPrison.Agents {
             CurrentState.OnSweepCompleted += CheckSweepCompletion;
         }
 
-        protected override WorldState GetWorldState() => CurrentState;
+        protected override AgentState GetWorldState() => CurrentState;
 
         protected override void Update() {
             // Orden Phase 2: plano social antes que plano físico
@@ -254,62 +254,61 @@ namespace AgenticPrison.Agents {
 
         // ── COMUNICACIÓN FIPA ──────────────────────────────────────────────────────
 
-        protected override void OnMessageReceived(ACLMessage msg, WorldState ws) {
+        protected override void OnMessageReceived(ACLMessage msg, AgentState ws) {
             base.OnMessageReceived(msg, ws);
-            if (msg.Performative == Performative.AcceptProposal) HandleAcceptProposal(msg, ws);
-            else if (msg.Channel != null && msg.Channel.StartsWith("team_")) HandleTeamSincronization(msg, ws);
+            if (msg.Performative == Performative.AcceptProposal) HandleAcceptProposal(msg);
+            else if (msg.Channel != null && msg.Channel.StartsWith("team_")) HandleTeamSincronization(msg);
         }
 
-        protected override void HandleInform(ACLMessage msg, WorldState ws) {
+        protected override void HandleInform(ACLMessage msg, AgentState ws) {
             // Respuesta de un QueryIf: un compañero estaba cerca del ruido — falsa alarma
             if (msg.Content is QueryIfResponseContent response) {
-                ws.LastGuardPosition     = ws.LastNoisePosition;
-                ws.LastGuardPositionTime = Time.time;
-                ws.LastNoisePosition     = Vector3.zero;
+                CurrentState.LastGuardPosition     = CurrentState.LastNoisePosition;
+                CurrentState.LastGuardPositionTime = Time.time;
+                CurrentState.LastNoisePosition     = Vector3.zero;
                 return;
             }
 
-            string sectorAntes = ws.FugitiveSectorId;
+            string sectorAntes = CurrentState.FugitiveSectorId;
             base.HandleInform(msg, ws);
             if (!(msg.Content is FugitiveSightingContent)) return;
 
-            if (ws.FugitiveSectorId != sectorAntes) {
+            if (CurrentState.FugitiveSectorId != sectorAntes) {
                 // Solo disolver si el nuevo sector es conocido — [UNK] es info menos precisa
                 // que un sector confirmado; no merece abandonar un perímetro activo.
-                if (ws.FugitiveSectorId != "[UNK]") {
-                    DissolveTeam(ws, abortCnps: true);
-                } else if (!ws.FugitiveInVision) {
+                if (CurrentState.FugitiveSectorId != "[UNK]") {
+                    DissolveTeam(abortCnps: true);
+                } else if (!CurrentState.FugitiveInVision) {
                     ForzarReplanificacion();
                 }
-            } else if (!ws.FugitiveInVision) {
+            } else if (!CurrentState.FugitiveInVision) {
                 ForzarReplanificacion();
             }
         }
 
-        protected override void OnQueryIfReceived(ACLMessage msg, WorldState ws, QueryIfParticipant participant) {
+        protected override void OnQueryIfReceived(ACLMessage msg, AgentState ws, QueryIfParticipant participant) {
             var content = ACLMessage.GetContent<QueryIfContent>(msg);
             if (content == null) return;
-            float dist = UnityEngine.Vector3.Distance(ws.CurrentPosition, content.NoisePosition);
+            float dist = Vector3.Distance(CurrentState.CurrentPosition, content.NoisePosition);
             if (dist <= content.Threshold)
                 participant.SendInform(this, new QueryIfResponseContent { Distance = dist });
         }
 
-        protected override void OnCfpReceived(ACLMessage msg, WorldState ws, ContractNetParticipant participant) {
-
+        protected override void OnCfpReceived(ACLMessage msg, AgentState ws, ContractNetParticipant participant) {
             float cost;
             if (EvaluateCfp(msg, ws, out cost)) participant.SendPropose(this, ws, cost);
             else participant.SendRefuse(this, ws);
         }
 
         // ── Evaluación reactiva de CFPs ────────────────────────────────────────────
-        protected override bool EvaluateCfp(ACLMessage cfp, WorldState ws, out float cost) {
+        protected override bool EvaluateCfp(ACLMessage cfp, AgentState ws, out float cost) {
             cost = 0f;
             var content = ACLMessage.GetContent<CfpContent>(cfp);
             if (content == null) return false;
 
-            if (ws.AssignedTask != null || !string.IsNullOrEmpty(ws.TeamName) || HasActiveCnpParticipant()) {
-                string reason = ws.AssignedTask != null ? "AssignedTask" :
-                               !string.IsNullOrEmpty(ws.TeamName) ? $"TeamActive({ws.TeamName})" :
+            if (CurrentState.AssignedTask != null || !string.IsNullOrEmpty(CurrentState.TeamName) || HasActiveCnpParticipant()) {
+                string reason = CurrentState.AssignedTask != null ? "AssignedTask" :
+                               !string.IsNullOrEmpty(CurrentState.TeamName) ? $"TeamActive({CurrentState.TeamName})" :
                                "HasActiveCnpParticipant";
                 Debug.Log($"<color=yellow>[{AgentId}] REFUSE CFP {cfp.ConversationId}: {reason}</color>");
                 return false;
@@ -321,7 +320,7 @@ namespace AgenticPrison.Agents {
                 float minLinearDist = float.MaxValue;
                 foreach (var room in content.Task.SweepRooms) {
                     Vector3 roomPos = room.GetNavigablePosition();
-                    float d = Vector3.Distance(ws.CurrentPosition, roomPos);
+                    float d = Vector3.Distance(CurrentState.CurrentPosition, roomPos);
                     if (d < minLinearDist) {
                         minLinearDist = d;
                         targetPos = roomPos;
@@ -330,7 +329,7 @@ namespace AgenticPrison.Agents {
             }
 
             var path = new NavMeshPath();
-            if (!NavMesh.CalculatePath(ws.CurrentPosition, targetPos, NavMesh.AllAreas, path)) {
+            if (!NavMesh.CalculatePath(CurrentState.CurrentPosition, targetPos, NavMesh.AllAreas, path)) {
                 Debug.Log($"<color=yellow>[{AgentId}] REFUSE CFP {cfp.ConversationId}: NavMesh Unreachable to {targetPos}</color>");
                 return false;
             }
@@ -340,35 +339,35 @@ namespace AgenticPrison.Agents {
             return true;
         }
 
-        private void HandleAcceptProposal(ACLMessage msg, WorldState ws) {
+        private void HandleAcceptProposal(ACLMessage msg) {
             // El protocolo solo cerró; aquí aplicamos los efectos contractuales en WorldState
             var won = ACLMessage.GetContent<ContractTask>(msg);
             if (won == null) return;
 
-            ws.AssignedTask         = won;
-            ws.TeamName             = won.TeamName;
-            ws.PendingSweepersCount = won.TotalSweepers;
+            CurrentState.AssignedTask         = won;
+            CurrentState.TeamName             = won.TeamName;
+            CurrentState.PendingSweepersCount = won.TotalSweepers;
 
             Debug.Log($"<color=cyan>[{AgentName}] Tarea asignada: {won.Type} | equipo: {won.TeamName}</color>");
             SubscribeToChannel(AgentId, "team_" + won.TeamName);
 
-            if (!ws.FugitiveInVision) ForzarReplanificacion();
+            if (!CurrentState.FugitiveInVision) ForzarReplanificacion();
         }
 
-        private void HandleTeamSincronization(ACLMessage msg, WorldState ws) {
+        private void HandleTeamSincronization(ACLMessage msg) {
             if (msg.Performative != Performative.InformDone) return;
             if (msg.Sender == AgentId) return;
-            if (ws.PendingSweepersCount > 0) {
-                ws.PendingSweepersCount--;
-                FIPALogger.Log(AgentId, "team", Performative.InformDone, $"recv from={msg.Sender} team={ws.TeamName} pending={ws.PendingSweepersCount}");
-                if (ws.PendingSweepersCount <= 0) DissolveTeam(ws);
+            if (CurrentState.PendingSweepersCount > 0) {
+                CurrentState.PendingSweepersCount--;
+                FIPALogger.Log(AgentId, "team", Performative.InformDone, $"recv from={msg.Sender} team={CurrentState.TeamName} pending={CurrentState.PendingSweepersCount}");
+                if (CurrentState.PendingSweepersCount <= 0) DissolveTeam();
             }
         }
 
         // abortCnps=false → disolución normal al completar sweep (PendingSweepersCount==0)
         // abortCnps=true  → disolución inmediata por cambio de sector (cancela subastas en curso)
-        private void DissolveTeam(WorldState ws, bool abortCnps = false) {
-            string teamName = ws.TeamName;
+        private void DissolveTeam(bool abortCnps = false) {
+            string teamName = CurrentState.TeamName;
             bool hasTeam    = !string.IsNullOrEmpty(teamName);
 
             if (!hasTeam && !abortCnps) return;
@@ -377,14 +376,14 @@ namespace AgenticPrison.Agents {
                 FIPALogger.Log(AgentId, "team", Performative.InformDone,
                     abortCnps ? $"ABORT sector change — team={teamName}" : $"DISSOLVED team={teamName}");
                 UnsubscribeFromChannel(AgentId, "team_" + teamName);
-                ws.TeamName             = string.Empty;
-                ws.AssignedRole         = AgentRole.None;
-                ws.AssignedTask         = null;
-                ws.PendingSweepersCount = 0;
+                CurrentState.TeamName             = string.Empty;
+                CurrentState.AssignedRole         = AgentRole.None;
+                CurrentState.AssignedTask         = null;
+                CurrentState.PendingSweepersCount = 0;
             }
 
             if (abortCnps) {
-                ws.PendingCfps.Clear();
+                CurrentState.PendingCfps.Clear();
                 CancelOngoingCnpProtocols();
             }
 
@@ -395,11 +394,11 @@ namespace AgenticPrison.Agents {
         // Señaliza que el barrido terminó sin encontrar al fugitivo.
         // Solo se emite cuando el sector era conocido: si ya es "[UNK]" el HTN
         // replanifica solo hacia CloseJailMethod sin necesidad de nuevo broadcast.
-        private void NotifySweepFailed(WorldState ws, string teamName) {
-            if (ws.PrisonerInCell || ws.FugitiveSectorId == "[UNK]" || ws.FugitiveInVision) return;
+        private void NotifySweepFailed(string teamName) {
+            if (CurrentState.PrisonerInCell || CurrentState.FugitiveSectorId == "[UNK]" || CurrentState.FugitiveInVision) return;
 
-            ws.FugitiveSectorId    = "[UNK]";
-            ws.PerimeteredSectorId = string.Empty;
+            CurrentState.FugitiveSectorId    = "[UNK]";
+            CurrentState.PerimeteredSectorId = string.Empty;
             Broadcast(new ACLMessage {
                 Performative = Performative.Inform,
                 Sender       = AgentId,
@@ -424,7 +423,7 @@ namespace AgenticPrison.Agents {
             });
             CurrentState.FugitiveSectorId = newSectorId;
             // seenByMe permanece true — este agente mantiene la autoridad de iniciar el nuevo perímetro
-            DissolveTeam(CurrentState, abortCnps: true);
+            DissolveTeam(abortCnps: true);
         }
 
         private void CheckSweepCompletion() {
@@ -442,8 +441,8 @@ namespace AgenticPrison.Agents {
                 });
                 if (CurrentState.PendingSweepersCount <= 0) {
                     Debug.Log($"<color=cyan>[{AgentId}] Team {teamName} completed. Dissolving...</color>");
-                    DissolveTeam(CurrentState);
-                    NotifySweepFailed(CurrentState, teamName);
+                    DissolveTeam();
+                    NotifySweepFailed(teamName);
                     CurrentState.ShouldInitiateCnp = true; // Hacer que tome él la iniciativa apra empezar el CNP
                 } else {
                     Debug.Log($"<color=white>[{AgentId}] Team {teamName}: {CurrentState.PendingSweepersCount} sweepers remaining.</color>");
